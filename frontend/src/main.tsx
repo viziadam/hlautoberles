@@ -58,6 +58,8 @@ if (env.isProduction) {
   disableDevTools()
 }
 
+console.log('API HOST:', import.meta.env.VITE_BC_API_HOST)
+
 let language = env.DEFAULT_LANGUAGE
 const user = JSON.parse(localStorage.getItem('bc-fe-user') ?? 'null')
 let lang = UserService.getQueryLanguage()
