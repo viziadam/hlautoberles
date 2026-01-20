@@ -12,15 +12,56 @@ import * as helper from '../utils/helper'
  * @param {?string} [defaultValue]
  * @returns {string}
  */
-export const __env__ = (name: string, required?: boolean, defaultValue?: string): string => {
+// const cleanEnv = (v?: string) => {
+//   if (!v) return ''
+//   let s = v.trim()
+
+//   // remove surrounding single/double quotes
+//   if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+//     s = s.slice(1, -1).trim()
+//   }
+
+//   // also remove trailing slash just once here if you want consistency
+//   return s
+// }
+
+// export const __env__ = (name: string, required?: boolean, defaultValue?: string): string => {
+//   const value = process.env[name]
+//   if (required && !value) {
+//     throw new Error(`'${name} not found`)
+//   }
+//   if (!value) {
+//     return defaultValue || ''
+//   }
+//   return String(value)
+// }
+
+export const __env__ = (
+  name: string,
+  required?: boolean,
+  defaultValue?: string
+): string => {
   const value = process.env[name]
+
   if (required && !value) {
-    throw new Error(`'${name} not found`)
+    throw new Error(`'${name}' not found`)
   }
+
   if (!value) {
     return defaultValue || ''
   }
-  return String(value)
+
+  let s = String(value).trim()
+
+  // remove surrounding single/double quotes if present
+  if (
+    (s.startsWith('"') && s.endsWith('"')) ||
+    (s.startsWith("'") && s.endsWith("'"))
+  ) {
+    s = s.slice(1, -1).trim()
+  }
+
+  return s
 }
 
 /**
