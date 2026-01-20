@@ -58,7 +58,7 @@ if (env.isProduction) {
   disableDevTools()
 }
 
-console.log('API HOST:', env.API_HOST)
+console.log('env:', import.meta.env)
 
 let language = env.DEFAULT_LANGUAGE
 const user = JSON.parse(localStorage.getItem('bc-fe-user') ?? 'null')
