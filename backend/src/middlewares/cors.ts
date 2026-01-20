@@ -10,6 +10,9 @@ const whitelist = [
 
 console.log('env:', env)
 
+console.log('FRONTEND_HOST raw:', JSON.stringify(env.FRONTEND_HOST))
+console.log('whitelist:', whitelist.map(x => JSON.stringify(x)))
+
 /**
  * CORS configuration.
  *
