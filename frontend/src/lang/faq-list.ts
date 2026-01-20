@@ -38,6 +38,22 @@ const strings = new LocalizedStrings({
     FAQ_CANCEL_TITLE: '¿Qué sucede si necesito cancelar mi reserva?',
     FAQ_CANCEL_TEXT: 'Entendemos que los planes pueden cambiar, por eso ofrecemos políticas de cancelación flexibles. Según el momento de tu cancelación, pueden aplicarse cargos. Consulta nuestros términos y condiciones o comunícate con nuestro equipo de atención al cliente para obtener ayuda con las cancelaciones.',
   },
+  hu: {
+  FAQ_TITLE: 'GYIK',
+  MORE_QUESTIONS: 'További kérdésed van?',
+  FAQ_DOCUMENTS_TITLE: 'Milyen dokumentumok szükségesek a bérléshez?',
+  FAQ_DOCUMENTS_TEXT:
+    'A bérléshez általában érvényes jogosítványra, a fizetéshez bankkártyára (és esetleges kaucióhoz), valamint személyazonosító okmányra van szükség. A pontos feltételek helyszínenként és járműtípusonként eltérhetnek.',
+  FAQ_SERVICES_TITLE: 'Van házhozszállítás és autófelvétel?',
+  FAQ_SERVICES_TEXT:
+    'Igen. Több helyszínre is tudunk kiszállítást és felvételt biztosítani (pl. repülőtér, hotel). Jelezd a preferált helyet, és egyeztetünk.',
+  FAQ_AGE_TITLE: 'Van életkori feltétel a bérléshez?',
+  FAQ_AGE_TEXT:
+    'Igen, a minimális életkor általában 18 év. Bizonyos helyszíneken vagy járműtípusoknál magasabb korhatár és további feltételek lehetnek.',
+  FAQ_CANCEL_TITLE: 'Mi történik, ha le kell mondanom a foglalást?',
+  FAQ_CANCEL_TEXT:
+    'Megértjük, hogy a tervek változhatnak. A lemondási feltételek a foglalás időpontjától függhetnek, ezért kérjük, nézd meg a feltételeket vagy vedd fel velünk a kapcsolatot.',
+},
 })
 
 langHelper.setLanguage(strings)

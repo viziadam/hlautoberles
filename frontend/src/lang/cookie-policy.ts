@@ -153,6 +153,56 @@ Podemos actualizar esta Política de Cookies ocasionalmente para reflejar cambio
 Si tiene alguna pregunta sobre esta Política de Cookies, puede contactarnos en: ${env.CONTACT_EMAIL}
     `,
   },
+  hu: {
+  TITLE: 'Sütikezelési tájékoztató',
+  POLICY: `
+Ez a sütikezelési tájékoztató bemutatja, hogyan használ a ${env.WEBSITE_NAME} („mi”, „minket”, „a szolgáltatás”) sütiket és hasonló technológiákat a weboldalon. A weboldal használatával hozzájárulsz a sütik használatához a jelen tájékoztató szerint.
+
+1. Mik azok a sütik?
+
+A sütik kis szövegfájlok, amelyeket az eszközödön (számítógép, tablet, okostelefon) tárolunk, amikor meglátogatsz egy weboldalt. Segítenek abban, hogy a böngészési élmény jobb legyen: megjegyzik a beállításaidat és releváns információkat/szolgáltatásokat nyújtanak.
+
+2. Milyen sütiket használunk?
+
+Az alábbi típusú sütiket használhatjuk:
+
+- Feltétlenül szükséges sütik: a weboldal működéséhez elengedhetetlenek, nem kapcsolhatók ki.
+- Teljesítmény sütik: segítenek megérteni, hogyan használják a látogatók az oldalt (anonim módon).
+- Funkcionális sütik: személyre szabást és kényelmi funkciókat tesznek lehetővé.
+- Célzó/Hirdetési sütik: releváns hirdetések megjelenítésére és kampányok mérésére szolgálnak.
+
+3. Mire használjuk a sütiket?
+
+Sütiket használunk többek között az alábbi célokra:
+
+- A weboldal működésének és teljesítményének javítása.
+- Használati statisztikák elemzése a szolgáltatás fejlesztéséhez.
+- A felhasználói élmény személyre szabása, beállítások megjegyzése.
+- Releváns hirdetések megjelenítése érdeklődési kör alapján.
+
+4. Sütibeállítások kezelése
+
+A sütibeállításaidat bármikor módosíthatod a böngésződ beállításaiban. A legtöbb böngésző lehetővé teszi:
+
+- Összes süti tiltását
+- Meglévő sütik törlését
+- Értesítést új süti létrehozásakor
+
+Fontos: a sütik tiltása bizonyos funkciók működését korlátozhatja.
+
+5. Harmadik féltől származó sütik
+
+Bizonyos szolgáltatók (pl. analitika, hirdetés) harmadik féltől származó sütiket helyezhetnek el. Ezekre a szolgáltatók saját adatkezelési szabályzata vonatkozik.
+
+6. A tájékoztató módosítása
+
+Ezt a tájékoztatót időről időre frissíthetjük technológiai, jogszabályi vagy működési változások miatt. A frissített verzió ezen az oldalon jelenik meg.
+
+7. Kapcsolat
+
+Ha kérdésed van a sütikezeléssel kapcsolatban, írj nekünk: ${env.CONTACT_EMAIL}
+    `,
+},
 })
 
 langHelper.setLanguage(strings)

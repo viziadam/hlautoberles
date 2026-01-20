@@ -32,7 +32,7 @@ const Users = () => {
     const _admin = helper.admin(_user)
     const _types = _admin
       ? helper.getUserTypes().map((userType) => userType.value)
-      : [bookcarsTypes.UserType.Supplier, bookcarsTypes.UserType.User]
+      : [ bookcarsTypes.UserType.User]
 
     setUser(_user)
     setAdmin(_admin)

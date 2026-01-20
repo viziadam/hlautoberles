@@ -38,12 +38,12 @@ const Booking = () => {
   const [language, setLanguage] = useState(env.DEFAULT_LANGUAGE)
   const [booking, setBooking] = useState<bookcarsTypes.Booking>()
   const [visible, setVisible] = useState(false)
-  const [supplier, setSupplier] = useState<bookcarsTypes.Option>()
+  // const [supplier, setSupplier] = useState<bookcarsTypes.Option>()
   const [car, setCar] = useState<bookcarsTypes.Car>()
   const [price, setPrice] = useState<number>()
   const [driver, setDriver] = useState<bookcarsTypes.Option>()
-  const [pickupLocation, setPickupLocation] = useState<bookcarsTypes.Option>()
-  const [dropOffLocation, setDropOffLocation] = useState<bookcarsTypes.Option>()
+  // const [pickupLocation, setPickupLocation] = useState<bookcarsTypes.Option>()
+  // const [dropOffLocation, setDropOffLocation] = useState<bookcarsTypes.Option>()
   const [from, setFrom] = useState<Date>()
   const [to, setTo] = useState<Date>()
   const [status, setStatus] = useState<bookcarsTypes.BookingStatus>()
@@ -52,21 +52,23 @@ const Booking = () => {
   const [theftProtection, setTheftProtection] = useState(false)
   const [collisionDamageWaiver, setCollisionDamageWaiver] = useState(false)
   const [fullInsurance, setFullInsurance] = useState(false)
-  const [additionalDriver, setAdditionalDriver] = useState(false)
+  // const [additionalDriver, setAdditionalDriver] = useState(false)
+  const [chauffeurRequested, setChauffeurRequested] = useState<boolean>(false)
+  const [toolsIncluded, setToolsIncluded] = useState<boolean>(false)
   const [minDate, setMinDate] = useState<Date>()
   const edit = false
 
-  const handleSupplierChange = (values: bookcarsTypes.Option[]) => {
-    setSupplier(values.length > 0 ? values[0] : undefined)
-  }
+  // const handleSupplierChange = (values: bookcarsTypes.Option[]) => {
+  //   setSupplier(values.length > 0 ? values[0] : undefined)
+  // }
 
-  const handlePickupLocationChange = (values: bookcarsTypes.Option[]) => {
-    setPickupLocation(values.length > 0 ? values[0] : undefined)
-  }
+  // const handlePickupLocationChange = (values: bookcarsTypes.Option[]) => {
+  //   setPickupLocation(values.length > 0 ? values[0] : undefined)
+  // }
 
-  const handleDropOffLocationChange = (values: bookcarsTypes.Option[]) => {
-    setDropOffLocation(values.length > 0 ? values[0] : undefined)
-  }
+  // const handleDropOffLocationChange = (values: bookcarsTypes.Option[]) => {
+  //   setDropOffLocation(values.length > 0 ? values[0] : undefined)
+  // }
 
   const handleCarSelectListChange = async (values: bookcarsTypes.Car[]) => {
     try {
@@ -192,40 +194,40 @@ const Booking = () => {
     }
   }
 
-  const handleAdditionalDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (booking && booking.car) {
-      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
-      _booking.additionalDriver = e.target.checked
+  // const handleAdditionalDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (booking && booking.car) {
+  //     const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+  //     _booking.additionalDriver = e.target.checked
 
-      const _price = bookcarsHelper.calculateTotalPrice(
-        booking.car as bookcarsTypes.Car,
-        new Date(booking.from),
-        new Date(booking.to),
-        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
-        booking as bookcarsTypes.CarOptions,
-      )
-      setBooking(_booking)
-      setPrice(_price)
-      setAdditionalDriver(_booking.additionalDriver)
-    }
-  }
+  //     const _price = bookcarsHelper.calculateTotalPrice(
+  //       booking.car as bookcarsTypes.Car,
+  //       new Date(booking.from),
+  //       new Date(booking.to),
+  //       (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+  //       booking as bookcarsTypes.CarOptions,
+  //     )
+  //     setBooking(_booking)
+  //     setPrice(_price)
+  //     // setAdditionalDriver(_booking.additionalDriver)
+  //   }
+  // }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault()
 
-      if (!booking || !supplier || !car || !driver || !pickupLocation || !dropOffLocation || !from || !to || !status) {
+      if (!booking ||  !car || !driver ||  !from || !to || !status) {
         helper.error()
         return
       }
 
       const _booking: bookcarsTypes.Booking = {
         _id: booking._id,
-        supplier: supplier._id,
+        // supplier: supplier._id,
         car: car._id,
         driver: driver._id,
-        pickupLocation: pickupLocation._id,
-        dropOffLocation: dropOffLocation._id,
+        // pickupLocation: pickupLocation._id,
+        // dropOffLocation: dropOffLocation._id,
         from,
         to,
         status,
@@ -234,7 +236,9 @@ const Booking = () => {
         theftProtection,
         collisionDamageWaiver,
         fullInsurance,
-        price
+        price,
+        toolsIncluded,
+        chauffeurRequested,
       }
 
       const payload = { booking: _booking }
@@ -266,11 +270,11 @@ const Booking = () => {
             setLoading(false)
             setVisible(true)
             const cmp = _booking.supplier as bookcarsTypes.User
-            setSupplier({
-              _id: cmp._id as string,
-              name: cmp.fullName,
-              image: cmp.avatar,
-            })
+            // setSupplier({
+            //   _id: cmp._id as string,
+            //   name: cmp.fullName,
+            //   image: cmp.avatar,
+            // })
             setCar(_booking.car as bookcarsTypes.Car)
             const drv = _booking.driver as bookcarsTypes.User
             setDriver({
@@ -279,15 +283,15 @@ const Booking = () => {
               image: drv.avatar,
             })
             const pul = _booking.pickupLocation as bookcarsTypes.Location
-            setPickupLocation({
-              _id: pul._id,
-              name: pul.name || '',
-            })
-            const dol = _booking.dropOffLocation as bookcarsTypes.Location
-            setDropOffLocation({
-              _id: dol._id,
-              name: dol.name || '',
-            })
+            // setPickupLocation({
+            //   _id: pul._id,
+            //   name: pul.name || '',
+            // })
+            // const dol = _booking.dropOffLocation as bookcarsTypes.Location
+            // setDropOffLocation({
+            //   _id: dol._id,
+            //   name: dol.name || '',
+            // })
             setFrom(new Date(_booking.from))
             setMinDate(new Date(_booking.from))
             setTo(new Date(_booking.to))
@@ -297,7 +301,9 @@ const Booking = () => {
             setTheftProtection(_booking.theftProtection || false)
             setCollisionDamageWaiver(_booking.collisionDamageWaiver || false)
             setFullInsurance(_booking.fullInsurance || false)
-            setAdditionalDriver((_booking.additionalDriver && !!_booking._additionalDriver) || false)
+            setToolsIncluded(_booking.toolsIncluded || false)
+            setChauffeurRequested(_booking.chauffeurRequested || false)
+            // setAdditionalDriver((_booking.additionalDriver && !!_booking._additionalDriver) || false)
           } else {
             setLoading(false)
             setNoMatch(true)
@@ -325,7 +331,7 @@ const Booking = () => {
         <div className="booking">
           <div className="col-1">
             <form onSubmit={handleSubmit}>
-              {!env.HIDE_SUPPLIERS && (
+              {/* {!env.HIDE_SUPPLIERS && (
                 <FormControl fullWidth margin="dense">
                   <SupplierSelectList
                     label={blStrings.SUPPLIER}
@@ -336,9 +342,9 @@ const Booking = () => {
                     readOnly={!edit}
                   />
                 </FormControl>
-              )}
+              )} */}
 
-              <FormControl fullWidth margin="dense">
+              {/* <FormControl fullWidth margin="dense">
                 <LocationSelectList
                   label={bfStrings.PICK_UP_LOCATION}
                   required
@@ -360,12 +366,12 @@ const Booking = () => {
                   // init
                   readOnly={!edit}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <CarSelectList
                 label={blStrings.CAR}
-                supplier={(supplier && supplier._id) || ''}
-                pickupLocation={(pickupLocation && pickupLocation._id) || ''}
+                // supplier={(supplier && supplier._id) || ''}
+                // pickupLocation={(pickupLocation && pickupLocation._id) || ''}
                 onChange={handleCarSelectListChange}
                 required
                 value={car}
@@ -439,6 +445,34 @@ const Booking = () => {
               </div>
 
               <FormControl fullWidth margin="dense" className="checkbox-fc">
+                            <FormControlLabel
+                              control={
+                                <Switch
+                                  checked={toolsIncluded}
+                                  color="primary"
+                                  disabled={!edit}
+                                />
+                              }
+                              label="Rental tools"
+                              className="checkbox-fcl"
+                            />
+              </FormControl>
+
+              <FormControl fullWidth margin="dense" className="checkbox-fc">
+                            <FormControlLabel
+                              control={
+                                <Switch
+                                  checked={chauffeurRequested}
+                                  color="primary"
+                                  disabled={!edit}
+                                />
+                              }
+                              label="Chauffeur"
+                              className="checkbox-fcl"
+                            />
+              </FormControl>
+
+              <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   disabled={!edit || (booking.car as bookcarsTypes.Car).cancellation === -1 || (booking.car as bookcarsTypes.Car).cancellation === 0}
                   control={<Switch checked={cancellation} onChange={handleCancellationChange} color="primary" />}
@@ -483,14 +517,14 @@ const Booking = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
+              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   disabled={!edit || (booking.car as bookcarsTypes.Car).additionalDriver === -1 || (booking.car as bookcarsTypes.Car).additionalDriver === 0}
                   control={<Switch checked={additionalDriver} onChange={handleAdditionalDriverChange} color="primary" />}
                   label={csStrings.ADDITIONAL_DRIVER}
                   className="checkbox-fcl"
                 />
-              </FormControl>
+              </FormControl> */}
 
               <div>
                 {edit && (
@@ -516,7 +550,7 @@ const Booking = () => {
               booking={booking}
               cars={[booking.car as bookcarsTypes.Car]}
               hidePrice
-              hideSupplier={env.HIDE_SUPPLIERS}
+              // hideSupplier={env.HIDE_SUPPLIERS}
             />
           </div>
         </div>

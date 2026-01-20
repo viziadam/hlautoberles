@@ -8,17 +8,17 @@ import i18n from './lang/i18n'
 import * as env from './config/env.config'
 import cors from './middlewares/cors'
 import allowedMethods from './middlewares/allowedMethods'
-import supplierRoutes from './routes/supplierRoutes'
+// import supplierRoutes from './routes/supplierRoutes'
 import bookingRoutes from './routes/bookingRoutes'
-import locationRoutes from './routes/locationRoutes'
+// import locationRoutes from './routes/locationRoutes'
 import notificationRoutes from './routes/notificationRoutes'
 import carRoutes from './routes/carRoutes'
 import userRoutes from './routes/userRoutes'
-import stripeRoutes from './routes/stripeRoutes'
-import countryRoutes from './routes/countryRoutes'
-import paypalRoutes from './routes/paypalRoutes'
+// import stripeRoutes from './routes/stripeRoutes'
+// import countryRoutes from './routes/countryRoutes'
+// import paypalRoutes from './routes/paypalRoutes'
 import ipinfoRoutes from './routes/ipinfoRoutes'
-import bankDetailsRoutes from './routes/bankDetailsRoutes'
+// import bankDetailsRoutes from './routes/bankDetailsRoutes'
 import settingRoutes from './routes/settingRoutes'
 import * as helper from './utils/helper'
 
@@ -52,17 +52,17 @@ app.use(allowedMethods)
 // Serve static files from the CDN directory
 app.use('/cdn', express.static(env.CDN_ROOT))
 
-app.use('/', supplierRoutes)
+// app.use('/', supplierRoutes)
 app.use('/', bookingRoutes)
-app.use('/', locationRoutes)
+// app.use('/', locationRoutes)
 app.use('/', notificationRoutes)
 app.use('/', carRoutes)
 app.use('/', userRoutes)
-app.use('/', stripeRoutes)
-app.use('/', countryRoutes)
-app.use('/', paypalRoutes)
+// app.use('/', stripeRoutes)
+// app.use('/', countryRoutes)
+// app.use('/', paypalRoutes)
 app.use('/', ipinfoRoutes)
-app.use('/', bankDetailsRoutes)
+// app.use('/', bankDetailsRoutes)
 app.use('/', settingRoutes)
 
 if (env.ENABLE_SENTRY) {

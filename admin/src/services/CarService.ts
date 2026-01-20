@@ -204,7 +204,7 @@ export const getCars = (keyword: string, data: bookcarsTypes.GetCarsPayload, pag
  * @param {number} size
  * @returns {Promise<bookcarsTypes.Car[]>}
  */
-export const getBookingCars = (keyword: string, data: bookcarsTypes.GetBookingCarsPayload, page: number, size: number): Promise<bookcarsTypes.Car[]> =>
+export const getBookingCars = (keyword: string, data: {}, page: number, size: number): Promise<bookcarsTypes.Car[]> =>
   axiosInstance
     .post(
       `/api/booking-cars/${page}/${size}/?s=${encodeURIComponent(keyword)}`,

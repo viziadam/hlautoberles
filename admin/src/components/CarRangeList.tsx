@@ -45,10 +45,10 @@ const CarRangeList = ({
         <MenuItem value={bookcarsTypes.CarRange.Mini}>{helper.getCarRange(bookcarsTypes.CarRange.Mini)}</MenuItem>
         <MenuItem value={bookcarsTypes.CarRange.Midi}>{helper.getCarRange(bookcarsTypes.CarRange.Midi)}</MenuItem>
         <MenuItem value={bookcarsTypes.CarRange.Maxi}>{helper.getCarRange(bookcarsTypes.CarRange.Maxi)}</MenuItem>
-        <MenuItem value={bookcarsTypes.CarRange.Scooter}>{helper.getCarRange(bookcarsTypes.CarRange.Scooter)}</MenuItem>
+        {/* <MenuItem value={bookcarsTypes.CarRange.Scooter}>{helper.getCarRange(bookcarsTypes.CarRange.Scooter)}</MenuItem>
         <MenuItem value={bookcarsTypes.CarRange.Bus}>{helper.getCarRange(bookcarsTypes.CarRange.Bus)}</MenuItem>
         <MenuItem value={bookcarsTypes.CarRange.Truck}>{helper.getCarRange(bookcarsTypes.CarRange.Truck)}</MenuItem>
-        <MenuItem value={bookcarsTypes.CarRange.Caravan}>{helper.getCarRange(bookcarsTypes.CarRange.Caravan)}</MenuItem>
+        <MenuItem value={bookcarsTypes.CarRange.Caravan}>{helper.getCarRange(bookcarsTypes.CarRange.Caravan)}</MenuItem> */}
       </Select>
     </div>
   )

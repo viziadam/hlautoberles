@@ -33,8 +33,8 @@ const Cars = () => {
 
   const [user, setUser] = useState<bookcarsTypes.User>()
   const [admin, setAdmin] = useState(false)
-  const [allSuppliers, setAllSuppliers] = useState<bookcarsTypes.User[]>([])
-  const [suppliers, setSuppliers] = useState<string[]>()
+  // const [allSuppliers, setAllSuppliers] = useState<bookcarsTypes.User[]>([])
+  // const [suppliers, setSuppliers] = useState<string[]>()
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [keyword, setKeyword] = useState('')
   const [rowCount, setRowCount] = useState(0)
@@ -89,9 +89,9 @@ const Cars = () => {
     setRowCount(_rowCount)
   }
 
-  const handleSupplierFilterChange = (newSuppliers: string[]) => {
-    setSuppliers(newSuppliers)
-  }
+  // const handleSupplierFilterChange = (newSuppliers: string[]) => {
+  //   setSuppliers(newSuppliers)
+  // }
 
   const handleRatingFilterChange = (value: number) => {
     setRating(value)
@@ -143,29 +143,29 @@ const Cars = () => {
     const _isAdmin = helper.admin(_user)
     setAdmin(_isAdmin)
 
-    if (_isAdmin) {
-      // const payload: bookcarsTypes.GetCarsPayload = {
-      //   carSpecs,
-      //   carType,
-      //   gearbox,
-      //   mileage,
-      //   fuelPolicy,
-      //   deposit,
-      //   availability,
-      //   ranges,
-      //   multimedia,
-      //   rating,
-      //   seats,
-      // }
-      // const _allSuppliers = await SupplierService.getAdminSuppliers(payload)
-      const _allSuppliers = await SupplierService.getAllSuppliers()
-      const _suppliers = bookcarsHelper.flattenSuppliers(_allSuppliers)
-      setAllSuppliers(_allSuppliers)
-      setSuppliers(_suppliers)
-    } else {
-      const supplierId = (_user && _user._id) as string
-      setSuppliers([supplierId])
-    }
+    // if (_isAdmin) {
+    //   // const payload: bookcarsTypes.GetCarsPayload = {
+    //   //   carSpecs,
+    //   //   carType,
+    //   //   gearbox,
+    //   //   mileage,
+    //   //   fuelPolicy,
+    //   //   deposit,
+    //   //   availability,
+    //   //   ranges,
+    //   //   multimedia,
+    //   //   rating,
+    //   //   seats,
+    //   // }
+    //   // const _allSuppliers = await SupplierService.getAdminSuppliers(payload)
+    //   const _allSuppliers = await SupplierService.getAllSuppliers()
+    //   const _suppliers = bookcarsHelper.flattenSuppliers(_allSuppliers)
+    //   setAllSuppliers(_allSuppliers)
+    //   setSuppliers(_suppliers)
+    // } else {
+    //   const supplierId = (_user && _user._id) as string
+    //   setSuppliers([supplierId])
+    // }
 
     setLoadingSuppliers(false)
     setLoading(false)
@@ -185,14 +185,14 @@ const Cars = () => {
 
               {rowCount > 0 && <InfoBox value={`${bookcarsHelper.formatNumber(rowCount, language)} ${rowCount > 1 ? commonStrings.CARS : commonStrings.CAR}`} className="car-count" />}
 
-              {admin && (
+              {/* {admin && (
                 loadingSuppliers ? (
                   <div className="filter-progress-wrapper">
                     <CircularProgress className="filter-progress" size="1.3rem" />
                   </div>
                 )
                   : <SupplierFilter suppliers={allSuppliers} onChange={handleSupplierFilterChange} className="filter" />
-              )}
+              )} */}
 
               {rowCount > -1 && (
                 <>
@@ -214,7 +214,7 @@ const Cars = () => {
           <div className="col-2">
             <CarList
               user={user}
-              suppliers={suppliers}
+              // suppliers={suppliers}
               carSpecs={carSpecs}
               carType={carType}
               gearbox={gearbox}

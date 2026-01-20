@@ -34,23 +34,33 @@ import DoorsList from '@/components/DoorsList'
 import FuelPolicyList from '@/components/FuelPolicyList'
 import CarRangeList from '@/components/CarRangeList'
 import MultimediaList from '@/components/MultimediaList'
+import CarGallery from '@/components/CarGallery'
 import DateBasedPriceEditList from '@/components/DateBasedPriceEditList'
 import { UserContextType, useUserContext } from '@/context/UserContext'
 import { Option, Supplier } from '@/models/common'
 import { schema, FormFields, DateBasedPrice } from '@/models/CarForm'
+import * as bookcarsHelper from ':bookcars-helper'
 
 import '@/assets/css/create-car.css'
+
 
 const CreateCar = () => {
   const navigate = useNavigate()
   const { user } = useUserContext() as UserContextType
 
-  const [isSupplier, setIsSupplier] = useState(false)
+  // const [isSupplier, setIsSupplier] = useState(false)
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [imageSizeError, setImageSizeError] = useState(false)
   const [image, setImage] = useState('')
+
+
+  const [extraImages, setExtraImages] = useState<string[]>([])
+  const [extraImagesError, setExtraImagesError] = useState(false)
+
+  const extraTempUrl = (filename: string) =>
+  bookcarsHelper.joinURL(env.CDN_TEMP_CARS, filename)
 
   // Initialize react-hook-form
   const {
@@ -68,24 +78,25 @@ const CreateCar = () => {
     defaultValues: {
       name: '',
       licensePlate: '',
-      supplier: undefined,
+      // supplier: undefined,
       minimumAge: String(env.MINIMUM_AGE),
-      locations: [],
+      // locations: [],
       dailyPrice: '',
       discountedDailyPrice: '',
-      hourlyPrice: '',
-      discountedHourlyPrice: '',
-      biWeeklyPrice: '',
-      discountedBiWeeklyPrice: '',
+      // hourlyPrice: '',
+      // discountedHourlyPrice: '',
+      // biWeeklyPrice: '',
+      // discountedBiWeeklyPrice: '',
       weeklyPrice: '',
-      discountedWeeklyPrice: '',
+      // discountedWeeklyPrice: '',
       monthlyPrice: '',
-      discountedMonthlyPrice: '',
+      // discountedMonthlyPrice: '',
       deposit: '',
       available: true,
-      fullyBooked: false,
-      comingSoon: false,
-      blockOnPay: true,
+      toolsRentable: false,
+      // fullyBooked: false,
+      // comingSoon: false,
+      // blockOnPay: true,
       type: '',
       gearbox: '',
       seats: '',
@@ -98,31 +109,32 @@ const CreateCar = () => {
       theftProtection: '',
       collisionDamageWaiver: '',
       fullInsurance: '',
-      additionalDriver: '',
+      // additionalDriver: '',
       range: '',
       multimedia: [],
       rating: '',
       co2: '',
-      isDateBasedPrice: false,
-      dateBasedPrices: [],
+      // isDateBasedPrice: false,
+      // dateBasedPrices: [],
     }
   })
 
   // Use watch to track form values
-  const isDateBasedPrice = useWatch({ control, name: 'isDateBasedPrice' })
-  const dateBasedPrices = useWatch({ control, name: 'dateBasedPrices' })
+  // const isDateBasedPrice = useWatch({ control, name: 'isDateBasedPrice' })
+  // const dateBasedPrices = useWatch({ control, name: 'dateBasedPrices' })
   const range = useWatch({ control, name: 'range' })
   const multimedia = useWatch({ control, name: 'multimedia' })
   const available = useWatch({ control, name: 'available' })
-  const fullyBooked = useWatch({ control, name: 'fullyBooked' })
-  const comingSoon = useWatch({ control, name: 'comingSoon' })
-  const blockOnPay = useWatch({ control, name: 'blockOnPay' })
+  // const fullyBooked = useWatch({ control, name: 'fullyBooked' })
+  // const comingSoon = useWatch({ control, name: 'comingSoon' })
+  // const blockOnPay = useWatch({ control, name: 'blockOnPay' })
   const type = useWatch({ control, name: 'type' })
   const gearbox = useWatch({ control, name: 'gearbox' })
   const seats = useWatch({ control, name: 'seats' })
   const doors = useWatch({ control, name: 'doors' })
   const fuelPolicy = useWatch({ control, name: 'fuelPolicy' })
   const aircon = useWatch({ control, name: 'aircon' })
+  const toolsRentable = useWatch({ control, name: 'toolsRentable' })
 
 
   const handleBeforeUpload = () => {
@@ -161,6 +173,7 @@ const CreateCar = () => {
         setLoading(false)
         return
       }
+      console.log('itt!')
 
       if (data.licensePlate) {
         const res = await CarService.validateLicensePlate(data.licensePlate)
@@ -174,28 +187,30 @@ const CreateCar = () => {
         loggedUser: user!._id!,
         name: data.name,
         licensePlate: data.licensePlate || '',
-        supplier: data.supplier?._id!,
+        // supplier: data.supplier?._id!,
         minimumAge: Number.parseInt(data.minimumAge, 10),
-        locations: data.locations.map((l) => l._id),
+        // locations: data.locations.map((l) => l._id),
         dailyPrice: Number(data.dailyPrice),
         discountedDailyPrice: getPrice(data.discountedDailyPrice || ''),
-        hourlyPrice: getPrice(data.hourlyPrice || ''),
-        discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
-        biWeeklyPrice: getPrice(data.biWeeklyPrice || ''),
-        discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice || ''),
+        // hourlyPrice: getPrice(data.hourlyPrice || ''),
+        // discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
+        // biWeeklyPrice: getPrice(data.biWeeklyPrice || ''),
+        // discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice || ''),
         weeklyPrice: getPrice(data.weeklyPrice || ''),
-        discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice || ''),
+        // discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice || ''),
         monthlyPrice: getPrice(data.monthlyPrice || ''),
-        discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice || ''),
+        // discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice || ''),
         deposit: Number(data.deposit),
         available: data.available,
-        fullyBooked: data.fullyBooked,
-        comingSoon: data.comingSoon,
-        blockOnPay: data.blockOnPay,
+        toolsRentable: data.toolsRentable,
+        // fullyBooked: data.fullyBooked,
+        // comingSoon: data.comingSoon,
+        // blockOnPay: data.blockOnPay,
         type: data.type,
         gearbox: data.gearbox,
         aircon: data.aircon,
         image,
+        images: extraImages,
         seats: Number.parseInt(data.seats, 10),
         doors: Number.parseInt(data.doors, 10),
         fuelPolicy: data.fuelPolicy,
@@ -205,17 +220,17 @@ const CreateCar = () => {
         theftProtection: extraToNumber(data.theftProtection || ''),
         collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver || ''),
         fullInsurance: extraToNumber(data.fullInsurance || ''),
-        additionalDriver: extraToNumber(data.additionalDriver || ''),
+        // additionalDriver: extraToNumber(data.additionalDriver || ''),
         range: data.range,
         multimedia: data.multimedia || [],
         rating: data.rating ? Number(data.rating) : undefined,
         co2: data.co2 ? Number(data.co2) : undefined,
-        isDateBasedPrice: data.isDateBasedPrice,
-        dateBasedPrices: data.dateBasedPrices || [],
+        // isDateBasedPrice: data.isDateBasedPrice,
+        // dateBasedPrices: data.dateBasedPrices || [],
       }
 
       const car = await CarService.create(payload)
-
+      console.log('car: ', car)
       if (car && car._id) {
         navigate('/cars')
       } else {
@@ -237,14 +252,14 @@ const CreateCar = () => {
     if (user && user.verified) {
       setVisible(true)
 
-      if (user.type === bookcarsTypes.RecordType.Supplier) {
-        setValue('supplier', {
-          _id: user._id,
-          name: user.fullName,
-          image: user.avatar,
-        } as Supplier)
-        setIsSupplier(true)
-      }
+      // if (user.type === bookcarsTypes.RecordType.Supplier) {
+      //   setValue('supplier', {
+      //     _id: user._id,
+      //     name: user.fullName,
+      //     image: user.avatar,
+      //   } as Supplier)
+      //   setIsSupplier(true)
+      // }
     }
   }
 
@@ -252,6 +267,9 @@ const CreateCar = () => {
     if (image) {
       await CarService.deleteTempImage(image)
     }
+    for (const img of extraImages) {
+      await CarService.deleteTempImage(img)
+      }
     navigate('/cars')
   }
 
@@ -279,6 +297,13 @@ const CreateCar = () => {
               <span>{strings.RECOMMENDED_IMAGE_SIZE}</span>
             </div>
 
+            <CarGallery
+              mode="create"
+              value={extraImages}
+              onChange={setExtraImages}
+              max={4}
+            />
+
             <FormControl fullWidth margin="dense">
               <InputLabel className="required">{strings.NAME}</InputLabel>
               <Input
@@ -298,7 +323,8 @@ const CreateCar = () => {
               />
             </FormControl>
 
-            {!isSupplier && (
+
+            {/* {!isSupplier && (
               <FormControl fullWidth margin="dense">
                 <SupplierSelectList
                   label={strings.SUPPLIER}
@@ -307,7 +333,7 @@ const CreateCar = () => {
                   onChange={(values) => setValue('supplier', values.length > 0 ? values[0] as Supplier : undefined)}
                 />
               </FormControl>
-            )}
+            )} */}
 
             <FormControl fullWidth margin="dense">
               <InputLabel className="required">{strings.MINIMUM_AGE}</InputLabel>
@@ -328,7 +354,7 @@ const CreateCar = () => {
               )}
             </FormControl>
 
-            <FormControl fullWidth margin="dense">
+            {/* <FormControl fullWidth margin="dense">
               <LocationSelectList
                 label={strings.LOCATIONS}
                 multiple
@@ -336,7 +362,7 @@ const CreateCar = () => {
                 variant="standard"
                 onChange={(values) => setValue('locations', values as Option[])}
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth margin="dense">
               <TextField
@@ -371,7 +397,7 @@ const CreateCar = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense" className="checkbox-fc">
+            {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
               <FormControlLabel
                 control={(
                   <Switch
@@ -383,9 +409,9 @@ const CreateCar = () => {
                 label={strings.IS_DATE_BASED_PRICE}
                 className="checkbox-fcl"
               />
-            </FormControl>
+            </FormControl> */}
 
-            {isDateBasedPrice && (
+            {/* {isDateBasedPrice && (
               <DateBasedPriceEditList
                 title={strings.DATE_BASED_PRICES}
                 values={dateBasedPrices as bookcarsTypes.DateBasedPrice[]}
@@ -404,73 +430,11 @@ const CreateCar = () => {
                   setValue('dateBasedPrices', newValues as DateBasedPrice[])
                 }}
               />
-            )}
+            )} */}
 
-            {!isDateBasedPrice && (
+             (
               <>
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.HOURLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('hourlyPrice')}
-                    error={!!errors.hourlyPrice}
-                    helperText={errors.hourlyPrice?.message}
-                    variant="standard"
-                    autoComplete="off"
-                    onChange={() => {
-                      if (errors.hourlyPrice) {
-                        clearErrors('hourlyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.DISCOUNTED_HOURLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('discountedHourlyPrice')}
-                    variant="standard"
-                    autoComplete="off"
-                    error={!!errors.discountedHourlyPrice}
-                    helperText={errors.discountedHourlyPrice?.message}
-                    onChange={() => {
-                      if (errors.discountedHourlyPrice) {
-                        clearErrors('discountedHourlyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.BI_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('biWeeklyPrice')}
-                    variant="standard"
-                    autoComplete="off"
-                    error={!!errors.biWeeklyPrice}
-                    helperText={errors.biWeeklyPrice?.message}
-                    onChange={() => {
-                      if (errors.biWeeklyPrice) {
-                        clearErrors('biWeeklyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
-
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.DISCOUNTED_BI_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('discountedBiWeeklyPrice')}
-                    variant="standard"
-                    autoComplete="off"
-                    error={!!errors.discountedBiWeeklyPrice}
-                    helperText={errors.discountedBiWeeklyPrice?.message}
-                    onChange={() => {
-                      if (errors.discountedBiWeeklyPrice) {
-                        clearErrors('discountedBiWeeklyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
+                
 
                 <FormControl fullWidth margin="dense">
                   <TextField
@@ -488,21 +452,7 @@ const CreateCar = () => {
                   />
                 </FormControl>
 
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.DISCOUNTED_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('discountedWeeklyPrice')}
-                    variant="standard"
-                    autoComplete="off"
-                    error={!!errors.discountedWeeklyPrice}
-                    helperText={errors.discountedWeeklyPrice?.message}
-                    onChange={() => {
-                      if (errors.discountedWeeklyPrice) {
-                        clearErrors('discountedWeeklyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
+               
 
                 <FormControl fullWidth margin="dense">
                   <TextField
@@ -520,23 +470,9 @@ const CreateCar = () => {
                   />
                 </FormControl>
 
-                <FormControl fullWidth margin="dense">
-                  <TextField
-                    label={`${strings.DISCOUNTED_MONThLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('discountedMonthlyPrice')}
-                    variant="standard"
-                    autoComplete="off"
-                    error={!!errors.discountedMonthlyPrice}
-                    helperText={errors.discountedMonthlyPrice?.message}
-                    onChange={() => {
-                      if (errors.discountedMonthlyPrice) {
-                        clearErrors('discountedMonthlyPrice')
-                      }
-                    }}
-                  />
-                </FormControl>
+               
               </>
-            )}
+            )
 
             <FormControl fullWidth margin="dense">
               <TextField
@@ -629,43 +565,17 @@ const CreateCar = () => {
               <FormControlLabel
                 control={(
                   <Switch
-                    checked={fullyBooked}
-                    onChange={(e) => setValue('fullyBooked', e.target.checked)}
+                    checked={toolsRentable}
+                    onChange={(e) => setValue('toolsRentable', e.target.checked)}
                     color="primary"
                   />
                 )}
-                label={strings.FULLY_BOOKED}
+                label="Tools rentable"
                 className="checkbox-fcl"
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense" className="checkbox-fc">
-              <FormControlLabel
-                control={(
-                  <Switch
-                    checked={comingSoon}
-                    onChange={(e) => setValue('comingSoon', e.target.checked)}
-                    color="primary"
-                  />
-                )}
-                label={strings.COMING_SOON}
-                className="checkbox-fcl"
-              />
-            </FormControl>
-
-            <FormControl fullWidth margin="dense" className="checkbox-fc">
-              <FormControlLabel
-                control={(
-                  <Switch
-                    checked={blockOnPay}
-                    onChange={(e) => setValue('blockOnPay', e.target.checked)}
-                    color="primary"
-                  />
-                )}
-                label={strings.BLOCK_ON_PAY}
-                className="checkbox-fcl"
-              />
-            </FormControl>
+            
 
             <FormControl fullWidth margin="dense">
               <CarTypeList
@@ -833,21 +743,6 @@ const CreateCar = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense">
-              <TextField
-                label={`${csStrings.ADDITIONAL_DRIVER} (${csStrings.CAR_CURRENCY})`}
-                {...register('additionalDriver')}
-                variant="standard"
-                autoComplete="off"
-                error={!!errors.additionalDriver}
-                helperText={errors.additionalDriver?.message}
-                onChange={() => {
-                  if (errors.additionalDriver) {
-                    clearErrors('additionalDriver')
-                  }
-                }}
-              />
-            </FormControl>
 
             <div className="buttons">
               <Button type="submit" variant="contained" className="btn-primary btn-margin-bottom" size="small" disabled={loading || isSubmitting}>
@@ -866,7 +761,7 @@ const CreateCar = () => {
             <div className="form-error">
               {imageError && <Error message={commonStrings.IMAGE_REQUIRED} />}
               {imageSizeError && <Error message={strings.CAR_IMAGE_SIZE_ERROR} />}
-              {/* {Object.keys(errors).length > 0 && <Error message={commonStrings.FORM_ERROR} />} */}
+              {Object.keys(errors).length > 0 && <Error message={commonStrings.FORM_ERROR} />}
             </div>
           </form>
         </Paper>

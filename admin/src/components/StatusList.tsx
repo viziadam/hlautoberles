@@ -75,7 +75,7 @@ const StatusList = ({
             <MenuItem value={bookcarsTypes.BookingStatus.Pending} className="bs-s bs-s-pending">
               {commonStrings.BOOKING_STATUS_PENDING}
             </MenuItem>
-            <MenuItem value={bookcarsTypes.BookingStatus.Deposit} className="bs-s bs-s-deposit">
+            {/* <MenuItem value={bookcarsTypes.BookingStatus.Deposit} className="bs-s bs-s-deposit">
               {commonStrings.BOOKING_STATUS_DEPOSIT}
             </MenuItem>
             <MenuItem value={bookcarsTypes.BookingStatus.Paid} className="bs-s bs-s-paid">
@@ -83,8 +83,8 @@ const StatusList = ({
             </MenuItem>
             <MenuItem value={bookcarsTypes.BookingStatus.PaidInFull} className="bs-s bs-s-paidinfull">
               {commonStrings.BOOKING_STATUS_PAID_IN_FULL}
-            </MenuItem>
-            <MenuItem value={bookcarsTypes.BookingStatus.Reserved} className="bs-s bs-s-reserved">
+            </MenuItem> */}
+            <MenuItem value={bookcarsTypes.BookingStatus.Reserved} className="bs-s bs-s-paidinfull">
               {commonStrings.BOOKING_STATUS_RESERVED}
             </MenuItem>
             <MenuItem value={bookcarsTypes.BookingStatus.Cancelled} className="bs-s bs-s-cancelled">

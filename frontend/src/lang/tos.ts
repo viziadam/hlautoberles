@@ -151,6 +151,62 @@ Si tiene alguna pregunta sobre estos Términos de servicio, comuníquese con nos
 Al utilizar nuestros servicios, usted reconoce que ha leído y comprendido estos Términos de servicio y acepta regirse por ellos.    
     `,
   },
+  hu: {
+  TITLE: 'Felhasználási feltételek',
+  TOS: `
+Üdvözlünk a(z) ${env.WEBSITE_NAME} oldalán! A weboldal elérésével és szolgáltatásaink használatával elfogadod az alábbi Felhasználási feltételeket. Ha nem értesz egyet ezekkel a feltételekkel, kérjük, ne használd a szolgáltatásainkat.
+
+
+1. A feltételek elfogadása
+
+Szolgáltatásaink elérésével vagy használatával megerősíted, hogy elolvastad, megértetted és elfogadod a jelen Felhasználási feltételeket és az Adatvédelmi tájékoztatót.
+
+
+2. A szolgáltatás használata
+
+Vállalod, hogy a szolgáltatásainkat kizárólag jogszerű célokra használod, és nem sérted mások jogait, illetve nem korlátozod mások szolgáltatáshasználatát. Ide tartozik az összes vonatkozó jogszabály és előírás betartása is.
+
+
+3. Foglalások és fizetések
+
+Amikor a(z) ${env.WEBSITE_NAME} oldalon foglalást készítesz, vállalod, hogy pontos és teljes adatokat adsz meg. Minden fizetés a biztonságos fizetési rendszerünkön keresztül történik. A fizetés befejezése után visszaigazolást kapsz a foglalásról.
+
+
+4. Lemondási feltételek
+
+A bérlés kezdete előtt 24 órával történő lemondás esetén teljes visszatérítésre lehetsz jogosult. A bérlés kezdete előtti 24 órán belüli lemondás lemondási díjat vonhat maga után. A részletekért kérjük, tekintsd meg a lemondási szabályzatot.
+
+
+5. Bérlési feltételek
+
+Minden bérlés a bérlési feltételeink hatálya alá tartozik, amelyek többek között életkori korlátozásokat, jogosítvány-követelményeket és biztosítási kötelezettségeket is tartalmazhatnak. A foglalás előtt neked kell meggyőződnöd arról, hogy minden követelménynek megfelelsz.
+
+
+6. Felelősség korlátozása
+
+A(z) ${env.WEBSITE_NAME} nem vállal felelősséget a szolgáltatás használatából eredő közvetett, járulékos vagy következményi károkért. Teljes felelősségünk semmilyen esetben sem haladja meg az általad a szolgáltatásért kifizetett összeget.
+
+
+7. A feltételek módosítása
+
+Fenntartjuk a jogot a Felhasználási feltételek bármikori módosítására. A változások a weboldalon történő közzétételkor azonnal hatályba lépnek. A szolgáltatás további használata a módosítások elfogadását jelenti.
+
+
+8. Irányadó jog
+
+A jelen feltételekre a vonatkozó jogszabályok az irányadók. A feltételekből eredő viták rendezése az illetékes bíróságok előtt történik.
+
+
+9. Kapcsolat
+
+Ha kérdésed van a Felhasználási feltételekkel kapcsolatban, írj nekünk: ${env.CONTACT_EMAIL}. Szívesen segítünk.
+
+
+10. Tudomásulvétel
+
+Szolgáltatásaink használatával tudomásul veszed, hogy elolvastad, megértetted és elfogadod a jelen Felhasználási feltételeket, és magadra nézve kötelezőnek ismered el azokat.
+    `,
+},
 })
 
 langHelper.setLanguage(strings)

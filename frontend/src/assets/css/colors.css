@@ -1,0 +1,9 @@
+:root {
+  --hl-orange:     #FFCC00; /* CMYK(0,20,100,0) */
+  --hl-gray:       #333333; /* CMYK(0,0,0,80) */
+  --hl-blue-light: #00FFFF; /* CMYK(100,0,0,0) */
+  --hl-blue-dark:  #005791; /* CMYK(100,40,0,43) */   /* világos háttér */
+
+  --text: #111111;
+  --bg:   #ffffff;
+}

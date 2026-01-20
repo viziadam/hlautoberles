@@ -34,6 +34,9 @@ const createTransporter = async (): Promise<nodemailer.Transporter> => {
  * @returns A promise resolving to the sending result
  */
 export const sendMail = async (mailOptions: nodemailer.SendMailOptions): Promise<nodemailer.SentMessageInfo> => {
+  //! Enable if you want to use SMTP server for sending emails 
   const transporter = await createTransporter()
   return transporter.sendMail(mailOptions)
+  console.log('[EMAIL DISABLED] Nem küldök levelet, csak logolok.', mailOptions.to);
+  // return;
 }

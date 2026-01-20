@@ -32,7 +32,8 @@
 }
 
 .side-menu li:hover {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
+  background-color: var(--hl-orange) !important;
 }
 
 .header-action {
@@ -55,10 +56,15 @@
   background-color: transparent !important;
   color: #121212 !important;
   text-transform: none !important;
+  transition:
+    background-color 0.15s ease,
+    color 1s ease;
 }
 
 .header .btn:hover {
-  background-color: rgba(0, 0, 0, 0.07) !important;
+  /* background-color: rgba(0, 0, 0, 0.07) !important; */
+  background-color: var(--hl-orange) !important;
+  color: #ffffff !important; /* EZ 1s alatt fog átmenni */
 }
 
 .header .btn-auth span.btn-auth-txt {
@@ -66,12 +72,24 @@
 }
 
 .header .logo {
-  text-decoration: none;
+  /* text-decoration: none;
   text-transform: none;
   background: transparent;
   font-size: 18px;
   font-weight: 500;
-  color: #121212;
+  color: #121212; */
+  padding: 0;
+  min-width: unset;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+}
+
+.header .logo-img {
+  height: 34px;        /* állítsd a toolbar magasságodhoz */
+  width: auto;         /* aspect ratio fix */
+  display: block;
+  object-fit: contain;
 }
 
 /* Device width is greater than or equal to 960px */

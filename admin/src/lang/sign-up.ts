@@ -23,6 +23,13 @@ const strings = new LocalizedStrings({
     RECAPTCHA_ERROR: 'Complete el captcha para continuar.',
     SIGN_UP_ERROR: 'Se produjo un error durante el registro.',
   },
+  hu: {
+    SIGN_UP_HEADING: 'Regisztráció',
+    TOS_SIGN_UP: 'Elolvastam és elfogadom a Felhasználási feltételeket.',
+    SIGN_UP: 'Regisztráció',
+    RECAPTCHA_ERROR: 'Kérjük, töltsd ki a captchát a folytatáshoz.',
+    SIGN_UP_ERROR: 'Hiba történt a regisztráció során.',
+  },
 })
 
 langHelper.setLanguage(strings)

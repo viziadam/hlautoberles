@@ -266,7 +266,7 @@ const CreateSupplier = () => {
                   <Switch
                     {...register('notifyAdminOnNewCar')}
                     checked={notifyAdminOnNewCar}
-                    disabled={user?.type === bookcarsTypes.UserType.Supplier}
+                    disabled={true}
                     onChange={(e) => {
                       setValue('notifyAdminOnNewCar', e.target.checked)
                     }}

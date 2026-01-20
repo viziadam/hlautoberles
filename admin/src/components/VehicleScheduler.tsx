@@ -11,7 +11,7 @@ import * as helper from '@/utils/helper'
 import * as BookingService from '@/services/BookingService'
 
 interface VehicleSchedulerProps {
-  suppliers: string[]
+  // suppliers: string[]
   statuses: string[]
   filter?: bookcarsTypes.Filter
   user?: bookcarsTypes.User
@@ -20,7 +20,7 @@ interface VehicleSchedulerProps {
 
 const VehicleScheduler = (
   {
-    suppliers,
+    // suppliers,
     statuses,
     filter: filterFromProps,
     user,
@@ -50,14 +50,14 @@ const VehicleScheduler = (
     dateBetween.setHours(10, 0, 0, 0)
 
     const payload: bookcarsTypes.GetBookingsPayload = {
-      suppliers,
+      // suppliers,
       statuses,
       filter: {
         from: query.view !== 'day' ? new Date(query.start.getFullYear(), query.start.getMonth() - 1, 1) : undefined,
         dateBetween: query.view === 'day' ? dateBetween : undefined,
         to: query.view === 'month' ? new Date(query.end.getFullYear(), query.end.getMonth() + 1, 0) : new Date(query.end.getFullYear(), query.end.getMonth() + 2, 0),
-        pickupLocation: filter?.pickupLocation,
-        dropOffLocation: filter?.dropOffLocation,
+        // pickupLocation: filter?.pickupLocation,
+        // dropOffLocation: filter?.dropOffLocation,
         keyword: filter?.keyword,
       },
       user: (user && user._id) || undefined,
@@ -73,7 +73,7 @@ const VehicleScheduler = (
 
     const events = bookings.map((booking): ProcessedEvent => ({
       event_id: booking._id as string,
-      title: `${(booking.car as bookcarsTypes.Car).name} / ${(booking.supplier as bookcarsTypes.User).fullName} / ${helper.getBookingStatus(booking.status)}`,
+      title: `${(booking.car as bookcarsTypes.Car).name} / ${helper.getBookingStatus(booking.status)}`,
       start: new Date(booking.from),
       end: new Date(booking.to),
       color: helper.getBookingStatusBackgroundColor(booking.status),
@@ -86,17 +86,17 @@ const VehicleScheduler = (
       return emptyEvents
     }
     return events
-  }, [filter, statuses, suppliers, user])
+  }, [filter, statuses, user])
 
   useEffect(() => {
     const fetchEvents = async () => {
       schedulerRef.current?.scheduler?.handleState(fetchBookings, 'getRemoteEvents')
     }
 
-    if (!init && statuses.length > 0 && suppliers.length > 0) {
+    if (!init && statuses.length > 0 ) {
       fetchEvents()
     }
-  }, [statuses, suppliers, filter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [statuses,  filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getTranslations = (_language: string) => {
     if (_language === 'fr') {

@@ -24,15 +24,15 @@ import { useSetting } from '@/context/SettingContext'
 import '@/assets/css/search-form.css'
 
 interface SearchFormProps {
-  pickupLocation?: string
-  dropOffLocation?: string
+  // pickupLocation?: string
+  // dropOffLocation?: string
   ranges?: bookcarsTypes.CarRange[]
   onCancel?: () => void
 }
 
 const SearchForm = ({
-  pickupLocation: __pickupLocation,
-  dropOffLocation: __dropOffLocation,
+  // pickupLocation: __pickupLocation,
+  // dropOffLocation: __dropOffLocation,
   ranges: __ranges,
   onCancel,
 }: SearchFormProps) => {
@@ -40,8 +40,8 @@ const SearchForm = ({
 
   const { settings } = useSetting()
 
-  const [pickupLocationId, setPickupLocationId] = useState('')
-  const [dropOffLocationId, setDropOffLocationId] = useState('')
+  // const [pickupLocationId, setPickupLocationId] = useState('')
+  // const [dropOffLocationId, setDropOffLocationId] = useState('')
   const [minTime, setMinTime] = useState<Date | null>(null)
   const [maxTime, setMaxTime] = useState<Date | null>(null)
   const [minDate, setMinDate] = useState<Date | null>(null)
@@ -77,16 +77,16 @@ const SearchForm = ({
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
     mode: 'onSubmit',
-    defaultValues: {
-      sameLocation: true,
-    }
+    // defaultValues: {
+    //   sameLocation: true,
+    // }
   })
 
   const from = useWatch({ control, name: 'from' })
   const to = useWatch({ control, name: 'to' })
-  const pickupLocation = useWatch({ control, name: 'pickupLocation' })
-  const dropOffLocation = useWatch({ control, name: 'dropOffLocation' })
-  const sameLocation = useWatch({ control, name: 'sameLocation' })
+  // const pickupLocation = useWatch({ control, name: 'pickupLocation' })
+  // const dropOffLocation = useWatch({ control, name: 'dropOffLocation' })
+  // const sameLocation = useWatch({ control, name: 'sameLocation' })
 
   useEffect(() => {
     if (settings) {
@@ -117,34 +117,34 @@ const SearchForm = ({
     }
   }, [settings]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    const init = async () => {
-      if (__pickupLocation) {
-        const location = await LocationService.getLocation(__pickupLocation) as LocationField
-        setValue('pickupLocation', location)
-        setPickupLocationId(__pickupLocation)
-        if (sameLocation) {
-          setValue('dropOffLocation', location)
-          setDropOffLocationId(__pickupLocation)
-        } else {
-          setValue('sameLocation', dropOffLocationId === __pickupLocation)
-        }
-      }
-    }
-    init()
-  }, [__pickupLocation]) // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   const init = async () => {
+  //     if (__pickupLocation) {
+  //       const location = await LocationService.getLocation(__pickupLocation) as LocationField
+  //       setValue('pickupLocation', location)
+  //       setPickupLocationId(__pickupLocation)
+  //       if (sameLocation) {
+  //         setValue('dropOffLocation', location)
+  //         setDropOffLocationId(__pickupLocation)
+  //       } else {
+  //         setValue('sameLocation', dropOffLocationId === __pickupLocation)
+  //       }
+  //     }
+  //   }
+  //   init()
+  // }, [__pickupLocation]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    const init = async () => {
-      if (__dropOffLocation) {
-        const location = await LocationService.getLocation(__dropOffLocation) as LocationField
-        setValue('dropOffLocation', location)
-        setDropOffLocationId(__dropOffLocation)
-        setValue('sameLocation', pickupLocationId === __dropOffLocation)
-      }
-    }
-    init()
-  }, [__dropOffLocation]) // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   const init = async () => {
+  //     if (__dropOffLocation) {
+  //       const location = await LocationService.getLocation(__dropOffLocation) as LocationField
+  //       setValue('dropOffLocation', location)
+  //       setDropOffLocationId(__dropOffLocation)
+  //       setValue('sameLocation', pickupLocationId === __dropOffLocation)
+  //     }
+  //   }
+  //   init()
+  // }, [__dropOffLocation]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setRanges(__ranges || bookcarsHelper.getAllRanges())
@@ -238,47 +238,47 @@ const SearchForm = ({
     return null
   }
 
-  const handlePickupLocationChange = async (values: bookcarsTypes.Option[]) => {
-    const _pickupLocationId = (values.length > 0 && values[0]._id) || ''
-    setPickupLocationId(_pickupLocationId)
+  // const handlePickupLocationChange = async (values: bookcarsTypes.Option[]) => {
+  //   const _pickupLocationId = (values.length > 0 && values[0]._id) || ''
+  //   setPickupLocationId(_pickupLocationId)
 
-    if (_pickupLocationId) {
-      const location = await LocationService.getLocation(_pickupLocationId) as LocationField
-      setValue('pickupLocation', location)
-      if (sameLocation) {
-        setValue('dropOffLocation', location)
-      }
-    } else {
-      setValue('pickupLocation', null)
-    }
+  //   if (_pickupLocationId) {
+  //     const location = await LocationService.getLocation(_pickupLocationId) as LocationField
+  //     setValue('pickupLocation', location)
+  //     if (sameLocation) {
+  //       setValue('dropOffLocation', location)
+  //     }
+  //   } else {
+  //     setValue('pickupLocation', null)
+  //   }
 
-    if (sameLocation) {
-      setDropOffLocationId(_pickupLocationId)
-    }
-  }
+  //   if (sameLocation) {
+  //     setDropOffLocationId(_pickupLocationId)
+  //   }
+  // }
 
-  const handleSameLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target
-    setValue('sameLocation', checked)
+  // const handleSameLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { checked } = e.target
+  //   setValue('sameLocation', checked)
 
-    if (checked) {
-      setDropOffLocationId(pickupLocationId)
-    } else {
-      setDropOffLocationId('')
-    }
-  }
+  //   if (checked) {
+  //     setDropOffLocationId(pickupLocationId)
+  //   } else {
+  //     setDropOffLocationId('')
+  //   }
+  // }
 
-  const handleDropOffLocationChange = async (values: bookcarsTypes.Option[]) => {
-    const _dropOffLocationId = (values.length > 0 && values[0]._id) || ''
-    setDropOffLocationId(_dropOffLocationId)
+  // const handleDropOffLocationChange = async (values: bookcarsTypes.Option[]) => {
+  //   const _dropOffLocationId = (values.length > 0 && values[0]._id) || ''
+  //   setDropOffLocationId(_dropOffLocationId)
 
-    if (_dropOffLocationId) {
-      const location = await LocationService.getLocation(_dropOffLocationId) as LocationField
-      setValue('dropOffLocation', location)
-    } else {
-      setValue('dropOffLocation', null)
-    }
-  }
+  //   if (_dropOffLocationId) {
+  //     const location = await LocationService.getLocation(_dropOffLocationId) as LocationField
+  //     setValue('dropOffLocation', location)
+  //   } else {
+  //     setValue('dropOffLocation', null)
+  //   }
+  // }
 
   const onSubmit = (data: FormFields) => {
     const valid = validateTimes()
@@ -287,9 +287,9 @@ const SearchForm = ({
     }
 
     if (
-      !data.pickupLocation
-      || !data.dropOffLocation
-      || !data.from
+      // !data.pickupLocation
+      // || !data.dropOffLocation
+      !data.from
       || !data.to
     ) {
       return
@@ -297,8 +297,8 @@ const SearchForm = ({
 
     setTimeout(navigate, 0, '/search', {
       state: {
-        pickupLocationId: pickupLocationId,
-        dropOffLocationId: dropOffLocationId,
+        // pickupLocationId: pickupLocationId,
+        // dropOffLocationId: dropOffLocationId,
         from: data.from,
         to: data.to,
         ranges,
@@ -308,7 +308,7 @@ const SearchForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="home-search-form">
-      <FormControl className="pickup-location">
+      {/* <FormControl className="pickup-location">
         <LocationSelectList
           {...register('pickupLocation')}
           label={commonStrings.PICK_UP_LOCATION}
@@ -321,7 +321,7 @@ const SearchForm = ({
           value={pickupLocation as bookcarsTypes.Location}
           onChange={handlePickupLocationChange}
         />
-      </FormControl>
+      </FormControl> */}
       <FormControl fullWidth className="from">
         <Controller
           name="from"
@@ -381,7 +381,7 @@ const SearchForm = ({
           {commonStrings.CANCEL}
         </Button>
       )}
-      {!sameLocation && (
+      {/* {!sameLocation && (
         <FormControl className="drop-off-location">
           <LocationSelectList
             {...register('dropOffLocation')}
@@ -399,7 +399,7 @@ const SearchForm = ({
       )}
       <FormControl className="chk-same-location">
         <FormControlLabel control={<Checkbox checked={sameLocation} onChange={handleSameLocationChange} />} label={strings.DROP_OFF} />
-      </FormControl>
+      </FormControl> */}
     </form>
   )
 }

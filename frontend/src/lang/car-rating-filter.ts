@@ -23,6 +23,13 @@ const strings = new LocalizedStrings({
     RATING_3: '(3 y más)',
     RATING_4: '(4 y más)',
   },
+  hu: {
+  RATING: 'Értékelés',
+  RATING_1: '(1 csillagtól)',
+  RATING_2: '(2 csillagtól)',
+  RATING_3: '(3 csillagtól)',
+  RATING_4: '(4 csillagtól)',
+},
 })
 
 langHelper.setLanguage(strings)

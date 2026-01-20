@@ -565,11 +565,11 @@ export interface AdditionalDriver {
  */
 export interface Booking extends Document {
   _id: Types.ObjectId
-  supplier: Types.ObjectId
+  // supplier: Types.ObjectId
   car: Types.ObjectId
   driver: Types.ObjectId
-  pickupLocation: Types.ObjectId
-  dropOffLocation: Types.ObjectId
+  // pickupLocation: Types.ObjectId
+  // dropOffLocation: Types.ObjectId
   from: Date
   to: Date
   status: bookcarsTypes.BookingStatus
@@ -578,8 +578,11 @@ export interface Booking extends Document {
   theftProtection?: boolean
   collisionDamageWaiver?: boolean
   fullInsurance?: boolean
-  additionalDriver?: boolean
-  _additionalDriver?: Types.ObjectId
+  chauffeurRequested: boolean
+  
+  // additionalDriver?: boolean
+  // _additionalDriver?: Types.ObjectId
+  toolsIncluded?: boolean
   cancelRequest?: boolean
   price: number
   sessionId?: string
@@ -616,9 +619,9 @@ export interface DateBasedPrice extends Document {
 export interface Car extends Document {
   name: string
   licensePlate?: string
-  supplier: Types.ObjectId
+  // supplier: Types.ObjectId
   minimumAge: number
-  locations: Types.ObjectId[]
+  // locations: Types.ObjectId[]
 
   hourlyPrice: number | null
   discountedHourlyPrice: number | null
@@ -636,12 +639,14 @@ export interface Car extends Document {
 
   deposit: number
   available: boolean
+  toolsRentable: boolean
   fullyBooked?: boolean
   comingSoon?: boolean
   type: bookcarsTypes.CarType
   gearbox: bookcarsTypes.GearboxType
   aircon: boolean
   image: string | null
+  images?: string[] | []
   seats: number
   doors: number
   fuelPolicy: bookcarsTypes.FuelPolicy
@@ -651,7 +656,7 @@ export interface Car extends Document {
   theftProtection: number
   collisionDamageWaiver: number
   fullInsurance: number
-  additionalDriver: number
+  // additionalDriver: number
   range: string
   multimedia: string[]
   rating?: number

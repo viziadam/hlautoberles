@@ -53,6 +53,22 @@ const strings = new LocalizedStrings({
     FAQ: 'Preguntas frecuentes',
     COOKIE_POLICY: 'Política de Cookies',
   },
+  hu: {
+  COPYRIGHT_PART1,
+  COPYRIGHT_PART2: '. Minden jog fenntartva.',
+  CORPORATE: 'Cég',
+  ABOUT: 'Rólunk',
+  TOS: 'Felhasználási feltételek',
+  RENT: 'Autóbérlés',
+  SUPPLIERS: 'Szolgáltatók',
+  LOCATIONS: 'Helyszínek',
+  SUPPORT: 'Támogatás',
+  CONTACT: 'Kapcsolat',
+  SECURE_PAYMENT: `100% biztonságos fizetés a ${env.WEBSITE_NAME}-nál`,
+  PRIVACY_POLICY: 'Adatvédelmi irányelvek',
+  FAQ: 'GYIK',
+  COOKIE_POLICY: 'Sütikezelés',
+},
 })
 
 langHelper.setLanguage(strings)

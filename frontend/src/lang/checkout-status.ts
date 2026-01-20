@@ -14,6 +14,7 @@ const strings = new LocalizedStrings({
   en: {
     CONGRATULATIONS: 'Congratulations!',
     SUCCESS: 'Your payment was successfully done. We sent you a confirmation email.',
+    PENDING: 'Your reservation request was successful. Our staff will contact you shortly. We sent you a confirmation email.', 
     SUCCESS_PAY_LATER: 'Your booking was successfully done. We sent you a confirmation email.',
     ERROR: 'Something went wrong! Try again later',
     STATUS_TITLE: `${env.WEBSITE_NAME} Booking Confirmation`,
@@ -27,6 +28,21 @@ const strings = new LocalizedStrings({
     STATUS_TITLE: `${env.WEBSITE_NAME} Confirmación de reserva`,
     STATUS_MESSAGE: 'Revise su buzón de correo y siga los pasos descritos en el correo electrónico de confirmación de reserva para reservar su vehículo.',
   },
+  hu: {
+  CONGRATULATIONS: 'Gratulálunk!',
+  SUCCESS:
+    'A fizetés sikeresen megtörtént. Megerősítő emailt küldtünk.',
+  PENDING:
+    'A foglalási kérelem sikeres volt. Munkatársaink hamarosan felveszik veled a kapcsolatot. Megerősítő emailt küldtünk.',
+  SUCCESS_PAY_LATER:
+    'A foglalás sikeresen létrejött. Megerősítő emailt küldtünk.',
+  ERROR:
+    'Hiba történt. Kérjük, próbáld újra később.',
+  STATUS_TITLE: `${env.WEBSITE_NAME} – Foglalás visszaigazolása`,
+  STATUS_MESSAGE:
+    'Ellenőrizd az email fiókodat, és kövesd a visszaigazoló emailben leírt lépéseket.',
+},
+
 })
 
 langHelper.setLanguage(strings)

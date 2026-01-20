@@ -56,6 +56,25 @@ const strings = new LocalizedStrings({
     BANK_DETAILS: 'Detalles bancarios',
     PRICING: 'Precios',
   },
+  
+  hu: {
+    DASHBOARD: 'Vezérlőpult',
+    SCHEDULER: 'Jármű ütemező',
+    HOME: 'Főoldal',
+    COMPANIES: 'Szolgáltatók',
+    LOCATIONS: 'Helyszínek',
+    CARS: 'Járművek',
+    USERS: 'Felhasználók',
+    ABOUT: 'Névjegy',
+    TOS: 'Felhasználási feltételek',
+    CONTACT: 'Kapcsolat',
+    LANGUAGE: 'Nyelv',
+    SETTINGS: 'Beállítások',
+    SIGN_OUT: 'Kijelentkezés',
+    COUNTRIES: 'Országok',
+    BANK_DETAILS: 'Banki adatok',
+    PRICING: 'Árazás',
+  },
 })
 
 langHelper.setLanguage(strings)

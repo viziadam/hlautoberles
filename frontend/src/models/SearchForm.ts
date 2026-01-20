@@ -36,9 +36,9 @@ export type LocationField = z.infer<typeof locationSchema>
 export const schema = z.object({
   from: z.date().nullable(),
   to: z.date().nullable(),
-  pickupLocation: locationSchema.nullable(),
-  dropOffLocation: locationSchema.nullable(),
-  sameLocation: z.boolean()
+  // pickupLocation: locationSchema.nullable(),
+  // dropOffLocation: locationSchema.nullable(),
+  // sameLocation: z.boolean()
 })
 
 export type FormFields = z.infer<typeof schema>

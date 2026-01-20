@@ -10,7 +10,10 @@ const strings = new LocalizedStrings({
   },
   es: {
     TITLE: 'Contratos',
-  }
+  },
+  hu: {
+    TITLE: 'Szerződések',
+  },
 })
 
 langHelper.setLanguage(strings)

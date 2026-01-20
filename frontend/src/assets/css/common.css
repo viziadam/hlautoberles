@@ -22,8 +22,13 @@
 }
 
 .btn-primary {
-  background-color: #232323 !important;
-  color: #fff !important;
+  /* background-color: #232323 !important;
+  color: #fff !important; */
+  background-color: var(--hl-orange) !important;
+  color: #111111 !important;
+  transition:
+    background-color 0.15s ease,
+    color 1s ease;
 }
 
 .hidden {
@@ -39,6 +44,8 @@
 .btn-secondary:hover,
 .btn-orange:hover {
   opacity: 0.95;
+  color: var(--hl-orange) !important;
+  background-color: #111111 !important;
 }
 
 .btn-margin {

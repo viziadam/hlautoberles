@@ -24,7 +24,7 @@ import Backdrop from '@/components/SimpleBackdrop'
 import Avatar from '@/components/Avatar'
 import BookingList from '@/components/BookingList'
 import NoMatch from './NoMatch'
-import * as SupplierService from '@/services/SupplierService'
+// import * as SupplierService from '@/services/SupplierService'
 
 import '@/assets/css/user.css'
 
@@ -39,7 +39,7 @@ const User = () => {
   const [loading, setLoading] = useState(true)
   const [noMatch, setNoMatch] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [suppliers, setSuppliers] = useState<string[]>([])
+  // const [suppliers, setSuppliers] = useState<string[]>([])
   const [offset, setOffset] = useState(0)
 
   useEffect(() => {
@@ -100,8 +100,8 @@ const User = () => {
             const _user = await UserService.getUser(id)
 
             if (_user) {
-              const setState = (_suppliers: string[]) => {
-                setSuppliers(_suppliers)
+              const setState = () => {
+                // setSuppliers(_suppliers)
                 setLoggedUser(_loggedUser)
                 setUser(_user)
                 setVisible(true)
@@ -110,11 +110,11 @@ const User = () => {
 
               const admin = helper.admin(_loggedUser)
               if (admin) {
-                const _suppliers = await SupplierService.getAllSuppliers()
-                const supplierIds = bookcarsHelper.flattenSuppliers(_suppliers)
-                setState(supplierIds)
+                // const _suppliers = await SupplierService.getAllSuppliers()
+                // const supplierIds = bookcarsHelper.flattenSuppliers(_suppliers)
+                setState()
               } else {
-                setState([_loggedUser._id as string])
+                setState()
               }
             } else {
               setLoading(false)
@@ -136,21 +136,21 @@ const User = () => {
     }
   }
 
-  const edit = loggedUser && user && (loggedUser.type === bookcarsTypes.RecordType.Admin || loggedUser._id === user._id || (loggedUser.type === bookcarsTypes.RecordType.Supplier && loggedUser._id === user.supplier))
-  const supplier = user && user.type === bookcarsTypes.RecordType.Supplier
+  const edit = loggedUser && user && (loggedUser.type === bookcarsTypes.RecordType.Admin || loggedUser._id === user._id )
+  // const supplier = user && user.type === bookcarsTypes.RecordType.Supplier
 
-  let _suppliers: string[] = []
-  if (loggedUser && user) {
-    if ((supplier && loggedUser._id === user._id)
-      || (loggedUser.type === bookcarsTypes.RecordType.Admin && user.type === bookcarsTypes.RecordType.Supplier)
-    ) {
-      _suppliers = [user._id as string]
-    } else if (loggedUser.type === bookcarsTypes.RecordType.Supplier && user.type === bookcarsTypes.RecordType.User) {
-      _suppliers = [loggedUser._id as string]
-    } else if (loggedUser.type === bookcarsTypes.RecordType.Admin) {
-      _suppliers = suppliers
-    }
-  }
+  // let _suppliers: string[] = []
+  // if (loggedUser && user) {
+  //   if ((supplier && loggedUser._id === user._id)
+  //     || (loggedUser.type === bookcarsTypes.RecordType.Admin && user.type === bookcarsTypes.RecordType.Supplier)
+  //   ) {
+  //     _suppliers = [user._id as string]
+  //   } else if (loggedUser.type === bookcarsTypes.RecordType.Supplier && user.type === bookcarsTypes.RecordType.User) {
+  //     _suppliers = [loggedUser._id as string]
+  //   } else if (loggedUser.type === bookcarsTypes.RecordType.Admin) {
+  //     _suppliers = suppliers
+  //   }
+  // }
 
   return (
     <Layout onLoad={onLoad} strict>
@@ -167,7 +167,7 @@ const User = () => {
                 onBeforeUpload={onBeforeUpload}
                 onChange={onAvatarChange}
                 color="disabled"
-                className={supplier ? 'supplier-avatar' : 'user-avatar'}
+                className={'user-avatar'}
                 readonly
                 verified
               />
@@ -216,17 +216,17 @@ const User = () => {
             </div>
           </div>
           <div className="col-2">
-            {_suppliers.length > 0 && (
+            {user && (
               <BookingList
                 containerClassName="user"
                 offset={offset}
                 loggedUser={loggedUser}
-                user={supplier ? undefined : user}
-                suppliers={_suppliers}
+                user={ user}
+                // suppliers={_suppliers}
                 statuses={statuses}
                 hideDates={env.isMobile}
                 checkboxSelection={!env.isMobile}
-                hideSupplierColumn={supplier}
+                // hideSupplierColumn={supplier}
                 language={loggedUser.language}
               />
             )}

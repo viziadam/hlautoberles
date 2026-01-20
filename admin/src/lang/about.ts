@@ -34,6 +34,16 @@ const strings = new LocalizedStrings({
     FIND_DEAL: 'Buscar oferta',
     PRICING: 'Precios',
   },
+  hu: {
+  TITLE1: `${env.WEBSITE_NAME} – Prémium autóbérlés`,
+  SUBTITLE1: 'Megbízható partner az autóbérlésben',
+  CONTENT1: `A ${env.WEBSITE_NAME} célja, hogy minden utazást egyszerűvé és élvezetessé tegyen. Széles járműkínálatunk minden igényt lefed – legyen szó városi közlekedésről, üzleti útról vagy kalandos kirándulásról. Megbízható szolgáltatásunkkal és gondosan karbantartott járműveinkkel biztosítjuk, hogy az utazás zökkenőmentesen induljon. Versenyképes árakkal, segítőkész ügyfélszolgálattal és rugalmas foglalással törekszünk arra, hogy hosszú távon is megbízható partnered legyünk az utakon. Válaszd a ${env.WEBSITE_NAME}-t, és élvezd a szabad felfedezés élményét.`,
+  TITLE2: `Miért válaszd a ${env.WEBSITE_NAME}-t`,
+  SUBTITLE2: 'Kiváló élmény minden utazás során',
+  CONTENT2: 'Kényelmes foglalás, megbízható járművek és korrekt árak. Nálunk az utazás valóban gondtalan.',
+  FIND_DEAL: 'Ajánlat keresése',
+  PRICING: 'Árazás',
+},
 })
 
 langHelper.setLanguage(strings)

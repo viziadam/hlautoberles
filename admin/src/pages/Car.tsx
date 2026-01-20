@@ -26,12 +26,13 @@ import { strings as commonStrings } from '@/lang/common'
 import { strings } from '@/lang/cars'
 import * as UserService from '@/services/UserService'
 import * as CarService from '@/services/CarService'
-import * as SupplierService from '@/services/SupplierService'
+// import * as SupplierService from '@/services/SupplierService'
 import Backdrop from '@/components/SimpleBackdrop'
 import NoMatch from './NoMatch'
 import Error from './Error'
 import Avatar from '@/components/Avatar'
 import BookingList from '@/components/BookingList'
+import CarGallery from '@/components/CarGallery'
 import * as helper from '@/utils/helper'
 
 import DoorsIcon from '@/assets/img/car-door.png'
@@ -47,7 +48,7 @@ const Car = () => {
   const [loading, setLoading] = useState(false)
   const [noMatch, setNoMatch] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [suppliers, setSuppliers] = useState<string[]>([])
+  // const [suppliers, setSuppliers] = useState<string[]>([])
   const [offset, setOffset] = useState(0)
   const [openInfoDialog, setOpenInfoDialog] = useState(false)
   const [language, setLanguage] = useState(env.DEFAULT_LANGUAGE)
@@ -129,21 +130,23 @@ const Car = () => {
           if (_car) {
             if (_user.type === bookcarsTypes.RecordType.Admin) {
               try {
-                const _suppliers = await SupplierService.getAllSuppliers()
-                const supplierIds = bookcarsHelper.flattenSuppliers(_suppliers)
-                setSuppliers(supplierIds)
+                // const _suppliers = await SupplierService.getAllSuppliers()
+                // const supplierIds = bookcarsHelper.flattenSuppliers(_suppliers)
+                // setSuppliers(supplierIds)
                 setCar(_car)
                 setVisible(true)
                 setLoading(false)
               } catch (err) {
                 helper.error(err)
               }
-            } else if (_car.supplier._id === _user._id) {
-              setSuppliers([_user._id as string])
-              setCar(_car)
-              setVisible(true)
-              setLoading(false)
-            } else {
+            } 
+            // else if (_car.supplier._id === _user._id) {
+            //   setSuppliers([_user._id as string])
+            //   setCar(_car)
+            //   setVisible(true)
+            //   setLoading(false)
+            // } 
+            else {
               setLoading(false)
               setNoMatch(true)
             }
@@ -166,13 +169,13 @@ const Car = () => {
     }
   }
 
-  const edit = user && car && car.supplier && (user.type === bookcarsTypes.RecordType.Admin || user._id === car.supplier._id)
+  const edit = user && car &&  (user.type === bookcarsTypes.RecordType.Admin )
   const statuses = helper.getBookingStatuses().map((status) => status.value)
   const fr = (user && user.language === 'fr') || false
 
   return (
     <Layout onLoad={onLoad} strict>
-      {visible && car && car.supplier && (
+      {visible && car &&  (
         <div className="car">
           <div className="col-1">
             <section className="car-sec">
@@ -193,12 +196,18 @@ const Car = () => {
                   color="disabled"
                   className="avatar-ctn"
                 />
-                <div className="car-supplier">
+
+                <CarGallery
+                  mode="readonly"
+                  value={car.images ?? []}
+                  onChange={() => {}}
+                />
+                {/* <div className="car-supplier">
                   <span className="car-supplier-logo">
                     <img src={bookcarsHelper.joinURL(env.CDN_USERS, car.supplier.avatar)} alt={car.supplier.fullName} />
                   </span>
                   <span className="car-supplier-info">{car.supplier.fullName}</span>
-                </div>
+                </div> */}
               </div>
               <div className="price">{`${bookcarsHelper.formatPrice(car.dailyPrice, commonStrings.CURRENCY, language)}${commonStrings.DAILY}`}</div>
               <div className="car-info">
@@ -313,16 +322,16 @@ const Car = () => {
                       </div>
                     </Tooltip>
                   </li>
-                  <li>
+                  {/* <li>
                     <Tooltip title={helper.getAdditionalDriver(car.additionalDriver, language)} placement="left">
                       <div className="car-info-list-item">
                         {car.additionalDriver > -1 ? <CheckIcon /> : <UncheckIcon />}
                         <span className="car-info-list-text">{helper.getAdditionalDriver(car.additionalDriver, language)}</span>
                       </div>
                     </Tooltip>
-                  </li>
+                  </li> */}
                 </ul>
-                <ul className="locations-list">
+                {/* <ul className="locations-list">
                   {car.locations.map((location) => (
                     <li key={location._id}>
                       <div className="car-info-list-item">
@@ -331,7 +340,7 @@ const Car = () => {
                       </div>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
             </section>
             {edit && (
@@ -350,7 +359,7 @@ const Car = () => {
               containerClassName="car"
               offset={offset}
               loggedUser={user}
-              suppliers={suppliers}
+              // suppliers={suppliers}
               statuses={statuses}
               car={car._id}
               hideSupplierColumn

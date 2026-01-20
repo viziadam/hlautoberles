@@ -7,17 +7,21 @@ import Const from './const'
 //
 const LANGUAGES = [
   {
+    code: 'hu',
+    label: 'Magyar',
+  },
+  {
     code: 'en',
     label: 'English',
   },
-  {
-    code: 'fr',
-    label: 'Français',
-  },
-  {
-    code: 'es',
-    label: 'Español',
-  },
+  // {
+  //   code: 'fr',
+  //   label: 'Français',
+  // },
+  // {
+  //   code: 'es',
+  //   label: 'Español',
+  // },
 ]
 
 const env = {

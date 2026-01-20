@@ -47,7 +47,7 @@ const Locations = () => {
         <DialogContent className="search-dialog-content">
           <SearchForm
             ranges={bookcarsHelper.getAllRanges()}
-            pickupLocation={pickupLocation}
+            // pickupLocation={pickupLocation}
             onCancel={() => {
               setOpenSearchFormDialog(false)
             }}

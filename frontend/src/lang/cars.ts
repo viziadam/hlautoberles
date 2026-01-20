@@ -183,12 +183,16 @@ const strings = new LocalizedStrings({
     FULLY_BOOKED: 'Fully Booked',
     COMING_SOON: 'Coming Soon',
     CAR_RANGE_MINI: 'Car',
-    CAR_RANGE_MIDI: 'SUV',
-    CAR_RANGE_MAXI: 'Van',
+    CAR_RANGE_MIDI: 'Cargo Van',
+    CAR_RANGE_MAXI: 'Truck',
     CAR_RANGE_SCOOTER: 'Scooter',
     CAR_RANGE_BUS: 'Bus',
     CAR_RANGE_TRUCK: 'Truck',
     CAR_RANGE_CARAVAN: 'Caravan',
+    PENDING: 'Pending',
+    BOOKED: 'Reserved',
+    RESERVED: 'Reserved',
+    NOT_AVAILABLE: 'Not available',
   },
   es: {
     NEW_CAR: 'Coche nuevo',
@@ -279,7 +283,131 @@ const strings = new LocalizedStrings({
     CAR_RANGE_BUS: 'Autobús',
     CAR_RANGE_TRUCK: 'Camión',
     CAR_RANGE_CARAVAN: 'Caravana',
-  }
+  },
+  hu: {
+  NEW_CAR: 'Új jármű',
+  DELETE_CAR: 'Biztosan törölni szeretnéd ezt a járművet?',
+
+  FUEL_POLICY: 'Üzemanyag szabályzat',
+  DIESEL: 'Dízel',
+  GASOLINE: 'Benzin',
+  ELECTRIC: 'Elektromos',
+  HYBRID: 'Hibrid',
+  PLUG_IN_HYBRID: 'Plug-in hibrid',
+  UNKNOWN: 'Nincs megadva',
+
+  DIESEL_SHORT: 'D',
+  GASOLINE_SHORT: 'B',
+  ELECTRIC_SHORT: 'E',
+  HYBRID_SHORT: 'H',
+  PLUG_IN_HYBRID_SHORT: 'PH',
+
+  GEARBOX_MANUAL: 'Manuális',
+  GEARBOX_AUTOMATIC: 'Automata',
+  GEARBOX_MANUAL_SHORT: 'M',
+  GEARBOX_AUTOMATIC_SHORT: 'A',
+
+  FUEL_POLICY_LIKE_FOR_LIKE: 'Azonos szinten vissza',
+  FUEL_POLICY_FREE_TANK: 'Ingyenes tank',
+  FUEL_POLICY_FULL_TO_FULL: 'Tele–tele',
+  FUEL_POLICY_FULL_TO_EMPTY: 'Tele–üres',
+
+  FUEL_POLICY_LIKE_FOR_LIKE_TOOLTIP:
+    'A járművet ugyanannyi üzemanyaggal kell visszahozni, mint átvételkor.',
+  FUEL_POLICY_FREE_TANK_TOOLTIP:
+    'Az ár tartalmazza a teljes üzemanyagtartályt.',
+  FUEL_POLICY_FULL_TO_FULL_TOOLTIP:
+    'A járművet tele tankkal kapod és tele tankkal kell visszahozni.',
+  FUEL_POLICY_FULL_TO_EMPTY_TOOLTIP:
+    'A járművet tele tankkal kapod, üresen kell visszahozni.',
+
+  DIESEL_TOOLTIP: 'Dízel meghajtású jármű',
+  GASOLINE_TOOLTIP: 'Benzines meghajtású jármű',
+  ELECTRIC_TOOLTIP: 'Elektromos jármű',
+  HYBRID_TOOLTIP: 'Hibrid jármű',
+  PLUG_IN_HYBRID_TOOLTIP: 'Plug-in hibrid jármű',
+
+  GEARBOX_MANUAL_TOOLTIP: 'Manuális sebességváltó',
+  GEARBOX_AUTOMATIC_TOOLTIP: 'Automata sebességváltó',
+
+  SEATS_TOOLTIP_1: 'Ez a jármű ',
+  SEATS_TOOLTIP_2: ' ülőhellyel rendelkezik',
+  DOORS_TOOLTIP_1: 'Ez a jármű ',
+  DOORS_TOOLTIP_2: ' ajtós',
+
+  AIRCON_TOOLTIP: 'Klímaberendezéssel felszerelt',
+
+  MILEAGE: 'Futásteljesítmény',
+  MILEAGE_UNIT: 'km/nap',
+  UNLIMITED: 'Korlátlan',
+  LIMITED: 'Korlátozott',
+
+  CANCELLATION: 'Lemondás',
+  CANCELLATION_TOOLTIP:
+    'A foglalás a bérlés megkezdése előtt lemondható.',
+  AMENDMENTS: 'Módosítás',
+  AMENDMENTS_TOOLTIP:
+    'A foglalás a bérlés megkezdése előtt módosítható.',
+
+  THEFT_PROTECTION: 'Lopásbiztosítás',
+  THEFT_PROTECTION_TOOLTIP:
+    'A bérlés lopás elleni védelmet tartalmazhat.',
+
+  COLLISION_DAMAGE_WAVER: 'Káresemény önrész',
+  COLLISION_DAMAGE_WAVER_TOOLTIP:
+    'A bérlés tartalmazhat töréskár fedezetet.',
+
+  FULL_INSURANCE: 'Teljes biztosítás',
+  FULL_INSURANCE_TOOLTIP:
+    'A bérlés teljes körű biztosítást tartalmazhat.',
+
+  ADDITIONAL_DRIVER: 'További sofőr',
+  INCLUDED: 'Tartalmazza',
+  UNAVAILABLE: 'Nem elérhető',
+
+  CAR_AVAILABLE: 'Foglalható',
+  CAR_AVAILABLE_TOOLTIP: 'Ez a jármű jelenleg foglalható.',
+  CAR_UNAVAILABLE: 'Nem foglalható',
+  CAR_UNAVAILABLE_TOOLTIP: 'Ez a jármű jelenleg nem foglalható.',
+
+  VIEW_CAR: 'Jármű megtekintése',
+  EMPTY_LIST: 'Nincs elérhető jármű.',
+  BOOK: 'Jármű kiválasztása',
+
+  PRICE_DAYS_PART_1: 'Ár ',
+  PRICE_DAYS_PART_2: ' napra',
+  PRICE_PER_DAY: 'Napi ár:',
+
+  GEARBOX: 'Sebességváltó',
+  ENGINE: 'Meghajtás',
+  DEPOSIT: 'Kaució átvételkor',
+
+  TRIPS: 'utazás',
+  CO2: 'CO₂ kibocsátás',
+  FROM_YOU: ' Öntől',
+
+  TITLE_1: 'Autó ',
+  TITLE_2: ' Önnek',
+  TITLE_CAR_AVAILABLE: 'elérhető jármű',
+  TITLE_CARS_AVAILABLE: 'elérhető jármű',
+
+  DETAILS: 'Részletek',
+  FULLY_BOOKED: 'Teljesen foglalt',
+  COMING_SOON: 'Hamarosan elérhető',
+
+  CAR_RANGE_MINI: 'Személyautó',
+  CAR_RANGE_MIDI: 'Dobozos furgon',
+  CAR_RANGE_MAXI: 'teherautó',
+  CAR_RANGE_SCOOTER: 'Robogó',
+  CAR_RANGE_BUS: 'Busz',
+  CAR_RANGE_TRUCK: 'Teherautó',
+  CAR_RANGE_CARAVAN: 'Lakókocsi',
+
+  PENDING: 'Függőben',
+  BOOKED: 'Foglalva',
+  RESERVED: 'Lefoglalva',
+  NOT_AVAILABLE: 'Nem elérhető',
+},
 })
 
 langHelper.setLanguage(strings)

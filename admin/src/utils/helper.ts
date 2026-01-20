@@ -407,14 +407,14 @@ export const getBookingStatus = (status?: bookcarsTypes.BookingStatus) => {
     case bookcarsTypes.BookingStatus.Pending:
       return commonStrings.BOOKING_STATUS_PENDING
 
-    case bookcarsTypes.BookingStatus.Deposit:
-      return commonStrings.BOOKING_STATUS_DEPOSIT
+    // case bookcarsTypes.BookingStatus.Deposit:
+    //   return commonStrings.BOOKING_STATUS_DEPOSIT
 
-    case bookcarsTypes.BookingStatus.Paid:
-      return commonStrings.BOOKING_STATUS_PAID
+    // case bookcarsTypes.BookingStatus.Paid:
+    //   return commonStrings.BOOKING_STATUS_PAID
 
-    case bookcarsTypes.BookingStatus.PaidInFull:
-      return commonStrings.BOOKING_STATUS_PAID_IN_FULL
+    // case bookcarsTypes.BookingStatus.PaidInFull:
+    //   return commonStrings.BOOKING_STATUS_PAID_IN_FULL
 
     case bookcarsTypes.BookingStatus.Reserved:
       return commonStrings.BOOKING_STATUS_RESERVED
@@ -441,14 +441,14 @@ export const getBookingStatusBackgroundColor = (status?: bookcarsTypes.BookingSt
     case bookcarsTypes.BookingStatus.Pending:
       return '#FBDCC2'
 
-    case bookcarsTypes.BookingStatus.Deposit:
-      return '#CDECDA'
+    // case bookcarsTypes.BookingStatus.Deposit:
+    //   return '#CDECDA'
 
-    case bookcarsTypes.BookingStatus.Paid:
-      return '#D1F9D1'
+    // case bookcarsTypes.BookingStatus.Paid:
+    //   return '#D1F9D1'
 
-    case bookcarsTypes.BookingStatus.PaidInFull:
-      return '#77BC23'
+    // case bookcarsTypes.BookingStatus.PaidInFull:
+    //   return '#77BC23'
 
     case bookcarsTypes.BookingStatus.Reserved:
       return '#D9E7F4'
@@ -475,11 +475,11 @@ export const getBookingStatusTextColor = (status?: bookcarsTypes.BookingStatus) 
     case bookcarsTypes.BookingStatus.Pending:
       return '#EF6C00'
 
-    case bookcarsTypes.BookingStatus.Deposit:
-      return '#3CB371'
+    // case bookcarsTypes.BookingStatus.Deposit:
+    //   return '#3CB371'
 
-    case bookcarsTypes.BookingStatus.Paid:
-      return '#77BC23'
+    // case bookcarsTypes.BookingStatus.Paid:
+    //   return '#77BC23'
 
     case bookcarsTypes.BookingStatus.Reserved:
       return '#1E88E5'
@@ -506,18 +506,18 @@ export const getBookingStatuses = (): bookcarsTypes.StatusFilterItem[] => [
     value: bookcarsTypes.BookingStatus.Pending,
     label: commonStrings.BOOKING_STATUS_PENDING,
   },
-  {
-    value: bookcarsTypes.BookingStatus.Deposit,
-    label: commonStrings.BOOKING_STATUS_DEPOSIT,
-  },
-  {
-    value: bookcarsTypes.BookingStatus.Paid,
-    label: commonStrings.BOOKING_STATUS_PAID,
-  },
-  {
-    value: bookcarsTypes.BookingStatus.PaidInFull,
-    label: commonStrings.BOOKING_STATUS_PAID_IN_FULL,
-  },
+  // {
+  //   value: bookcarsTypes.BookingStatus.Deposit,
+  //   label: commonStrings.BOOKING_STATUS_DEPOSIT,
+  // },
+  // {
+  //   value: bookcarsTypes.BookingStatus.Paid,
+  //   label: commonStrings.BOOKING_STATUS_PAID,
+  // },
+  // {
+  //   value: bookcarsTypes.BookingStatus.PaidInFull,
+  //   label: commonStrings.BOOKING_STATUS_PAID_IN_FULL,
+  // },
   {
     value: bookcarsTypes.BookingStatus.Reserved,
     label: commonStrings.BOOKING_STATUS_RESERVED,
@@ -538,10 +538,10 @@ export const getUserTypes = () => [
     value: bookcarsTypes.UserType.Admin,
     label: commonStrings.RECORD_TYPE_ADMIN
   },
-  {
-    value: bookcarsTypes.UserType.Supplier,
-    label: commonStrings.RECORD_TYPE_SUPPLIER,
-  },
+  // {
+  //   value: bookcarsTypes.UserType.Supplier,
+  //   label: commonStrings.RECORD_TYPE_SUPPLIER,
+  // },
   {
     value: bookcarsTypes.UserType.User,
     label: commonStrings.RECORD_TYPE_USER
@@ -559,8 +559,8 @@ export const getUserType = (status?: bookcarsTypes.UserType) => {
     case bookcarsTypes.UserType.Admin:
       return commonStrings.RECORD_TYPE_ADMIN
 
-    case bookcarsTypes.UserType.Supplier:
-      return commonStrings.RECORD_TYPE_SUPPLIER
+    // case bookcarsTypes.UserType.Supplier:
+    //   return commonStrings.RECORD_TYPE_SUPPLIER
 
     case bookcarsTypes.UserType.User:
       return commonStrings.RECORD_TYPE_USER
@@ -765,17 +765,17 @@ export const getCarRange = (range: bookcarsTypes.CarRange) => {
     case bookcarsTypes.CarRange.Maxi:
       return strings.CAR_RANGE_MAXI
 
-    case bookcarsTypes.CarRange.Scooter:
-      return strings.CAR_RANGE_SCOOTER
+    // case bookcarsTypes.CarRange.Scooter:
+    //   return strings.CAR_RANGE_SCOOTER
 
-    case bookcarsTypes.CarRange.Bus:
-      return strings.CAR_RANGE_BUS
+    // case bookcarsTypes.CarRange.Bus:
+    //   return strings.CAR_RANGE_BUS
 
-    case bookcarsTypes.CarRange.Truck:
-      return strings.CAR_RANGE_TRUCK
+    // case bookcarsTypes.CarRange.Truck:
+    //   return strings.CAR_RANGE_TRUCK
 
-    case bookcarsTypes.CarRange.Caravan:
-      return strings.CAR_RANGE_CARAVAN
+    // case bookcarsTypes.CarRange.Caravan:
+    //   return strings.CAR_RANGE_CARAVAN
 
     default:
       return ''

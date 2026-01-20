@@ -74,28 +74,39 @@ const strings = new LocalizedStrings({
     TITLE: 'Top Car Rental Deals',
     SUBTITLE: 'Compare our prices and book your car today!',
     WHY_TITLE: 'Book with us today and drive with confidence!',
-    WHY_SERVICE_TITLE: 'Service',
-    WHY_SERVICE: '24-Hour Roadside Assistance for peace of mind.',
-    WHY_CHARGES_TITLE: 'No Hidden Charges',
-    WHY_CHARGES: 'What you see is what you pay.',
-    WHY_FLEET_TITLE: 'Distinctive fleet',
-    WHY_FLEET: 'Choose from a wide selection of premium and reliable vehicles.',
-    WHY_MILEAGE_TITLE: 'Unlimited Mileage',
-    WHY_MILEAGE: 'Explore cities and beyond without limits.',
-    WHY_MILEAGE_ASTERISK: '*applies when noted',
+    WHY_SERVICE_TITLE: 'Professional Fleet',
+    WHY_SERVICE: 'Vehicles and equipment maintained to professional standards, previously used in industrial production and on-site installations.',
+    WHY_CHARGES_TITLE: 'Transparent Rental',
+    WHY_CHARGES: 'Clear rental terms with no hidden costs. You know exactly what you rent and for how long.',
+    WHY_FLEET_TITLE: 'Vehicles & Tools',
+    WHY_FLEET: 'From passenger cars to box vans, large trucks, and professional tools – everything you need from one place.',
+    WHY_MILEAGE_TITLE: 'Flexible Usage',
+    WHY_MILEAGE: 'hort-term or daily rentals with flexible usage options, tailored to work-related transport needs.',
+    WHY_MILEAGE_ASTERISK: '*terms depend on vehicle category',
     SERVICES_TITLE: 'What Makes Us Different?',
-    SERVICES_FLEET_TITLE: 'Wide Range Of Vehicles',
-    SERVICES_FLEET: "From compact city cars to luxury SUVs, our distinctive fleet caters to every travel need. Whether it's business or leisure, we have the perfect car for your trip.",
-    SERVICES_FLEXIBLE_TITLE: 'Flexible Pick-Up & Drop-Off',
-    SERVICES_FLEXIBLE: "Offering convenient locations and flexible scheduling, we make renting a car hassle-free. Whether you're arriving a city or an International Airport, your vehicle will be ready when you are.",
-    SERVICES_PRICES_TITLE: 'Excellent Prices',
-    SERVICES_PRICES: 'We offer competitive rates on all vehicles, ensuring you get top-quality cars at unbeatable prices. No need to compromise - get great value for your money every time.',
-    SERVICES_BOOKING_ONLINE_TITLE: 'Easy Online Booking',
-    SERVICES_BOOKING_ONLINE: 'Skip the lines and book your car rental in minutes through our user-friendly online platform. Compare options, customize your rental, and secure your vehicle effortlessly.',
-    SERVICE_INSTANT_BOOKING_TITLE: 'Instant Booking',
-    SERVICE_INSTANT_BOOKING: "No waiting around! Once you choose your vehicle and complete your booking, you'll receive an immediate confirmation, ensuring a smooth and hassle-free rental process.",
-    SERVICES_SUPPORT_TITLE: '24/7 Customer Support',
-    SERVICES_SUPPORT: "Whether you're booking a vehicle, need assistance on the road, or have any questions, our dedicated support team is available around the clock.",
+    SERVICES_FLEET_TITLE: 'Vehicle Rental',
+    SERVICES_FLEET:
+  'Passenger cars, small cargo vans, and large box trucks available for work-related transport and logistics.',
+
+    SERVICES_FLEXIBLE_TITLE: 'Tool Rental',
+    SERVICES_FLEXIBLE:
+  'Professional tools available for rent, including drills, hammer drills, angle grinders, ladders, and step platforms.',
+
+    SERVICES_PRICES_TITLE: 'Fair Pricing',
+    SERVICES_PRICES:
+  'Work-oriented pricing designed for short-term and daily use, ideal for projects and installations.',
+
+    SERVICES_BOOKING_ONLINE_TITLE: 'Simple Reservation',
+    SERVICES_BOOKING_ONLINE:
+  'Request your vehicle or tools online with a clear overview of availability and rental terms.',
+
+    SERVICE_INSTANT_BOOKING_TITLE: 'Driver Service Available',
+    SERVICE_INSTANT_BOOKING:
+  'Need a driver? Optional chauffeur service is available for selected vehicles.',
+
+SERVICES_SUPPORT_TITLE: 'Direct Support',
+SERVICES_SUPPORT:
+  'Rental managed directly by the fleet operator – fast communication and practical assistance.',
     CUSTOMER_CARE_TITLE: `${env.WEBSITE_NAME} Customer Care`,
     CONTACT_US: 'Contact Us',
     CUSTOMER_CARE_SUBTITLE: 'Always Here to Help',
@@ -156,6 +167,77 @@ const strings = new LocalizedStrings({
     CUSTOMER_CARE_GUIDANCE: 'Orientación para la selección de vehículos',
     CUSTOMER_CARE_SUPPORT: 'Asesoramiento y asistencia',
   },
+  hu: {
+  PICK_UP_DATE: 'Átvétel dátuma',
+  DROP_OFF_DATE: 'Leadás dátuma',
+  DROP_OFF: 'Vissza ugyanoda',
+  COVER: 'Foglalj autót még ma!',
+  SUPPLIERS_TITLE: 'Kapcsolat a legnagyobb márkákkal',
+  MAP_TITLE: 'Autókölcsönző helyszínek térképe',
+  MAP_PICK_UP_SELECTED: 'Átvételi hely kiválasztva',
+  MAP_DROP_OFF_SELECTED: 'Leadási hely kiválasztva',
+  DESTINATIONS_TITLE: 'Böngéssz úti célok szerint',
+  CAR_SIZE_TITLE: 'Járműkategóriák',
+  CAR_SIZE_TEXT: 'Járműveink három fő méretkategóriába sorolhatók.',
+  MINI: 'MINI',
+  MIDI: 'MIDI',
+  MAXI: 'MAXI',
+  SEARCH_FOR_CAR: 'Autó keresése',
+
+  TITLE: 'Legjobb autóbérlési ajánlatok',
+  SUBTITLE: 'Hasonlítsd össze árainkat és foglalj egyszerűen!',
+  WHY_TITLE: 'Foglalj nálunk, és vezess magabiztosan!',
+  WHY_SERVICE_TITLE: 'Ipari minőség',
+  WHY_SERVICE:
+  'Gépjárműveink és eszközeink ipari környezetben használt, rendszeresen karbantartott flottából származnak.',
+
+  WHY_CHARGES_TITLE: 'Átlátható bérlés',
+  WHY_CHARGES:
+  'Rejtett költségek nélkül, egyértelmű feltételekkel. Pontosan tudod, mit és mennyi időre bérelsz.',
+
+  WHY_FLEET_TITLE: 'Járművek és eszközök',
+  WHY_FLEET:
+  'Személyautók, kis dobozos és nagy teherautók, valamint professzionális szerszámok egy helyen.',
+
+  WHY_MILEAGE_TITLE: 'Rugalmas használat',
+  WHY_MILEAGE:
+  'Óradíjas vagy napidíjas bérlés, a munkavégzéshez igazítva.',
+  WHY_MILEAGE_ASTERISK: '*kategóriától függően',
+  SERVICES_TITLE: 'Szolgáltatásaink',
+
+  SERVICES_FLEET_TITLE: 'Járműbérlés',
+  SERVICES_FLEET:
+  'Személyautók, kis dobozos és nagy teherautók bérlése munkavégzéshez és szállításhoz.',
+
+  SERVICES_FLEXIBLE_TITLE: 'Szerszámbérlés',
+  SERVICES_FLEXIBLE:
+  'Bérelhető professzionális szerszámok: behajtók, fúrók, ütvefúrók, flexek, fa- és alumínium létrák, fellépők.',
+
+  SERVICES_PRICES_TITLE: 'Korrekt árképzés',
+  SERVICES_PRICES:
+  'Munkavégzésre optimalizált díjak, rövid és napi bérlésre kialakítva.',
+
+  SERVICES_BOOKING_ONLINE_TITLE: 'Egyszerű foglalás',
+  SERVICES_BOOKING_ONLINE:
+  'Járművek és eszközök igénylése online, egyértelmű elérhetőséggel és feltételekkel.',
+
+  SERVICE_INSTANT_BOOKING_TITLE: 'Sofőrszolgálat',
+  SERVICE_INSTANT_BOOKING:
+  'Igény esetén sofőrt is biztosítunk a kiválasztott járművekhez.',
+
+  SERVICES_SUPPORT_TITLE: 'Közvetlen ügyintézés',
+  SERVICES_SUPPORT:
+  'A bérlést közvetlenül az üzemeltető kezeli – gyors válaszok, gyakorlati segítség.',
+  CUSTOMER_CARE_TITLE: `${env.WEBSITE_NAME} Ügyfélszolgálat`,
+  CONTACT_US: 'Kapcsolatfelvétel',
+  CUSTOMER_CARE_SUBTITLE: 'Mindig segítünk',
+  CUSTOMER_CARE_TEXT:
+    `A ${env.WEBSITE_NAME} csapata gyors és megbízható segítséget nyújt, hogy az autóbérlés zökkenőmentes legyen az elejétől a végéig.`,
+  CUSTOMER_CARE_ASSISTANCE: '0–24 segítségnyújtás',
+  CUSTOMER_CARE_MODIFICATION: 'Kérdések és módosítások',
+  CUSTOMER_CARE_GUIDANCE: 'Segítség járműválasztásban',
+  CUSTOMER_CARE_SUPPORT: 'Tanácsadás és támogatás',
+},
 })
 
 langHelper.setLanguage(strings)

@@ -25,7 +25,7 @@ interface CheckoutStatusProps {
 const CheckoutStatus = (
   {
     bookingId,
-    payLater,
+    // payLater,
     language,
     status,
     className,
@@ -38,6 +38,7 @@ const CheckoutStatus = (
   useEffect(() => {
     const init = async () => {
       const _booking = await BookingService.getBooking(bookingId)
+      console.log('booking:', _booking);
       setBooking(_booking)
       setPrice(await PaymentService.convertPrice(_booking.price!))
       setLoading(false)
@@ -57,13 +58,14 @@ const CheckoutStatus = (
   const _format = _fr ? 'eee d LLL yyyy kk:mm' : 'eee, d LLL yyyy, p'
   const days = (booking && bookcarsHelper.days(new Date(booking.from), new Date(booking.to))) || 0
   const success = status === 'success'
+  console.log('success: ', success);
 
   return booking && (
     <div className={`checkout-status ${className || ''}`}>
       <Toast
         title={strings.CONGRATULATIONS}
         text={success
-          ? payLater ? strings.SUCCESS_PAY_LATER : strings.SUCCESS
+          ?  strings.PENDING
           : strings.ERROR}
         status={status}
       />
@@ -90,14 +92,14 @@ const CheckoutStatus = (
                   )} - ${bookcarsHelper.capitalize(format(new Date(booking.to), _format, { locale: _locale }))})`}
                 </div>
               </div>
-              <div className="status-detail">
+              {/* <div className="status-detail">
                 <span className="status-detail-title">{commonStrings.PICK_UP_LOCATION}</span>
                 <div className="status-detail-value">{(booking.pickupLocation as bookcarsTypes.Location).name}</div>
               </div>
               <div className="status-detail">
                 <span className="status-detail-title">{commonStrings.DROP_OFF_LOCATION}</span>
                 <div className="status-detail-value">{(booking.dropOffLocation as bookcarsTypes.Location).name}</div>
-              </div>
+              </div> */}
               <div className="status-detail">
                 <span className="status-detail-title">{checkoutStrings.COST}</span>
                 <div className="status-detail-value status-price">{bookcarsHelper.formatPrice(price, commonStrings.CURRENCY, language)}</div>

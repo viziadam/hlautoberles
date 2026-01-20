@@ -33,6 +33,8 @@ const baseSchema = z.object({
     payLater: z.boolean().default(false).optional(),
     payDeposit: z.boolean().default(false).optional(),
     payInFull: z.boolean().default(false).optional(),
+    toolsIncluded: z.boolean(),
+    chauffeurRequested: z.boolean(),
 
     // Booking options
     cancellation: z.boolean().default(false).optional(),
@@ -40,7 +42,6 @@ const baseSchema = z.object({
     theftProtection: z.boolean().default(false).optional(),
     collisionDamageWaiver: z.boolean().default(false).optional(),
     fullInsurance: z.boolean().default(false).optional(),
-    additionalDriver: z.boolean().default(false).optional(),
 
     // Additional driver details
     additionalDriverFullName: z.string().optional(),

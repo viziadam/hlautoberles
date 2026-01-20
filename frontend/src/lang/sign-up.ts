@@ -17,6 +17,11 @@ const strings = new LocalizedStrings({
     SIGN_UP: 'Regístrate',
     SIGN_UP_ERROR: 'Se produjo un error durante el registro.',
   },
+  hu: {
+  SIGN_UP_HEADING: 'Regisztráció',
+  SIGN_UP: 'Regisztráció',
+  SIGN_UP_ERROR: 'Hiba történt a regisztráció során.',
+},
 })
 
 langHelper.setLanguage(strings)

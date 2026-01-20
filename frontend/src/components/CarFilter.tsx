@@ -22,8 +22,8 @@ const OFFSET_HEIGHT = 100
 interface CarFilterProps {
   from: Date
   to: Date
-  pickupLocation: bookcarsTypes.Location
-  dropOffLocation: bookcarsTypes.Location
+  // pickupLocation: bookcarsTypes.Location
+  // dropOffLocation: bookcarsTypes.Location
   className?: string
   collapse?: boolean
   onSubmit: bookcarsTypes.CarFilterSubmitEvent
@@ -32,8 +32,8 @@ interface CarFilterProps {
 const CarFilter = ({
   from: filterFrom,
   to: filterTo,
-  pickupLocation: filterPickupLocation,
-  dropOffLocation: filterDropOffLocation,
+  // pickupLocation: filterPickupLocation,
+  // dropOffLocation: filterDropOffLocation,
   className,
   collapse,
   onSubmit
@@ -77,18 +77,18 @@ const CarFilter = ({
     defaultValues: {
       from: filterFrom,
       to: filterTo,
-      pickupLocation: filterPickupLocation as LocationField,
-      dropOffLocation: filterDropOffLocation as LocationField,
-      sameLocation: filterPickupLocation._id === filterDropOffLocation._id
+      // pickupLocation: filterPickupLocation as LocationField,
+      // dropOffLocation: filterDropOffLocation as LocationField,
+      // sameLocation: filterPickupLocation._id === filterDropOffLocation._id
     },
     mode: 'onSubmit',
   })
 
-  const pickupLocation = useWatch({ control, name: 'pickupLocation' })
-  const dropOffLocation = useWatch({ control, name: 'dropOffLocation' })
+  // const pickupLocation = useWatch({ control, name: 'pickupLocation' })
+  // const dropOffLocation = useWatch({ control, name: 'dropOffLocation' })
   const from = useWatch({ control, name: 'from' })
   const to = useWatch({ control, name: 'to' })
-  const sameLocation = useWatch({ control, name: 'sameLocation' })
+  // const sameLocation = useWatch({ control, name: 'sameLocation' })
 
   useEffect(() => {
     if (settings && filterFrom) {
@@ -98,13 +98,13 @@ const CarFilter = ({
     }
   }, [filterFrom, settings])
 
-  useEffect(() => {
-    if (sameLocation) {
-      setOffsetHeight(OFFSET_HEIGHT)
-    } else {
-      setOffsetHeight((prev) => prev + 56)
-    }
-  }, [sameLocation])
+  // useEffect(() => {
+  //   if (sameLocation) {
+  //     setOffsetHeight(OFFSET_HEIGHT)
+  //   } else {
+  //     setOffsetHeight((prev) => prev + 56)
+  //   }
+  // }, [sameLocation])
 
   const validateHour = (hour: number) => {
     if (!settings) {
@@ -194,35 +194,35 @@ const CarFilter = ({
     return null
   }
 
-  const handleSameLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue('sameLocation', e.target.checked)
+  // const handleSameLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue('sameLocation', e.target.checked)
 
-    if (e.target.checked) {
-      setValue('dropOffLocation', pickupLocation)
-    }
-  }
+  //   if (e.target.checked) {
+  //     setValue('dropOffLocation', pickupLocation)
+  //   }
+  // }
 
-  const handlePickupLocationChange = async (values: bookcarsTypes.Option[]) => {
-    const pickupLocationId = (values.length > 0 && values[0]._id) || ''
-    if (pickupLocationId) {
-      const _pickupLocation = await LocationService.getLocation(pickupLocationId) as LocationField
+  // const handlePickupLocationChange = async (values: bookcarsTypes.Option[]) => {
+  //   const pickupLocationId = (values.length > 0 && values[0]._id) || ''
+  //   if (pickupLocationId) {
+  //     const _pickupLocation = await LocationService.getLocation(pickupLocationId) as LocationField
 
-      setValue('pickupLocation', _pickupLocation)
+  //     setValue('pickupLocation', _pickupLocation)
 
-      if (sameLocation) {
-        setValue('dropOffLocation', _pickupLocation)
-      }
-    }
-  }
+  //     if (sameLocation) {
+  //       setValue('dropOffLocation', _pickupLocation)
+  //     }
+  //   }
+  // }
 
-  const handleDropOffLocationChange = async (values: bookcarsTypes.Option[]) => {
-    const dropOffLocationId = (values.length > 0 && values[0]._id) || ''
-    if (dropOffLocationId) {
-      const _dropOffLocation = await LocationService.getLocation(dropOffLocationId) as LocationField
+  // const handleDropOffLocationChange = async (values: bookcarsTypes.Option[]) => {
+  //   const dropOffLocationId = (values.length > 0 && values[0]._id) || ''
+  //   if (dropOffLocationId) {
+  //     const _dropOffLocation = await LocationService.getLocation(dropOffLocationId) as LocationField
 
-      setValue('dropOffLocation', _dropOffLocation)
-    }
-  }
+  //     setValue('dropOffLocation', _dropOffLocation)
+  //   }
+  // }
 
   const onSubmitForm = (data: FormFields) => {
     const valid = validateTimes()
@@ -231,9 +231,7 @@ const CarFilter = ({
     }
 
     if (
-      !data.pickupLocation
-      || !data.dropOffLocation
-      || !data.from
+       !data.from
       || !data.to
     ) {
       return
@@ -241,8 +239,8 @@ const CarFilter = ({
 
     if (onSubmit) {
       const filter: bookcarsTypes.CarFilter = {
-        pickupLocation: data.pickupLocation as bookcarsTypes.Location,
-        dropOffLocation: data.dropOffLocation as bookcarsTypes.Location,
+        // pickupLocation: data.pickupLocation as bookcarsTypes.Location,
+        // dropOffLocation: data.dropOffLocation as bookcarsTypes.Location,
         from: data.from!,
         to: data.to!,
       }
@@ -258,7 +256,7 @@ const CarFilter = ({
       className={`${className ? `${className} ` : ''}car-filter`}
     >
       <form onSubmit={handleSubmit(onSubmitForm)}>
-        <FormControl fullWidth className="pickup-location">
+        {/* <FormControl fullWidth className="pickup-location">
           <LocationSelectList
             {...register('pickupLocation')}
             label={commonStrings.PICK_UP_LOCATION}
@@ -285,7 +283,7 @@ const CarFilter = ({
               onChange={handleDropOffLocationChange}
             />
           </FormControl>
-        )}
+        )} */}
         <FormControl fullWidth className="from">
           <Controller
             name="from"
@@ -336,7 +334,7 @@ const CarFilter = ({
             {commonStrings.SEARCH}
           </Button>
         </FormControl>
-        <FormControl fullWidth className="chk-same-location">
+        {/* <FormControl fullWidth className="chk-same-location">
           <FormControlLabel
             control={<Checkbox
               {...register('sameLocation')}
@@ -345,7 +343,7 @@ const CarFilter = ({
             />}
             label={strings.DROP_OFF}
           />
-        </FormControl>
+        </FormControl> */}
       </form>
     </Accordion>
   )

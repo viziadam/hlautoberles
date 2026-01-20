@@ -11,6 +11,9 @@ const strings = new LocalizedStrings({
   es: {
     UPDATE_USER_HEADING: 'Actualización del usuario',
   },
+  hu: {
+    UPDATE_USER_HEADING: 'Felhasználó szerkesztése',
+  },
 })
 
 langHelper.setLanguage(strings)

@@ -71,12 +71,6 @@ const StatusList = ({
             <MenuItem value={bookcarsTypes.BookingStatus.Pending} className="bs-s bs-s-pending">
               {commonStrings.BOOKING_STATUS_PENDING}
             </MenuItem>
-            <MenuItem value={bookcarsTypes.BookingStatus.Deposit} className="bs-s bs-s-deposit">
-              {commonStrings.BOOKING_STATUS_DEPOSIT}
-            </MenuItem>
-            <MenuItem value={bookcarsTypes.BookingStatus.Paid} className="bs-s bs-s-paid">
-              {commonStrings.BOOKING_STATUS_PAID}
-            </MenuItem>
             <MenuItem value={bookcarsTypes.BookingStatus.Reserved} className="bs-s bs-s-reserved">
               {commonStrings.BOOKING_STATUS_RESERVED}
             </MenuItem>

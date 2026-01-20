@@ -20,6 +20,12 @@ const strings = new LocalizedStrings({
     BLUETOOTH: 'Bluetooth',
     TOUCHSCREEN: 'Pantalla táctil',
   },
+  hu: {
+    ANDROID_AUTO: 'Android Auto',
+    APPLE_CAR_PLAY: 'Apple Car Play',
+    BLUETOOTH: 'Bluetooth',
+    TOUCHSCREEN: 'Touchscreen',
+  },
 })
 
 langHelper.setLanguage(strings)

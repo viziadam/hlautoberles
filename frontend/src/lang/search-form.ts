@@ -29,6 +29,15 @@ const strings = new LocalizedStrings({
     INVALID_PICK_UP_TIME: 'Hora de recogida no válida',
     INVALID_DROP_OFF_TIME: 'Hora de devolución no válida',
   },
+  hu: {
+  PICK_UP_DATE: 'Átvétel dátuma',
+  DROP_OFF_DATE: 'Leadás dátuma',
+  DROP_OFF: 'Vissza ugyanoda',
+  MIN_PICK_UP_HOURS_ERROR: 'Az átvételi időpontnak legalább néhány órával későbbinek kell lennie.',
+  MIN_RENTAL_HOURS_ERROR: 'A bérlés időtartama túl rövid.',
+  INVALID_PICK_UP_TIME: 'Érvénytelen átvételi időpont',
+  INVALID_DROP_OFF_TIME: 'Érvénytelen leadási időpont',
+},
 })
 
 langHelper.setLanguage(strings)

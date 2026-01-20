@@ -29,6 +29,15 @@ const strings = new LocalizedStrings({
     PASSWORD_UPDATE_ERROR: 'Ocurrió un error al actualizar la contraseña.',
     PASSWORD_UPDATE: 'Contraseña modificada con éxito.',
   },
+  hu: {
+  CHANGE_PASSWORD_HEADING: 'Jelszó módosítása',
+  CURRENT_PASSWORD: 'Jelenlegi jelszó',
+  CURRENT_PASSWORD_ERROR: 'Hibás jelszó',
+  NEW_PASSWORD: 'Új jelszó',
+  NEW_PASSWORD_ERROR: 'Kérjük, adj meg új jelszót',
+  PASSWORD_UPDATE_ERROR: 'Hiba történt a jelszó frissítése során.',
+  PASSWORD_UPDATE: 'A jelszó sikeresen megváltozott.',
+},
 })
 
 langHelper.setLanguage(strings)

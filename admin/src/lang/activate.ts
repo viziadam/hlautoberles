@@ -17,6 +17,11 @@ const strings = new LocalizedStrings({
     TOKEN_EXPIRED: 'Su enlace de activación de cuenta ha expirado.',
     ACTIVATE: 'Activar',
   },
+  hu: {
+  ACTIVATE_HEADING: 'Fiók aktoválása',
+  TOKEN_EXPIRED: 'Munkaidő lejárt.',
+  ACTIVATE: 'Aktiválni',
+},
 })
 
 langHelper.setLanguage(strings)

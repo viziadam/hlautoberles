@@ -12,12 +12,11 @@ import i18n from '../lang/i18n'
 import * as env from '../config/env.config'
 import * as helper from '../utils/helper'
 import * as logger from '../utils/logger'
-import DateBasedPrice from '../models/DateBasedPrice'
 import User from '../models/User'
 import Notification from '../models/Notification'
 import NotificationCounter from '../models/NotificationCounter'
 import * as mailHelper from '../utils/mailHelper'
-import Location from '../models/Location'
+
 
 /**
  * Create a Car.
@@ -37,17 +36,18 @@ export const create = async (req: Request, res: Response) => {
     }
 
     // date based price
-    const { dateBasedPrices, ...carFields } = body
-    const dateBasedPriceIds: string[] = []
-    if (body.isDateBasedPrice) {
-      for (const dateBasePrice of dateBasedPrices) {
-        const dbp = new DateBasedPrice(dateBasePrice)
-        await dbp.save()
-        dateBasedPriceIds.push(dbp.id)
-      }
-    }
+    const {  ...carFields } = body
+    // const dateBasedPriceIds: string[] = []
+    // if (body.isDateBasedPrice) {
+    //   for (const dateBasePrice of dateBasedPrices) {
+    //     const dbp = new DateBasedPrice(dateBasePrice)
+    //     await dbp.save()
+    //     dateBasedPriceIds.push(dbp.id)
+    //   }
+    // }
+    console.log('body: ', body)
 
-    const car = new Car({ ...carFields, dateBasedPrices: dateBasedPriceIds })
+    const car = new Car({ ...carFields })
     await car.save()
 
     const image = path.join(env.CDN_TEMP_CARS, body.image)
@@ -58,6 +58,33 @@ export const create = async (req: Request, res: Response) => {
 
       await asyncFs.rename(image, newPath)
       car.image = filename
+      
+      const extraFinalNames: string[] = []
+
+      const extraImages = Array.isArray(body.images) ? body.images : []
+      if (extraImages.length > 4 || extraImages.length < 1) {
+          await Car.deleteOne({ _id: car._id })
+          throw new Error('Too many or no extra images (max 4)')
+        }
+
+      for (const tempName of extraImages) {
+          const tempPath = path.join(env.CDN_TEMP_CARS, tempName)
+
+          if (await helper.pathExists(tempPath)) {
+            const finalName = `${car._id}_${Date.now()}${path.extname(tempName)}`
+            const finalPath = path.join(env.CDN_CARS, finalName)
+
+            await asyncFs.rename(tempPath, finalPath)
+            extraFinalNames.push(finalName)
+          } else {
+              // ha egy extra kép hiányzik: eldöntheted, hogy hibázzon-e vagy csak átugorja
+              // Én inkább hibáztatnám, hogy konzisztens legyen:
+              await Car.deleteOne({ _id: car._id })
+              throw new Error(`Extra image ${tempName} not found`)
+            }
+      }
+
+      car.images = extraFinalNames
       await car.save()
     } else {
       await Car.deleteOne({ _id: car._id })
@@ -65,55 +92,55 @@ export const create = async (req: Request, res: Response) => {
     }
 
     // notify admin if the car was created by a supplier
-    if (body.loggedUser) {
-      const loggedUser = await User.findById(body.loggedUser)
+//     if (body.loggedUser) {
+//       const loggedUser = await User.findById(body.loggedUser)
 
-      if (loggedUser && loggedUser.type === bookcarsTypes.UserType.Supplier) {
-        const supplier = await User.findById(body.supplier)
+//       if (loggedUser && loggedUser.type === bookcarsTypes.UserType.Supplier) {
+//         const supplier = await User.findById(body.supplier)
 
-        if (supplier?.notifyAdminOnNewCar) {
-          const admin = !!env.ADMIN_EMAIL && (await User.findOne({ email: env.ADMIN_EMAIL, type: bookcarsTypes.UserType.Admin }))
-          if (admin) {
-            i18n.locale = admin.language
-            const message = i18n.t('NEW_CAR_NOTIFICATION_PART1') + supplier.fullName + i18n.t('NEW_CAR_NOTIFICATION_PART2')
+//         if (supplier?.notifyAdminOnNewCar) {
+//           const admin = !!env.ADMIN_EMAIL && (await User.findOne({ email: env.ADMIN_EMAIL, type: bookcarsTypes.UserType.Admin }))
+//           if (admin) {
+//             i18n.locale = admin.language
+//             const message = i18n.t('NEW_CAR_NOTIFICATION_PART1') + supplier.fullName + i18n.t('NEW_CAR_NOTIFICATION_PART2')
 
-            // notification
-            const notification = new Notification({
-              user: admin._id,
-              message,
-              car: car.id,
-            })
+//             // notification
+//             const notification = new Notification({
+//               user: admin._id,
+//               message,
+//               car: car.id,
+//             })
 
-            await notification.save()
-            let counter = await NotificationCounter.findOne({ user: admin._id })
-            if (counter && typeof counter.count !== 'undefined') {
-              counter.count += 1
-              await counter.save()
-            } else {
-              counter = new NotificationCounter({ user: admin._id, count: 1 })
-              await counter.save()
-            }
+//             await notification.save()
+//             let counter = await NotificationCounter.findOne({ user: admin._id })
+//             if (counter && typeof counter.count !== 'undefined') {
+//               counter.count += 1
+//               await counter.save()
+//             } else {
+//               counter = new NotificationCounter({ user: admin._id, count: 1 })
+//               await counter.save()
+//             }
 
-            // mail
-            if (admin.enableEmailNotifications) {
-              const mailOptions: nodemailer.SendMailOptions = {
-                from: env.SMTP_FROM,
-                to: admin.email,
-                subject: message,
-                html: `<p>
-${i18n.t('HELLO')}${admin.fullName},<br><br>
-${message}<br><br>
-${helper.joinURL(env.ADMIN_HOST, `update-car?cr=${car.id}`)}<br><br>
-${i18n.t('REGARDS')}<br>
-</p>`,
-              }
+//             // mail
+//             if (admin.enableEmailNotifications) {
+//               const mailOptions: nodemailer.SendMailOptions = {
+//                 from: env.SMTP_FROM,
+//                 to: admin.email,
+//                 subject: message,
+//                 html: `<p>
+// ${i18n.t('HELLO')}${admin.fullName},<br><br>
+// ${message}<br><br>
+// ${helper.joinURL(env.ADMIN_HOST, `update-car?cr=${car.id}`)}<br><br>
+// ${i18n.t('REGARDS')}<br>
+// </p>`,
+//               }
 
-              await mailHelper.sendMail(mailOptions)
-            }
-          }
-        }
-      }
-    }
+//               await mailHelper.sendMail(mailOptions)
+//             }
+//           }
+//         }
+//       }
+//     }
 
     res.json(car)
   } catch (err) {
@@ -122,15 +149,15 @@ ${i18n.t('REGARDS')}<br>
   }
 }
 
-const createDateBasedPrice = async (dateBasedPrice: bookcarsTypes.DateBasedPrice): Promise<string> => {
-  const dbp = new DateBasedPrice({
-    startDate: dateBasedPrice.startDate,
-    endDate: dateBasedPrice.endDate,
-    dailyPrice: dateBasedPrice.dailyPrice,
-  })
-  await dbp.save()
-  return dbp.id
-}
+// const createDateBasedPrice = async (dateBasedPrice: bookcarsTypes.DateBasedPrice): Promise<string> => {
+//   const dbp = new DateBasedPrice({
+//     startDate: dateBasedPrice.startDate,
+//     endDate: dateBasedPrice.endDate,
+//     dailyPrice: dateBasedPrice.dailyPrice,
+//   })
+//   await dbp.save()
+//   return dbp.id
+// }
 
 /**
  * Update a Car.
@@ -141,6 +168,9 @@ const createDateBasedPrice = async (dateBasedPrice: bookcarsTypes.DateBasedPrice
  * @param {Response} res
  * @returns {unknown}
  */
+
+
+
 export const update = async (req: Request, res: Response) => {
   const { body }: { body: bookcarsTypes.UpdateCarPayload } = req
   const { _id } = body
@@ -153,25 +183,26 @@ export const update = async (req: Request, res: Response) => {
 
     if (car) {
       const {
-        supplier,
+        // supplier,
         name,
         licensePlate,
         minimumAge,
         available,
-        fullyBooked,
-        comingSoon,
+        // fullyBooked,
+        // comingSoon,
         type,
-        locations,
+        // locations,
         dailyPrice,
         discountedDailyPrice,
-        hourlyPrice,
-        discountedHourlyPrice,
-        biWeeklyPrice,
-        discountedBiWeeklyPrice,
+        // hourlyPrice,
+        // discountedHourlyPrice,
+        // biWeeklyPrice,
+        // discountedBiWeeklyPrice,
         weeklyPrice,
-        discountedWeeklyPrice,
+        // discountedWeeklyPrice,
         monthlyPrice,
-        discountedMonthlyPrice,
+        // discountedMonthlyPrice,
+        toolsRentable,
         deposit,
         seats,
         doors,
@@ -184,35 +215,36 @@ export const update = async (req: Request, res: Response) => {
         theftProtection,
         collisionDamageWaiver,
         fullInsurance,
-        additionalDriver,
+        // additionalDriver,
         range,
         multimedia,
         rating,
         co2,
-        isDateBasedPrice,
-        dateBasedPrices,
-        blockOnPay,
+        images,
+        // isDateBasedPrice,
+        // dateBasedPrices,
+        // blockOnPay,
       } = body
 
-      car.supplier = new mongoose.Types.ObjectId(supplier)
+      // car.supplier = new mongoose.Types.ObjectId(supplier)
       car.minimumAge = minimumAge
-      car.locations = locations.map((l) => new mongoose.Types.ObjectId(l))
+      // car.locations = locations.map((l) => new mongoose.Types.ObjectId(l))
       car.name = name
       car.licensePlate = licensePlate
       car.available = available
-      car.fullyBooked = fullyBooked
-      car.comingSoon = comingSoon
+      // car.fullyBooked = fullyBooked
+      // car.comingSoon = comingSoon
       car.type = type as bookcarsTypes.CarType
       car.dailyPrice = dailyPrice
       car.discountedDailyPrice = discountedDailyPrice
-      car.hourlyPrice = hourlyPrice
-      car.discountedHourlyPrice = discountedHourlyPrice
-      car.biWeeklyPrice = biWeeklyPrice
-      car.discountedBiWeeklyPrice = discountedBiWeeklyPrice
+      // car.hourlyPrice = hourlyPrice
+      // car.discountedHourlyPrice = discountedHourlyPrice
+      // car.biWeeklyPrice = biWeeklyPrice
+      // car.discountedBiWeeklyPrice = discountedBiWeeklyPrice
       car.weeklyPrice = weeklyPrice
-      car.discountedWeeklyPrice = discountedWeeklyPrice
+      // car.discountedWeeklyPrice = discountedWeeklyPrice
       car.monthlyPrice = monthlyPrice
-      car.discountedMonthlyPrice = discountedMonthlyPrice
+      // car.discountedMonthlyPrice = discountedMonthlyPrice
       car.deposit = deposit
       car.seats = seats
       car.doors = doors
@@ -225,47 +257,93 @@ export const update = async (req: Request, res: Response) => {
       car.theftProtection = theftProtection
       car.collisionDamageWaiver = collisionDamageWaiver
       car.fullInsurance = fullInsurance
-      car.additionalDriver = additionalDriver
+      // car.additionalDriver = additionalDriver
       car.range = range
       car.multimedia = multimedia
       car.rating = rating
       car.co2 = co2
-      car.isDateBasedPrice = isDateBasedPrice
-      car.blockOnPay = blockOnPay
+      car.toolsRentable = toolsRentable
+      // car.isDateBasedPrice = isDateBasedPrice
+      // car.blockOnPay = blockOnPay
 
       //
       // Date based prices
       //
 
       // Remove all date based prices not in body.dateBasedPrices
-      const dateBasedPriceIds = dateBasedPrices.filter((dbp) => !!dbp._id).map((dbp) => dbp._id)
-      const dateBasedPriceIdsToDelete = car.dateBasedPrices.filter((id) => !dateBasedPriceIds.includes(id.toString()))
-      if (dateBasedPriceIdsToDelete.length > 0) {
-        for (const dbpId of dateBasedPriceIdsToDelete) {
-          car.dateBasedPrices.splice(car.dateBasedPrices.indexOf(dbpId), 1)
+      // const dateBasedPriceIds = dateBasedPrices.filter((dbp) => !!dbp._id).map((dbp) => dbp._id)
+      // const dateBasedPriceIdsToDelete = car.dateBasedPrices.filter((id) => !dateBasedPriceIds.includes(id.toString()))
+      // if (dateBasedPriceIdsToDelete.length > 0) {
+      //   for (const dbpId of dateBasedPriceIdsToDelete) {
+      //     car.dateBasedPrices.splice(car.dateBasedPrices.indexOf(dbpId), 1)
+      //   }
+
+      //   await DateBasedPrice.deleteMany({ _id: { $in: dateBasedPriceIdsToDelete } })
+      // }
+
+      // // Add all new date based prices
+      // for (const dateBasedPrice of dateBasedPrices.filter((dbp) => dbp._id === undefined)) {
+      //   const dbpId = await createDateBasedPrice(dateBasedPrice)
+      //   car.dateBasedPrices.push(new mongoose.Types.ObjectId(dbpId))
+      // }
+
+      // // Update existing date based prices
+      // for (const dateBasedPrice of dateBasedPrices.filter((dbp) => !!dbp._id)) {
+      //   const dbp = await DateBasedPrice.findById(dateBasedPrice._id)
+      //   if (dbp) {
+      //     dbp.startDate = new Date(dateBasedPrice.startDate!)
+      //     dbp.endDate = new Date(dateBasedPrice.endDate!)
+      //     dbp.dailyPrice = Number(dateBasedPrice.dailyPrice)
+
+      //     await dbp.save()
+      //   }
+      // }
+
+      if (Array.isArray(images)) {
+        // 0..4 megengedett (ha nálad kötelező 1..4, akkor itt állítsd vissza)
+        if (images.length > 4) {
+          throw new Error('Too many extra images (max 4)')
         }
 
-        await DateBasedPrice.deleteMany({ _id: { $in: dateBasedPriceIdsToDelete } })
-      }
+        const currentFinal = Array.isArray(car.images) ? car.images : []
+        const nextFinal: string[] = []
 
-      // Add all new date based prices
-      for (const dateBasedPrice of dateBasedPrices.filter((dbp) => dbp._id === undefined)) {
-        const dbpId = await createDateBasedPrice(dateBasedPrice)
-        car.dateBasedPrices.push(new mongoose.Types.ObjectId(dbpId))
-      }
+        // Végigmegyünk a kívánt listán és "final" nevekre normalizáljuk
+        for (const name of images) {
+          const finalPath = path.join(env.CDN_CARS, name)
+          const tempPath = path.join(env.CDN_TEMP_CARS, name)
 
-      // Update existing date based prices
-      for (const dateBasedPrice of dateBasedPrices.filter((dbp) => !!dbp._id)) {
-        const dbp = await DateBasedPrice.findById(dateBasedPrice._id)
-        if (dbp) {
-          dbp.startDate = new Date(dateBasedPrice.startDate!)
-          dbp.endDate = new Date(dateBasedPrice.endDate!)
-          dbp.dailyPrice = Number(dateBasedPrice.dailyPrice)
+          // 1) Ha ez egy már finalban lévő fájl ÉS a car eddig is ismerte -> marad
+          if (currentFinal.includes(name) && (await helper.pathExists(finalPath))) {
+            nextFinal.push(name)
+            continue
+          }
 
-          await dbp.save()
+          // 2) Ha temp-ben van -> mozgatjuk finalba a meglévő filename-logikáddal
+          if (await helper.pathExists(tempPath)) {
+            const finalName = `${car._id}_${Date.now()}${path.extname(name)}`
+            const finalNewPath = path.join(env.CDN_CARS, finalName)
+
+            await asyncFs.rename(tempPath, finalNewPath)
+            nextFinal.push(finalName)
+            continue
+          }
+
+          // 3) Ha se final se temp -> hibázzunk (konzisztencia)
+          throw new Error(`Extra image ${name} not found`)
         }
-      }
 
+        // Töröljük a régi final képeket, amik már nem szerepelnek az új listában
+        const toDelete = currentFinal.filter((x) => !nextFinal.includes(x))
+        for (const img of toDelete) {
+          const p = path.join(env.CDN_CARS, img)
+          if (await helper.pathExists(p)) {
+            await asyncFs.unlink(p)
+          }
+        }
+
+        car.images = nextFinal
+      }
       await car.save()
 
       res.json(car)
@@ -378,14 +456,20 @@ export const deleteCar = async (req: Request, res: Response) => {
     if (car) {
       await Car.deleteOne({ _id: id })
 
-      if (car.dateBasedPrices?.length > 0) {
-        await DateBasedPrice.deleteMany({ _id: { $in: car.dateBasedPrices } })
-      }
+      // if (car.dateBasedPrices?.length > 0) {
+      //   await DateBasedPrice.deleteMany({ _id: { $in: car.dateBasedPrices } })
+      // }
 
       if (car.image) {
         const image = path.join(env.CDN_CARS, car.image)
         if (await helper.pathExists(image)) {
           await asyncFs.unlink(image)
+        }
+      }
+      if (Array.isArray(car.images)) {
+        for (const img of car.images) {
+        const p = path.join(env.CDN_CARS, img)
+        if (await helper.pathExists(p)) await asyncFs.unlink(p)
         }
       }
       await Booking.deleteMany({ car: car._id })
@@ -553,38 +637,38 @@ export const getCar = async (req: Request, res: Response) => {
 
   try {
     const car = await Car.findById(id)
-      .populate<{ supplier: env.UserInfo }>('supplier')
-      .populate<{ dateBasedPrices: env.DateBasedPrice[] }>('dateBasedPrices')
-      .populate<{ locations: env.LocationInfo[] }>({
-        path: 'locations',
-        populate: {
-          path: 'values',
-          model: 'LocationValue',
-        },
-      })
-      .lean()
+      // .populate<{ supplier: env.UserInfo }>('supplier')
+      // .populate<{ dateBasedPrices: env.DateBasedPrice[] }>('dateBasedPrices')
+      // .populate<{ locations: env.LocationInfo[] }>({
+      //   path: 'locations',
+      //   populate: {
+      //     path: 'values',
+      //     model: 'LocationValue',
+      //   },
+      // })
+      // .lean()
 
     if (car) {
-      const {
-        _id,
-        fullName,
-        avatar,
-        payLater,
-        licenseRequired,
-        priceChangeRate,
-      } = car.supplier
-      car.supplier = {
-        _id,
-        fullName,
-        avatar,
-        payLater,
-        licenseRequired,
-        priceChangeRate,
-      }
+    //   const {
+    //     _id,
+    //     fullName,
+    //     avatar,
+    //     payLater,
+    //     licenseRequired,
+    //     priceChangeRate,
+    //   } = car.supplier
+    //   car.supplier = {
+    //     _id,
+    //     fullName,
+    //     avatar,
+    //     payLater,
+    //     licenseRequired,
+    //     priceChangeRate,
+    //   }
 
-      for (const location of car.locations) {
-        location.name = location.values.filter((value) => value.language === language)[0].value
-      }
+    //   for (const location of car.locations) {
+    //     location.name = location.values.filter((value) => value.language === language)[0].value
+    //   }
 
       res.json(car)
       return
@@ -611,7 +695,7 @@ export const getCars = async (req: Request, res: Response) => {
     const { body }: { body: bookcarsTypes.GetCarsPayload } = req
     const page = Number.parseInt(req.params.page, 10)
     const size = Number.parseInt(req.params.size, 10)
-    const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
+    // const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
     const {
       carType,
       gearbox,
@@ -631,48 +715,48 @@ export const getCars = async (req: Request, res: Response) => {
     const $match: mongoose.FilterQuery<bookcarsTypes.Car> = {
       $and: [
         { $or: [{ name: { $regex: keyword, $options: options } }, { licensePlate: { $regex: keyword, $options: options } }] },
-        { supplier: { $in: suppliers } },
+        // { supplier: { $in: suppliers } },
       ],
     }
 
-    if (fuelPolicy) {
-      $match.$and!.push({ fuelPolicy: { $in: fuelPolicy } })
-    }
+    // if (fuelPolicy) {
+    //   $match.$and!.push({ fuelPolicy: { $in: fuelPolicy } })
+    // }
 
-    if (carSpecs) {
-      if (carSpecs.aircon) {
-        $match.$and!.push({ aircon: true })
-      }
-      if (carSpecs.moreThanFourDoors) {
-        $match.$and!.push({ doors: { $gt: 4 } })
-      }
-      if (carSpecs.moreThanFiveSeats) {
-        $match.$and!.push({ seats: { $gt: 5 } })
-      }
-    }
+    // if (carSpecs) {
+    //   if (carSpecs.aircon) {
+    //     $match.$and!.push({ aircon: true })
+    //   }
+    //   if (carSpecs.moreThanFourDoors) {
+    //     $match.$and!.push({ doors: { $gt: 4 } })
+    //   }
+    //   if (carSpecs.moreThanFiveSeats) {
+    //     $match.$and!.push({ seats: { $gt: 5 } })
+    //   }
+    // }
 
-    if (carType) {
-      $match.$and!.push({ type: { $in: carType } })
-    }
+    // if (carType) {
+    //   $match.$and!.push({ type: { $in: carType } })
+    // }
 
-    if (gearbox) {
-      $match.$and!.push({ gearbox: { $in: gearbox } })
-    }
+    // if (gearbox) {
+    //   $match.$and!.push({ gearbox: { $in: gearbox } })
+    // }
 
-    if (mileage) {
-      if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Limited) {
-        $match.$and!.push({ mileage: { $gt: -1 } })
-      } else if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Unlimited) {
-        $match.$and!.push({ mileage: -1 })
-      } else if (mileage.length === 0) {
-        res.json([{ resultData: [], pageInfo: [] }])
-        return
-      }
-    }
+    // if (mileage) {
+    //   if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Limited) {
+    //     $match.$and!.push({ mileage: { $gt: -1 } })
+    //   } else if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Unlimited) {
+    //     $match.$and!.push({ mileage: -1 })
+    //   } else if (mileage.length === 0) {
+    //     res.json([{ resultData: [], pageInfo: [] }])
+    //     return
+    //   }
+    // }
 
-    if (deposit && deposit > -1) {
-      $match.$and!.push({ deposit: { $lte: deposit } })
-    }
+    // if (deposit && deposit > -1) {
+    //   $match.$and!.push({ deposit: { $lte: deposit } })
+    // }
 
     if (Array.isArray(availability)) {
       if (availability.length === 1 && availability[0] === bookcarsTypes.Availablity.Available) {
@@ -686,42 +770,42 @@ export const getCars = async (req: Request, res: Response) => {
       }
     }
 
-    if (ranges) {
-      $match.$and!.push({ range: { $in: ranges } })
-    }
+    // if (ranges) {
+    //   $match.$and!.push({ range: { $in: ranges } })
+    // }
 
-    if (multimedia && multimedia.length > 0) {
-      for (const multimediaOption of multimedia) {
-        $match.$and!.push({ multimedia: multimediaOption })
-      }
-    }
+    // if (multimedia && multimedia.length > 0) {
+    //   for (const multimediaOption of multimedia) {
+    //     $match.$and!.push({ multimedia: multimediaOption })
+    //   }
+    // }
 
-    if (rating && rating > -1) {
-      $match.$and!.push({ rating: { $gte: rating } })
-    }
+    // if (rating && rating > -1) {
+    //   $match.$and!.push({ rating: { $gte: rating } })
+    // }
 
-    if (seats) {
-      if (seats > -1) {
-        if (seats === 6) {
-          $match.$and!.push({ seats: { $gt: 5 } })
-        } else {
-          $match.$and!.push({ seats })
-        }
-      }
-    }
+    // if (seats) {
+    //   if (seats > -1) {
+    //     if (seats === 6) {
+    //       $match.$and!.push({ seats: { $gt: 5 } })
+    //     } else {
+    //       $match.$and!.push({ seats })
+    //     }
+    //   }
+    // }
 
     const data = await Car.aggregate(
       [
         { $match },
-        {
-          $lookup: {
-            from: 'User',
-            localField: 'supplier',
-            foreignField: '_id',
-            as: 'supplier',
-          },
-        },
-        { $unwind: '$supplier' },
+        // {
+        //   $lookup: {
+        //     from: 'User',
+        //     localField: 'supplier',
+        //     foreignField: '_id',
+        //     as: 'supplier',
+        //   },
+        // },
+        // { $unwind: '$supplier' },
         // {
         //   $lookup: {
         //     from: 'Location',
@@ -804,10 +888,10 @@ export const getCars = async (req: Request, res: Response) => {
     //   { collation: { locale: env.DEFAULT_LANGUAGE, strength: 2 } },
     // )
 
-    for (const car of data[0].resultData) {
-      const { _id, fullName, avatar } = car.supplier
-      car.supplier = { _id, fullName, avatar }
-    }
+    // for (const car of data[0].resultData) {
+    //   const { _id, fullName, avatar } = car.supplier
+    //   car.supplier = { _id, fullName, avatar }
+    // }
 
     res.json(data)
   } catch (err) {
@@ -828,8 +912,8 @@ export const getCars = async (req: Request, res: Response) => {
 export const getBookingCars = async (req: Request, res: Response) => {
   try {
     const { body }: { body: bookcarsTypes.GetBookingCarsPayload } = req
-    const supplier = new mongoose.Types.ObjectId(body.supplier)
-    const pickupLocation = new mongoose.Types.ObjectId(body.pickupLocation)
+    // const supplier = new mongoose.Types.ObjectId(body.supplier)
+    // const pickupLocation = new mongoose.Types.ObjectId(body.pickupLocation)
     const keyword = escapeStringRegexp(String(req.query.s || ''))
     const options = 'i'
     const page = Number.parseInt(req.params.page, 10)
@@ -837,26 +921,26 @@ export const getBookingCars = async (req: Request, res: Response) => {
 
     const cars = await Car.aggregate(
       [
-        {
-          $lookup: {
-            from: 'User',
-            let: { userId: '$supplier' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: { $eq: ['$_id', '$$userId'] },
-                },
-              },
-            ],
-            as: 'supplier',
-          },
-        },
-        { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
+        // {
+          // $lookup: {
+          //   from: 'User',
+          //   let: { userId: '$supplier' },
+          //   pipeline: [
+          //     {
+          //       $match: {
+          //         $expr: { $eq: ['$_id', '$$userId'] },
+          //       },
+          //     },
+          //   ],
+          //   as: 'supplier',
+          // },
+        // },
+        // { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
         {
           $match: {
             $and: [
-              { 'supplier._id': supplier },
-              { locations: pickupLocation },
+              // { 'supplier._id': supplier },
+              // { locations: pickupLocation },
               { available: true }, { name: { $regex: keyword, $options: options } },
             ],
           },
@@ -868,10 +952,10 @@ export const getBookingCars = async (req: Request, res: Response) => {
       { collation: { locale: env.DEFAULT_LANGUAGE, strength: 2 } },
     )
 
-    for (const car of cars) {
-      const { _id, fullName, avatar, priceChangeRate } = car.supplier
-      car.supplier = { _id, fullName, avatar, priceChangeRate }
-    }
+    // for (const car of cars) {
+    //   const { _id, fullName, avatar, priceChangeRate } = car.supplier
+    //   car.supplier = { _id, fullName, avatar, priceChangeRate }
+    // }
 
     res.json(cars)
   } catch (err) {
@@ -881,7 +965,14 @@ export const getBookingCars = async (req: Request, res: Response) => {
 }
 
 /**
- * Get Cars available for rental.
+ * Get Cars available for rental (and optionally include cars that are already booked in the searched period).
+ * In this version, cars are NOT hidden when they have an overlapping booking.
+ * Instead, each car gets:
+ *   - periodStatus: 'available' | 'pending' | 'booked'
+ *   - isBookable: boolean
+ *   - displayBookingStatus: BookingStatus | null
+ *
+ * Frontend can fade/disable cars where isBookable === false and show status badge from periodStatus/displayBookingStatus.
  *
  * @export
  * @async
@@ -894,8 +985,7 @@ export const getFrontendCars = async (req: Request, res: Response) => {
     const { body }: { body: bookcarsTypes.GetCarsPayload } = req
     const page = Number.parseInt(req.params.page, 10)
     const size = Number.parseInt(req.params.size, 10)
-    const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
-    const pickupLocation = new mongoose.Types.ObjectId(body.pickupLocation)
+
     const {
       carType,
       gearbox,
@@ -916,37 +1006,25 @@ export const getFrontendCars = async (req: Request, res: Response) => {
     if (!from) {
       throw new Error('from date is required')
     }
-
     if (!to) {
       throw new Error('to date is required')
     }
 
-    // Include pickupLocation and child locations in search results
-    const locIds = await Location.find({
-      $or: [
-        { _id: pickupLocation },
-        { parentLocation: pickupLocation },
-      ],
-    }).select('_id').lean()
-
-    const locationIds = locIds.map((loc) => loc._id)
+    const fromDate = new Date(from)
+    const toDate = new Date(to)
 
     const $match: mongoose.FilterQuery<bookcarsTypes.Car> = {
       $and: [
-        { supplier: { $in: suppliers } },
-        // { locations: pickupLocation },
-        { locations: { $in: locationIds } },
         { type: { $in: carType } },
         { gearbox: { $in: gearbox } },
-        { available: true },
-        { fullyBooked: { $in: [false, null] } },
+        // { available: true },
       ],
     }
 
+    // Keep your existing flags behavior
     if (!includeAlreadyBookedCars) {
       $match.$and!.push({ $or: [{ fullyBooked: false }, { fullyBooked: null }] })
     }
-
     if (!includeComingSoonCars) {
       $match.$and!.push({ $or: [{ comingSoon: false }, { comingSoon: null }] })
     }
@@ -956,15 +1034,9 @@ export const getFrontendCars = async (req: Request, res: Response) => {
     }
 
     if (carSpecs) {
-      if (carSpecs.aircon) {
-        $match.$and!.push({ aircon: true })
-      }
-      if (carSpecs.moreThanFourDoors) {
-        $match.$and!.push({ doors: { $gt: 4 } })
-      }
-      if (carSpecs.moreThanFiveSeats) {
-        $match.$and!.push({ seats: { $gt: 5 } })
-      }
+      if (carSpecs.aircon) $match.$and!.push({ aircon: true })
+      if (carSpecs.moreThanFourDoors) $match.$and!.push({ doors: { $gt: 4 } })
+      if (carSpecs.moreThanFiveSeats) $match.$and!.push({ seats: { $gt: 5 } })
     }
 
     if (mileage) {
@@ -998,83 +1070,16 @@ export const getFrontendCars = async (req: Request, res: Response) => {
 
     if (seats) {
       if (seats > -1) {
-        if (seats === 6) {
-          $match.$and!.push({ seats: { $gt: 5 } })
-        } else {
-          $match.$and!.push({ seats })
-        }
+        if (seats === 6) $match.$and!.push({ seats: { $gt: 5 } })
+        else $match.$and!.push({ seats })
       }
-    }
-
-    let $supplierMatch: mongoose.FilterQuery<any> = {}
-    const days = helper.days(from, to)
-    if (days) {
-      $supplierMatch = { $or: [{ 'supplier.minimumRentalDays': { $lte: days } }, { 'supplier.minimumRentalDays': null }] }
     }
 
     const data = await Car.aggregate(
       [
         { $match },
-        {
-          $lookup: {
-            from: 'User',
-            let: { userId: '$supplier' },
-            pipeline: [
-              {
-                $match: {
-                  // $expr: { $eq: ['$_id', '$$userId'] },
-                  $and: [{ $expr: { $eq: ['$_id', '$$userId'] } }, { blacklisted: false }]
-                },
-              },
-              {
-                $project: {
-                  _id: 1,
-                  fullName: 1,
-                  avatar: 1,
-                  priceChangeRate: 1,
-                },
-              }
-            ],
-            as: 'supplier',
-          },
-        },
-        { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
-        {
-          $match: $supplierMatch,
-        },
-        {
-          $lookup: {
-            from: 'DateBasedPrice',
-            let: { dateBasedPrices: '$dateBasedPrices' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: { $in: ['$_id', '$$dateBasedPrices'] },
-                },
-              },
-            ],
-            as: 'dateBasedPrices',
-          },
-        },
-        // {
-        //   $lookup: {
-        //     from: 'Location',
-        //     let: { locations: '$locations' },
-        //     pipeline: [
-        //       {
-        //         $match: {
-        //           $expr: { $in: ['$_id', '$$locations'] },
-        //         },
-        //       },
-        //     ],
-        //     as: 'locations',
-        //   },
-        // },
 
-        // begining of booking overlap check -----------------------------------
-        // if car.blockOnPay is true and (from, to) overlaps with paid, confirmed or deposit bookings of the car the car will
-        // not be included in search results
-        // ----------------------------------------------------------------------
+        // Lookup overlapping bookings for requested time range
         {
           $lookup: {
             from: 'Booking',
@@ -1085,128 +1090,167 @@ export const getFrontendCars = async (req: Request, res: Response) => {
                   $expr: {
                     $and: [
                       { $eq: ['$car', '$$carId'] },
+
+                      // Overlap check: NOT( booking ends before from OR booking starts after to )
                       {
-                        // Match only bookings that overlap with the requested rental period
-                        // (i.e., NOT completely before or after the requested time range)
                         $not: [
                           {
                             $or: [
-                              // Booking ends before the requested rental period starts → no overlap
-                              { $lt: ['$to', new Date(from)] },
-                              // Booking starts after the requested rental period ends → no overlap
-                              { $gt: ['$from', new Date(to)] }
-                            ]
-                          }
-                        ]
+                              { $lt: ['$to', fromDate] },
+                              { $gt: ['$from', toDate] },
+                            ],
+                          },
+                        ],
                       },
-                      {
-                        // include Paid, Reserved and Deposit bookings
-                        $in: ['$status', [
-                          bookcarsTypes.BookingStatus.Paid,
-                          bookcarsTypes.BookingStatus.Reserved,
-                          bookcarsTypes.BookingStatus.Deposit,
-                        ]]
-                      },
-                    ]
-                  }
-                }
-              }
-            ],
-            as: 'overlappingBookings'
-          }
-        },
-        {
-          $match: {
-            $expr: {
-              $or: [
-                { $eq: [{ $ifNull: ['$blockOnPay', false] }, false] },
-                { $eq: [{ $size: '$overlappingBookings' }, 0] }
-              ]
-            }
-          }
-        },
-        // end of booking overlap check -----------------------------------
 
-        // begining of supplierCarLimit -----------------------------------
-        {
-          // Add the "supplierCarLimit" field from the supplier to limit the number of cars per supplier
-          $addFields: {
-            maxAllowedCars: { $ifNull: ['$supplier.supplierCarLimit', Number.MAX_SAFE_INTEGER] }, // Use a fallback if supplierCarLimit is undefined
-          },
-        },
-        {
-          // Add a custom stage to limit cars per supplier
-          $group: {
-            _id: '$supplier._id', // Group by supplier
-            supplierData: { $first: '$supplier' },
-            cars: { $push: '$$ROOT' }, // Push all cars of the supplier into an array
-            maxAllowedCars: { $first: '$maxAllowedCars' }, // Retain maxAllowedCars for each supplier
-          },
-        },
-        {
-          // Limit cars based on maxAllowedCars for each supplier
-          $project: {
-            supplier: '$supplierData',
-            cars: {
-              $cond: {
-                if: { $eq: ['$maxAllowedCars', 0] }, // If maxAllowedCars is 0
-                then: [], // Return an empty array (no cars)
-                else: { $slice: ['$cars', 0, { $min: [{ $size: '$cars' }, '$maxAllowedCars'] }] }, // Otherwise, limit normally
+                      // Statuses that block booking for this period
+                      {
+                        $in: [
+                          '$status',
+                          [
+                            // bookcarsTypes.BookingStatus.Paid,
+                            bookcarsTypes.BookingStatus.Reserved,
+                            // bookcarsTypes.BookingStatus.Deposit,
+                            bookcarsTypes.BookingStatus.Pending,
+                          ],
+                        ],
+                      },
+                    ],
+                  },
+                },
               },
+              { $project: { _id: 1, status: 1, from: 1, to: 1 } },
+            ],
+            as: 'overlappingBookings',
+          },
+        },
+
+        // Derive "periodStatus" and "isBookable"
+        {
+          $addFields: {
+            hasPaidOverlap: {
+              $gt: [
+                {
+                  $size: {
+                    $filter: {
+                      input: '$overlappingBookings',
+                      as: 'b',
+                      cond: {
+                        $in: [
+                          '$$b.status',
+                          [
+                            // bookcarsTypes.BookingStatus.Paid,
+                            bookcarsTypes.BookingStatus.Reserved,
+                            // bookcarsTypes.BookingStatus.Deposit,
+                          ],
+                        ],
+                      },
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+            hasPendingOverlap: {
+              $gt: [
+                {
+                  $size: {
+                    $filter: {
+                      input: '$overlappingBookings',
+                      as: 'b',
+                      cond: { $eq: ['$$b.status', bookcarsTypes.BookingStatus.Pending] },
+                    },
+                  },
+                },
+                0,
+              ],
             },
           },
         },
+
         {
-          // Flatten the grouped result and apply sorting
-          $unwind: '$cars',
-        },
-        {
-          // Ensure unique cars by grouping by car ID
-          $group: {
-            _id: '$cars._id',
-            car: { $first: '$cars' },
+          $addFields: {
+            isUnavailable: {
+              $or: [
+                { $ne: ['$available', true] },
+                // { $eq: [{ $ifNull: ['$comingSoon', false] }, true] },
+                // { $eq: [{ $ifNull: ['$fullyBooked', false] }, true] },
+              ],
+            },
           },
         },
+
         {
-          $replaceRoot: { newRoot: '$car' }, // Replace the root document with the unique car object
-        },
+           $addFields: {
+            periodStatus: {
+              $cond: [
+                '$isUnavailable',
+                'unavailable',
+                  {
+                    $switch: {
+                      branches: [
+                        
+                        { case: '$hasPaidOverlap', then: 'booked' },
+                        { case: '$hasPendingOverlap', then: 'pending' },
+                      ],
+                    default: 'available',
+                    },
+                  },
+                ],
+              },
+
+            isBookable: {
+              $and: [
+                { $eq: ['$isUnavailable', false] },
+                { $eq: ['$hasPaidOverlap', false] },
+                { $eq: ['$hasPendingOverlap', false] },
+              ],
+              },
+
+            // What to show as a label/badge in UI
+            displayBookingStatus: {
+      $cond: [
+        '$isUnavailable',
+        'Unavailable', // or null if you prefer the badge to use periodStatus only
         {
-          // Sort the cars before pagination
-          $sort: { dailyPrice: 1, _id: 1 },
+          $cond: [
+            '$hasPaidOverlap',
+            bookcarsTypes.BookingStatus.Reserved,
+            {
+              $cond: [
+                '$hasPendingOverlap',
+                bookcarsTypes.BookingStatus.Pending,
+                null,
+              ],
+            },
+          ],
         },
+      ],
+    },
+  },
+},
+
+        // Cleanup helper flags, optionally drop overlappingBookings if you don't need details
+        {
+          $project: {
+            hasPaidOverlap: 0,
+            hasPendingOverlap: 0,
+            isUnavailable: 0,
+            // overlappingBookings: 0, // uncomment if you want smaller payload
+          },
+        },
+
+        // Pagination
         {
           $facet: {
             resultData: [
-              { $skip: (page - 1) * size }, // Skip results based on page
-              { $limit: size }, // Limit to the page size
+              { $sort: { dailyPrice: 1, _id: 1 } },
+              { $skip: (page - 1) * size },
+              { $limit: size },
             ],
-            pageInfo: [
-              {
-                $count: 'totalRecords', // Count total number of cars (before pagination)
-              },
-            ],
+            pageInfo: [{ $count: 'totalRecords' }],
           },
         },
-        // end of supplierCarLimit -----------------------------------
-
-        // old query without supplierCarLimit
-        // {
-        //   $facet: {
-        //     resultData: [
-        //       {
-        //         // $sort: { fullyBooked: 1, comingSoon: 1, dailyPrice: 1, _id: 1 },
-        //         $sort: { dailyPrice: 1, _id: 1 },
-        //       },
-        //       { $skip: (page - 1) * size },
-        //       { $limit: size },
-        //     ],
-        //     pageInfo: [
-        //       {
-        //         $count: 'totalRecords',
-        //       },
-        //     ],
-        //   },
-        // },
       ],
       { collation: { locale: env.DEFAULT_LANGUAGE, strength: 2 } },
     )
@@ -1217,3 +1261,344 @@ export const getFrontendCars = async (req: Request, res: Response) => {
     res.status(400).send(i18n.t('DB_ERROR') + err)
   }
 }
+
+// /**
+//  * Get Cars available for rental.
+//  *
+//  * @export
+//  * @async
+//  * @param {Request} req
+//  * @param {Response} res
+//  * @returns {unknown}
+//  */
+// export const getFrontendCars = async (req: Request, res: Response) => {
+//   try {
+//     const { body }: { body: bookcarsTypes.GetCarsPayload } = req
+//     const page = Number.parseInt(req.params.page, 10)
+//     const size = Number.parseInt(req.params.size, 10)
+//     //! const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
+//     //! const pickupLocation = new mongoose.Types.ObjectId(body.pickupLocation)
+//     const {
+//       carType,
+//       gearbox,
+//       mileage,
+//       fuelPolicy,
+//       deposit,
+//       carSpecs,
+//       ranges,
+//       multimedia,
+//       rating,
+//       seats,
+//       from,
+//       to,
+//       includeAlreadyBookedCars,
+//       includeComingSoonCars,
+//     } = body
+
+//     // console.log('body: ', body);
+
+//     if (!from) {
+//       throw new Error('from date is required')
+//     }
+
+//     if (!to) {
+//       throw new Error('to date is required')
+//     }
+
+//     // Include pickupLocation and child locations in search results
+//     //! const locIds = await Location.find({
+//     //   $or: [
+//     //     { _id: pickupLocation },
+//     //     { parentLocation: pickupLocation },
+//     //   ],
+//     // }).select('_id').lean()
+
+//     // const locationIds = locIds.map((loc) => loc._id)
+
+//     const $match: mongoose.FilterQuery<bookcarsTypes.Car> = {
+//       $and: [
+//         // { supplier: { $in: suppliers } },
+//         // { locations: pickupLocation },
+//         // { locations: { $in: locationIds } },
+//         { type: { $in: carType } },
+//         { gearbox: { $in: gearbox } },
+//         { available: true },
+//         { fullyBooked: { $in: [false, null] } },
+//       ],
+//     }
+
+//     if (!includeAlreadyBookedCars) {
+//       $match.$and!.push({ $or: [{ fullyBooked: false }, { fullyBooked: null }] })
+//     }
+
+//     if (!includeComingSoonCars) {
+//       $match.$and!.push({ $or: [{ comingSoon: false }, { comingSoon: null }] })
+//     }
+
+//     if (fuelPolicy) {
+//       $match.$and!.push({ fuelPolicy: { $in: fuelPolicy } })
+//     }
+
+//     if (carSpecs) {
+//       if (carSpecs.aircon) {
+//         $match.$and!.push({ aircon: true })
+//       }
+//       if (carSpecs.moreThanFourDoors) {
+//         $match.$and!.push({ doors: { $gt: 4 } })
+//       }
+//       if (carSpecs.moreThanFiveSeats) {
+//         $match.$and!.push({ seats: { $gt: 5 } })
+//       }
+//     }
+
+//     if (mileage) {
+//       if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Limited) {
+//         $match.$and!.push({ mileage: { $gt: -1 } })
+//       } else if (mileage.length === 1 && mileage[0] === bookcarsTypes.Mileage.Unlimited) {
+//         $match.$and!.push({ mileage: -1 })
+//       } else if (mileage.length === 0) {
+//         res.json([{ resultData: [], pageInfo: [] }])
+//         return
+//       }
+//     }
+
+//     if (deposit && deposit > -1) {
+//       $match.$and!.push({ deposit: { $lte: deposit } })
+//     }
+
+//     if (ranges) {
+//       $match.$and!.push({ range: { $in: ranges } })
+//     }
+
+//     if (multimedia && multimedia.length > 0) {
+//       for (const multimediaOption of multimedia) {
+//         $match.$and!.push({ multimedia: multimediaOption })
+//       }
+//     }
+
+//     if (rating && rating > -1) {
+//       $match.$and!.push({ rating: { $gte: rating } })
+//     }
+
+//     if (seats) {
+//       if (seats > -1) {
+//         if (seats === 6) {
+//           $match.$and!.push({ seats: { $gt: 5 } })
+//         } else {
+//           $match.$and!.push({ seats })
+//         }
+//       }
+//     }
+
+//     // let $supplierMatch: mongoose.FilterQuery<any> = {}
+//     // const days = helper.days(from, to)
+//     // if (days) {
+//     //   $supplierMatch = { $or: [{ 'supplier.minimumRentalDays': { $lte: days } }, { 'supplier.minimumRentalDays': null }] }
+//     // }
+
+//     const data = await Car.aggregate(
+//       [
+//         { $match },
+//         // {
+//         //   $lookup: {
+//         //     from: 'User',
+//         //     let: { userId: '$supplier' },
+//         //     pipeline: [
+//         //       {
+//         //         $match: {
+//         //           // $expr: { $eq: ['$_id', '$$userId'] },
+//         //           $and: [{ $expr: { $eq: ['$_id', '$$userId'] } }, { blacklisted: false }]
+//         //         },
+//         //       },
+//         //       {
+//         //         $project: {
+//         //           _id: 1,
+//         //           fullName: 1,
+//         //           avatar: 1,
+//         //           priceChangeRate: 1,
+//         //         },
+//         //       }
+//         //     ],
+//         //     as: 'supplier',
+//         //   },
+//         // },
+//         // { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
+//         // {
+//         //   $match: $supplierMatch,
+//         // },
+//         // {
+//         //   $lookup: {
+//         //     from: 'DateBasedPrice',
+//         //     let: { dateBasedPrices: '$dateBasedPrices' },
+//         //     pipeline: [
+//         //       {
+//         //         $match: {
+//         //           $expr: { $in: ['$_id', '$$dateBasedPrices'] },
+//         //         },
+//         //       },
+//         //     ],
+//         //     as: 'dateBasedPrices',
+//         //   },
+//         // },
+//         // {
+//         //   $lookup: {
+//         //     from: 'Location',
+//         //     let: { locations: '$locations' },
+//         //     pipeline: [
+//         //       {
+//         //         $match: {
+//         //           $expr: { $in: ['$_id', '$$locations'] },
+//         //         },
+//         //       },
+//         //     ],
+//         //     as: 'locations',
+//         //   },
+//         // },
+
+//         // begining of booking overlap check -----------------------------------
+//         // if car.blockOnPay is true and (from, to) overlaps with paid, confirmed or deposit bookings of the car the car will
+//         // not be included in search results
+//         // ----------------------------------------------------------------------
+//         {
+//           $lookup: {
+//             from: 'Booking',
+//             let: { carId: '$_id' },
+//             pipeline: [
+//               {
+//                 $match: {
+//                   $expr: {
+//                     $and: [
+//                       { $eq: ['$car', '$$carId'] },
+//                       {
+//                         // Match only bookings that overlap with the requested rental period
+//                         // (i.e., NOT completely before or after the requested time range)
+//                         $not: [
+//                           {
+//                             $or: [
+//                               // Booking ends before the requested rental period starts → no overlap
+//                               { $lt: ['$to', new Date(from)] },
+//                               // Booking starts after the requested rental period ends → no overlap
+//                               { $gt: ['$from', new Date(to)] }
+//                             ]
+//                           }
+//                         ]
+//                       },
+//                       {
+//                         // include Paid, Reserved and Deposit bookings
+//                         $in: ['$status', [
+//                           bookcarsTypes.BookingStatus.Paid,
+//                           bookcarsTypes.BookingStatus.Reserved,
+//                           bookcarsTypes.BookingStatus.Deposit,
+//                           bookcarsTypes.BookingStatus.Pending,
+//                         ]]
+//                       },
+//                     ]
+//                   }
+//                 }
+//               }
+//             ],
+//             as: 'overlappingBookings'
+//           }
+//         },
+//         {
+//           $match: {
+//             $expr: {
+//               $or: [
+//                 { $eq: [{ $ifNull: ['$blockOnPay', false] }, false] },
+//                 { $eq: [{ $size: '$overlappingBookings' }, 0] }
+//               ]
+//             }
+//           }
+//         },
+//         // end of booking overlap check -----------------------------------
+
+//         // begining of supplierCarLimit -----------------------------------
+//         // {
+//         //   // Add the "supplierCarLimit" field from the supplier to limit the number of cars per supplier
+//         //   $addFields: {
+//         //     maxAllowedCars: { $ifNull: ['$supplier.supplierCarLimit', Number.MAX_SAFE_INTEGER] }, // Use a fallback if supplierCarLimit is undefined
+//         //   },
+//         // },
+//         // {
+//         //   // Add a custom stage to limit cars per supplier
+//         //   $group: {
+//         //     _id: '$supplier._id', // Group by supplier
+//         //     supplierData: { $first: '$supplier' },
+//         //     cars: { $push: '$$ROOT' }, // Push all cars of the supplier into an array
+//         //     maxAllowedCars: { $first: '$maxAllowedCars' }, // Retain maxAllowedCars for each supplier
+//         //   },
+//         // },
+//         // {
+//         //   // Limit cars based on maxAllowedCars for each supplier
+//         //   $project: {
+//         //     supplier: '$supplierData',
+//         //     cars: {
+//         //       $cond: {
+//         //         if: { $eq: ['$maxAllowedCars', 0] }, // If maxAllowedCars is 0
+//         //         then: [], // Return an empty array (no cars)
+//         //         else: { $slice: ['$cars', 0, { $min: [{ $size: '$cars' }, '$maxAllowedCars'] }] }, // Otherwise, limit normally
+//         //       },
+//         //     },
+//         //   },
+//         // },
+//         // {
+//         //   // Flatten the grouped result and apply sorting
+//         //   $unwind: '$cars',
+//         // },
+//         // {
+//         //   // Ensure unique cars by grouping by car ID
+//         //   $group: {
+//         //     _id: '$cars._id',
+//         //     car: { $first: '$cars' },
+//         //   },
+//         // },
+//         // {
+//         //   $replaceRoot: { newRoot: '$car' }, // Replace the root document with the unique car object
+//         // },
+//         // {
+//         //   // Sort the cars before pagination
+//         //   $sort: { dailyPrice: 1, _id: 1 },
+//         // },
+//         // {
+//         //   $facet: {
+//         //     resultData: [
+//         //       { $skip: (page - 1) * size }, // Skip results based on page
+//         //       { $limit: size }, // Limit to the page size
+//         //     ],
+//         //     pageInfo: [
+//         //       {
+//         //         $count: 'totalRecords', // Count total number of cars (before pagination)
+//         //       },
+//         //     ],
+//         //   },
+//         // },
+//         // // end of supplierCarLimit -----------------------------------
+
+//         // old query without supplierCarLimit
+//         {
+//           $facet: {
+//             resultData: [
+//               {
+//                 // $sort: { fullyBooked: 1, comingSoon: 1, dailyPrice: 1, _id: 1 },
+//                 $sort: { dailyPrice: 1, _id: 1 },
+//               },
+//               { $skip: (page - 1) * size },
+//               { $limit: size },
+//             ],
+//             pageInfo: [
+//               {
+//                 $count: 'totalRecords',
+//               },
+//             ],
+//           },
+//         },
+//       ],
+//       { collation: { locale: env.DEFAULT_LANGUAGE, strength: 2 } },
+//     )
+
+//     res.json(data)
+//   } catch (err) {
+//     logger.error(`[car.getFrontendCars] ${i18n.t('DB_ERROR')} ${req.query.s}`, err)
+//     res.status(400).send(i18n.t('DB_ERROR') + err)
+//   }
+// }

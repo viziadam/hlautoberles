@@ -183,6 +183,70 @@ Si tiene alguna pregunta sobre esta Política de Privacidad o nuestras práctica
 Al utilizar nuestros servicios, usted reconoce que ha leído y comprendido esta Política de Privacidad y acepta sus términos.    
     `,
   },
+  hu: {
+  TITLE: 'Adatvédelmi irányelvek',
+  PRIVACY_POLICY: `
+Fontos számunkra az adatvédelem a(z) ${env.WEBSITE_NAME} szolgáltatásában. Ez az Adatvédelmi tájékoztató bemutatja, hogyan gyűjtjük, használjuk és védjük az adataidat a weboldalunk és szolgáltatásaink használata során. Szolgáltatásaink elérésével hozzájárulsz a jelen tájékoztatóban leírt gyakorlathoz.
+
+
+1. Milyen adatokat gyűjtünk?
+
+Akkor gyűjtünk adatokat, amikor regisztrálsz, foglalást adsz le, vagy egyéb módon kapcsolatba lépsz a szolgáltatásainkkal. Az általunk gyűjthető adatok például:
+
+Név
+Email cím
+Telefonszám
+Fizetési információk
+Bérlési preferenciák
+
+A weboldal névtelenül is böngészhető, azonban bizonyos funkciók ilyenkor korlátozottak lehetnek.
+
+
+2. Mire használjuk fel az adataidat?
+
+Az adataidat többek között az alábbi célokra használhatjuk:
+
+Foglalások és fizetések feldolgozására
+Ügyfélszolgálat javítására
+Időszakos email küldésére a foglalásoddal vagy más szolgáltatásainkkal kapcsolatban
+Kérdések és támogatási kérések megválaszolására
+
+
+3. Hogyan védjük az adataidat?
+
+Különféle biztonsági intézkedéseket alkalmazunk a személyes adatok védelme érdekében. Minden érzékeny információ biztonságos szervereken keresztül kerül továbbításra, és csak arra jogosult munkatársak férhetnek hozzá. Bankkártyaadataidat nem tároljuk a szervereinken.
+
+
+4. Adatok megosztása
+
+Nem adjuk el, nem cseréljük el és nem adjuk át más módon a személyazonosításra alkalmas adataidat külső feleknek, kivéve azokat a megbízható partnereket, akik a weboldal működtetésében, üzleti folyamatainkban vagy az ügyfélkiszolgálásban segítenek, és vállalják a titoktartást. Előfordulhat, hogy az adataidat akkor adjuk ki, ha úgy véljük, ez szükséges jogszabályi megfeleléshez, a weboldal szabályainak érvényesítéséhez, vagy a saját és mások jogainak, tulajdonának, illetve biztonságának védelméhez.
+
+
+5. Gyermekek adatvédelme
+
+Megfelelünk a gyermekek online adatvédelmét szabályozó előírásoknak (COPPA). Szolgáltatásaink nem 13 év alatti gyermekeknek szólnak, és tudatosan nem gyűjtünk személyes adatokat 13 év alatti gyermekektől. Ha tudomásunkra jut, hogy 13 év alatti gyermektől gyűjtöttünk adatot, lépéseket teszünk azok törlésére.
+
+
+6. Az Adatvédelmi tájékoztató módosítása
+
+Ezt az Adatvédelmi tájékoztatót időről időre frissíthetjük. A változásokról úgy értesítünk, hogy az új tájékoztatót közzétesszük ezen az oldalon. Javasoljuk, hogy időnként tekintsd át, van-e változás.
+
+
+7. A jogaid
+
+Jogod van hozzáférést kérni az általunk kezelt személyes adataidhoz, kérheted a pontatlan adatok helyesbítését, valamint a személyes adataid törlését (bizonyos kivételekkel). Ezen jogok gyakorlásához vedd fel velünk a kapcsolatot az alábbi elérhetőségen.
+
+
+8. Kapcsolat
+
+Ha kérdésed van az Adatvédelmi tájékoztatóval vagy adatkezelési gyakorlatunkkal kapcsolatban, írj nekünk: ${env.CONTACT_EMAIL}. Elkötelezettek vagyunk a kérdéseid megválaszolása és a magánszférád védelme mellett.
+
+
+9. Tudomásulvétel
+
+Szolgáltatásaink használatával tudomásul veszed, hogy elolvastad, megértetted és elfogadod a jelen Adatvédelmi tájékoztató feltételeit.
+    `,
+},
 })
 
 langHelper.setLanguage(strings)

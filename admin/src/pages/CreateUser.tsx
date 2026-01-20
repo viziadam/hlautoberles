@@ -87,9 +87,9 @@ const CreateUser = () => {
     setLoading(false)
     setAvatar(_avatar)
 
-    if (_avatar !== null && type === bookcarsTypes.UserType.Supplier) {
-      setAvatarError(false)
-    }
+    // if (_avatar !== null && type === bookcarsTypes.UserType.Supplier) {
+    //   setAvatarError(false)
+    // }
   }
 
   const handleCancel = async () => {
@@ -118,17 +118,17 @@ const CreateUser = () => {
     }
   }
 
-  const validateFullName = async (value?: string) => {
-    if (!!value && type === bookcarsTypes.UserType.Supplier) {
-      const status = await SupplierService.validate({ fullName: value })
-      if (status !== 200) {
-        setError('fullName', { message: csStrings.INVALID_SUPPLIER_NAME })
-        setFocus('fullName')
-        return false
-      }
-    }
-    return true
-  }
+  // const validateFullName = async (value?: string) => {
+  //   if (!!value ) {
+  //     const status = await UserService.validate({ fullName: value })
+  //     if (status !== 200) {
+  //       setError('fullName', { message: csStrings.INVALID_SUPPLIER_NAME })
+  //       setFocus('fullName')
+  //       return false
+  //     }
+  //   }
+  //   return true
+  // }
 
   const validateEmail = async (value?: string) => {
     if (value) {
@@ -153,12 +153,6 @@ const CreateUser = () => {
         return
       }
 
-      if (type === bookcarsTypes.UserType.Supplier && !avatar) {
-        setAvatarError(true)
-        setFormError(false)
-        return
-      }
-
       const language = UserService.getLanguage()
       const supplier = admin ? undefined : user._id
 
@@ -177,13 +171,13 @@ const CreateUser = () => {
         minimumRentalDays: data.minimumRentalDays ? Number(data.minimumRentalDays) : undefined,
         priceChangeRate: data.priceChangeRate ? Number(data.priceChangeRate) : undefined,
         supplierCarLimit: data.supplierCarLimit ? Number(data.supplierCarLimit) : undefined,
-        notifyAdminOnNewCar: type === bookcarsTypes.UserType.Supplier ? data.notifyAdminOnNewCar : undefined,
+        notifyAdminOnNewCar:  undefined,
       }
 
-      if (type === bookcarsTypes.UserType.Supplier) {
-        payload.payLater = data.payLater
-        payload.licenseRequired = data.licenseRequired
-      }
+      // if (type === bookcarsTypes.UserType.Supplier) {
+      //   payload.payLater = data.payLater
+      //   payload.licenseRequired = data.licenseRequired
+      // }
 
       const formStatus = await UserService.create(payload)
 
@@ -197,7 +191,7 @@ const CreateUser = () => {
     }
   }
 
-  const supplier = type === bookcarsTypes.UserType.Supplier
+  // const supplier = type === bookcarsTypes.UserType.Supplier
   const driver = type === bookcarsTypes.UserType.User
 
   return (
@@ -219,15 +213,10 @@ const CreateUser = () => {
                 className="avatar-ctn"
               />
 
-              {supplier && (
-                <div className="info">
-                  <InfoIcon />
-                  <span>{csStrings.RECOMMENDED_IMAGE_SIZE}</span>
-                </div>
-              )}
+              
 
               {admin && (
-                <FormControl fullWidth margin="dense" style={{ marginTop: supplier ? 0 : 39 }}>
+                <FormControl fullWidth margin="dense" style={{ marginTop:  39 }}>
                   <InputLabel className="required">{commonStrings.TYPE}</InputLabel>
                   <Select
                     label={commonStrings.TYPE}
@@ -243,7 +232,6 @@ const CreateUser = () => {
                     fullWidth
                   >
                     <MenuItem value={bookcarsTypes.UserType.Admin}>{helper.getUserType(bookcarsTypes.UserType.Admin)}</MenuItem>
-                    <MenuItem value={bookcarsTypes.UserType.Supplier}>{helper.getUserType(bookcarsTypes.UserType.Supplier)}</MenuItem>
                     <MenuItem value={bookcarsTypes.UserType.User}>{helper.getUserType(bookcarsTypes.UserType.User)}</MenuItem>
                   </Select>
                 </FormControl>
@@ -264,7 +252,7 @@ const CreateUser = () => {
                     setValue('fullName', e.target.value)
                   }}
                   onBlur={async (e) => {
-                    await validateFullName(e.target.value)
+                    // await validateFullName(e.target.value)
                   }}
                 />
                 <FormHelperText error={!!errors.fullName}>
@@ -362,7 +350,7 @@ const CreateUser = () => {
                 />
               </FormControl>
 
-              {supplier && (
+              {/* {supplier && (
                 <>
                   <FormControl fullWidth margin="dense">
                     <FormControlLabel
@@ -467,7 +455,7 @@ const CreateUser = () => {
                     </FormHelperText>
                   </FormControl>
                 </>
-              )}
+              )} */}
 
               <div className="buttons">
                 <Button type="submit" variant="contained" className="btn-primary btn-margin-bottom" size="small" disabled={isSubmitting}>

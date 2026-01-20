@@ -23,6 +23,13 @@ const strings = new LocalizedStrings({
     SEND: 'Enviar',
     MESSAGE_SENT: 'Mensaje enviado',
   },
+  hu: {
+  CONTACT_HEADING: 'Kapcsolat',
+  SUBJECT: 'Tárgy',
+  MESSAGE: 'Üzenet',
+  SEND: 'Küldés',
+  MESSAGE_SENT: 'Az üzenet elküldve'
+},
 })
 
 langHelper.setLanguage(strings)

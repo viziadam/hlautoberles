@@ -75,7 +75,7 @@ const BookingList = ({
   const [rowCount, setRowCount] = useState(0)
   const [fetch, setFetch] = useState(false)
   const [selectedId, setSelectedId] = useState('')
-  const [suppliers, setSuppliers] = useState<string[] | undefined>(bookingSuppliers)
+  // const [suppliers, setSuppliers] = useState<string[] | undefined>(bookingSuppliers)
   const [statuses, setStatuses] = useState<string[] | undefined>(bookingStatuses)
   const [filter, setFilter] = useState<bookcarsTypes.Filter | undefined | null>(bookingFilter)
   const [car, setCar] = useState<string>(bookingCar || '')
@@ -99,11 +99,11 @@ const BookingList = ({
     try {
       const _pageSize = env.isMobile ? env.BOOKINGS_MOBILE_PAGE_SIZE : pageSize
 
-      if (suppliers && statuses) {
+      if (  statuses) {
         setLoading(true)
 
         const payload: bookcarsTypes.GetBookingsPayload = {
-          suppliers,
+          // suppliers,
           statuses,
           filter: filter || undefined,
           car: _car || car,
@@ -155,9 +155,9 @@ const BookingList = ({
     }
   }
 
-  useEffect(() => {
-    setSuppliers(bookingSuppliers)
-  }, [bookingSuppliers])
+  // useEffect(() => {
+  //   setSuppliers(bookingSuppliers)
+  // }, [bookingSuppliers])
 
   useEffect(() => {
     setStatuses(bookingStatuses)
@@ -184,13 +184,13 @@ const BookingList = ({
   }, [bookingUser]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (suppliers && statuses && user) {
+    if ( statuses && user) {
       fetchData(page, user)
     }
   }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (suppliers && statuses && user) {
+    if ( statuses && user) {
       if (page === 0) {
         fetchData(0, user)
       } else {
@@ -292,25 +292,25 @@ const BookingList = ({
       })
     }
 
-    if (!hideSupplierColumn) {
-      _columns.unshift({
-        field: 'supplier',
-        headerName: commonStrings.SUPPLIER,
-        flex: 1,
-        renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => (
-          <div className="cell-supplier">
-            <img src={bookcarsHelper.joinURL(env.CDN_USERS, (row.supplier as bookcarsTypes.User).avatar)} alt={value} />
-          </div>
-        ),
-        valueGetter: (value: bookcarsTypes.User) => value?.fullName,
-      })
-    }
+    // if (!hideSupplierColumn) {
+    //   _columns.unshift({
+    //     field: 'supplier',
+    //     headerName: commonStrings.SUPPLIER,
+    //     flex: 1,
+    //     renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => (
+    //       <div className="cell-supplier">
+    //         <img src={bookcarsHelper.joinURL(env.CDN_USERS, (row.supplier as bookcarsTypes.User).avatar)} alt={value} />
+    //       </div>
+    //     ),
+    //     valueGetter: (value: bookcarsTypes.User) => value?.fullName,
+    //   })
+    // }
 
     return _columns
   }
 
   useEffect(() => {
-    if (suppliers && statuses && user) {
+    if ( statuses && user) {
       const _columns = getColumns()
       setColumns(_columns)
 
@@ -322,7 +322,7 @@ const BookingList = ({
         setPaginationModel(_paginationModel)
       }
     }
-  }, [suppliers, statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (env.isMobile) {
@@ -391,7 +391,7 @@ const BookingList = ({
           <>
             {rows.map((booking) => {
               const _bookingCar = booking.car as bookcarsTypes.Car
-              const bookingSupplier = booking.supplier as bookcarsTypes.User
+              // const bookingSupplier = booking.supplier as bookcarsTypes.User
               const from = new Date(booking.from)
               const to = new Date(booking.to)
               const days = bookcarsHelper.days(from, to)
@@ -421,7 +421,7 @@ const BookingList = ({
                     <span className="booking-detail-title">{commonStrings.DROP_OFF_LOCATION}</span>
                     <div className="booking-detail-value">{(booking.dropOffLocation as bookcarsTypes.Location).name}</div>
                   </div>
-                  <div className="booking-detail" style={{ height: bookingDetailHeight }}>
+                  {/* <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{commonStrings.SUPPLIER}</span>
                     <div className="booking-detail-value">
                       <div className="car-supplier">
@@ -429,7 +429,7 @@ const BookingList = ({
                         <span className="car-supplier-name">{bookingSupplier.fullName}</span>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {(booking.cancellation
                     || booking.amendments

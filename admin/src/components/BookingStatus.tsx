@@ -18,10 +18,10 @@ interface BookingStatusProps {
 
 const getIcon = (value: bookcarsTypes.BookingStatus) => {
   if ([
-    bookcarsTypes.BookingStatus.Deposit,
+    // bookcarsTypes.BookingStatus.Deposit,
     bookcarsTypes.BookingStatus.Reserved,
-    bookcarsTypes.BookingStatus.Paid,
-    bookcarsTypes.BookingStatus.PaidInFull,
+    // bookcarsTypes.BookingStatus.Paid,
+    // bookcarsTypes.BookingStatus.PaidInFull,
   ].includes(value)) {
     return <CheckIcon className={`bs-icon bs-icon-${value?.toLowerCase()}`} />
   }

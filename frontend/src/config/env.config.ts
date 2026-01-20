@@ -11,20 +11,25 @@ type Language = { code: string, countryCode: string, label: string }
  */
 const LANGUAGES: Language[] = [
   {
+    code: 'hu',
+    countryCode: 'hu',
+    label: 'Magyar',
+  },
+  {
     code: 'en',
     countryCode: 'us',
     label: 'English',
   },
-  {
-    code: 'fr',
-    countryCode: 'fr',
-    label: 'Français',
-  },
-  {
-    code: 'es',
-    countryCode: 'es',
-    label: 'Español',
-  },
+  // {
+  //   code: 'fr',
+  //   countryCode: 'fr',
+  //   label: 'Français',
+  // },
+  // {
+  //   code: 'es',
+  //   countryCode: 'es',
+  //   label: 'Español',
+  // },
 ]
 
 type Currency = { code: string, symbol: string }
@@ -41,17 +46,21 @@ const CURRENCIES: Currency[] = [
     symbol: '$',
   },
   {
+    code: 'HUF',
+    symbol: 'Ft',
+  },
+  {
     code: 'EUR',
     symbol: '€',
   },
-  {
-    code: 'GBP',
-    symbol: '£',
-  },
-  {
-    code: 'AUD',
-    symbol: '$',
-  },
+  // {
+  //   code: 'GBP',
+  //   symbol: '£',
+  // },
+  // {
+  //   code: 'AUD',
+  //   symbol: '$',
+  // },
 ]
 
 const getPaymentGateway = () => {
@@ -73,6 +82,7 @@ const env = {
   isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
 
   WEBSITE_NAME: String(import.meta.env.VITE_BC_WEBSITE_NAME || 'BookCars'),
+  COMPANY_ADDRESS: String('1117 Budapest, Galvani u. 1-3'),
 
   APP_TYPE: bookcarsTypes.AppType.Frontend,
   API_HOST: String(import.meta.env.VITE_BC_API_HOST),
@@ -129,7 +139,7 @@ const env = {
    * Minimum number of locations required for country tabs in homepage.
    */
   MIN_LOCATIONS: Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
-  HIDE_SUPPLIERS: (import.meta.env.VITE_BC_HIDE_SUPPLIERS && import.meta.env.VITE_BC_HIDE_SUPPLIERS.toLowerCase()) === 'true',
+  HIDE_SUPPLIERS: (import.meta.env.VITE_BC_HIDE_SUPPLIERS && import.meta.env.VITE_BC_HIDE_SUPPLIERS.toLowerCase()) === 'false',
   MAP_LATITUDE: Number(String(import.meta.env.VITE_BC_MAP_LATITUDE || '34.0268755')),
   MAP_LONGITUDE: Number(String(import.meta.env.VITE_BC_MAP_LONGITUDE || '1.6528399999999976')),
   MAP_ZOOM: Number(String(import.meta.env.VITE_BC_MAP_ZOOM || '5')),

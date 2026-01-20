@@ -20,6 +20,12 @@ const strings = new LocalizedStrings({
     MORE_THAN_FOOR_DOORS: '4+ puertas',
     MORE_THAN_FIVE_SEATS: '5+ asientos',
   },
+  hu: {
+  CAR_SPECS: 'Jármű jellemzők',
+  AIRCON: 'Klímaberendezés',
+  MORE_THAN_FOOR_DOORS: '4+ ajtó',
+  MORE_THAN_FIVE_SEATS: '5+ ülés',
+},
 })
 
 langHelper.setLanguage(strings)

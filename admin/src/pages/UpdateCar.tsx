@@ -27,8 +27,6 @@ import ErrorMessage from '@/components/Error'
 import Backdrop from '@/components/SimpleBackdrop'
 import NoMatch from './NoMatch'
 import Avatar from '@/components/Avatar'
-import SupplierSelectList from '@/components/SupplierSelectList'
-import LocationSelectList from '@/components/LocationSelectList'
 import CarTypeList from '@/components/CarTypeList'
 import GearboxList from '@/components/GearboxList'
 import SeatsList from '@/components/SeatsList'
@@ -36,8 +34,8 @@ import DoorsList from '@/components/DoorsList'
 import FuelPolicyList from '@/components/FuelPolicyList'
 import MultimediaList from '@/components/MultimediaList'
 import CarRangeList from '@/components/CarRangeList'
-import DateBasedPriceEditList from '@/components/DateBasedPriceEditList'
-import { Option, Supplier } from '@/models/common'
+import CarGallery from '@/components/CarGallery'
+
 import { schema, FormFields, DateBasedPrice } from '@/models/CarForm'
 
 import '@/assets/css/create-car.css'
@@ -46,7 +44,7 @@ const UpdateCar = () => {
   const navigate = useNavigate()
 
   const [user, setUser] = useState<bookcarsTypes.User>()
-  const [isSupplier, setIsSupplier] = useState(false)
+  // const [isSupplier, setIsSupplier] = useState(false)
   const [car, setCar] = useState<bookcarsTypes.Car>()
   const [noMatch, setNoMatch] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -55,6 +53,7 @@ const UpdateCar = () => {
   const [imageRequired, setImageRequired] = useState(false)
   const [imageSizeError, setImageSizeError] = useState(false)
   const [image, setImage] = useState('')
+  const [extraImages, setExtraImages] = useState<string[]>( [])
 
   // Initialize react-hook-form
   const {
@@ -71,24 +70,25 @@ const UpdateCar = () => {
     defaultValues: {
       name: '',
       licensePlate: '',
-      supplier: undefined,
+      // supplier: undefined,
       minimumAge: String(env.MINIMUM_AGE),
-      locations: [],
+      // locations: [],
       dailyPrice: '',
       discountedDailyPrice: '',
-      hourlyPrice: '',
-      discountedHourlyPrice: '',
-      biWeeklyPrice: '',
-      discountedBiWeeklyPrice: '',
+      // hourlyPrice: '',
+      // discountedHourlyPrice: '',
+      // biWeeklyPrice: '',
+      // discountedBiWeeklyPrice: '',
       weeklyPrice: '',
-      discountedWeeklyPrice: '',
+      // discountedWeeklyPrice: '',
       monthlyPrice: '',
-      discountedMonthlyPrice: '',
+      // discountedMonthlyPrice: '',
       deposit: '',
       available: true,
-      fullyBooked: false,
-      comingSoon: false,
-      blockOnPay: true,
+      toolsRentable: false,
+      // fullyBooked: false,
+      // comingSoon: false,
+      // blockOnPay: true,
       type: '',
       gearbox: '',
       seats: '',
@@ -101,33 +101,34 @@ const UpdateCar = () => {
       theftProtection: '',
       collisionDamageWaiver: '',
       fullInsurance: '',
-      additionalDriver: '',
+      // additionalDriver: '',
       range: '',
       multimedia: [],
       rating: '',
       co2: '',
-      isDateBasedPrice: false,
-      dateBasedPrices: [],
+      // isDateBasedPrice: false,
+      // dateBasedPrices: [],
     }
   })
 
   // Use watch to track form values
-  const supplier = useWatch({ control, name: 'supplier' })
-  const locations = useWatch({ control, name: 'locations' })
-  const isDateBasedPrice = useWatch({ control, name: 'isDateBasedPrice' })
-  const dateBasedPrices = useWatch({ control, name: 'dateBasedPrices' })
+  // const supplier = useWatch({ control, name: 'supplier' })
+  // const locations = useWatch({ control, name: 'locations' })
+  // const isDateBasedPrice = useWatch({ control, name: 'isDateBasedPrice' })
+  // const dateBasedPrices = useWatch({ control, name: 'dateBasedPrices' })
   const range = useWatch({ control, name: 'range' })
   const multimedia = useWatch({ control, name: 'multimedia' })
   const available = useWatch({ control, name: 'available' })
-  const fullyBooked = useWatch({ control, name: 'fullyBooked' })
-  const comingSoon = useWatch({ control, name: 'comingSoon' })
-  const blockOnPay = useWatch({ control, name: 'blockOnPay' })
+  // const fullyBooked = useWatch({ control, name: 'fullyBooked' })
+  // const comingSoon = useWatch({ control, name: 'comingSoon' })
+  // const blockOnPay = useWatch({ control, name: 'blockOnPay' })
   const type = useWatch({ control, name: 'type' })
   const gearbox = useWatch({ control, name: 'gearbox' })
   const seats = useWatch({ control, name: 'seats' })
   const doors = useWatch({ control, name: 'doors' })
   const fuelPolicy = useWatch({ control, name: 'fuelPolicy' })
   const aircon = useWatch({ control, name: 'aircon' })
+  const toolsRentable = useWatch({ control, name: 'toolsRentable' })
 
   const handleBeforeUpload = () => {
     setLoading(true)
@@ -165,7 +166,7 @@ const UpdateCar = () => {
 
   const onSubmit = async (data: FormFields) => {
     try {
-      if (!car || !supplier) {
+      if (!car) {
         helper.error()
         return
       }
@@ -178,30 +179,34 @@ const UpdateCar = () => {
         }
       }
 
+      console.log('toolsRentable: ', data.toolsRentable)
+
       const payload: bookcarsTypes.UpdateCarPayload = {
         loggedUser: user!._id!,
         _id: car._id,
         name: data.name,
         licensePlate: data.licensePlate,
-        supplier: supplier._id!,
+        // supplier: supplier._id!,
         minimumAge: Number.parseInt(data.minimumAge, 10),
-        locations: data.locations.map((l) => l._id),
+        // locations: data.locations.map((l) => l._id),
         dailyPrice: Number(data.dailyPrice),
         discountedDailyPrice: getPrice(data.discountedDailyPrice!),
-        hourlyPrice: getPrice(data.hourlyPrice || ''),
-        discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
-        biWeeklyPrice: getPrice(data.biWeeklyPrice!),
-        discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice!),
+        // hourlyPrice: getPrice(data.hourlyPrice || ''),
+        // discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
+        // biWeeklyPrice: getPrice(data.biWeeklyPrice!),
+        // discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice!),
         weeklyPrice: getPrice(data.weeklyPrice!),
-        discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice!),
+        // discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice!),
         monthlyPrice: getPrice(data.monthlyPrice!),
-        discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice!),
+        // discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice!),
         deposit: Number(data.deposit),
         available: data.available,
+        toolsRentable: data.toolsRentable,
         type: data.type,
         gearbox: data.gearbox,
         aircon: data.aircon,
         image,
+        images: extraImages,
         seats: Number.parseInt(data.seats, 10),
         doors: Number.parseInt(data.doors, 10),
         fuelPolicy: data.fuelPolicy,
@@ -211,16 +216,16 @@ const UpdateCar = () => {
         theftProtection: extraToNumber(data.theftProtection),
         collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver),
         fullInsurance: extraToNumber(data.fullInsurance),
-        additionalDriver: extraToNumber(data.additionalDriver),
+        // additionalDriver: extraToNumber(data.additionalDriver),
         range: data.range,
         multimedia: data.multimedia!,
         rating: Number(data.rating) || undefined,
         co2: Number(data.co2) || undefined,
-        comingSoon: data.comingSoon,
-        fullyBooked: data.fullyBooked,
-        blockOnPay: data.blockOnPay,
-        isDateBasedPrice: data.isDateBasedPrice,
-        dateBasedPrices: data.dateBasedPrices || [],
+        // comingSoon: data.comingSoon,
+        // fullyBooked: data.fullyBooked,
+        // blockOnPay: data.blockOnPay,
+        // isDateBasedPrice: data.isDateBasedPrice,
+        // dateBasedPrices: data.dateBasedPrices || [],
       }
 
       const status = await CarService.update(payload)
@@ -246,7 +251,7 @@ const UpdateCar = () => {
     if (_user && _user.verified) {
       setLoading(true)
       setUser(_user)
-      setIsSupplier(_user.type === bookcarsTypes.RecordType.Supplier)
+      // setIsSupplier(_user.type === bookcarsTypes.RecordType.Supplier)
       const params = new URLSearchParams(window.location.search)
       if (params.has('cr')) {
         const id = params.get('cr')
@@ -255,43 +260,39 @@ const UpdateCar = () => {
             const _car = await CarService.getCar(id)
 
             if (_car) {
-              if (_user.type === bookcarsTypes.RecordType.Supplier && _user._id !== _car.supplier._id) {
+              if (_user.type !== bookcarsTypes.RecordType.Admin ) {
                 setLoading(false)
                 setNoMatch(true)
                 return
               }
 
-              const _supplier = {
-                _id: _car.supplier._id as string,
-                name: _car.supplier.fullName,
-                image: _car.supplier.avatar,
-              }
+              
 
               setCar(_car)
               setImageRequired(!_car.image)
               setValue('name', _car.name)
               setValue('licensePlate', _car.licensePlate || '')
-              setValue('supplier', _supplier)
+              // setValue('supplier', _supplier)
               setValue('minimumAge', _car.minimumAge.toString())
-              const lcs: Option[] = []
-              for (const loc of _car.locations) {
-                const { _id, name: _name } = loc
-                const lc: Option = { _id, name: _name ?? '' }
-                lcs.push(lc)
-              }
-              setValue('locations', lcs)
+              // const lcs: Option[] = []
+              // for (const loc of _car.locations) {
+              //   const { _id, name: _name } = loc
+              //   const lc: Option = { _id, name: _name ?? '' }
+              //   lcs.push(lc)
+              // }
+              // setValue('locations', lcs)
               setValue('dailyPrice', getPriceAsString(_car.dailyPrice))
               setValue('discountedDailyPrice', getPriceAsString(_car.discountedDailyPrice))
 
-              setValue('hourlyPrice', getPriceAsString(_car.hourlyPrice))
-              setValue('discountedHourlyPrice', getPriceAsString(_car.discountedHourlyPrice))
+              // setValue('hourlyPrice', getPriceAsString(_car.hourlyPrice))
+              // setValue('discountedHourlyPrice', getPriceAsString(_car.discountedHourlyPrice))
 
-              setValue('biWeeklyPrice', getPriceAsString(_car.biWeeklyPrice))
-              setValue('discountedBiWeeklyPrice', getPriceAsString(_car.discountedBiWeeklyPrice))
+              // setValue('biWeeklyPrice', getPriceAsString(_car.biWeeklyPrice))
+              // setValue('discountedBiWeeklyPrice', getPriceAsString(_car.discountedBiWeeklyPrice))
               setValue('weeklyPrice', getPriceAsString(_car.weeklyPrice))
-              setValue('discountedWeeklyPrice', getPriceAsString(_car.discountedWeeklyPrice))
+              // setValue('discountedWeeklyPrice', getPriceAsString(_car.discountedWeeklyPrice))
               setValue('monthlyPrice', getPriceAsString(_car.monthlyPrice))
-              setValue('discountedMonthlyPrice', getPriceAsString(_car.discountedMonthlyPrice))
+              // setValue('discountedMonthlyPrice', getPriceAsString(_car.discountedMonthlyPrice))
               setValue('deposit', _car.deposit.toString())
               setValue('range', _car.range)
               setValue('multimedia', _car.multimedia || [])
@@ -302,9 +303,10 @@ const UpdateCar = () => {
                 setValue('co2', _car.co2.toString())
               }
               setValue('available', _car.available)
-              setValue('fullyBooked', _car.fullyBooked || false)
-              setValue('comingSoon', _car.comingSoon || false)
-              setValue('blockOnPay', _car.blockOnPay || false)
+              setValue('toolsRentable', _car.toolsRentable)
+              // setValue('fullyBooked', _car.fullyBooked || false)
+              // setValue('comingSoon', _car.comingSoon || false)
+              // setValue('blockOnPay', _car.blockOnPay || false)
               setValue('type', _car.type)
               setValue('gearbox', _car.gearbox)
               setValue('aircon', _car.aircon)
@@ -317,15 +319,16 @@ const UpdateCar = () => {
               setValue('theftProtection', extraToString(_car.theftProtection))
               setValue('collisionDamageWaiver', extraToString(_car.collisionDamageWaiver))
               setValue('fullInsurance', extraToString(_car.fullInsurance))
-              setValue('additionalDriver', extraToString(_car.additionalDriver))
-              setValue('isDateBasedPrice', _car.isDateBasedPrice)
-              const _dateBasedPrices: DateBasedPrice[] = []
-              for (const dbp of _car.dateBasedPrices) {
-                const { _id, startDate, endDate, dailyPrice } = dbp
-                const db: DateBasedPrice = { _id, startDate: new Date(startDate!), endDate: new Date(endDate!), dailyPrice: dailyPrice.toString() }
-                _dateBasedPrices.push(db)
-              }
-              setValue('dateBasedPrices', _dateBasedPrices)
+              // setValue('additionalDriver', extraToString(_car.additionalDriver))
+              setExtraImages(_car?.images || []);
+              // setValue('isDateBasedPrice', _car.isDateBasedPrice)
+              // const _dateBasedPrices: DateBasedPrice[] = []
+              // for (const dbp of _car.dateBasedPrices) {
+              //   const { _id, startDate, endDate, dailyPrice } = dbp
+              //   const db: DateBasedPrice = { _id, startDate: new Date(startDate!), endDate: new Date(endDate!), dailyPrice: dailyPrice.toString() }
+              //   _dateBasedPrices.push(db)
+              // }
+              // setValue('dateBasedPrices', _dateBasedPrices)
               setVisible(true)
               setLoading(false)
             } else {
@@ -374,6 +377,13 @@ const UpdateCar = () => {
                 <span>{strings.RECOMMENDED_IMAGE_SIZE}</span>
               </div>
 
+              <CarGallery
+                mode="update"
+                value={extraImages}
+                onChange={setExtraImages}
+                max={4}
+              />
+
               <FormControl fullWidth margin="dense">
                 <InputLabel className="required">{strings.NAME}</InputLabel>
                 <Input
@@ -393,47 +403,7 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              {!isSupplier && (
-                <FormControl fullWidth margin="dense">
-                  <SupplierSelectList
-                    label={strings.SUPPLIER}
-                    required
-                    value={supplier as bookcarsTypes.Option}
-                    variant="standard"
-                    onChange={(values) => setValue('supplier', values.length > 0 ? values[0] as Supplier : undefined)}
-                  />
-                </FormControl>
-              )}
 
-              <FormControl fullWidth margin="dense">
-                <InputLabel className="required">{strings.MINIMUM_AGE}</InputLabel>
-                <Input
-                  type="text"
-                  required
-                  {...register('minimumAge')}
-                  error={!!errors.minimumAge}
-                  autoComplete="off"
-                  onChange={() => {
-                    if (errors.minimumAge) {
-                      clearErrors('minimumAge')
-                    }
-                  }}
-                />
-                {errors.minimumAge && (
-                  <FormHelperText error>{errors.minimumAge.message}</FormHelperText>
-                )}
-              </FormControl>
-
-              <FormControl fullWidth margin="dense">
-                <LocationSelectList
-                  label={strings.LOCATIONS}
-                  value={locations as bookcarsTypes.Option[]}
-                  multiple
-                  required
-                  variant="standard"
-                  onChange={(values) => setValue('locations', values as Option[])}
-                />
-              </FormControl>
 
               <FormControl fullWidth margin="dense">
                 <TextField
@@ -468,106 +438,13 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
-                <FormControlLabel
-                  control={(
-                    <Switch
-                      checked={isDateBasedPrice}
-                      onChange={(e) => setValue('isDateBasedPrice', e.target.checked)}
-                      color="primary"
-                    />
-                  )}
-                  label={strings.IS_DATE_BASED_PRICE}
-                  className="checkbox-fcl"
-                />
-              </FormControl>
 
-              {isDateBasedPrice && (
-                <DateBasedPriceEditList
-                  title={strings.DATE_BASED_PRICES}
-                  values={dateBasedPrices as bookcarsTypes.DateBasedPrice[]}
-                  onAdd={(value) => {
-                    const newValues = [...(dateBasedPrices || []), value]
-                    setValue('dateBasedPrices', newValues as DateBasedPrice[])
-                  }}
-                  onUpdate={(value, index) => {
-                    const newValues = [...(dateBasedPrices || [])]
-                    newValues[index] = value as DateBasedPrice
-                    setValue('dateBasedPrices', newValues as DateBasedPrice[])
-                  }}
-                  onDelete={(_, index) => {
-                    const newValues = [...(dateBasedPrices || [])]
-                    newValues.splice(index, 1)
-                    setValue('dateBasedPrices', newValues as DateBasedPrice[])
-                  }}
-                />
-              )}
-
-              {!isDateBasedPrice && (
+              
                 <>
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.HOURLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('hourlyPrice')}
-                      error={!!errors.hourlyPrice}
-                      helperText={errors.hourlyPrice?.message}
-                      variant="standard"
-                      autoComplete="off"
-                      onChange={() => {
-                        if (errors.hourlyPrice) {
-                          clearErrors('hourlyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
+                 
 
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.DISCOUNTED_HOURLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('discountedHourlyPrice')}
-                      variant="standard"
-                      autoComplete="off"
-                      error={!!errors.discountedHourlyPrice}
-                      helperText={errors.discountedHourlyPrice?.message}
-                      onChange={() => {
-                        if (errors.discountedHourlyPrice) {
-                          clearErrors('discountedHourlyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
+                  
 
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.BI_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('biWeeklyPrice')}
-                      variant="standard"
-                      autoComplete="off"
-                      error={!!errors.biWeeklyPrice}
-                      helperText={errors.biWeeklyPrice?.message}
-                      onChange={() => {
-                        if (errors.biWeeklyPrice) {
-                          clearErrors('biWeeklyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.DISCOUNTED_BI_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('discountedBiWeeklyPrice')}
-                      variant="standard"
-                      autoComplete="off"
-                      error={!!errors.discountedBiWeeklyPrice}
-                      helperText={errors.discountedBiWeeklyPrice?.message}
-                      onChange={() => {
-                        if (errors.discountedBiWeeklyPrice) {
-                          clearErrors('discountedBiWeeklyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
 
                   <FormControl fullWidth margin="dense">
                     <TextField
@@ -585,21 +462,6 @@ const UpdateCar = () => {
                     />
                   </FormControl>
 
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.DISCOUNTED_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('discountedWeeklyPrice')}
-                      variant="standard"
-                      autoComplete="off"
-                      error={!!errors.discountedWeeklyPrice}
-                      helperText={errors.discountedWeeklyPrice?.message}
-                      onChange={() => {
-                        if (errors.discountedWeeklyPrice) {
-                          clearErrors('discountedWeeklyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
 
                   <FormControl fullWidth margin="dense">
                     <TextField
@@ -617,23 +479,8 @@ const UpdateCar = () => {
                     />
                   </FormControl>
 
-                  <FormControl fullWidth margin="dense">
-                    <TextField
-                      label={`${strings.DISCOUNTED_MONThLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('discountedMonthlyPrice')}
-                      variant="standard"
-                      autoComplete="off"
-                      error={!!errors.discountedMonthlyPrice}
-                      helperText={errors.discountedMonthlyPrice?.message}
-                      onChange={() => {
-                        if (errors.discountedMonthlyPrice) {
-                          clearErrors('discountedMonthlyPrice')
-                        }
-                      }}
-                    />
-                  </FormControl>
                 </>
-              )}
+             
 
               <FormControl fullWidth margin="dense">
                 <TextField
@@ -721,7 +568,7 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
+              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   control={(
                     <Switch
@@ -761,6 +608,20 @@ const UpdateCar = () => {
                   label={strings.BLOCK_ON_PAY}
                   className="checkbox-fcl"
                 />
+              </FormControl> */}
+
+              <FormControl fullWidth margin="dense" className="checkbox-fc">
+                            <FormControlLabel
+                              control={(
+                                <Switch
+                                  checked={toolsRentable}
+                                  onChange={(e) => setValue('toolsRentable', e.target.checked)}
+                                  color="primary"
+                                />
+                              )}
+                              label={strings.TOOLS_RENTABLE}
+                              className="checkbox-fcl"
+                            />
               </FormControl>
 
               <FormControl fullWidth margin="dense">
@@ -924,22 +785,6 @@ const UpdateCar = () => {
                   onChange={() => {
                     if (errors.fullInsurance) {
                       clearErrors('fullInsurance')
-                    }
-                  }}
-                />
-              </FormControl>
-
-              <FormControl fullWidth margin="dense">
-                <TextField
-                  label={`${csStrings.ADDITIONAL_DRIVER} (${csStrings.CAR_CURRENCY})`}
-                  {...register('additionalDriver')}
-                  variant="standard"
-                  autoComplete="off"
-                  error={!!errors.additionalDriver}
-                  helperText={errors.additionalDriver?.message}
-                  onChange={() => {
-                    if (errors.additionalDriver) {
-                      clearErrors('additionalDriver')
                     }
                   }}
                 />

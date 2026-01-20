@@ -23,6 +23,13 @@ const strings = new LocalizedStrings({
     RESET: 'Restablecer',
     EMAIL_SENT: 'Correo electrónico de restablecimiento de contraseña enviado.',
   },
+  hu: {
+  RESET_PASSWORD_HEADING: 'Jelszó visszaállítása',
+  RESET_PASSWORD: 'Kérjük, add meg az email címed, hogy elküldhessük a jelszó-visszaállító emailt.',
+  EMAIL_ERROR: 'Ez az email cím nincs regisztrálva',
+  RESET: 'Visszaállítás',
+  EMAIL_SENT: 'A jelszó-visszaállító emailt elküldtük.',
+},
 })
 
 langHelper.setLanguage(strings)

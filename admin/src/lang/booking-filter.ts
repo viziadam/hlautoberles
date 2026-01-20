@@ -14,6 +14,10 @@ const strings = new LocalizedStrings({
     PICK_UP_LOCATION: 'Lugar de recogida',
     DROP_OFF_LOCATION: 'Lugar de entrega',
   },
+  hu: {
+  PICK_UP_LOCATION: 'Átvételi hely',
+  DROP_OFF_LOCATION: 'Leadási hely',
+},
 })
 
 langHelper.setLanguage(strings)

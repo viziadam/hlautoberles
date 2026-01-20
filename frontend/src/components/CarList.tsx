@@ -19,10 +19,10 @@ import '@/assets/css/car-list.css'
 interface CarListProps {
   from?: Date
   to?: Date
-  suppliers?: string[]
-  pickupLocation?: string
-  dropOffLocation?: string
-  pickupLocationName?: string
+  // suppliers?: string[]
+  // pickupLocation?: string
+  // dropOffLocation?: string
+  // pickupLocationName?: string
   carSpecs?: bookcarsTypes.CarSpecs
   carType?: string[]
   gearbox?: string[]
@@ -34,7 +34,7 @@ interface CarListProps {
   booking?: bookcarsTypes.Booking
   className?: string
   hidePrice?: boolean
-  hideSupplier?: boolean
+  //hideSupplier?: boolean
   loading?: boolean
   sizeAuto?: boolean
   ranges?: string[]
@@ -50,10 +50,10 @@ interface CarListProps {
 const CarList = ({
   from,
   to,
-  suppliers,
-  pickupLocation,
-  dropOffLocation,
-  pickupLocationName,
+  // suppliers,
+  // pickupLocation,
+  // dropOffLocation,
+  // pickupLocationName,
   carSpecs,
   carType: _carType,
   gearbox,
@@ -65,14 +65,14 @@ const CarList = ({
   booking,
   className,
   hidePrice,
-  hideSupplier,
+  // hideSupplier,
   loading: carListLoading,
   sizeAuto,
   ranges,
   multimedia,
   rating,
   seats,
-  distance,
+  // distance,
   includeAlreadyBookedCars,
   includeComingSoonCars,
   onLoad,
@@ -105,8 +105,8 @@ const CarList = ({
 
   const fetchData = async (
     _page: number,
-    _suppliers?: string[],
-    _pickupLocation?: string,
+    // _suppliers?: string[],
+    // _pickupLocation?: string,
     _carSpecs?: bookcarsTypes.CarSpecs,
     __carType?: string[],
     _gearbox?: string[],
@@ -122,8 +122,8 @@ const CarList = ({
       setLoading(true)
 
       const payload: bookcarsTypes.GetCarsPayload = {
-        suppliers: _suppliers ?? [],
-        pickupLocation: _pickupLocation,
+        // suppliers: _suppliers ?? [],
+        // pickupLocation: _pickupLocation,
         carSpecs: _carSpecs,
         carType: __carType,
         gearbox: _gearbox,
@@ -140,8 +140,9 @@ const CarList = ({
         includeComingSoonCars,
       }
 
+      console.log('front end car payload: ', payload);
       const data = await CarService.getCars(payload, _page, env.CARS_PAGE_SIZE)
-
+      //console.log('fetched cars: ', data);
       const _data = data && data.length > 0 ? data[0] : { pageInfo: { totalRecord: 0 }, resultData: [] }
       if (!_data) {
         helper.error()
@@ -168,6 +169,7 @@ const CarList = ({
       if (onLoad) {
         onLoad({ rows: _data.resultData, rowCount: _totalRecords })
       }
+      console.log('itt!')
     } catch (err) {
       helper.error(err)
     } finally {
@@ -177,21 +179,13 @@ const CarList = ({
   }
 
   useEffect(() => {
-    if (suppliers) {
-      if (suppliers.length > 0) {
-        fetchData(page, suppliers, pickupLocation, carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats)
-      } else {
-        setRows([])
-        setFetch(false)
-        if (onLoad) {
-          onLoad({ rows: [], rowCount: 0 })
-        }
-        setInit(false)
-      }
-    }
-  }, [page, suppliers, pickupLocation, carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to]) // eslint-disable-line react-hooks/exhaustive-deps
+    if (cars && cars.length > 0) return
+    
+        fetchData(page,  carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats)
+  }, [page,  carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    console.log('cars: ', cars);
     if (cars) {
       setRows(cars)
       setFetch(false)
@@ -204,14 +198,15 @@ const CarList = ({
 
   useEffect(() => {
     setPage(1)
-  }, [suppliers, pickupLocation, carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to])
+  }, [ carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to])
 
   useEffect(() => {
     if (reload) {
       setPage(1)
-      fetchData(1, suppliers, pickupLocation, carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats)
+      if (cars && cars.length > 0) return
+      fetchData(1,  carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats)
     }
-  }, [reload, suppliers, pickupLocation, carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reload,  carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -227,7 +222,7 @@ const CarList = ({
               </CardContent>
             </Card>
           )
-          : ((from && to && pickupLocation && dropOffLocation) || hidePrice) // || (hidePrice && booking))
+          : ((from && to ) || hidePrice) // || (hidePrice && booking))
           && (
             <>
               {totalRecords > 0 && (
@@ -248,13 +243,13 @@ const CarList = ({
                   key={car._id}
                   car={car}
                   booking={booking}
-                  pickupLocation={pickupLocation}
-                  dropOffLocation={dropOffLocation}
+                  // pickupLocation={pickupLocation}
+                  // dropOffLocation={dropOffLocation}
                   from={from as Date}
                   to={to as Date}
-                  pickupLocationName={pickupLocationName}
-                  distance={distance}
-                  hideSupplier={hideSupplier}
+                  // pickupLocationName={pickupLocationName}
+                  // distance={distance}
+                  // hideSupplier={hideSupplier}
                   sizeAuto={sizeAuto}
                   hidePrice={hidePrice}
                 />

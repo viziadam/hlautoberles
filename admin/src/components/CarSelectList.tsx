@@ -23,8 +23,8 @@ interface CarSelectListProps {
   multiple?: boolean
   variant?: TextFieldVariants
   value?: bookcarsTypes.Car
-  supplier: string
-  pickupLocation: string
+  // supplier: string
+  // pickupLocation: string
   onChange?: (values: bookcarsTypes.Car[]) => void
 }
 
@@ -34,15 +34,15 @@ const CarSelectList = ({
   multiple,
   variant,
   value,
-  supplier,
-  pickupLocation,
+  // supplier,
+  // pickupLocation,
   onChange
 }: CarSelectListProps) => {
   const [init, setInit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [fetch, setFetch] = useState(true)
-  const [currentSupplier, setCurrentSupplier] = useState('-1')
-  const [currentPickupLocation, setCurrentPickupLocation] = useState('-1')
+  // const [currentSupplier, setCurrentSupplier] = useState('-1')
+  // const [currentPickupLocation, setCurrentPickupLocation] = useState('-1')
   const [keyword, setKeyword] = useState('')
   const [page, setPage] = useState(1)
   const [cars, setCars] = useState<bookcarsTypes.Car[]>([])
@@ -59,45 +59,45 @@ const CarSelectList = ({
     }
   }, [value])
 
-  useEffect(() => {
-    if (supplier && currentSupplier !== supplier) {
-      setCurrentSupplier(supplier || '-1')
+  // useEffect(() => {
+  //   if (supplier && currentSupplier !== supplier) {
+  //     setCurrentSupplier(supplier || '-1')
 
-      if (currentSupplier !== '-1' && currentPickupLocation !== '-1') {
-        setReload(true)
-        setSelectedOptions([])
-        setPage(1)
-        setKeyword('')
+  //     if (currentSupplier !== '-1' && currentPickupLocation !== '-1') {
+  //       setReload(true)
+  //       setSelectedOptions([])
+  //       setPage(1)
+  //       setKeyword('')
 
-        if (onChange) {
-          onChange([])
-        }
-      }
-    }
-  }, [currentSupplier, supplier, currentPickupLocation, onChange])
+  //       if (onChange) {
+  //         onChange([])
+  //       }
+  //     }
+  //   }
+  // }, [currentSupplier, supplier, currentPickupLocation, onChange])
 
-  useEffect(() => {
-    if (pickupLocation && currentPickupLocation !== pickupLocation) {
-      setCurrentPickupLocation(pickupLocation || '-1')
+  // useEffect(() => {
+  //   if (pickupLocation && currentPickupLocation !== pickupLocation) {
+  //     setCurrentPickupLocation(pickupLocation || '-1')
 
-      if (currentSupplier !== '-1' && currentPickupLocation !== '-1') {
-        setReload(true)
-        setSelectedOptions([])
-        setPage(1)
-        setKeyword('')
+  //     if (currentSupplier !== '-1' && currentPickupLocation !== '-1') {
+  //       setReload(true)
+  //       setSelectedOptions([])
+  //       setPage(1)
+  //       setKeyword('')
 
-        if (onChange) {
-          onChange([])
-        }
-      }
-    }
-  }, [currentPickupLocation, currentSupplier, pickupLocation, onChange])
+  //       if (onChange) {
+  //         onChange([])
+  //       }
+  //     }
+  //   }
+  // }, [currentPickupLocation, currentSupplier, pickupLocation, onChange])
 
-  useEffect(() => {
-    if (currentPickupLocation !== pickupLocation) {
-      setCurrentPickupLocation(pickupLocation)
-    }
-  }, [currentPickupLocation, pickupLocation])
+  // useEffect(() => {
+  //   if (currentPickupLocation !== pickupLocation) {
+  //     setCurrentPickupLocation(pickupLocation)
+  //   }
+  // }, [currentPickupLocation, pickupLocation])
 
   const handleChange = (values: bookcarsTypes.Car[]) => {
     if (onChange) {
@@ -105,22 +105,22 @@ const CarSelectList = ({
     }
   }
 
-  const fetchData = async (_page: number, _keyword: string, _supplier: string, _pickupLocation: string) => {
+  const fetchData = async (_page: number, _keyword: string) => {
     try {
-      if (!_pickupLocation) {
-        return
-      }
+      // if (!_pickupLocation) {
+      //   return
+      // }
 
-      const payload: bookcarsTypes.GetBookingCarsPayload = { supplier: _supplier, pickupLocation: _pickupLocation }
+      const payload = { }
 
       if (closeDialog) {
         setCloseDialog(false)
       }
 
-      if (_supplier === '-1' || _pickupLocation === '-1') {
-        setOpenDialog(true)
-        return
-      }
+      // if (_supplier === '-1' || _pickupLocation === '-1') {
+      //   setOpenDialog(true)
+      //   return
+      // }
 
       setLoading(true)
 
@@ -162,7 +162,7 @@ const CarSelectList = ({
             if (fetch && !loading && listboxNode.scrollTop + listboxNode.clientHeight >= listboxNode.scrollHeight - env.PAGE_OFFSET) {
               const p = page + 1
               setPage(p)
-              fetchData(p, keyword, currentSupplier, currentPickupLocation)
+              fetchData(p, keyword)
             }
           },
         }}
@@ -171,7 +171,7 @@ const CarSelectList = ({
             const p = 1
             setCars([])
             setPage(p)
-            fetchData(p, keyword, currentSupplier, currentPickupLocation)
+            fetchData(p, keyword)
           }
         }}
         onInputChange={(event: React.SyntheticEvent<Element, Event>) => {
@@ -181,7 +181,7 @@ const CarSelectList = ({
             setCars([])
             setPage(1)
             setKeyword(_value)
-            fetchData(1, _value, currentSupplier, currentPickupLocation)
+            fetchData(1, _value)
           }
         }}
         onClear={() => {
@@ -189,14 +189,14 @@ const CarSelectList = ({
           setPage(1)
           setKeyword('')
           setFetch(true)
-          fetchData(1, '', currentSupplier, currentPickupLocation)
+          fetchData(1, '', )
         }}
       />
 
       <Dialog disableEscapeKeyDown maxWidth="xs" open={openDialog}>
         <DialogTitle className="dialog-header">{commonStrings.INFO}</DialogTitle>
         <DialogContent className="dialog-content">
-          {currentSupplier === '-1' && currentPickupLocation === '-1' ? (
+          {/* {currentSupplier === '-1' && currentPickupLocation === '-1' ? (
             `${strings.REQUIRED_FIELDS}${blStrings.SUPPLIER} ${commonStrings.AND} ${bfStrings.PICK_UP_LOCATION}`
           ) : currentSupplier === '-1' ? (
             `${strings.REQUIRED_FIELD}${blStrings.SUPPLIER}`
@@ -204,7 +204,7 @@ const CarSelectList = ({
             `${strings.REQUIRED_FIELD}${bfStrings.PICK_UP_LOCATION}`
           ) : (
             <></>
-          )}
+          )} */}
         </DialogContent>
         <DialogActions className="dialog-actions">
           <Button onClick={handleCloseDialog} variant="contained" className="btn-secondary">

@@ -43,16 +43,16 @@ const BookingFilter = ({
     let filter: bookcarsTypes.Filter | null = {
       from: data.from,
       to: data.to,
-      pickupLocation: data.pickupLocation,
-      dropOffLocation: data.dropOffLocation,
+      // pickupLocation: data.pickupLocation,
+      // dropOffLocation: data.dropOffLocation,
       keyword: data.keyword,
     }
 
     if (
       !data.from &&
       !data.to &&
-      !data.pickupLocation &&
-      !data.dropOffLocation &&
+      // !data.pickupLocation &&
+      // !data.dropOffLocation &&
       !data.keyword
     ) {
       filter = null
@@ -105,7 +105,7 @@ const BookingFilter = ({
             variant="standard"
           />
         </FormControl>
-        <FormControl fullWidth margin="dense">
+        {/* <FormControl fullWidth margin="dense">
           <LocationSelectList
             label={strings.PICK_UP_LOCATION}
             variant="standard"
@@ -120,7 +120,7 @@ const BookingFilter = ({
             onChange={(locations) => setValue('dropOffLocation', locations.length > 0 ? locations[0]._id : '')}
             init
           />
-        </FormControl>
+        </FormControl> */}
         <FormControl fullWidth margin="dense">
           <TextField
             {...register('keyword')}

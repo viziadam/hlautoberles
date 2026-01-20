@@ -7,10 +7,10 @@ export const USER_EXPIRE_AT_INDEX_NAME = 'expireAt'
 
 const userSchema = new Schema<env.User>(
   {
-    supplier: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    // supplier: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'User',
+    // },
     email: {
       type: String,
       lowercase: true,
@@ -87,7 +87,7 @@ const userSchema = new Schema<env.User>(
       type: String,
       enum: [
         bookcarsTypes.UserType.Admin,
-        bookcarsTypes.UserType.Supplier,
+        // bookcarsTypes.UserType.Supplier,
         bookcarsTypes.UserType.User,
       ],
       default: bookcarsTypes.UserType.User,
@@ -127,9 +127,9 @@ const userSchema = new Schema<env.User>(
     priceChangeRate: {
       type: Number,
     },
-    supplierCarLimit: {
-      type: Number,
-    },
+    // supplierCarLimit: {
+    //   type: Number,
+    // },
     notifyAdminOnNewCar: {
       type: Boolean,
     },

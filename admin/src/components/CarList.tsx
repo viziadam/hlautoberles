@@ -35,6 +35,7 @@ import * as helper from '@/utils/helper'
 import * as CarService from '@/services/CarService'
 import Pager from '@/components/Pager'
 import Progress from '@/components/Progress'
+import CarGallery from '@/components/CarGallery'
 import SupplierBadge from '@/components/SupplierBadge'
 
 import DoorsIcon from '@/assets/img/car-door.png'
@@ -46,7 +47,7 @@ import CO2MaxIcon from '@/assets/img/co2-max-icon.png'
 import '@/assets/css/car-list.css'
 
 interface CarListProps {
-  suppliers?: string[]
+  // suppliers?: string[]
   keyword?: string
   carSpecs?: bookcarsTypes.CarSpecs
   carType?: string[]
@@ -61,7 +62,7 @@ interface CarListProps {
   booking?: bookcarsTypes.Booking
   className?: string
   loading?: boolean
-  hideSupplier?: boolean
+  // hideSupplier?: boolean
   hidePrice?: boolean
   language?: string
   range?: string[]
@@ -73,7 +74,7 @@ interface CarListProps {
 }
 
 const CarList = ({
-  suppliers: carSuppliers,
+  // suppliers: carSuppliers,
   keyword: carKeyword,
   carSpecs: _carSpecs,
   carType: _carType,
@@ -88,7 +89,7 @@ const CarList = ({
   booking,
   className,
   loading: carLoading,
-  hideSupplier,
+  // hideSupplier,
   hidePrice,
   language,
   range,
@@ -133,7 +134,7 @@ const CarList = ({
 
   const fetchData = async (
     _page: number,
-    suppliers?: string[],
+    // suppliers?: string[],
     keyword?: string,
     carSpecs?: bookcarsTypes.CarSpecs,
     __carType?: string[],
@@ -151,7 +152,7 @@ const CarList = ({
       setLoading(true)
 
       const payload: bookcarsTypes.GetCarsPayload = {
-        suppliers: suppliers ?? [],
+        // suppliers: suppliers ?? [],
         carSpecs,
         carType: __carType,
         gearbox,
@@ -201,11 +202,9 @@ const CarList = ({
   }
 
   useEffect(() => {
-    if (carSuppliers) {
-      if (carSuppliers.length > 0) {
         fetchData(
           page,
-          carSuppliers,
+          // carSuppliers,
           carKeyword,
           _carSpecs,
           _carType,
@@ -219,17 +218,17 @@ const CarList = ({
           rating,
           seats
         )
-      } else {
-        setRows([])
-        setRowCount(0)
-        setFetch(false)
-        if (onLoad) {
-          onLoad({ rows: [], rowCount: 0 })
-        }
-        setInit(false)
-      }
-    }
-  }, [page, carSuppliers, carKeyword, _carSpecs, _carType, carGearbox, carMileage, _fuelPolicy, carDeposit, carAvailability, range, multimedia, rating, seats]) // eslint-disable-line react-hooks/exhaustive-deps
+      // } else {
+      //   setRows([])
+      //   setRowCount(0)
+      //   setFetch(false)
+      //   if (onLoad) {
+      //     onLoad({ rows: [], rowCount: 0 })
+      //   }
+      //   setInit(false)
+      // }
+    // }
+  }, [page, carKeyword, _carSpecs, _carType, carGearbox, carMileage, _fuelPolicy, carDeposit, carAvailability, range, multimedia, rating, seats]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (cars) {
@@ -246,7 +245,7 @@ const CarList = ({
   useEffect(() => {
     setPage(1)
   }, [
-    carSuppliers,
+    // carSuppliers,
     carKeyword,
     _carSpecs,
     _carType,
@@ -266,7 +265,7 @@ const CarList = ({
       setPage(1)
       fetchData(
         1,
-        carSuppliers,
+        // carSuppliers,
         carKeyword,
         _carSpecs,
         _carType,
@@ -281,11 +280,15 @@ const CarList = ({
         seats,
       )
     }
-  }, [reload, carSuppliers, carKeyword, _carSpecs, _carType, carGearbox, carMileage, _fuelPolicy, carDeposit, carAvailability, range, multimedia, rating, seats,]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reload,  carKeyword, _carSpecs, _carType, carGearbox, carMileage, _fuelPolicy, carDeposit, carAvailability, range, multimedia, rating, seats,]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setUser(carUser)
   }, [carUser])
+
+  useEffect(() => {
+    console.log('rows: ', rows)
+  }, [rows])
 
   const handleDelete = async (e: React.MouseEvent<HTMLElement>) => {
     try {
@@ -371,9 +374,9 @@ const CarList = ({
       if (option === 'fullInsurance' && booking.fullInsurance && extra > 0) {
         available = true
       }
-      if (option === 'additionalDriver' && booking.additionalDriver && extra > 0) {
-        available = true
-      }
+      // if (option === 'additionalDriver' && booking.additionalDriver && extra > 0) {
+      //   available = true
+      // }
     }
 
     return extra === -1
@@ -402,11 +405,17 @@ const CarList = ({
               </Card>
             )
             : rows.map((car, index) => {
-              const edit = admin || car.supplier._id === user._id
+              const edit = admin 
               return (
                 <article key={car._id}>
+
                   <div className="car">
                     <img src={bookcarsHelper.joinURL(env.CDN_CARS, car.image)} alt={car.name} className="car-img" />
+                    <CarGallery
+                        mode="readonly"
+                        value={car.images ?? []}
+                        onChange={() => {}}
+                    />
                     <div className="car-footer">
                       <div className="car-footer-row1">
                         <div className="rating">
@@ -434,9 +443,9 @@ const CarList = ({
                           </div>
                         )}
                       </div>
-                      {!hideSupplier && (
+                      {/* {!hideSupplier && (
                         <SupplierBadge supplier={car.supplier} />
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className="car-info">
@@ -519,7 +528,7 @@ const CarList = ({
                             <Tooltip title={car.available ? strings.CAR_AVAILABLE_TOOLTIP : strings.CAR_UNAVAILABLE_TOOLTIP}>
                               <div className="car-info-list-item">
                                 {car.available ? <CheckIcon /> : <UncheckIcon />}
-                                {car.available ? <span className="car-info-list-text">{strings.CAR_AVAILABLE}</span> : <span className="car-info-list-text">{strings.CAR_UNAVAILABLE}</span>}
+                                {car.available ? <span className="car-info-list-text">{strings.AVAILABLE}</span> : <span className="car-info-list-text">{strings.CAR_UNAVAILABLE}</span>}
                               </div>
                             </Tooltip>
                           </li>

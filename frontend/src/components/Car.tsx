@@ -36,18 +36,20 @@ import CO2MinIcon from '@/assets/img/co2-min-icon.png'
 import CO2MiddleIcon from '@/assets/img/co2-middle-icon.png'
 import CO2MaxIcon from '@/assets/img/co2-max-icon.png'
 
+import CarGallery from '@/components/CarGallery'
+
 import '@/assets/css/car.css'
 
 interface CarProps {
   car: bookcarsTypes.Car
   booking?: bookcarsTypes.Booking
-  pickupLocation?: string
-  dropOffLocation?: string
+  // pickupLocation?: string
+  // dropOffLocation?: string
   from: Date
   to: Date
-  pickupLocationName?: string
+  // pickupLocationName?: string
   distance?: string
-  hideSupplier?: boolean
+  // hideSupplier?: boolean
   sizeAuto?: boolean
   hidePrice?: boolean
 }
@@ -55,14 +57,14 @@ interface CarProps {
 const Car = ({
   car,
   booking,
-  pickupLocation,
-  dropOffLocation,
+  // pickupLocation,
+  // dropOffLocation,
   from,
   to,
-  pickupLocationName,
+  // pickupLocationName,
   distance,
-  hideSupplier,
-  sizeAuto,
+  // hideSupplier,
+  // sizeAuto,
   hidePrice,
 }: CarProps) => {
   const navigate = useNavigate()
@@ -76,8 +78,22 @@ const Car = ({
   const [theftProtection, setTheftProtection] = useState('')
   const [collisionDamageWaiver, setCollisionDamageWaiver] = useState('')
   const [fullInsurance, setFullInsurance] = useState('')
-  const [additionalDriver, setAdditionalDriver] = useState('')
+  // const [additionalDriver, setAdditionalDriver] = useState('')
   const [loading, setLoading] = useState(true)
+
+  const isBookable = (car as any).isBookable ?? true
+  const periodStatus = (car as any).periodStatus as ('available' | 'pending' | 'booked' | 'unavailable' | undefined)
+
+  console.log('periodStatus: ', periodStatus)
+
+  const statusLabel =
+    periodStatus === 'booked' ? strings.BOOKED :
+    periodStatus === 'pending' ? strings.PENDING :
+    periodStatus === 'unavailable' ? strings.NOT_AVAILABLE :
+    null
+
+    console.log('carStatusLabel: ', statusLabel);
+
 
   useEffect(() => {
     setLanguage(UserService.getLanguage())
@@ -86,7 +102,8 @@ const Car = ({
   useEffect(() => {
     const fetchPrice = async () => {
       if (from && to) {
-        const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from as Date, to as Date, car.supplier.priceChangeRate || 0))
+        const priceChangeRate = 0
+        const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from, to, priceChangeRate))
         setTotalPrice(_totalPrice)
         setDays(bookcarsHelper.days(from, to))
       }
@@ -110,24 +127,26 @@ const Car = ({
 
   useEffect(() => {
     const init = async () => {
-      const priceChangeRate = car.supplier.priceChangeRate || 0
+      const priceChangeRate =  0
       const _cancellation = (car.cancellation > -1 && (await helper.getCancellation(car.cancellation, language, priceChangeRate))) || ''
       const _amendments = (car.amendments > -1 && (await helper.getAmendments(car.amendments, language, priceChangeRate))) || ''
       const _theftProtection = (car.theftProtection > -1 && (await helper.getTheftProtection(car.theftProtection, language, priceChangeRate))) || ''
       const _collisionDamageWaiver = (car.collisionDamageWaiver > -1 && (await helper.getCollisionDamageWaiver(car.collisionDamageWaiver, language, priceChangeRate))) || ''
       const _fullInsurance = (car.fullInsurance > -1 && (await helper.getFullInsurance(car.fullInsurance, language, priceChangeRate))) || ''
-      const _additionalDriver = (car.additionalDriver > -1 && (await helper.getAdditionalDriver(car.additionalDriver, language, priceChangeRate))) || ''
+      // const _additionalDriver = (car.additionalDriver > -1 && (await helper.getAdditionalDriver(car.additionalDriver, language, priceChangeRate))) || ''
 
       setCancellation(_cancellation)
       setAmendments(_amendments)
       setTheftProtection(_theftProtection)
       setCollisionDamageWaiver(_collisionDamageWaiver)
       setFullInsurance(_fullInsurance)
-      setAdditionalDriver(_additionalDriver)
+      // setAdditionalDriver(_additionalDriver)
       setLoading(false)
 
       if (!hidePrice) {
-        let _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from as Date, to as Date, car.supplier.priceChangeRate || 0))
+        // const priceChangeRate = (car as any)?.supplier?.priceChangeRate ?? 0
+        const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from, to, 0))
+        // let _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from as Date, to as Date, car.supplier.priceChangeRate || 0))
         setTotalPrice(_totalPrice)
       }
     }
@@ -153,9 +172,9 @@ const Car = ({
       if (option === 'fullInsurance' && booking.fullInsurance && extra > 0) {
         available = true
       }
-      if (option === 'additionalDriver' && booking.additionalDriver && extra > 0) {
-        available = true
-      }
+      // if (option === 'additionalDriver' && booking.additionalDriver && extra > 0) {
+      //   available = true
+      // }
     }
 
     return extra === -1
@@ -173,12 +192,15 @@ const Car = ({
   const fr = language === 'fr'
 
   return (
-    <div key={car._id} className="car-container">
-      {pickupLocationName && (
+    <div
+  key={car._id}
+  className={`car-container ${!isBookable ? 'is-unbookable' : ''}`}
+>
+      {true && (
         <div className="car-header">
           <div className="location">
             <LocationIcon />
-            <span className="location-name">{pickupLocationName}</span>
+            <span className="location-name">{env.COMPANY_ADDRESS}</span>
           </div>
           {distance && (
             <div className="distance">
@@ -189,17 +211,28 @@ const Car = ({
         </div>
       )}
       <article>
+
+        {/* Badge in the top-right corner */}
+        {statusLabel && (
+          <div className="car-status-badge">
+            {statusLabel}
+          </div>
+        )}
+
         <div className="car">
           <img src={bookcarsHelper.joinURL(env.CDN_CARS, car.image)} alt={car.name} className="car-img" />
           <div className="car-row">
-            {!hideSupplier && (
+            <CarGallery
+                        value={car.images ?? []}
+            />
+            {/* {!hideSupplier && (
               <div className="car-supplier" style={sizeAuto ? { bottom: 10 } : {}} title={car.supplier.fullName}>
                 <span className="car-supplier-logo">
                   <img src={bookcarsHelper.joinURL(env.CDN_USERS, car.supplier.avatar)} alt={car.supplier.fullName} />
                 </span>
                 <span className="car-supplier-info">{car.supplier.fullName}</span>
               </div>
-            )}
+            )} */}
             <div className="car-footer">
               <div className="rating">
                 {car.rating && car.rating >= 1 && (
@@ -374,7 +407,7 @@ const Car = ({
                 </Tooltip>
               </li>
             )}
-            {car.additionalDriver > -1 && (
+            {/* {car.additionalDriver > -1 && (
               <li>
                 <Tooltip title={booking ? '' : additionalDriver} placement="left">
                   <div className="car-info-list-item">
@@ -383,7 +416,7 @@ const Car = ({
                   </div>
                 </Tooltip>
               </li>
-            )}
+            )} */}
             {car.deposit > 0 && (
               <li>
                 <div className="car-info-list-item">
@@ -399,7 +432,7 @@ const Car = ({
           {!hidePrice && (
             <div className="action">
               {
-                car.available && !car.comingSoon && !car.fullyBooked && (
+                car.available && !car.comingSoon && !car.fullyBooked && isBookable &&  (
                   <Button
                     variant="contained"
                     className="btn-primary btn-book btn-margin-bottom"
@@ -407,8 +440,8 @@ const Car = ({
                       navigate('/checkout', {
                         state: {
                           carId: car._id,
-                          pickupLocationId: pickupLocation,
-                          dropOffLocationId: dropOffLocation,
+                          // pickupLocationId: pickupLocation,
+                          // dropOffLocationId: dropOffLocation,
                           from,
                           to
                         }

@@ -1,6 +1,6 @@
 export enum UserType {
   Admin = 'admin',
-  Supplier = 'supplier',
+  // Supplier = 'supplier',
   User = 'user',
 }
 
@@ -22,10 +22,10 @@ export enum CarRange {
   Mini = 'mini', // car
   Midi = 'midi', // suv
   Maxi = 'maxi', // van
-  Scooter = 'scooter',
-  Bus = 'bus',
-  Truck = 'truck',
-  Caravan = 'caravan',
+  // Scooter = 'scooter',
+  // Bus = 'bus',
+  // Truck = 'truck',
+  // Caravan = 'caravan',
 }
 
 export enum CarMultimedia {
@@ -47,16 +47,22 @@ export enum FuelPolicy {
   FullToEmpty = 'FullToEmpty',
 }
 
+// export enum BookingStatus {
+//   Void = 'void',
+//   Pending = 'pending',
+//   Deposit = 'deposit',
+//   Paid = 'paid',
+//   PaidInFull = 'paidInFull',
+//   Reserved = 'reserved',
+//   Cancelled = 'cancelled',
+// }
+
 export enum BookingStatus {
   Void = 'void',
   Pending = 'pending',
-  Deposit = 'deposit',
-  Paid = 'paid',
-  PaidInFull = 'paidInFull',
   Reserved = 'reserved',
   Cancelled = 'cancelled',
 }
-
 export enum Mileage {
   Limited = 'limited',
   Unlimited = 'unlimited',
@@ -83,14 +89,16 @@ export enum PaymentGateway {
 
 export interface Booking {
   _id?: string
-  supplier: string | User
+  supplier?: string | User
   car: string | Car
   driver?: string | User
-  pickupLocation: string | Location
-  dropOffLocation: string | Location
+   pickupLocation?: string | Location
+   dropOffLocation?: string | Location
   from: Date
   to: Date
   status: BookingStatus
+  toolsIncluded?: boolean
+  chauffeurRequested?: boolean
   cancellation?: boolean
   amendments?: boolean
   theftProtection?: boolean
@@ -130,7 +138,7 @@ export interface Filter {
 }
 
 export interface GetBookingsPayload {
-  suppliers: string[]
+  suppliers?: string[]
   statuses: string[]
   user?: string
   car?: string
@@ -189,33 +197,34 @@ export interface CreateCarPayload {
   loggedUser: string
   name: string
   licensePlate?: string
-  supplier: string
+  supplier?: string
   minimumAge: number
-  locations: string[]
-
+  locations?: string[]
+  toolsRentable: boolean
   // price fields
-  hourlyPrice: number | null
-  discountedHourlyPrice: number | null
+  // hourlyPrice: number | null
+  // discountedHourlyPrice: number | null
   dailyPrice: number
   discountedDailyPrice: number | null
-  biWeeklyPrice: number | null
-  discountedBiWeeklyPrice: number | null
+  // biWeeklyPrice: number | null
+  // discountedBiWeeklyPrice: number | null
   weeklyPrice: number | null
-  discountedWeeklyPrice: number | null
+  // discountedWeeklyPrice: number | null
   monthlyPrice: number | null
-  discountedMonthlyPrice: number | null
+  // discountedMonthlyPrice: number | null
   // date based price
-  isDateBasedPrice: boolean
-  dateBasedPrices: DateBasedPrice[]
+  // isDateBasedPrice: boolean
+  // dateBasedPrices: DateBasedPrice[]
 
   deposit: number
   available: boolean
-  fullyBooked?: boolean
-  comingSoon?: boolean
+  // fullyBooked?: boolean
+  // comingSoon?: boolean
   type: string
   gearbox: string
   aircon: boolean
   image?: string
+  images?: string[]
   seats: number
   doors: number
   fuelPolicy: string
@@ -225,12 +234,12 @@ export interface CreateCarPayload {
   theftProtection: number
   collisionDamageWaiver: number
   fullInsurance: number
-  additionalDriver: number
+  // additionalDriver: number
   range: string
   multimedia: string[]
   rating?: number
   co2?: number
-  blockOnPay?: boolean
+  // blockOnPay?: boolean
 }
 
 export interface UpdateCarPayload extends CreateCarPayload {
@@ -496,6 +505,7 @@ export interface Car {
   gearbox: GearboxType
   aircon: boolean
   image?: string
+  images?: string[]
   seats: number
   doors: number
   fuelPolicy: FuelPolicy
@@ -521,8 +531,8 @@ export interface Data<T> {
 }
 
 export interface GetBookingCarsPayload {
-  supplier: string
-  pickupLocation: string
+  supplier?: string
+  pickupLocation?: string
 }
 
 export interface Notification {
@@ -648,8 +658,8 @@ export interface StatusFilterItem {
 }
 
 export interface CarFilter {
-  pickupLocation: Location
-  dropOffLocation: Location
+  // pickupLocation?: Location
+  // dropOffLocation?: Location
   from: Date
   to: Date
 }
@@ -663,4 +673,6 @@ export interface CarOptions {
   collisionDamageWaiver?: boolean
   fullInsurance?: boolean
   additionalDriver?: boolean
+  toolsIncluded?: boolean
+  chauffeurRequested?: boolean
 }

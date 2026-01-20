@@ -20,6 +20,12 @@ const strings = new LocalizedStrings({
     DELETE_SELECTION: 'Eliminar los usuarios seleccionados',
     BLACKLIST: 'Añadir a la lista negra',
   },
+  hu: {
+    DELETE_USER: 'Biztosan törölni szeretnéd ezt a felhasználót és minden adatát?',
+    DELETE_USERS: 'Biztosan törölni szeretnéd a kijelölt felhasználókat és minden adatukat?',
+    DELETE_SELECTION: 'Kijelölt felhasználók törlése',
+    BLACKLIST: 'Feketelistára helyezés',
+  },
 })
 
 langHelper.setLanguage(strings)

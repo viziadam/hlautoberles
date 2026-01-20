@@ -23,6 +23,13 @@ const strings = new LocalizedStrings({
     FIVE: '5 asientos',
     FIVE_PLUS: '5+ asientos',
   },
+  hu: {
+    SEATS: 'Ülések',
+    TWO: '2 ülés',
+    FOUR: '4 ülés',
+    FIVE: '5 ülés',
+    FIVE_PLUS: '5+ ülés',
+  },
 })
 
 langHelper.setLanguage(strings)

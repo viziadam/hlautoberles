@@ -20,6 +20,13 @@ const strings = new LocalizedStrings({
     VALIDATION_EMAIL_SENT: 'Correo electrónico de validación enviado.',
     VALIDATION_EMAIL_ERROR: 'Se produjo un error al enviar el correo electrónico de validación.',
   },
+  hu: {
+  VALIDATE_EMAIL:
+    'Egy aktiváló emailt küldtünk a megadott címre. Kérjük, ellenőrizd a postaládádat, és kattints az emailben található linkre a fiók aktiválásához. A link 1 napig érvényes. Ha nem kaptad meg az emailt, kattints az újraküldésre.',
+  RESEND: 'Újraküldés',
+  VALIDATION_EMAIL_SENT: 'Az aktiváló email elküldve.',
+  VALIDATION_EMAIL_ERROR: 'Hiba történt az aktiváló email küldése során.',
+},
 })
 
 langHelper.setLanguage(strings)

@@ -48,4 +48,30 @@ export const en = {
   LOCATION_IMAGE_NOT_FOUND: 'Location image not found',
   NEW_CAR_NOTIFICATION_PART1: 'The supplier ',
   NEW_CAR_NOTIFICATION_PART2: ' created a new car.',
+
+  BOOKING_REQUEST_SUBJECT: "New booking request",
+  BOOKING_REQUEST_ADMIN_INTRO: "A new booking request has been submitted and is waiting for your review.",
+  BOOKING_REQUEST_ADMIN_ACTION: "Please open the booking in the admin panel to approve or reject it.",
+
+  BOOKING_REQUEST_RECEIVED_SUBJECT: "Booking request received",
+  BOOKING_REQUEST_RECEIVED_INTRO: "We received your booking request and sent it for approval.",
+  BOOKING_REQUEST_RECEIVED_NEXT_STEPS: "Your reservation request was successful. Our staff will contact you shortly.",
+
+  BOOKING_ID: "Booking ID",
+  BOOKING_STATUS: "Status",
+  BOOKING_STATUS_PENDING: "Pending",
+  REQUESTED_BY: "Requested by",
+  COMPANY: "HL Dekor",
+  CAR: "Vehicle",
+  TO: "To",
+
+  BOOKING_CREATED_NOTIFICATION_PART1: 'A new booking',
+  BOOKING_CREATED_NOTIFICATION_PART2: 'was created.',
+
+  BOOKING_STATUS_CHANGED_NOTIFICATION_PART1: 'The status of the booking',
+  BOOKING_STATUS_CHANGED_NOTIFICATION_PART2: 'changed from',
+  BOOKING_STATUS_CHANGED_NOTIFICATION_PART3: 'to',
+
+
+
 }

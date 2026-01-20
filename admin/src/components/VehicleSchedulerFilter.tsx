@@ -26,8 +26,8 @@ const VehicleSchedulerFilter = ({
   className,
   onSubmit
 }: VehicleSchedulerFilterProps) => {
-  const [pickupLocation, setPickupLocation] = useState('')
-  const [dropOffLocation, setDropOffLocation] = useState('')
+  // const [pickupLocation, setPickupLocation] = useState('')
+  // const [dropOffLocation, setDropOffLocation] = useState('')
   const [keyword, setKeyword] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -36,24 +36,24 @@ const VehicleSchedulerFilter = ({
     setKeyword(e.target.value)
   }
 
-  const handlePickupLocationChange = (locations: bookcarsTypes.Option[]) => {
-    setPickupLocation(locations.length > 0 ? locations[0]._id : '')
-  }
+  // const handlePickupLocationChange = (locations: bookcarsTypes.Option[]) => {
+  //   setPickupLocation(locations.length > 0 ? locations[0]._id : '')
+  // }
 
-  const handleDropOffLocationChange = (locations: bookcarsTypes.Option[]) => {
-    setDropOffLocation(locations.length > 0 ? locations[0]._id : '')
-  }
+  // const handleDropOffLocationChange = (locations: bookcarsTypes.Option[]) => {
+  //   setDropOffLocation(locations.length > 0 ? locations[0]._id : '')
+  // }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLElement>) => {
     e.preventDefault()
 
     let filter: bookcarsTypes.Filter | null = {
-      pickupLocation,
-      dropOffLocation,
+      // pickupLocation,
+      // dropOffLocation,
       keyword
     }
 
-    if (!pickupLocation && !dropOffLocation && !keyword) {
+    if ( !keyword) {
       filter = null
     }
     if (onSubmit) {
@@ -71,7 +71,7 @@ const VehicleSchedulerFilter = ({
     <Accordion title={commonStrings.SEARCH} collapse={collapse} className={`${className ? `${className} ` : ''}vehicle-scheduler-filter`}>
       <form autoComplete="off" onSubmit={handleSubmit}>
         <input autoComplete="false" name="hidden" type="text" style={{ display: 'none' }} />
-        <FormControl fullWidth margin="dense">
+        {/* <FormControl fullWidth margin="dense">
           <LocationSelectList
             label={strings.PICK_UP_LOCATION}
             variant="standard"
@@ -84,7 +84,7 @@ const VehicleSchedulerFilter = ({
             variant="standard"
             onChange={handleDropOffLocationChange}
           />
-        </FormControl>
+        </FormControl> */}
         <FormControl fullWidth margin="dense">
           <TextField
             inputRef={inputRef}

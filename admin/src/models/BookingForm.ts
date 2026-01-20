@@ -7,10 +7,10 @@ import { strings as commonStrings } from '@/lang/common'
 import { supplierSchema, optionSchema } from '@/models/common'
 
 export const schema = z.object({
-  supplier: supplierSchema.optional(),
+  // supplier: supplierSchema.optional(),
   driver: optionSchema.optional(),
-  pickupLocation: optionSchema.optional(),
-  dropOffLocation: optionSchema.optional(),
+  // pickupLocation: optionSchema.optional(),
+  // dropOffLocation: optionSchema.optional(),
   car: optionSchema.optional(),
   from: z.date().optional(),
   to: z.date().optional(),
@@ -20,20 +20,22 @@ export const schema = z.object({
   theftProtection: z.boolean().default(false).optional(),
   collisionDamageWaiver: z.boolean().default(false).optional(),
   fullInsurance: z.boolean().default(false).optional(),
-  additionalDriver: z.boolean().default(false).optional(),
-  additionalDriverFullName: z.string().optional(),
-  additionalDriverEmail: z.string().email({ message: commonStrings.EMAIL_NOT_VALID }).optional().or(z.literal('')),
-  additionalDriverPhone: z.string().refine(val => !val || validator.isMobilePhone(val), {
-    message: commonStrings.PHONE_NOT_VALID,
-  }).optional(),
-  additionalDriverBirthDate: z.date().refine((val) => {
-    if (!val) {
-      return true // skip validation if no value
-    }
-    const now = new Date()
-    const sub = intervalToDuration({ start: val, end: now }).years ?? 0
-    return sub >= env.MINIMUM_AGE
-  }).optional(),
+  toolsIncluded: z.boolean(),
+  chauffeurRequested: z.boolean(),
+  // additionalDriver: z.boolean().default(false).optional(),
+  // additionalDriverFullName: z.string().optional(),
+  // additionalDriverEmail: z.string().email({ message: commonStrings.EMAIL_NOT_VALID }).optional().or(z.literal('')),
+  // additionalDriverPhone: z.string().refine(val => !val || validator.isMobilePhone(val), {
+  //   message: commonStrings.PHONE_NOT_VALID,
+  // }).optional(),
+  // additionalDriverBirthDate: z.date().refine((val) => {
+  //   if (!val) {
+  //     return true // skip validation if no value
+  //   }
+  //   const now = new Date()
+  //   const sub = intervalToDuration({ start: val, end: now }).years ?? 0
+  //   return sub >= env.MINIMUM_AGE
+  // }).optional(),
 })
 
 export type FormFields = z.infer<typeof schema>

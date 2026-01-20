@@ -15,26 +15,39 @@ import {
   ListItemText,
   ListItem
 } from '@mui/material'
+// import {
+//   Menu as MenuIcon,
+//   Mail as MailIcon,
+//   Notifications as NotificationsIcon,
+//   More as MoreIcon,
+//   Language as LanguageIcon,
+//   Settings as SettingsIcon,
+//   Dashboard as DashboardIcon,
+//   CorporateFare as SuppliersIcon,
+//   LocationOn as LocationsIcon,
+//   DirectionsCar as CarsIcon,
+//   People as UsersIcon,
+//   InfoTwoTone as AboutIcon,
+//   DescriptionTwoTone as TosIcon,
+//   ExitToApp as SignoutIcon,
+//   Flag as CountriesIcon,
+//   CalendarMonth as SchedulerIcon,
+//   AccountBalance as BankDetailsIcon,
+//   MonetizationOn as PricingIcon,
+// } from '@mui/icons-material'
 import {
   Menu as MenuIcon,
-  Mail as MailIcon,
   Notifications as NotificationsIcon,
-  More as MoreIcon,
   Language as LanguageIcon,
   Settings as SettingsIcon,
   Dashboard as DashboardIcon,
   CorporateFare as SuppliersIcon,
-  LocationOn as LocationsIcon,
   DirectionsCar as CarsIcon,
   People as UsersIcon,
-  InfoTwoTone as AboutIcon,
-  DescriptionTwoTone as TosIcon,
   ExitToApp as SignoutIcon,
-  Flag as CountriesIcon,
   CalendarMonth as SchedulerIcon,
-  AccountBalance as BankDetailsIcon,
-  MonetizationOn as PricingIcon,
 } from '@mui/icons-material'
+
 import { useNavigate } from 'react-router-dom'
 import * as bookcarsTypes from ':bookcars-types'
 import env from '@/config/env.config'
@@ -206,8 +219,8 @@ const Header = ({
     const init = async () => {
       if (!hidden) {
         if (currentUser) {
-          const _bankDetails = await BankDetailsService.getBankDetails()
-          setBankDetails(_bankDetails)
+          // const _bankDetails = await BankDetailsService.getBankDetails()
+          // setBankDetails(_bankDetails)
 
           setIsSignedIn(true)
           setIsLoaded(true)
@@ -320,7 +333,7 @@ const Header = ({
                   <ListItemIcon><SchedulerIcon /></ListItemIcon>
                   <ListItemText primary={strings.SCHEDULER} />
                 </ListItem>
-                <ListItem
+                {/* <ListItem
                   onClick={() => {
                     navigate('/suppliers')
                     handleSideMenuClose()
@@ -328,8 +341,8 @@ const Header = ({
                 >
                   <ListItemIcon><SuppliersIcon /></ListItemIcon>
                   <ListItemText primary={strings.COMPANIES} />
-                </ListItem>
-                <ListItem
+                </ListItem> */}
+                {/* <ListItem
                   onClick={() => {
                     navigate('/countries')
                     handleSideMenuClose()
@@ -346,7 +359,7 @@ const Header = ({
                 >
                   <ListItemIcon><LocationsIcon /></ListItemIcon>
                   <ListItemText primary={strings.LOCATIONS} />
-                </ListItem>
+                </ListItem> */}
                 <ListItem
                   onClick={() => {
                     navigate('/cars')
@@ -365,7 +378,7 @@ const Header = ({
                   <ListItemIcon><UsersIcon /></ListItemIcon>
                   <ListItemText primary={strings.USERS} />
                 </ListItem>
-                <ListItem
+                {/* <ListItem
                   onClick={() => {
                     navigate('/pricing')
                     handleSideMenuClose()
@@ -384,7 +397,7 @@ const Header = ({
                     <ListItemIcon><BankDetailsIcon /></ListItemIcon>
                     <ListItemText primary={strings.BANK_DETAILS} />
                   </ListItem>
-                )}
+                )} */}
                 <ListItem
                   onClick={() => {
                     navigate('/settings')
@@ -395,7 +408,7 @@ const Header = ({
                   <ListItemText primary={strings.SETTINGS} />
                 </ListItem>
               </List>
-              <ListItem
+              {/* <ListItem
                 onClick={() => {
                   navigate('/about')
                   handleSideMenuClose()
@@ -421,7 +434,7 @@ const Header = ({
               >
                 <ListItemIcon><MailIcon /></ListItemIcon>
                 <ListItemText primary={strings.CONTACT} />
-              </ListItem>
+              </ListItem> */}
             </Drawer>
           </>
           <div style={classes.grow} />
@@ -457,11 +470,11 @@ const Header = ({
                 </Badge>
               </IconButton>
             )}
-            {isSignedIn && (
+            {/* {isSignedIn && (
               <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
                 <MoreIcon />
               </IconButton>
-            )}
+            )} */}
           </div>
         </Toolbar>
       </AppBar>

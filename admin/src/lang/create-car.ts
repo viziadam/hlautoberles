@@ -49,7 +49,7 @@ const strings = new LocalizedStrings({
     RECOMMENDED_IMAGE_SIZE: `Recommended image size: ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
     SUPPLIER: 'Supplier',
     LOCATIONS: 'Pick-up locations',
-    AVAILABLE: 'Listed in search results',
+    AVAILABLE: 'Available',
     CAR_TYPE: 'Engine',
     DAILY_PRICE: 'Daily Price',
     DISCOUNTED_DAILY_PRICE: 'Discounted Daily Price',
@@ -76,6 +76,7 @@ const strings = new LocalizedStrings({
     IS_DATE_BASED_PRICE: 'Date Based Prices',
     DATE_BASED_PRICES: 'Date Based Prices',
     BLOCK_ON_PAY: 'Block Car On Successful Payment',
+    TOOLS_RENTABLE: 'Tools available for rent'
   },
   es: {
     NEW_CAR_HEADING: 'Nuevo coche',
@@ -115,6 +116,55 @@ const strings = new LocalizedStrings({
     BLOCK_ON_PAY: 'Bloquear el coche tras el pago exitoso',
 
   },
+  hu: {
+    NEW_CAR_HEADING: 'Új jármű',
+    NAME: 'Név',
+    LICENSE_PLATE: 'Rendszám',
+    LICENSE_PLATE_ALREADY_EXISTS: 'Ez a rendszám már létezik.',
+    CAR_IMAGE_SIZE_ERROR: `A kép mérete legyen ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
+    RECOMMENDED_IMAGE_SIZE: `Ajánlott képméret: ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
+
+    SUPPLIER: 'Szolgáltató',
+    LOCATIONS: 'Átvételi helyek',
+    AVAILABLE: 'Elérhető',
+    CAR_TYPE: 'Meghajtás',
+
+    DAILY_PRICE: 'Napi ár',
+    DISCOUNTED_DAILY_PRICE: 'Kedvezményes napi ár',
+    HOURLY_PRICE: 'Óradíj (1 óra)',
+    DISCOUNTED_HOURLY_PRICE: 'Kedvezményes óradíj',
+
+    BI_WEEKLY_PRICE: '3 napos ár',
+    DISCOUNTED_BI_WEEKLY_PRICE: 'Kedvezményes 3 napos ár',
+    WEEKLY_PRICE: 'Heti ár',
+    DISCOUNTED_WEEKLY_PRICE: 'Kedvezményes heti ár',
+    MONTHLY_PRICE: 'Havi ár',
+    DISCOUNTED_MONThLY_PRICE: 'Kedvezményes havi ár',
+
+    SEATS: 'Ülések',
+    DOORS: 'Ajtók',
+    GEARBOX: 'Sebességváltó',
+    AIRCON: 'Klíma',
+
+    MINIMUM_AGE: 'Minimum életkor',
+    MINIMUM_AGE_NOT_VALID: `A minimum életkornak legalább ${env.MINIMUM_AGE} évnek kell lennie.`,
+
+    CAR_RANGE: 'Jármű kategória',
+    MULTIMEDIA: 'Multimédia',
+    RATING: 'Értékelés',
+    CO2: 'CO₂ (g/km)',
+
+    COMING_SOON: 'Hamarosan elérhető',
+    FULLY_BOOKED: 'Teljesen foglalt',
+
+    IS_DATE_BASED_PRICE: 'Időszakos árak',
+    DATE_BASED_PRICES: 'Időszakos árak',
+
+    BLOCK_ON_PAY: 'Jármű zárolása sikeres fizetés után',
+
+    TOOLS_RENTABLE: 'Szerszámok bérelhetők',
+  },
+
 })
 
 langHelper.setLanguage(strings)

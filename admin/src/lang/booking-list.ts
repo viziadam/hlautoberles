@@ -50,6 +50,29 @@ const strings = new LocalizedStrings({
     DAYS: 'Días',
     COST: 'Coste',
   },
+
+  hu: {
+  CAR: 'Jármű',
+  SUPPLIER: 'Szolgáltató',
+  DRIVER: 'Vezető',
+  PRICE: 'Ár',
+  STATUS: 'Állapot',
+  UPDATE_SELECTION: 'Kijelölés szerkesztése',
+  DELETE_SELECTION: 'Kijelölés törlése',
+  UPDATE_STATUS: 'Állapot módosítása',
+  NEW_STATUS: 'Új állapot',
+  DELETE_BOOKING: 'Biztosan törölni szeretnéd ezt a foglalást?',
+  DELETE_BOOKINGS: 'Biztosan törölni szeretnéd a kiválasztott foglalásokat?',
+  EMPTY_LIST: 'Nincs megjeleníthető foglalás.',
+  VIEW: 'Foglalás megtekintése',
+  UPDATE: 'Foglalás szerkesztése',
+  DAYS: 'Napok',
+  COST: 'Költség',
+  CANCEL: 'Foglalás lemondása',
+  CANCEL_BOOKING: 'Biztosan le szeretnéd mondani ezt a foglalást?',
+  CANCEL_BOOKING_REQUEST_SENT:
+    'A lemondási kérelem elküldésre került. Kollégáink hamarosan felveszik veled a kapcsolatot.',
+},
 })
 
 langHelper.setLanguage(strings)

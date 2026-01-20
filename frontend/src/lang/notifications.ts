@@ -35,6 +35,17 @@ const strings = new LocalizedStrings({
     DELETE_NOTIFICATION: '¿Está seguro de que desea eliminar esta notificación?',
     DELETE_NOTIFICATIONS: '¿Está seguro de que desea eliminar estas notificaciones?',
   },
+  hu: {
+  EMPTY_LIST: 'Nincsenek értesítések',
+  VIEW: 'Megtekintés',
+  MARK_AS_READ: 'Megjelölés olvasottként',
+  MARK_AS_UNREAD: 'Megjelölés olvasatlanként',
+  MARK_ALL_AS_READ: 'Összes megjelölése olvasottként',
+  MARK_ALL_AS_UNREAD: 'Összes megjelölése olvasatlanként',
+  DELETE_ALL: 'Összes törlése',
+  DELETE_NOTIFICATION: 'Biztosan törölni szeretnéd ezt az értesítést?',
+  DELETE_NOTIFICATIONS: 'Biztosan törölni szeretnéd ezeket az értesítéseket?',
+},
 })
 
 langHelper.setLanguage(strings)

@@ -20,7 +20,7 @@ import * as mailHelper from '../utils/mailHelper'
 import Notification from '../models/Notification'
 import NotificationCounter from '../models/NotificationCounter'
 import Car from '../models/Car'
-import AdditionalDriver from '../models/AdditionalDriver'
+// import AdditionalDriver from '../models/AdditionalDriver'
 import * as logger from '../utils/logger'
 
 /**
@@ -811,8 +811,8 @@ export const validateEmail = async (req: Request, res: Response) => {
 
     const _appType = appType || bookcarsTypes.AppType.Frontend
     const types = _appType === bookcarsTypes.AppType.Frontend
-      ? [bookcarsTypes.UserType.User, bookcarsTypes.UserType.Admin, bookcarsTypes.UserType.Supplier]
-      : [bookcarsTypes.UserType.Admin, bookcarsTypes.UserType.Supplier]
+      ? [bookcarsTypes.UserType.User, bookcarsTypes.UserType.Admin]
+      : [bookcarsTypes.UserType.Admin]
 
     const exists = await User.exists(
       {
@@ -1539,28 +1539,7 @@ export const deleteUsers = async (req: Request, res: Response) => {
           }
         }
 
-        if (user.type === bookcarsTypes.UserType.Supplier) {
-          const additionalDrivers = (
-            await Booking
-              .find(
-                { supplier: id, _additionalDriver: { $ne: null } },
-              )
-              .select('_additionalDriver -_id')
-              .lean()
-          ).map((b) => b._additionalDriver)
-          await AdditionalDriver.deleteMany({ _id: { $in: additionalDrivers } })
-          await Booking.deleteMany({ supplier: id })
-          const cars = await Car.find({ supplier: id })
-          await Car.deleteMany({ supplier: id })
-          for (const car of cars) {
-            if (car.image) {
-              const image = path.join(env.CDN_CARS, car.image)
-              if (await helper.pathExists(image)) {
-                await asyncFs.unlink(image)
-              }
-            }
-          }
-        } else if (user.type === bookcarsTypes.UserType.User) {
+         if (user.type === bookcarsTypes.UserType.User) {
           await Booking.deleteMany({ driver: id })
         }
         await NotificationCounter.deleteMany({ user: id })

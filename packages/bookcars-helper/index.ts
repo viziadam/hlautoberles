@@ -272,37 +272,7 @@ export const calculateTotalPrice = (car: bookcarsTypes.Car, from: Date, to: Date
   let totalPrice = 0
   let totalDays = days(from, to)
 
-  if (car.isDateBasedPrice) {
-    let currentDate = new Date(from)
-
-    // Reset time to 00:00:00 before loop
-    currentDate.setHours(0, 0, 0, 0)
-
-    // Loop until the last day is reached
-    let currentDay = 1
-    while (currentDay <= totalDays) {
-      let applicableRate = (car.discountedDailyPrice || car.dailyPrice)
-
-      // Check if a custom rate applies
-      for (const dateBasedPrice of car.dateBasedPrices) {
-        // Ensure startDate and endDate are also normalized
-        const _startDate = new Date(dateBasedPrice.startDate!)
-        _startDate.setHours(0, 0, 0, 0)
-        const _endDate = new Date(dateBasedPrice.endDate!)
-        _endDate.setHours(0, 0, 0, 0)
-
-        if (currentDate.getTime() >= _startDate.getTime() && currentDate.getTime() <= _endDate.getTime()) {
-          applicableRate = Number(dateBasedPrice.dailyPrice)
-          break
-        }
-      }
-
-      totalPrice += applicableRate
-      currentDate.setDate(currentDate.getDate() + 1)
-      currentDate.setHours(0, 0, 0, 0) // Ensure time is reset
-      currentDay += 1
-    }
-  } else {
+   
     const totalHours = hours(from, to)
     totalDays = Math.floor(totalHours / 24)
     const remainingHours = totalHours % 24
@@ -343,8 +313,8 @@ export const calculateTotalPrice = (car: bookcarsTypes.Car, from: Date, to: Date
         // fallback to daily rate if no hourly price
         totalPrice += (car.discountedDailyPrice || car.dailyPrice)
       }
-    }
   }
+  
 
   // add extra options
   if (options) {
@@ -449,7 +419,7 @@ export const shuffle = (array: any[]) => {
  */
 export const getAllUserTypes = () => [
   bookcarsTypes.UserType.Admin,
-  bookcarsTypes.UserType.Supplier,
+  // bookcarsTypes.UserType.Supplier,
   bookcarsTypes.UserType.User,
 ]
 
@@ -462,10 +432,10 @@ export const getAllRanges = () => [
   bookcarsTypes.CarRange.Mini,
   bookcarsTypes.CarRange.Midi,
   bookcarsTypes.CarRange.Maxi,
-  bookcarsTypes.CarRange.Scooter,
-  bookcarsTypes.CarRange.Bus,
-  bookcarsTypes.CarRange.Truck,
-  bookcarsTypes.CarRange.Caravan,
+  // bookcarsTypes.CarRange.Scooter,
+  // bookcarsTypes.CarRange.Bus,
+  // bookcarsTypes.CarRange.Truck,
+  // bookcarsTypes.CarRange.Caravan,
 ]
 
 /**
@@ -500,9 +470,9 @@ export const getAllFuelPolicies = () => [
 export const getAllBookingStatuses = () => [
   bookcarsTypes.BookingStatus.Void,
   bookcarsTypes.BookingStatus.Pending,
-  bookcarsTypes.BookingStatus.Deposit,
-  bookcarsTypes.BookingStatus.Paid,
-  bookcarsTypes.BookingStatus.PaidInFull,
+  // bookcarsTypes.BookingStatus.Deposit,
+  // bookcarsTypes.BookingStatus.Paid,
+  // bookcarsTypes.BookingStatus.PaidInFull,
   bookcarsTypes.BookingStatus.Reserved,
   bookcarsTypes.BookingStatus.Cancelled,
 ]

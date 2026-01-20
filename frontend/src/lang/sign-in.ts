@@ -26,6 +26,14 @@ const strings = new LocalizedStrings({
     RESET_PASSWORD: '¿Olvidó su contraseña?',
     STAY_CONNECTED: 'Manténgase conectado',
   },
+  hu: {
+  SIGN_IN_HEADING: 'Bejelentkezés',
+  SIGN_IN: 'Bejelentkezés',
+  ERROR_IN_SIGN_IN: 'Hibás email cím vagy jelszó.',
+  IS_BLACKLISTED: 'A fiókod fel van függesztve.',
+  RESET_PASSWORD: 'Elfelejtetted a jelszót?',
+  STAY_CONNECTED: 'Maradjak bejelentkezve',
+},
 })
 
 langHelper.setLanguage(strings)

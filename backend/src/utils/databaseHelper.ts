@@ -3,20 +3,20 @@ import * as env from '../config/env.config'
 import * as logger from './logger'
 import Booking, { BOOKING_EXPIRE_AT_INDEX_NAME } from '../models/Booking'
 import Car from '../models/Car'
-import Location from '../models/Location'
-import LocationValue from '../models/LocationValue'
+// import Location from '../models/Location'
+// import LocationValue from '../models/LocationValue'
 import Notification from '../models/Notification'
 import NotificationCounter from '../models/NotificationCounter'
 import PushToken from '../models/PushToken'
 import Token, { TOKEN_EXPIRE_AT_INDEX_NAME } from '../models/Token'
 import User, { USER_EXPIRE_AT_INDEX_NAME } from '../models/User'
-import Country from '../models/Country'
-import ParkingSpot from '../models/ParkingSpot'
-import AdditionalDriver from '../models/AdditionalDriver'
-import BankDetails from '../models/BankDetails'
-import DateBasedPrice from '../models/DateBasedPrice'
+// import Country from '../models/Country'
+// import ParkingSpot from '../models/ParkingSpot'
+// import AdditionalDriver from '../models/AdditionalDriver'
+// import BankDetails from '../models/BankDetails'
+// import DateBasedPrice from '../models/DateBasedPrice'
 import * as databaseTTLHelper from './databaseTTLHelper'
-import * as databaseLangHelper from './databaseLangHelper'
+// import * as databaseLangHelper from './databaseLangHelper'
 import * as settingController from '../controllers/settingController'
 
 /**
@@ -188,17 +188,10 @@ const defineModels = <T extends readonly unknown[]>(models: T) => models
  * 
  */
 export const models = defineModels([
-  AdditionalDriver,
-  BankDetails,
   Booking,
   Car,
-  Country,
-  DateBasedPrice,
-  Location,
-  LocationValue,
   Notification,
   NotificationCounter,
-  ParkingSpot,
   PushToken,
   Token,
   User,
@@ -228,7 +221,7 @@ export const initialize = async (createIndexes: boolean = true): Promise<boolean
     //
     // Feature detection and conditional text index creation (backward compatible with older versions)
     //
-    await createTextIndex(LocationValue, 'value', 'value_text')
+    // await createTextIndex(LocationValue, 'value', 'value_text')
     await createTextIndex(Car, 'name', 'name_text')
 
     //
@@ -244,9 +237,9 @@ export const initialize = async (createIndexes: boolean = true): Promise<boolean
     // Initialize collections
     //
     const results = await Promise.all([
-      databaseLangHelper.initializeLocations(),
-      databaseLangHelper.initializeCountries(),
-      databaseLangHelper.initializeParkingSpots(),
+      // databaseLangHelper.initializeLocations(),
+      // databaseLangHelper.initializeCountries(),
+      // databaseLangHelper.initializeParkingSpots(),
       settingController.init(),
     ])
 

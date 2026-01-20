@@ -34,6 +34,7 @@ import {
   PersonOutline as SignUpIcon,
   Cookie as CookiePolicyIcon,
 } from '@mui/icons-material'
+import Logo from '@/assets/img/logo.png'
 import { toast } from 'react-toastify'
 import { CircleFlag } from 'react-circle-flags'
 import * as bookcarsTypes from ':bookcars-types'
@@ -344,7 +345,15 @@ const Header = ({
                   <MenuIcon />
                 </IconButton>
 
-                <Button onClick={() => navigate('/')} className="logo">{env.WEBSITE_NAME}</Button>
+                {/* <Button onClick={() => navigate('/')} className="logo">{env.WEBSITE_NAME}</Button> */}
+                <Button
+                  onClick={() => navigate('/')}
+                  className="logo"
+                  aria-label="Go to home"
+                  disableRipple
+                >
+                  <img src={Logo} alt={env.WEBSITE_NAME} className="logo-img" />
+                </Button>
 
                 {!env.isMobile && headerTitle && <div className="header-title">{headerTitle}</div>}
               </>
@@ -372,7 +381,7 @@ const Header = ({
                     <ListItemText primary={strings.BOOKINGS} />
                   </ListItem>
                 )}
-                {!env.HIDE_SUPPLIERS && (
+                {/* {!env.HIDE_SUPPLIERS && (
                   <ListItem
                     onClick={() => {
                       navigate('/suppliers')
@@ -391,7 +400,7 @@ const Header = ({
                 >
                   <ListItemIcon><LocationIcon /></ListItemIcon>
                   <ListItemText primary={strings.LOCATIONS} />
-                </ListItem>
+                </ListItem> */}
                 <ListItem
                   onClick={() => {
                     navigate('/about')

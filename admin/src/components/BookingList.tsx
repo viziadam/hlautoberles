@@ -35,7 +35,7 @@ import BookingStatus from './BookingStatus'
 import '@/assets/css/booking-list.css'
 
 interface BookingListProps {
-  suppliers?: string[]
+  // suppliers?: string[]
   statuses?: string[]
   filter?: bookcarsTypes.Filter | null
   car?: string
@@ -53,7 +53,7 @@ interface BookingListProps {
 }
 
 const BookingList = ({
-  suppliers: bookingSuppliers,
+  // suppliers: bookingSuppliers,
   statuses: bookingStatuses,
   filter: bookingFilter,
   car: bookingCar,
@@ -81,7 +81,7 @@ const BookingList = ({
   const [selectedId, setSelectedId] = useState('')
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [suppliers, setSuppliers] = useState<string[] | undefined>(bookingSuppliers)
+  // const [suppliers, setSuppliers] = useState<string[] | undefined>(bookingSuppliers)
   const [statuses, setStatuses] = useState<string[] | undefined>(bookingStatuses)
   const [status, setStatus] = useState<bookcarsTypes.BookingStatus>()
   const [filter, setFilter] = useState<bookcarsTypes.Filter | undefined | null>(bookingFilter)
@@ -106,10 +106,10 @@ const BookingList = ({
     try {
       const _pageSize = env.isMobile ? env.BOOKINGS_MOBILE_PAGE_SIZE : pageSize
 
-      if (suppliers && statuses) {
+      if ( statuses) {
         setLoading(true)
         const payload: bookcarsTypes.GetBookingsPayload = {
-          suppliers,
+          // suppliers,
           statuses,
           filter: filter || undefined,
           car: _car || car,
@@ -121,6 +121,7 @@ const BookingList = ({
           _page + 1,
           _pageSize,
         )
+        // console.log('fetched data in dashboard: ', data);
         const _data = data && data.length > 0 ? data[0] : { pageInfo: { totalRecord: 0 }, resultData: [] }
         if (!_data) {
           helper.error()
@@ -157,9 +158,9 @@ const BookingList = ({
     }
   }
 
-  useEffect(() => {
-    setSuppliers(bookingSuppliers)
-  }, [bookingSuppliers])
+  // useEffect(() => {
+  //   setSuppliers(bookingSuppliers)
+  // }, [bookingSuppliers])
 
   useEffect(() => {
     setStatuses(bookingStatuses)
@@ -190,13 +191,13 @@ const BookingList = ({
   }, [bookingUser]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (suppliers && statuses && loggedUser) {
+    if ( statuses && loggedUser) {
       fetchData(page, user)
     }
   }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (suppliers && statuses && loggedUser) {
+    if ( statuses && loggedUser) {
       if (page === 0) {
         fetchData(0, user)
       } else {
@@ -319,25 +320,25 @@ const BookingList = ({
       })
     }
 
-    if (helper.admin(loggedUser) && !hideSupplierColumn) {
-      _columns.unshift({
-        field: 'supplier',
-        headerName: commonStrings.SUPPLIER,
-        flex: 1,
-        renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => (
-          <Link href={`/supplier?c=${(row.supplier as bookcarsTypes.User)._id}`} className="cell-supplier">
-            <img src={bookcarsHelper.joinURL(env.CDN_USERS, (row.supplier as bookcarsTypes.User).avatar)} alt={value} />
-          </Link>
-        ),
-        valueGetter: (value: bookcarsTypes.User) => value?.fullName,
-      })
-    }
+    // if (helper.admin(loggedUser) && !hideSupplierColumn) {
+    //   _columns.unshift({
+    //     field: 'supplier',
+    //     headerName: commonStrings.SUPPLIER,
+    //     flex: 1,
+    //     renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => (
+    //       <Link href={`/supplier?c=${(row.supplier as bookcarsTypes.User)._id}`} className="cell-supplier">
+    //         <img src={bookcarsHelper.joinURL(env.CDN_USERS, (row.supplier as bookcarsTypes.User).avatar)} alt={value} />
+    //       </Link>
+    //     ),
+    //     valueGetter: (value: bookcarsTypes.User) => value?.fullName,
+    //   })
+    // }
 
     return _columns
   }
 
   useEffect(() => {
-    if (suppliers && statuses && loggedUser) {
+    if ( statuses && loggedUser) {
       const _columns = getColumns()
       setColumns(_columns)
 
@@ -349,7 +350,7 @@ const BookingList = ({
         setPaginationModel(_paginationModel)
       }
     }
-  }, [suppliers, statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const _columns = getColumns()
@@ -525,12 +526,7 @@ const BookingList = ({
                   </div>
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{commonStrings.SUPPLIER}</span>
-                    <div className="booking-detail-value">
-                      <div className="car-supplier">
-                        <img src={bookcarsHelper.joinURL(env.CDN_USERS, (booking.supplier as bookcarsTypes.User).avatar)} alt={(booking.supplier as bookcarsTypes.User).fullName} />
-                        <span className="car-supplier-name">{(booking.supplier as bookcarsTypes.User).fullName}</span>
-                      </div>
-                    </div>
+                    
                   </div>
 
                   {(booking.cancellation || booking.amendments || booking.collisionDamageWaiver || booking.theftProtection || booking.fullInsurance || booking.additionalDriver) && (

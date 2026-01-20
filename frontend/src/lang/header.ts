@@ -50,6 +50,22 @@ const strings = new LocalizedStrings({
     FAQ: 'Preguntas frecuentes',
     COOKIE_POLICY: 'Política de Cookies',
   },
+  hu: {
+  SIGN_IN: 'Bejelentkezés',
+  HOME: 'Főoldal',
+  BOOKINGS: 'Foglalások',
+  ABOUT: 'Rólunk',
+  TOS: 'Felhasználási feltételek',
+  CONTACT: 'Kapcsolat',
+  LANGUAGE: 'Nyelv',
+  SETTINGS: 'Beállítások',
+  SIGN_OUT: 'Kijelentkezés',
+  SUPPLIERS: 'Szolgáltatók',
+  LOCATIONS: 'Helyszínek',
+  PRIVACY_POLICY: 'Adatvédelmi irányelvek',
+  FAQ: 'GYIK',
+  COOKIE_POLICY: 'Sütikezelés',
+},
 })
 
 langHelper.setLanguage(strings)

@@ -141,7 +141,6 @@ const UpdateUser = () => {
             if (_user) {
               if (!(
                 _loggedUser.type === bookcarsTypes.UserType.Admin
-                || (_user.type === bookcarsTypes.UserType.Supplier && _loggedUser._id === _user._id)
                 || (_user.type === bookcarsTypes.UserType.User && _loggedUser._id === _user.supplier)
               )) {
                 setLoading(false)
@@ -189,17 +188,17 @@ const UpdateUser = () => {
     }
   }
 
-  const validateFullName = async (value?: string) => {
-    if (!!value && type === bookcarsTypes.UserType.Supplier && user?.fullName !== value) {
-      const status = await SupplierService.validate({ fullName: value })
-      if (status !== 200) {
-        setError('fullName', { message: csStrings.INVALID_SUPPLIER_NAME })
-        setFocus('fullName')
-        return false
-      }
-    }
-    return true
-  }
+  // const validateFullName = async (value?: string) => {
+  //   if (!!value && user?.fullName !== value) {
+  //     const status = await SupplierService.validate({ fullName: value })
+  //     if (status !== 200) {
+  //       setError('fullName', { message: csStrings.INVALID_SUPPLIER_NAME })
+  //       setFocus('fullName')
+  //       return false
+  //     }
+  //   }
+  //   return true
+  // }
 
   const onSubmit = async (data: FormFields) => {
     try {
@@ -298,7 +297,7 @@ const UpdateUser = () => {
                     fullWidth
                   >
                     <MenuItem value={bookcarsTypes.UserType.Admin}>{helper.getUserType(bookcarsTypes.UserType.Admin)}</MenuItem>
-                    <MenuItem value={bookcarsTypes.UserType.Supplier}>{helper.getUserType(bookcarsTypes.UserType.Supplier)}</MenuItem>
+                    {/* <MenuItem value={bookcarsTypes.UserType.Supplier}>{helper.getUserType(bookcarsTypes.UserType.Supplier)}</MenuItem> */}
                     <MenuItem value={bookcarsTypes.UserType.User}>{helper.getUserType(bookcarsTypes.UserType.User)}</MenuItem>
                   </Select>
                 </FormControl>
@@ -320,7 +319,7 @@ const UpdateUser = () => {
                     setValue('fullName', e.target.value)
                   }}
                   onBlur={async (e) => {
-                    await validateFullName(e.target.value)
+                    // await validateFullName(e.target.value)
                   }}
                 />
                 <FormHelperText error={!!errors.fullName}>
@@ -412,7 +411,7 @@ const UpdateUser = () => {
                     />
                   </FormControl>
 
-                  <FormControl fullWidth margin="dense">
+                  {/* <FormControl fullWidth margin="dense">
                     <FormControlLabel
                       control={(
                         <Switch
@@ -427,7 +426,7 @@ const UpdateUser = () => {
                       )}
                       label={commonStrings.NOTIFY_ADMIN_ON_NEW_CAR}
                     />
-                  </FormControl>
+                  </FormControl> */}
 
                   <FormControl fullWidth margin="dense">
                     <InputLabel>{commonStrings.SUPPLIER_CAR_LIMIT}</InputLabel>

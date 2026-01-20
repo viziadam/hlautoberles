@@ -15,23 +15,23 @@ const carSchema = new Schema<env.Car>(
       index: true,
       trim: true,
     },
-    supplier: {
-      type: Schema.Types.ObjectId,
-      required: [true, "can't be blank"],
-      ref: 'User',
-      index: true,
-    },
+    // supplier: {
+    //   type: Schema.Types.ObjectId,
+    //   required: [true, "can't be blank"],
+    //   ref: 'User',
+    //   index: true,
+    // },
     minimumAge: {
       type: Number,
       required: [true, "can't be blank"],
       min: env.MINIMUM_AGE,
       max: 99,
     },
-    locations: {
-      type: [Schema.Types.ObjectId],
-      ref: 'Location',
-      validate: (value: any): boolean => Array.isArray(value) && value.length > 0,
-    },
+    // locations: {
+    //   type: [Schema.Types.ObjectId],
+    //   ref: 'Location',
+    //   validate: (value: any): boolean => Array.isArray(value) && value.length > 0,
+    // },
 
     // --------- price fields ---------
     dailyPrice: {
@@ -41,30 +41,30 @@ const carSchema = new Schema<env.Car>(
     discountedDailyPrice: {
       type: Number,
     },
-    hourlyPrice: {
-      type: Number,
-    },
-    discountedHourlyPrice: {
-      type: Number,
-    },
-    biWeeklyPrice: {
-      type: Number,
-    },
-    discountedBiWeeklyPrice: {
-      type: Number,
-    },
+    // hourlyPrice: {
+    //   type: Number,
+    // },
+    // discountedHourlyPrice: {
+    //   type: Number,
+    // },
+    // biWeeklyPrice: {
+    //   type: Number,
+    // },
+    // discountedBiWeeklyPrice: {
+    //   type: Number,
+    // },
     weeklyPrice: {
       type: Number,
     },
-    discountedWeeklyPrice: {
-      type: Number,
-    },
+    // discountedWeeklyPrice: {
+    //   type: Number,
+    // },
     monthlyPrice: {
       type: Number,
     },
-    discountedMonthlyPrice: {
-      type: Number,
-    },
+    // discountedMonthlyPrice: {
+    //   type: Number,
+    // },
 
     // date based price fields
     isDateBasedPrice: {
@@ -86,14 +86,19 @@ const carSchema = new Schema<env.Car>(
       required: [true, "can't be blank"],
       index: true,
     },
-    fullyBooked: {
+    toolsRentable: {
       type: Boolean,
       default: false,
+      index: true,
     },
-    comingSoon: {
-      type: Boolean,
-      default: false,
-    },
+    // fullyBooked: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // comingSoon: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     type: {
       type: String,
       enum: [
@@ -117,6 +122,10 @@ const carSchema = new Schema<env.Car>(
     },
     image: {
       type: String,
+    },
+    images: {
+      type: [String],
+      default: []
     },
     seats: {
       type: Number,
@@ -168,10 +177,10 @@ const carSchema = new Schema<env.Car>(
       type: Number,
       required: [true, "can't be blank"],
     },
-    additionalDriver: {
-      type: Number,
-      required: [true, "can't be blank"],
-    },
+    // additionalDriver: {
+    //   type: Number,
+    //   required: [true, "can't be blank"],
+    // },
     range: {
       type: String,
       enum: [
@@ -206,10 +215,10 @@ const carSchema = new Schema<env.Car>(
     co2: {
       type: Number,
     },
-    blockOnPay: {
-      type: Boolean,
-      default: true,
-    },
+    // blockOnPay: {
+    //   type: Boolean,
+    //   default: true,
+    // },
   },
   {
     timestamps: true,
@@ -220,16 +229,17 @@ const carSchema = new Schema<env.Car>(
 
 // Add custom indexes
 carSchema.index({ updatedAt: -1, _id: 1 })
-carSchema.index({ supplier: 1, type: 1, available: 1, rating: -1, updatedAt: -1, _id: 1 })
+// carSchema.index({ supplier: 1, type: 1, available: 1, rating: -1, updatedAt: -1, _id: 1 })
 carSchema.index({ available: 1, gearbox: 1, deposit: 1 })
+carSchema.index({ toolsRentable: 1 })
 carSchema.index({ seats: 1, doors: 1 })
 carSchema.index({ mileage: 1, fuelPolicy: 1 })
-carSchema.index({ locations: 1, available: 1, fullyBooked: 1 })
+// carSchema.index({ locations: 1, available: 1, fullyBooked: 1 })
 carSchema.index({ comingSoon: 1 })
 carSchema.index({ range: 1 })
 carSchema.index({ multimedia: 1 })
 carSchema.index({ dailyPrice: 1, _id: 1 })
-carSchema.index({ dateBasedPrices: 1 })
+// carSchema.index({ dateBasedPrices: 1 })
 carSchema.index(
   { name: 'text' },
   {

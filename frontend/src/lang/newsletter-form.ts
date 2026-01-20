@@ -20,6 +20,12 @@ const strings = new LocalizedStrings({
     SUBSCRIBE: 'Suscribir',
     SUCCESS: '¡Suscripción exitosa!',
   },
+  hu: {
+  TITLE: 'Feliratkozás',
+  SUB_TITLE: 'Iratkozz fel hírlevelünkre a legfrissebb hírekért!',
+  SUBSCRIBE: 'Feliratkozás',
+  SUCCESS: 'Sikeres feliratkozás!',
+},
 })
 
 langHelper.setLanguage(strings)

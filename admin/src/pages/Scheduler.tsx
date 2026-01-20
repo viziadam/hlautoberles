@@ -22,14 +22,14 @@ const Scheduler = () => {
   const [user, setUser] = useState<bookcarsTypes.User>()
   const [leftPanel, setLeftPanel] = useState(false)
   const [admin, setAdmin] = useState(false)
-  const [allSuppliers, setAllSuppliers] = useState<bookcarsTypes.User[]>([])
-  const [suppliers, setSuppliers] = useState<string[]>()
+  // const [allSuppliers, setAllSuppliers] = useState<bookcarsTypes.User[]>([])
+  // const [suppliers, setSuppliers] = useState<string[]>()
   const [statuses, setStatuses] = useState(helper.getBookingStatuses().map((status) => status.value))
   const [filter, setFilter] = useState<bookcarsTypes.Filter | null>()
 
-  const handleSupplierFilterChange = (_suppliers: string[]) => {
-    setSuppliers(_suppliers)
-  }
+  // const handleSupplierFilterChange = (_suppliers: string[]) => {
+  //   setSuppliers(_suppliers)
+  // }
 
   const handleStatusFilterChange = (_statuses: bookcarsTypes.BookingStatus[]) => {
     setStatuses(_statuses)
@@ -46,17 +46,17 @@ const Scheduler = () => {
       setAdmin(_admin)
       setLeftPanel(!_admin)
 
-      const _allSuppliers = await SupplierService.getAllSuppliers()
-      const _suppliers = _admin ? bookcarsHelper.flattenSuppliers(_allSuppliers) : [_user._id ?? '']
-      setAllSuppliers(_allSuppliers)
-      setSuppliers(_suppliers)
+      // const _allSuppliers = await SupplierService.getAllSuppliers()
+      // const _suppliers = _admin ? bookcarsHelper.flattenSuppliers(_allSuppliers) : [_user._id ?? '']
+      // setAllSuppliers(_allSuppliers)
+      // setSuppliers(_suppliers)
       setLeftPanel(true)
     }
   }
 
   return (
     <Layout onLoad={onLoad} strict>
-      {user && suppliers && (
+      {user &&  (
         <div className="scheduler">
           <div className="col-1">
             {leftPanel && (
@@ -64,14 +64,14 @@ const Scheduler = () => {
                 <Button variant="contained" className="btn-primary cl-new-booking" size="small" onClick={() => navigate('/create-booking')}>
                   {strings.NEW_BOOKING}
                 </Button>
-                {admin
+                {/* {admin
                   && (
                     <SupplierFilter
                       suppliers={allSuppliers}
                       onChange={handleSupplierFilterChange}
                       className="cl-supplier-filter"
                     />
-                  )}
+                  )} */}
                 <StatusFilter
                   onChange={handleStatusFilterChange}
                   className="cl-status-filter"
@@ -86,7 +86,7 @@ const Scheduler = () => {
           </div>
           <div className="col-2">
             <VehicleScheduler
-              suppliers={suppliers}
+              // suppliers={suppliers}
               statuses={statuses}
               filter={filter!}
               language={user.language!}

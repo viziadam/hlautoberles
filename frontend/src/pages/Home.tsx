@@ -19,6 +19,15 @@ import {
   Public,
   FlashOn,
   CheckBox,
+  Build,
+  Rule,
+  Handyman,
+  Schedule,
+  LocalShipping,
+  PriceCheck,
+  Assignment,
+  PersonPinCircle,
+  SupportAgent
 } from '@mui/icons-material'
 import L from 'leaflet'
 import * as bookcarsTypes from ':bookcars-types'
@@ -28,12 +37,12 @@ import { strings as commonStrings } from '@/lang/common'
 import { strings as carsStrings } from '@/lang/cars'
 import { strings } from '@/lang/home'
 import * as UserService from '@/services/UserService'
-import * as SupplierService from '@/services/SupplierService'
-import * as CountryService from '@/services/CountryService'
-import * as LocationService from '@/services/LocationService'
+// import * as SupplierService from '@/services/SupplierService'
+// import * as CountryService from '@/services/CountryService'
+// import * as LocationService from '@/services/LocationService'
 import * as PaymentService from '@/services/PaymentService'
 import Layout from '@/components/Layout'
-import SupplierCarrousel from '@/components/SupplierCarrousel'
+// import SupplierCarrousel from '@/components/SupplierCarrousel'
 import TabPanel, { a11yProps } from '@/components/TabPanel'
 import LocationCarrousel from '@/components/LocationCarrousel'
 import SearchForm from '@/components/SearchForm'
@@ -50,11 +59,11 @@ import '@/assets/css/home.css'
 const Home = () => {
   const navigate = useNavigate()
 
-  const [suppliers, setSuppliers] = useState<bookcarsTypes.User[]>([])
-  const [countries, setCountries] = useState<bookcarsTypes.CountryInfo[]>([])
-  const [pickupLocation, setPickupLocation] = useState('')
-  const [dropOffLocation, setDropOffLocation] = useState('')
-  const [sameLocation, setSameLocation] = useState(true)
+  // const [suppliers, setSuppliers] = useState<bookcarsTypes.User[]>([])
+  // const [countries, setCountries] = useState<bookcarsTypes.CountryInfo[]>([])
+  // const [pickupLocation, setPickupLocation] = useState('')
+  // const [dropOffLocation, setDropOffLocation] = useState('')
+  // const [sameLocation, setSameLocation] = useState(true)
   const [tabValue, setTabValue] = useState(0)
   const [openLocationSearchFormDialog, setOpenLocationSearchFormDialog] = useState(false)
   const [locations, setLocations] = useState<bookcarsTypes.Location[]>([])
@@ -104,17 +113,31 @@ const Home = () => {
   }
 
   const onLoad = async () => {
-    if (!env.HIDE_SUPPLIERS) {
-      let _suppliers = await SupplierService.getAllSuppliers()
-      _suppliers = _suppliers.filter((supplier) => supplier.avatar && !/no-image/i.test(supplier.avatar))
-      bookcarsHelper.shuffle(_suppliers)
-      setSuppliers(_suppliers)
-    }
+    // if (!env.HIDE_SUPPLIERS) {
+    //   let _suppliers = await SupplierService.getAllSuppliers()
+    //   _suppliers = _suppliers.filter((supplier) => supplier.avatar && !/no-image/i.test(supplier.avatar))
+    //   bookcarsHelper.shuffle(_suppliers)
+    //   setSuppliers(_suppliers)
+    // }
 
-    const _countries = await CountryService.getCountriesWithLocations('', true, env.MIN_LOCATIONS)
-    setCountries(_countries)
-    const _locations = await LocationService.getLocationsWithPosition()
-    setLocations(_locations)
+    // const _countries = await CountryService.getCountriesWithLocations('', true, env.MIN_LOCATIONS)
+    // setCountries(_countries)
+    // const _locations = await LocationService.getLocationsWithPosition()
+    // setLocations(_locations)
+    // HQ location lista a maphoz
+  const hqLocation: bookcarsTypes.Location = {
+    _id: 'hq',
+    name: 'Cég székhelye',
+    address: '1117 Budapest, Galvani u. 1-3',
+    // a Location típusban valószínűleg GeoJSON jellegű position van;
+    // ha más a struktúra, igazítsd a saját bookcarsTypes.Location definíciódhoz
+    position: {
+      type: 'Point',
+      coordinates: [env.MAP_LONGITUDE, env.MAP_LATITUDE],
+    },
+  } as any  // ha nagyon kötözködik a TS, ideiglenesen használhatsz "as any"-t
+
+  setLocations([hqLocation])
 
     const observer = new IntersectionObserver(handleIntersection)
     const video = document.getElementById('cover') as HTMLVideoElement
@@ -173,7 +196,8 @@ const Home = () => {
 
             <div className="why-box">
               <div className="why-icon-wrapper">
-                <RoomService className="why-icon" />
+                {/* <RoomService className="why-icon" /> */}
+                <Build className="why-icon" />
               </div>
               <div className="why-text-wrapper">
                 <span className="why-title">{strings.WHY_SERVICE_TITLE}</span>
@@ -183,7 +207,8 @@ const Home = () => {
 
             <div className="why-box">
               <div className="why-icon-wrapper">
-                <VisibilityOff className="why-icon" />
+                {/* <VisibilityOff className="why-icon" /> */}
+                <Rule className="why-icon" />
               </div>
               <div className="why-text-wrapper">
                 <span className="why-title">{strings.WHY_CHARGES_TITLE}</span>
@@ -203,7 +228,8 @@ const Home = () => {
 
             <div className="why-box">
               <div className="why-icon-wrapper">
-                <Speed className="why-icon" />
+                {/* <Speed className="why-icon" /> */}
+                <Schedule className="why-icon" />
               </div>
               <div className="why-text-wrapper">
                 <span className="why-title">{strings.WHY_MILEAGE_TITLE}</span>
@@ -233,7 +259,8 @@ const Home = () => {
 
             <div className="services-box">
               <div className="services-icon-wrapper">
-                <Navigation className="services-icon" />
+                {/* <Navigation className="services-icon" /> */}
+                <Handyman className="services-icon" />
               </div>
               <div className="services-text-wrapper">
                 <span className="services-title">{strings.SERVICES_FLEXIBLE_TITLE}</span>
@@ -263,7 +290,8 @@ const Home = () => {
 
             <div className="services-box">
               <div className="services-icon-wrapper">
-                <FlashOn className="services-icon" />
+                {/* <FlashOn className="services-icon" /> */}
+                <PersonPinCircle className="services-icon" />
               </div>
               <div className="services-text-wrapper">
                 <span className="services-title">{strings.SERVICE_INSTANT_BOOKING_TITLE}</span>
@@ -273,7 +301,8 @@ const Home = () => {
 
             <div className="services-box">
               <div className="services-icon-wrapper">
-                <RoomService className="services-icon" />
+                {/* <RoomService className="services-icon" /> */}
+                <SupportAgent className="services-icon" />
               </div>
               <div className="services-text-wrapper">
                 <span className="services-title">{strings.SERVICES_SUPPORT_TITLE}</span>
@@ -284,7 +313,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="home-suppliers" style={suppliers.length < 4 ? { margin: 0 } : undefined}>
+        {/* <div className="home-suppliers" style={suppliers.length < 4 ? { margin: 0 } : undefined}>
           {suppliers.length > 3 && (
             <>
               <h1>{strings.SUPPLIERS_TITLE}</h1>
@@ -330,7 +359,7 @@ const Home = () => {
               }
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="car-size">
           <h1>{strings.CAR_SIZE_TITLE}</h1>
@@ -498,7 +527,7 @@ const Home = () => {
           <FaqList />
         </div>
 
-        <div className="home-map">
+        {/* <div className="home-map">
           <Map
             title={strings.MAP_TITLE}
             position={new L.LatLng(env.MAP_LATITUDE, env.MAP_LONGITUDE)}
@@ -518,6 +547,17 @@ const Home = () => {
           //   setSameLocation(pickupLocation === locationId)
           //   helper.info(strings.MAP_DROP_OFF_SELECTED)
           // }}
+          />
+        </div> */}
+        <div className="home-map">
+          <Map
+            title={strings.MAP_TITLE} // vagy írj fixet: "Cég székhelye"
+            position={new L.LatLng(env.MAP_LATITUDE, env.MAP_LONGITUDE)}
+            initialZoom={env.MAP_ZOOM}
+            locations={locations}
+            onSelelectPickUpLocation={() => {
+              // NOP: csak mutatjuk a székhelyet, nem választunk pickup-ot
+            }}
           />
         </div>
 
@@ -572,7 +612,7 @@ const Home = () => {
         <DialogContent className="search-dialog-content">
           <SearchForm
             ranges={bookcarsHelper.getAllRanges()}
-            pickupLocation={pickupLocation}
+            // pickupLocation={pickupLocation}
           // onCancel={() => {
           //   setOpenLocationSearchFormDialog(false)
           // }}

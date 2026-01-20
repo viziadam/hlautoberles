@@ -158,6 +158,7 @@ div.home div.why div.why-boxes div.why-box div.why-icon-wrapper {
 
 div.home div.why div.why-boxes div.why-box div.why-icon-wrapper .why-icon {
   font-size: 48px;
+  color: var(--hl-blue-dark) !important;
 }
 
 div.home div.why div.why-boxes div.why-box div.why-text-wrapper {
@@ -207,6 +208,7 @@ div.home div.services div.services-boxes div.services-box div.services-icon-wrap
 
 div.home div.services div.services-boxes div.services-box div.services-icon-wrapper .services-icon {
   font-size: 48px;
+  color: var(--hl-blue-dark) !important;
 }
 
 div.home div.services div.services-boxes div.services-box div.services-text-wrapper {
@@ -322,6 +324,16 @@ div.home div.car-size div.boxes div.box div.car-size-action {
 div.home div.car-size div.boxes div.box div.car-size-action .btn-car-size {
   margin: 0 10px;
   width: 100%;
+  background-color: var(--hl-orange) !important;
+  color: #111111 !important;
+  transition:
+    background-color 0.15s ease,
+    color 1s ease;
+}
+
+div.home div.car-size div.boxes div.box div.car-size-action .btn-car-size:hover {
+  color: var(--hl-orange) !important;
+  background-color: #111111 !important;
 }
 
 div.home div.home-map {

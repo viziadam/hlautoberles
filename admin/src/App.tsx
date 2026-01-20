@@ -1,3 +1,6 @@
+
+
+
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom'
 import { NotificationProvider } from '@/context/NotificationContext'
@@ -11,14 +14,14 @@ const SignIn = lazy(() => import('@/pages/SignIn'))
 const Activate = lazy(() => import('@/pages/Activate'))
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'))
 const ResetPassword = lazy(() => import('@/pages/ResetPassword'))
-const SignUp = lazy(() => import('@/pages/SignUp'))
-const Suppliers = lazy(() => import('@/pages/Suppliers'))
-const Supplier = lazy(() => import('@/pages/Supplier'))
-const CreateSupplier = lazy(() => import('@/pages/CreateSupplier'))
-const UpdateSupplier = lazy(() => import('@/pages/UpdateSupplier'))
-const Locations = lazy(() => import('@/pages/Locations'))
-const CreateLocation = lazy(() => import('@/pages/CreateLocation'))
-const UpdateLocation = lazy(() => import('@/pages/UpdateLocation'))
+// const SignUp = lazy(() => import('@/pages/SignUp'))
+// const Suppliers = lazy(() => import('@/pages/Suppliers'))
+// const Supplier = lazy(() => import('@/pages/Supplier'))
+// const CreateSupplier = lazy(() => import('@/pages/CreateSupplier'))
+// const UpdateSupplier = lazy(() => import('@/pages/UpdateSupplier'))
+// const Locations = lazy(() => import('@/pages/Locations'))
+// const CreateLocation = lazy(() => import('@/pages/CreateLocation'))
+// const UpdateLocation = lazy(() => import('@/pages/UpdateLocation'))
 const Cars = lazy(() => import('@/pages/Cars'))
 const Car = lazy(() => import('@/pages/Car'))
 const CreateCar = lazy(() => import('@/pages/CreateCar'))
@@ -37,9 +40,9 @@ const About = lazy(() => import('@/pages/About'))
 const ChangePassword = lazy(() => import('@/pages/ChangePassword'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const NoMatch = lazy(() => import('@/pages/NoMatch'))
-const Countries = lazy(() => import('@/pages/Countries'))
-const CreateCountry = lazy(() => import('@/pages/CreateCountry'))
-const UpdateCountry = lazy(() => import('@/pages/UpdateCountry'))
+// const Countries = lazy(() => import('@/pages/Countries'))
+// const CreateCountry = lazy(() => import('@/pages/CreateCountry'))
+// const UpdateCountry = lazy(() => import('@/pages/UpdateCountry'))
 const Scheduler = lazy(() => import('@/pages/Scheduler'))
 const BankDetails = lazy(() => import('@/pages/BankDetails'))
 const Pricing = lazy(() => import('@/pages/Pricing'))
@@ -80,13 +83,13 @@ const router = createBrowserRouter([
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
       // { path: 'sign-up', element: <SignUp /> },
-      { path: 'suppliers', element: <Suppliers /> },
-      { path: 'supplier', element: <Supplier /> },
-      { path: 'create-supplier', element: <CreateSupplier /> },
-      { path: 'update-supplier', element: <UpdateSupplier /> },
-      { path: 'locations', element: <Locations /> },
-      { path: 'create-location', element: <CreateLocation /> },
-      { path: 'update-location', element: <UpdateLocation /> },
+      // { path: 'suppliers', element: <Suppliers /> },
+      // { path: 'supplier', element: <Supplier /> },
+      // { path: 'create-supplier', element: <CreateSupplier /> },
+      // { path: 'update-supplier', element: <UpdateSupplier /> },
+      // { path: 'locations', element: <Locations /> },
+      // { path: 'create-location', element: <CreateLocation /> },
+      // { path: 'update-location', element: <UpdateLocation /> },
       { path: 'cars', element: <Cars /> },
       { path: 'car', element: <Car /> },
       { path: 'create-car', element: <CreateCar /> },
@@ -103,9 +106,9 @@ const router = createBrowserRouter([
       { path: 'about', element: <About /> },
       { path: 'tos', element: <ToS /> },
       { path: 'contact', element: <Contact /> },
-      { path: 'countries', element: <Countries /> },
-      { path: 'create-country', element: <CreateCountry /> },
-      { path: 'update-country', element: <UpdateCountry /> },
+      // { path: 'countries', element: <Countries /> },
+      // { path: 'create-country', element: <CreateCountry /> },
+      // { path: 'update-country', element: <UpdateCountry /> },
       { path: 'scheduler', element: <Scheduler /> },
       { path: 'bank-details', element: <BankDetails /> },
       { path: 'pricing', element: <Pricing /> },
