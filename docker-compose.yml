@@ -1,29 +1,29 @@
 services:
-  mongo:
-    image: mongo:latest
-    command: mongod --quiet --logpath /dev/null
-    restart: always
-    environment:
-      # Provide your credentials here
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    ports:
-      - 27018:27017
-    volumes:
-      - mongodb_data:/data/db
-      - mongodb_config:/data/configdb
+  # mongo:
+  #   image: mongo:latest
+  #   command: mongod --quiet --logpath /dev/null
+  #   restart: always
+  #   environment:
+  #     # Provide your credentials here
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  #   ports:
+  #     - 27018:27017
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #     - mongodb_config:/data/configdb
 
-  mongo-express:
-    image: mongo-express:latest
-    restart: always
-    ports:
-      - 8084:8081
-    environment:
-      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
-    depends_on:
-      - mongo
+  # mongo-express:
+  #   image: mongo-express:latest
+  #   restart: always
+  #   ports:
+  #     - 8084:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+  #     ME_CONFIG_BASICAUTH_USERNAME: admin
+  #     ME_CONFIG_BASICAUTH_PASSWORD: admin
+  #   depends_on:
+  #     - mongo
 
   bc-backend:
     build: 
