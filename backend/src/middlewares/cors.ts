@@ -8,6 +8,8 @@ const whitelist = [
   helper.trimEnd(env.FRONTEND_HOST, '/'),
 ]
 
+console.log('env:', env)
+
 /**
  * CORS configuration.
  *
