@@ -55,8 +55,9 @@ const whitelist = whitelistRaw.map(normalizeOrigin)
 
 console.log('env.FRONTEND_HOST raw:', JSON.stringify(env.FRONTEND_HOST))
 console.log('env.ADMIN_HOST raw:', JSON.stringify(env.ADMIN_HOST))
-console.log('whitelist normalized:', whitelist.map(x => JSON.stringify(x)))
-console.log('whitelist lengths:', whitelist.map(x => x.length))
+console.log('whitelist normalized (raw):', whitelist)
+console.log('whitelist normalized (lengths):', whitelist.map(x => x.length))
+console.log('whitelist normalized (codes):', whitelist.map(x => Array.from(x).map(c => c.charCodeAt(0))))
 
 const dumpStr = (label: string, s: string) => {
   const codes = Array.from(s).map(ch => ch.charCodeAt(0))
@@ -90,15 +91,19 @@ const tryUrlParts = (s: string) => {
 const CORS_CONFIG: cors.CorsOptions = {
   origin(origin, callback) {
     // origin can be undefined for same-origin / server-to-server / some tools
+
+
     const originRaw = origin ?? ''
-    const originNorm = normalizeOrigin(originRaw)
+const originNorm = helper.trimEnd(originRaw, '/')
 
-    console.log('--- CORS CHECK ---')
-    dumpStr('incoming originRaw', originRaw)
-    dumpStr('incoming originNorm', originNorm)
+console.log('originRaw:', originRaw)
+console.log('originNorm:', originNorm)
+console.log('originRaw length:', originRaw.length)
+console.log('originNorm length:', originNorm.length)
+console.log('originNorm codes:', Array.from(originNorm).map(c => c.charCodeAt(0)))
 
-    console.log('incoming URL parts:', tryUrlParts(originNorm))
-    console.log('whitelist URL parts:', whitelist.map(w => tryUrlParts(w)))
+console.log('match?', whitelist.includes(originNorm))
+console.log('index:', whitelist.indexOf(originNorm))
 
     const idx = whitelist.indexOf(originNorm)
     console.log('match index:', idx)
