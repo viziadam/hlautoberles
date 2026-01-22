@@ -4,8 +4,11 @@ FROM node:lts-alpine AS build
 WORKDIR /bookcars/admin
 COPY ./admin ./
 COPY ./admin/.env.docker .env
+COPY ./admin/.env.docker .env.production
 COPY ./packages /bookcars/packages
 RUN npm install --force
+RUN echo "----- /bookcars/admin/.env -----" && cat .env || true
+RUN echo "----- /bookcars/admin/.env.production -----" && cat .env.production || true
 RUN npm run build
 
 FROM nginx:stable-alpine
