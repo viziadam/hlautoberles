@@ -30,7 +30,7 @@ const baseSchema = z.object({
     }).optional(),
 
     // Payment options
-    payLater: z.boolean().default(false).optional(),
+    // payLater: z.boolean().default(false).optional(),
     payDeposit: z.boolean().default(false).optional(),
     payInFull: z.boolean().default(false).optional(),
     toolsIncluded: z.boolean(),
@@ -44,18 +44,18 @@ const baseSchema = z.object({
     fullInsurance: z.boolean().default(false).optional(),
 
     // Additional driver details
-    additionalDriverFullName: z.string().optional(),
-    additionalDriverEmail: z.string()
-        .refine((value) => !value || validator.isEmail(value), {
-            message: commonStrings.EMAIL_NOT_VALID,
-        }).optional(),
-    additionalDriverPhone: z
-        .string()
-        .refine((value) => !value || validator.isMobilePhone(value), {
-            message: commonStrings.PHONE_NOT_VALID,
-        }).optional()
-    ,
-    additionalDriverBirthDate: z.date().optional(),
+    // additionalDriverFullName: z.string().optional(),
+    // additionalDriverEmail: z.string()
+    //     .refine((value) => !value || validator.isEmail(value), {
+    //         message: commonStrings.EMAIL_NOT_VALID,
+    //     }).optional(),
+    // additionalDriverPhone: z
+    //     .string()
+    //     .refine((value) => !value || validator.isMobilePhone(value), {
+    //         message: commonStrings.PHONE_NOT_VALID,
+    //     }).optional()
+    // ,
+    // additionalDriverBirthDate: z.date().optional(),
 })
 
 export const createSchema = (car?: bookcarsTypes.Car) => {

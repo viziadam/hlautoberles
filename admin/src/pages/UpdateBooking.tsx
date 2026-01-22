@@ -37,9 +37,7 @@ import Backdrop from '@/components/SimpleBackdrop'
 import NoMatch from './NoMatch'
 import Error from './Error'
 import CarList from '@/components/CarList'
-import SupplierSelectList from '@/components/SupplierSelectList'
 import UserSelectList from '@/components/UserSelectList'
-import LocationSelectList from '@/components/LocationSelectList'
 import CarSelectList from '@/components/CarSelectList'
 import StatusList from '@/components/StatusList'
 import DateTimePicker from '@/components/DateTimePicker'
@@ -51,108 +49,7 @@ import axios from 'axios'
 
 import '@/assets/css/booking.css'
 
-// // Create a separate component to avoid re-renders
-// interface AdditionalDriverFormProps {
-//   control: Control<FormFields>
-//   register: UseFormRegister<FormFields>
-//   errors: FieldErrors<FormFields>
-//   clearErrors: UseFormClearErrors<FormFields>
-//   trigger: UseFormTrigger<FormFields>
-//   setValue: UseFormSetValue<FormFields>
-//   language: string
-// }
 
-// const AdditionalDriverForm = ({ control, register, errors, clearErrors, trigger, setValue, language }: AdditionalDriverFormProps) => {
-//   // Only watch the fields needed in this component
-//   const additionalDriverBirthDate = useWatch({ control, name: 'additionalDriverBirthDate' })
-//   const additionalEmail = useWatch({ control, name: 'additionalDriverEmail' })
-//   const additionalDriverPhone = useWatch({ control, name: 'additionalDriverPhone' })
-
-//   return (
-//     <>
-//       <div className="info">
-//         <DriverIcon />
-//         <span>{csStrings.ADDITIONAL_DRIVER}</span>
-//       </div>
-//       <FormControl fullWidth margin="dense">
-//         <InputLabel className="required">{commonStrings.FULL_NAME}</InputLabel>
-//         <Input
-//           {...register('additionalDriverFullName')}
-//           type="text"
-//           required
-//           autoComplete="off"
-//         />
-//         {errors.additionalDriverFullName && <FormHelperText error>{commonStrings.REQUIRED}</FormHelperText>}
-//       </FormControl>
-
-//       <FormControl fullWidth margin="dense">
-//         <InputLabel className="required">{commonStrings.EMAIL}</InputLabel>
-//         <Input
-//           value={additionalEmail || ''}
-//           onChange={(e) => {
-//             if (errors.additionalDriverEmail) {
-//               clearErrors('additionalDriverEmail')
-//             }
-
-//             setValue('additionalDriverEmail', e.target.value)
-//           }}
-//           onBlur={() => {
-//             trigger('additionalDriverEmail')
-//           }}
-//           type="text"
-//           error={!!errors.additionalDriverEmail}
-//           required
-//           autoComplete="off"
-//         />
-//         {errors.additionalDriverEmail && <FormHelperText error>{errors.additionalDriverEmail.message}</FormHelperText>}
-//       </FormControl>
-
-//       <FormControl fullWidth margin="dense">
-//         <InputLabel className="required">{commonStrings.PHONE}</InputLabel>
-//         <Input
-//           value={additionalDriverPhone || ''}
-//           type="text"
-//           error={!!errors.additionalDriverPhone}
-//           required
-//           autoComplete="off"
-//           onChange={(e) => {
-//             if (errors.additionalDriverPhone) {
-//               clearErrors('additionalDriverPhone')
-//             }
-
-//             setValue('additionalDriverPhone', e.target.value)
-//           }}
-//           onBlur={() => {
-//             trigger('additionalDriverPhone')
-//           }}
-//         />
-//         {errors.additionalDriverPhone && <FormHelperText error>{errors.additionalDriverPhone.message}</FormHelperText>}
-//       </FormControl>
-//       <FormControl fullWidth margin="dense">
-//         <DatePicker
-//           label={commonStrings.BIRTH_DATE}
-//           value={additionalDriverBirthDate}
-//           required
-//           onChange={(birthDate) => {
-//             if (birthDate) {
-//               if (errors.additionalDriverBirthDate) {
-//                 clearErrors('additionalDriverBirthDate')
-//               }
-//               setValue('additionalDriverBirthDate', birthDate)
-//               trigger('additionalDriverBirthDate')
-//             }
-//           }}
-//           language={language}
-//         />
-//         {errors.additionalDriverBirthDate && (
-//           <FormHelperText error>
-//             {helper.getBirthDateError(env.MINIMUM_AGE)}
-//           </FormHelperText>
-//         )}
-//       </FormControl>
-//     </>
-//   )
-// }
 
 const UpdateBooking = () => {
   const navigate = useNavigate()
@@ -164,7 +61,6 @@ const UpdateBooking = () => {
   const [booking, setBooking] = useState<bookcarsTypes.Booking>()
   const [visible, setVisible] = useState(false)
   const [carObj, setCarObj] = useState<bookcarsTypes.Car>()
-  const [isSupplier, setIsSupplier] = useState(false)
   const [minDate, setMinDate] = useState<Date>()
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [language, setLanguage] = useState(env.DEFAULT_LANGUAGE)
@@ -355,9 +251,7 @@ const UpdateBooking = () => {
         const id = params.get('b')
         if (id && id !== '') {
           try {
-            console.log('bejon ide! id: ', id)
             const _booking = await BookingService.getBooking(id)
-            console.log('bejon ide! id: ', _booking)
             if (_booking) {
               if (!helper.admin(_user) ) {
                 setLoading(false)
@@ -667,7 +561,7 @@ const UpdateBooking = () => {
                                   disabled={!carObj || !carObj.toolsRentable}
                                 />
                               }
-                              label="Rental tools"
+                              label={csStrings.TOOLS_INCLUDED}
                               className="checkbox-fcl"
                             />
                           </FormControl>
@@ -681,7 +575,7 @@ const UpdateBooking = () => {
                                   color="primary"
                                 />
                               }
-                              label="Chauffeur"
+                              label={csStrings.CHAUFFEUR_REQUESTED}
                               className="checkbox-fcl"
                             />
                           </FormControl>

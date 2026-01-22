@@ -180,7 +180,7 @@ const strings = new LocalizedStrings({
     UPLOAD_FILE: 'Upload file...',
     TOOLS_RENTABLE: 'Tool rental available for this vehicle',
     TOOLS_INCLUDED: 'Tool rental ',
-    CHAUFFER_REQUESTED: 'Chauffeur service',
+    CHAUFFEUR_REQUESTED: 'Chauffeur service',
   },
   es: {
     BOOKCARS: env.WEBSITE_NAME,
@@ -358,7 +358,7 @@ const strings = new LocalizedStrings({
   UPLOAD_FILE: 'Fájl feltöltése...',
   TOOLS_RENTABLE: 'Szerszámok bérelhetők ehhez a járműhöz',
   TOOLS_INCLUDED: 'Szerszámok bérlése',
-  CHAUFFER_REQUESTED: 'Sofőrszolgálat igénylése',
+  CHAUFFEUR_REQUESTED: 'Sofőrszolgálat igénylése',
 },
 
 })

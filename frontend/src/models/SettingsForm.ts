@@ -13,7 +13,7 @@ export const schema = z.object({
     const sub = intervalToDuration({ start: value, end: new Date() }).years ?? 0
     return sub >= env.MINIMUM_AGE
   }, { message: commonStrings.BIRTH_DATE_NOT_VALID }),
-  location: z.string().optional(),
+  // location: z.string().optional(),
   bio: z.string().optional(),
 })
 

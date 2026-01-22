@@ -30,7 +30,6 @@ import Error from '@/components/Error'
 import Backdrop from '@/components/SimpleBackdrop'
 import Avatar from '@/components/Avatar'
 import DatePicker from '@/components/DatePicker'
-import DriverLicense from '@/components/DriverLicense'
 import { schema, FormFields } from '@/models/UserForm'
 
 import '@/assets/css/update-user.css'
@@ -66,14 +65,10 @@ const UpdateUser = () => {
       fullName: '',
       email: '',
       phone: '',
-      location: '',
       bio: '',
-      payLater: false,
-      licenseRequired: false,
       minimumRentalDays: '',
       priceChangeRate: '',
-      supplierCarLimit: '',
-      notifyAdminOnNewCar: false
+
     },
   })
 
@@ -81,9 +76,7 @@ const UpdateUser = () => {
   const fullName = useWatch({ control, name: 'fullName' })
   const email = useWatch({ control, name: 'email' })
   const blacklisted = useWatch({ control, name: 'blacklisted' })
-  const payLater = useWatch({ control, name: 'payLater' })
-  const licenseRequired = useWatch({ control, name: 'licenseRequired' })
-  const notifyAdminOnNewCar = useWatch({ control, name: 'notifyAdminOnNewCar' })
+
 
   const onBeforeUpload = () => {
     setLoading(true)
@@ -156,15 +149,10 @@ const UpdateUser = () => {
               setValue('email', _user.email || '')
               setValue('fullName', _user.fullName || '')
               setValue('phone', _user.phone || '')
-              setValue('location', _user.location || '')
               setValue('bio', _user.bio || '')
               setValue('birthDate', _user && _user.birthDate ? new Date(_user.birthDate) : undefined)
-              setValue('payLater', _user.payLater || false)
-              setValue('licenseRequired', _user.licenseRequired || false)
               setValue('minimumRentalDays', _user.minimumRentalDays?.toString() || '')
               setValue('priceChangeRate', _user.priceChangeRate?.toString() || '')
-              setValue('supplierCarLimit', _user.supplierCarLimit?.toString() || '')
-              setValue('notifyAdminOnNewCar', !!_user.notifyAdminOnNewCar)
               setValue('blacklisted', !!_user.blacklisted)
               setVisible(true)
               setLoading(false)
@@ -211,7 +199,6 @@ const UpdateUser = () => {
       const payload: bookcarsTypes.UpdateUserPayload = {
         _id: user._id as string,
         phone: data.phone || '',
-        location: data.location || '',
         bio: data.bio || '',
         fullName: data.fullName,
         language,
@@ -220,15 +207,9 @@ const UpdateUser = () => {
         birthDate: data.birthDate,
         minimumRentalDays: data.minimumRentalDays ? Number(data.minimumRentalDays) : undefined,
         priceChangeRate: data.priceChangeRate ? Number(data.priceChangeRate) : undefined,
-        supplierCarLimit: data.supplierCarLimit ? Number(data.supplierCarLimit) : undefined,
-        notifyAdminOnNewCar: type === bookcarsTypes.RecordType.Supplier ? notifyAdminOnNewCar : undefined,
         blacklisted: data.blacklisted,
       }
 
-      if (type === bookcarsTypes.RecordType.Supplier) {
-        payload.payLater = payLater
-        payload.licenseRequired = licenseRequired
-      }
 
       const status = await UserService.updateUser(payload)
 
@@ -373,116 +354,10 @@ const UpdateUser = () => {
                     <FormHelperText error={!!errors.birthDate}>{errors.birthDate?.message || ''}</FormHelperText>
                   </FormControl>
 
-                  <DriverLicense user={user} className="driver-license-field" />
                 </>
               )}
 
-              {supplier && (
-                <>
-                  <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('payLater')}
-                          checked={payLater}
-                          onChange={(e) => {
-                            setValue('payLater', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.PAY_LATER}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('licenseRequired')}
-                          checked={licenseRequired}
-                          onChange={(e) => {
-                            setValue('licenseRequired', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.LICENSE_REQUIRED}
-                    />
-                  </FormControl>
-
-                  {/* <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('notifyAdminOnNewCar')}
-                          checked={notifyAdminOnNewCar}
-                          disabled={loggedUser?.type === bookcarsTypes.UserType.Supplier}
-                          onChange={(e) => {
-                            setValue('notifyAdminOnNewCar', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.NOTIFY_ADMIN_ON_NEW_CAR}
-                    />
-                  </FormControl> */}
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.SUPPLIER_CAR_LIMIT}</InputLabel>
-                    <Input
-                      {...register('supplierCarLimit')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.supplierCarLimit}
-                      onChange={() => {
-                        if (errors.supplierCarLimit) {
-                          clearErrors('supplierCarLimit')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.supplierCarLimit}>
-                      {errors.supplierCarLimit?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.MIN_RENTAL_DAYS}</InputLabel>
-                    <Input
-                      {...register('minimumRentalDays')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.minimumRentalDays}
-                      onChange={() => {
-                        if (errors.minimumRentalDays) {
-                          clearErrors('minimumRentalDays')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.minimumRentalDays}>
-                      {errors.minimumRentalDays?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.PRICE_CHANGE_RATE}</InputLabel>
-                    <Input
-                      {...register('priceChangeRate')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.priceChangeRate}
-                      onChange={() => {
-                        if (errors.priceChangeRate) {
-                          clearErrors('priceChangeRate')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.priceChangeRate}>
-                      {errors.priceChangeRate?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-                </>
-              )}
+              
 
               <div className="info">
                 <InfoIcon />
@@ -509,14 +384,6 @@ const UpdateUser = () => {
                 </FormHelperText>
               </FormControl>
 
-              <FormControl fullWidth margin="dense">
-                <InputLabel>{commonStrings.LOCATION}</InputLabel>
-                <Input
-                  {...register('location')}
-                  type="text"
-                  autoComplete="off"
-                />
-              </FormControl>
 
               <FormControl fullWidth margin="dense">
                 <InputLabel>{commonStrings.BIO}</InputLabel>

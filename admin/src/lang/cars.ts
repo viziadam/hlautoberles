@@ -269,6 +269,8 @@ const strings = new LocalizedStrings({
     CAR_RANGE_BUS: 'Autobús',
     CAR_RANGE_TRUCK: 'Camión',
     CAR_RANGE_CARAVAN: 'Caravana',
+    TOOLS_INCLUDED: 'Tool rental ',
+    CHAUFFUER_REQUESTED: 'Chauffeur service',
   },
   hu: {
     NEW_CAR: 'Új jármű',
@@ -375,6 +377,9 @@ const strings = new LocalizedStrings({
     CAR_RANGE_BUS: 'Busz',
     CAR_RANGE_TRUCK: 'Teherautó',
     CAR_RANGE_CARAVAN: 'Lakókocsi',
+
+    TOOLS_INCLUDED: 'Szerszámok bérlése',
+    CHAUFFEUR_REQUESTED: 'Sofőrszolgálat igénylése',
   },
 
 })

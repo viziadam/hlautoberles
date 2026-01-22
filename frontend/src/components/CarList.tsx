@@ -19,10 +19,7 @@ import '@/assets/css/car-list.css'
 interface CarListProps {
   from?: Date
   to?: Date
-  // suppliers?: string[]
-  // pickupLocation?: string
-  // dropOffLocation?: string
-  // pickupLocationName?: string
+
   carSpecs?: bookcarsTypes.CarSpecs
   carType?: string[]
   gearbox?: string[]
@@ -34,7 +31,6 @@ interface CarListProps {
   booking?: bookcarsTypes.Booking
   className?: string
   hidePrice?: boolean
-  //hideSupplier?: boolean
   loading?: boolean
   sizeAuto?: boolean
   ranges?: string[]
@@ -50,10 +46,7 @@ interface CarListProps {
 const CarList = ({
   from,
   to,
-  // suppliers,
-  // pickupLocation,
-  // dropOffLocation,
-  // pickupLocationName,
+
   carSpecs,
   carType: _carType,
   gearbox,
@@ -65,14 +58,14 @@ const CarList = ({
   booking,
   className,
   hidePrice,
-  // hideSupplier,
+
   loading: carListLoading,
   sizeAuto,
   ranges,
   multimedia,
   rating,
   seats,
-  // distance,
+
   includeAlreadyBookedCars,
   includeComingSoonCars,
   onLoad,
@@ -140,9 +133,7 @@ const CarList = ({
         includeComingSoonCars,
       }
 
-      console.log('front end car payload: ', payload);
       const data = await CarService.getCars(payload, _page, env.CARS_PAGE_SIZE)
-      //console.log('fetched cars: ', data);
       const _data = data && data.length > 0 ? data[0] : { pageInfo: { totalRecord: 0 }, resultData: [] }
       if (!_data) {
         helper.error()
@@ -169,7 +160,6 @@ const CarList = ({
       if (onLoad) {
         onLoad({ rows: _data.resultData, rowCount: _totalRecords })
       }
-      console.log('itt!')
     } catch (err) {
       helper.error(err)
     } finally {
@@ -185,7 +175,6 @@ const CarList = ({
   }, [page,  carSpecs, _carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    console.log('cars: ', cars);
     if (cars) {
       setRows(cars)
       setFetch(false)

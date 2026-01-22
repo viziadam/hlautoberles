@@ -70,12 +70,15 @@ div.booking-status .bs-icon-paidinfull {
 }
 
 div.booking-status span.bs-reserved {
-  background: #D9E7F4;
-  color: #1E88E5;
+  /* background: #D9E7F4;
+  color: #1E88E5; */
+  background: #77BC23;
+  color: #FFF;
 }
 
 div.booking-status .bs-icon-reserved {
-  color: #1E88E5;
+  /* color: #1E88E5; */
+  color: #77BC23;
 }
 
 div.booking-status span.bs-cancelled {

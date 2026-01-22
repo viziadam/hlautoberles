@@ -119,10 +119,12 @@ const Checkout = () => {
     resolver: zodResolver(schema),
     mode: 'onBlur',
     shouldUnregister: false,
-    // defaultValues: {
+     defaultValues: {
     //   additionalDriverEmail: '',
     //   additionalDriverPhone: '',
-    // }
+    chauffeurRequested: false,
+    toolsIncluded: false,
+     }
   })
 
   // const additionalDriverEmail = useWatch({ control, name: 'additionalDriverEmail' })
@@ -317,7 +319,6 @@ const Checkout = () => {
       setValue('fullInsurance', included(_car.fullInsurance))
       
       setVisible(true)
-      console.log('car: ', _car)
     } catch (err) {
       helper.error(err)
     }
@@ -403,6 +404,7 @@ const Checkout = () => {
                                                   control={
                                                     <Switch
                                                       checked={toolsIncluded}
+                                                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setValue('toolsIncluded', event.target.checked)}}
                                                       color="primary"
                                                       disabled={!car.toolsRentable}
                                                     />
@@ -417,11 +419,12 @@ const Checkout = () => {
                                                   control={
                                                     <Switch
                                                       checked={chauffeurRequested}
+                                                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {setValue('chauffeurRequested', event.target.checked)}}
                                                       color="primary"
                                                       disabled={false}
                                                     />
                                                   }
-                                                  label={commonStrings.CHAFFEUR_REQUESTED}
+                                                  label={commonStrings.CHAUFFEUR_REQUESTED}
                                                   className="checkbox-fcl"
                                                 />
                                   </FormControl>

@@ -286,9 +286,6 @@ const CarList = ({
     setUser(carUser)
   }, [carUser])
 
-  useEffect(() => {
-    console.log('rows: ', rows)
-  }, [rows])
 
   const handleDelete = async (e: React.MouseEvent<HTMLElement>) => {
     try {

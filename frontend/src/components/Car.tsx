@@ -84,15 +84,11 @@ const Car = ({
   const isBookable = (car as any).isBookable ?? true
   const periodStatus = (car as any).periodStatus as ('available' | 'pending' | 'booked' | 'unavailable' | undefined)
 
-  console.log('periodStatus: ', periodStatus)
-
   const statusLabel =
     periodStatus === 'booked' ? strings.BOOKED :
     periodStatus === 'pending' ? strings.PENDING :
-    periodStatus === 'unavailable' ? strings.NOT_AVAILABLE :
-    null
+    periodStatus === 'unavailable' ? strings.NOT_AVAILABLE : null
 
-    console.log('carStatusLabel: ', statusLabel);
 
 
   useEffect(() => {
@@ -187,7 +183,6 @@ const Car = ({
   if (loading || !language || (!hidePrice && (!days || !totalPrice))) {
     return null
   }
-  // console.log('car')
 
   const fr = language === 'fr'
 

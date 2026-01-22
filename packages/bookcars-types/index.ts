@@ -291,7 +291,7 @@ export type Contract = { language: string, file: string | null }
 export interface CreateUserPayload {
   email?: string
   phone: string
-  location: string
+  // location: string
   bio: string
   fullName: string
   type?: string

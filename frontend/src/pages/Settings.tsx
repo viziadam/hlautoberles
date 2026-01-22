@@ -90,7 +90,7 @@ const Settings = () => {
         fullName: data.fullName,
         birthDate: data.birthDate,
         phone: data.phone,
-        location: data.location || '',
+        // location: data.location || '',
         bio: data.bio || '',
       }
 
@@ -113,7 +113,7 @@ const Settings = () => {
       setValue('fullName', _user.fullName)
       setValue('phone', _user.phone || '')
       setValue('birthDate', new Date(_user.birthDate!))
-      setValue('location', _user.location || '')
+      // setValue('location', _user.location || '')
       setValue('bio', _user.bio || '')
       setEnableEmailNotifications(_user.enableEmailNotifications ?? true)
       setVisible(true)
@@ -180,10 +180,10 @@ const Settings = () => {
                   />
                   <FormHelperText>{errors.birthDate?.message || ''}</FormHelperText>
                 </FormControl>
-                <FormControl fullWidth margin="dense">
+                {/* <FormControl fullWidth margin="dense">
                   <InputLabel>{commonStrings.LOCATION}</InputLabel>
                   <Input {...register('location')} type="text" autoComplete="off" />
-                </FormControl>
+                </FormControl> */}
                 <FormControl fullWidth margin="dense">
                   <InputLabel>{commonStrings.BIO}</InputLabel>
                   <Input {...register('bio')} type="text" autoComplete="off" />
@@ -218,10 +218,10 @@ const Settings = () => {
               </form>
             </Paper>
 
-            <Paper className="settings-form settings-form-wrapper" elevation={10}>
+            {/* <Paper className="settings-form settings-form-wrapper" elevation={10}>
               <h1 className="settings-form-title">{commonStrings.DRIVER_LICENSE}</h1>
               <DriverLicense user={user} />
-            </Paper>
+            </Paper> */}
 
             <Paper className="settings-net settings-net-wrapper" elevation={10}>
               <h1 className="settings-form-title">{strings.NETWORK_SETTINGS}</h1>

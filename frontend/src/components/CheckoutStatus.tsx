@@ -38,7 +38,6 @@ const CheckoutStatus = (
   useEffect(() => {
     const init = async () => {
       const _booking = await BookingService.getBooking(bookingId)
-      console.log('booking:', _booking);
       setBooking(_booking)
       setPrice(await PaymentService.convertPrice(_booking.price!))
       setLoading(false)
@@ -58,7 +57,6 @@ const CheckoutStatus = (
   const _format = _fr ? 'eee d LLL yyyy kk:mm' : 'eee, d LLL yyyy, p'
   const days = (booking && bookcarsHelper.days(new Date(booking.from), new Date(booking.to))) || 0
   const success = status === 'success'
-  console.log('success: ', success);
 
   return booking && (
     <div className={`checkout-status ${className || ''}`}>

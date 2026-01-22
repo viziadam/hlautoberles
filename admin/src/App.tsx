@@ -44,7 +44,7 @@ const NoMatch = lazy(() => import('@/pages/NoMatch'))
 // const CreateCountry = lazy(() => import('@/pages/CreateCountry'))
 // const UpdateCountry = lazy(() => import('@/pages/UpdateCountry'))
 const Scheduler = lazy(() => import('@/pages/Scheduler'))
-const BankDetails = lazy(() => import('@/pages/BankDetails'))
+// const BankDetails = lazy(() => import('@/pages/BankDetails'))
 const Pricing = lazy(() => import('@/pages/Pricing'))
 
 const AppLayout = () => {
@@ -110,7 +110,7 @@ const router = createBrowserRouter([
       // { path: 'create-country', element: <CreateCountry /> },
       // { path: 'update-country', element: <UpdateCountry /> },
       { path: 'scheduler', element: <Scheduler /> },
-      { path: 'bank-details', element: <BankDetails /> },
+      // { path: 'bank-details', element: <BankDetails /> },
       { path: 'pricing', element: <Pricing /> },
       { path: '*', element: <NoMatch /> }
     ]
