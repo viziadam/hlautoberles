@@ -10,7 +10,6 @@ import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import { strings as commonStrings } from '@/lang/common'
 import { strings } from '@/lang/booking-filter'
-import LocationSelectList from './LocationSelectList'
 import Accordion from '@/components/Accordion'
 
 import '@/assets/css/vehicle-scheduler-filter.css'

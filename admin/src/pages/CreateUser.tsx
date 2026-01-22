@@ -29,7 +29,6 @@ import Error from '@/components/Error'
 import Backdrop from '@/components/SimpleBackdrop'
 import Avatar from '@/components/Avatar'
 import DatePicker from '@/components/DatePicker'
-import DriverLicense from '@/components/DriverLicense'
 import { schema, FormFields } from '@/models/UserForm'
 
 import '@/assets/css/create-user.css'
@@ -63,21 +62,13 @@ const CreateUser = () => {
       fullName: '',
       email: '',
       phone: '',
-      location: '',
       bio: '',
-      payLater: false,
-      licenseRequired: false,
       minimumRentalDays: '',
       priceChangeRate: '',
-      supplierCarLimit: '',
-      notifyAdminOnNewCar: false
     },
   })
 
   const type = useWatch({ control, name: 'type' })
-  const payLater = useWatch({ control, name: 'payLater' })
-  const licenseRequired = useWatch({ control, name: 'licenseRequired' })
-  const notifyAdminOnNewCar = useWatch({ control, name: 'notifyAdminOnNewCar' })
 
   const onBeforeUpload = () => {
     setLoading(true)
@@ -159,19 +150,14 @@ const CreateUser = () => {
       const payload: bookcarsTypes.CreateUserPayload = {
         email: data.email,
         phone: data.phone || '',
-        location: data.location || '',
         bio: data.bio || '',
         fullName: data.fullName,
         type: data.type,
         avatar,
         birthDate: data.birthDate,
         language,
-        supplier,
-        license,
         minimumRentalDays: data.minimumRentalDays ? Number(data.minimumRentalDays) : undefined,
-        priceChangeRate: data.priceChangeRate ? Number(data.priceChangeRate) : undefined,
-        supplierCarLimit: data.supplierCarLimit ? Number(data.supplierCarLimit) : undefined,
-        notifyAdminOnNewCar:  undefined,
+        
       }
 
       // if (type === bookcarsTypes.UserType.Supplier) {
@@ -303,12 +289,7 @@ const CreateUser = () => {
                     <FormHelperText error={!!errors.birthDate}>{errors.birthDate?.message || ''}</FormHelperText>
                   </FormControl>
 
-                  <DriverLicense
-                    className="driver-license-field"
-                    onUpload={(filename: string) => {
-                      setLicense(filename)
-                    }}
-                  />
+                  
                 </>
               )}
 
@@ -333,15 +314,6 @@ const CreateUser = () => {
               </FormControl>
 
               <FormControl fullWidth margin="dense">
-                <InputLabel>{commonStrings.LOCATION}</InputLabel>
-                <Input
-                  {...register('location')}
-                  type="text"
-                  autoComplete="off"
-                />
-              </FormControl>
-
-              <FormControl fullWidth margin="dense">
                 <InputLabel>{commonStrings.BIO}</InputLabel>
                 <Input
                   {...register('bio')}
@@ -350,112 +322,7 @@ const CreateUser = () => {
                 />
               </FormControl>
 
-              {/* {supplier && (
-                <>
-                  <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('payLater')}
-                          checked={payLater}
-                          onChange={(e) => {
-                            setValue('payLater', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.PAY_LATER}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('licenseRequired')}
-                          checked={licenseRequired}
-                          onChange={(e) => {
-                            setValue('licenseRequired', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.LICENSE_REQUIRED}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <FormControlLabel
-                      control={(
-                        <Switch
-                          {...register('notifyAdminOnNewCar')}
-                          checked={notifyAdminOnNewCar}
-                          disabled={user?.type === bookcarsTypes.UserType.Supplier}
-                          onChange={(e) => {
-                            setValue('notifyAdminOnNewCar', e.target.checked)
-                          }}
-                          color="primary"
-                        />
-                      )}
-                      label={commonStrings.NOTIFY_ADMIN_ON_NEW_CAR}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.SUPPLIER_CAR_LIMIT}</InputLabel>
-                    <Input
-                      {...register('supplierCarLimit')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.supplierCarLimit}
-                      onChange={() => {
-                        if (errors.supplierCarLimit) {
-                          clearErrors('supplierCarLimit')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.supplierCarLimit}>
-                      {errors.supplierCarLimit?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.MIN_RENTAL_DAYS}</InputLabel>
-                    <Input
-                      {...register('minimumRentalDays')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.minimumRentalDays}
-                      onChange={() => {
-                        if (errors.minimumRentalDays) {
-                          clearErrors('minimumRentalDays')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.minimumRentalDays}>
-                      {errors.minimumRentalDays?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-
-                  <FormControl fullWidth margin="dense">
-                    <InputLabel>{commonStrings.PRICE_CHANGE_RATE}</InputLabel>
-                    <Input
-                      {...register('priceChangeRate')}
-                      type="text"
-                      autoComplete="off"
-                      error={!!errors.priceChangeRate}
-                      onChange={() => {
-                        if (errors.priceChangeRate) {
-                          clearErrors('priceChangeRate')
-                        }
-                      }}
-                    />
-                    <FormHelperText error={!!errors.priceChangeRate}>
-                      {errors.priceChangeRate?.message || ''}
-                    </FormHelperText>
-                  </FormControl>
-                </>
-              )} */}
+              
 
               <div className="buttons">
                 <Button type="submit" variant="contained" className="btn-primary btn-margin-bottom" size="small" disabled={isSubmitting}>

@@ -34,8 +34,6 @@ const About = lazy(() => import('@/pages/About'))
 const ChangePassword = lazy(() => import('@/pages/ChangePassword'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const NoMatch = lazy(() => import('@/pages/NoMatch'))
-// const Locations = lazy(() => import('@/pages/Locations'))
-const Suppliers = lazy(() => import('@/pages/Suppliers'))
 const Faq = lazy(() => import('@/pages/Faq'))
 const CookiePolicy = lazy(() => import('@/pages/CookiePolicy'))
 
