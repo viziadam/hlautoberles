@@ -71,9 +71,7 @@ const SignIn = () => {
 
           if (params.has('u')) {
             navigate(`/user${window.location.search}`)
-          } else if (params.has('c')) {
-            navigate(`/supplier${window.location.search}`)
-          } else if (params.has('cr')) {
+          }  else if (params.has('cr')) {
             navigate(`/car${window.location.search}`)
           } else if (params.has('b')) {
             navigate(`/update-booking${window.location.search}`)
