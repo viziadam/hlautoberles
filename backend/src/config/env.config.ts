@@ -197,7 +197,7 @@ export const AUTH_COOKIE_DOMAIN = __env__('BC_AUTH_COOKIE_DOMAIN', false, 'local
  *
  * @type {CookieOptions}
  */
-export const COOKIE_OPTIONS: CookieOptions = { httpOnly: true, secure: HTTPS, signed: true, sameSite: 'none', domain: AUTH_COOKIE_DOMAIN }
+export const COOKIE_OPTIONS: CookieOptions = { httpOnly: true, secure: HTTPS, signed: true, sameSite: 'strict', domain: AUTH_COOKIE_DOMAIN }
 
 /**
  * frontend authentication cookie name.
