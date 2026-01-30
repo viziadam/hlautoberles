@@ -6,8 +6,10 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd(), '') }
-
+  const rawBasePath = process.env.VITE_BC_BASE_PATH || '/admin'
+  const normalizedBasePath = rawBasePath.endsWith('/') ? rawBasePath : `${rawBasePath}/`
   return defineConfig({
+    base: normalizedBasePath,
     plugins: [
       react({
         // Babel optimizations
