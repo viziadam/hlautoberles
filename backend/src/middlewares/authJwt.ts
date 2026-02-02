@@ -24,6 +24,9 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const isAdmin = authHelper.isAdmin(req)
   const isFrontend = authHelper.isFrontend(req)
 
+  console.log('isAdmin: ', isAdmin)
+  console.log('isFrontend: ', isFrontend)
+
   if (isAdmin) {
     token = req.signedCookies[env.ADMIN_AUTH_COOKIE_NAME] as string // admin
   } else if (isFrontend) {
@@ -32,10 +35,13 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     token = req.headers[env.X_ACCESS_TOKEN] as string // mobile app and unit tests
   }
 
+  console.log('token: ', token)
+
   if (token) {
     // Check token
     try {
       const sessionData = await authHelper.decryptJWT(token)
+      console.log('sessionData: ', sessionData)
       const $match: mongoose.FilterQuery<bookcarsTypes.User> = {
         $and: [
           { _id: sessionData?.id },
