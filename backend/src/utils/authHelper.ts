@@ -70,6 +70,7 @@ const matchesHost = (hostValue: string | undefined, target: string): boolean => 
 }
 
 const matchesOrigin = (origin: string | undefined, target: string): boolean => {
+  console.log('header origin es target: ', origin, target)
   if (!origin) {
     return false
   }
@@ -93,7 +94,7 @@ export const isAdmin = (req: Request): boolean =>
 export const isFrontend = (req: Request): boolean =>
   matchesOrigin(req.headers.origin, env.FRONTEND_HOST)
   || matchesHost(req.headers.host, env.FRONTEND_HOST)
-  
+
 /**
  * Get authentification cookie name.
  *
