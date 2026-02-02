@@ -55,6 +55,23 @@ export const decryptJWT = async (input: string) => {
  * @returns {boolean}
  */
 // export const isAdmin = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.ADMIN_HOST, '/')
+const getHeaderValue = (value: string | string[] | undefined): string | undefined => {
+  if (!value) {
+    return undefined
+  }
+
+  return Array.isArray(value) ? value[0] : value
+}
+
+const getForwardedHost = (req: Request): string | undefined => {
+  const forwardedHost = getHeaderValue(req.headers['x-forwarded-host'])
+  if (!forwardedHost) {
+    return undefined
+  }
+
+  return forwardedHost.split(',')[0]?.trim()
+}
+
 const matchesHost = (hostValue: string | undefined, target: string): boolean => {
   if (!hostValue) {
     return false
@@ -70,7 +87,6 @@ const matchesHost = (hostValue: string | undefined, target: string): boolean => 
 }
 
 const matchesOrigin = (origin: string | undefined, target: string): boolean => {
-  console.log('header origin es target: ', origin, target)
   if (!origin) {
     return false
   }
@@ -78,9 +94,34 @@ const matchesOrigin = (origin: string | undefined, target: string): boolean => {
   return helper.trimEnd(origin, '/') === helper.trimEnd(target, '/')
 }
 
-export const isAdmin = (req: Request): boolean =>
-  matchesOrigin(req.headers.origin, env.ADMIN_HOST)
-  || matchesHost(req.headers.host, env.ADMIN_HOST)
+const hasAdminPath = (req: Request): boolean => {
+  const referer = getHeaderValue(req.headers.referer)
+  if (!referer) {
+    return false
+  }
+
+  try {
+    const url = new URL(referer)
+    return url.pathname.startsWith('/admin')
+  } catch {
+    return false
+  }
+}
+
+export const isAdmin = (req: Request): boolean => {
+  const adminMatch = matchesOrigin(req.headers.origin, env.ADMIN_HOST)
+    || matchesHost(getForwardedHost(req), env.ADMIN_HOST)
+    || matchesHost(getHeaderValue(req.headers.host), env.ADMIN_HOST)
+  const frontendMatch = matchesOrigin(req.headers.origin, env.FRONTEND_HOST)
+    || matchesHost(getForwardedHost(req), env.FRONTEND_HOST)
+    || matchesHost(getHeaderValue(req.headers.host), env.FRONTEND_HOST)
+
+  if (adminMatch && frontendMatch) {
+    return hasAdminPath(req)
+  }
+
+  return adminMatch
+}
 
 /**
  * Check whether the request is from the frontend or not.
@@ -91,9 +132,20 @@ export const isAdmin = (req: Request): boolean =>
  */
 // export const isFrontend = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.FRONTEND_HOST, '/')
 
-export const isFrontend = (req: Request): boolean =>
-  matchesOrigin(req.headers.origin, env.FRONTEND_HOST)
-  || matchesHost(req.headers.host, env.FRONTEND_HOST)
+export const isFrontend = (req: Request): boolean => {
+  const adminMatch = matchesOrigin(req.headers.origin, env.ADMIN_HOST)
+    || matchesHost(getForwardedHost(req), env.ADMIN_HOST)
+    || matchesHost(getHeaderValue(req.headers.host), env.ADMIN_HOST)
+  const frontendMatch = matchesOrigin(req.headers.origin, env.FRONTEND_HOST)
+    || matchesHost(getForwardedHost(req), env.FRONTEND_HOST)
+    || matchesHost(getHeaderValue(req.headers.host), env.FRONTEND_HOST)
+
+  if (adminMatch && frontendMatch) {
+    return !hasAdminPath(req)
+  }
+
+  return frontendMatch
+}
 
 /**
  * Get authentification cookie name.
