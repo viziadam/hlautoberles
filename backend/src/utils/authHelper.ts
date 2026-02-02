@@ -133,6 +133,7 @@ export const isAdmin = (req: Request): boolean => {
 // export const isFrontend = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.FRONTEND_HOST, '/')
 
 export const isFrontend = (req: Request): boolean => {
+  console.log(req.headers.origin, env.FRONTEND_HOST)
   const adminMatch = matchesOrigin(req.headers.origin, env.ADMIN_HOST)
     || matchesHost(getForwardedHost(req), env.ADMIN_HOST)
     || matchesHost(getHeaderValue(req.headers.host), env.ADMIN_HOST)
