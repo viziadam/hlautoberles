@@ -54,7 +54,32 @@ export const decryptJWT = async (input: string) => {
  * @param {Request} req
  * @returns {boolean}
  */
-export const isAdmin = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.ADMIN_HOST, '/')
+// export const isAdmin = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.ADMIN_HOST, '/')
+const matchesHost = (hostValue: string | undefined, target: string): boolean => {
+  if (!hostValue) {
+    return false
+  }
+
+  try {
+    const normalizedHost = hostValue.trim().toLowerCase()
+    const targetUrl = new URL(target)
+    return normalizedHost === targetUrl.host.toLowerCase()
+  } catch {
+    return false
+  }
+}
+
+const matchesOrigin = (origin: string | undefined, target: string): boolean => {
+  if (!origin) {
+    return false
+  }
+
+  return helper.trimEnd(origin, '/') === helper.trimEnd(target, '/')
+}
+
+export const isAdmin = (req: Request): boolean =>
+  matchesOrigin(req.headers.origin, env.ADMIN_HOST)
+  || matchesHost(req.headers.host, env.ADMIN_HOST)
 
 /**
  * Check whether the request is from the frontend or not.
@@ -63,8 +88,12 @@ export const isAdmin = (req: Request): boolean => !!req.headers.origin && helper
  * @param {Request} req
  * @returns {boolean}
  */
-export const isFrontend = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.FRONTEND_HOST, '/')
+// export const isFrontend = (req: Request): boolean => !!req.headers.origin && helper.trimEnd(req.headers.origin, '/') === helper.trimEnd(env.FRONTEND_HOST, '/')
 
+export const isFrontend = (req: Request): boolean =>
+  matchesOrigin(req.headers.origin, env.FRONTEND_HOST)
+  || matchesHost(req.headers.host, env.FRONTEND_HOST)
+  
 /**
  * Get authentification cookie name.
  *
