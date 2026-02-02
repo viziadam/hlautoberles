@@ -12,6 +12,8 @@ PORT="${PORT:-8080}"
 
 export FRONTEND_UPSTREAM ADMIN_UPSTREAM BACKEND_UPSTREAM PORT
 
-envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '$FRONTEND_UPSTREAM $ADMIN_UPSTREAM $BACKEND_UPSTREAM $PORT' \
+  < /etc/nginx/conf.d/default.conf.template \
+  > /etc/nginx/conf.d/default.conf
 
 exec nginx -g 'daemon off;'
