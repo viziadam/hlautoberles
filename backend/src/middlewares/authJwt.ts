@@ -91,55 +91,68 @@ import User from '../models/User'
  * Verify authentication token middleware.
  */
 const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  // --- DEBUG ---
   console.log('--- Auth Debug Start ---');
-  console.log('Signed Cookies:', req.signedCookies);
   
   const adminToken = req.signedCookies[env.ADMIN_AUTH_COOKIE_NAME] as string;
   const frontendToken = req.signedCookies[env.FRONTEND_AUTH_COOKIE_NAME] as string;
 
-  let token: string | undefined;
+  // Megnézzük a referer-t, hogy eldöntsük, melyik sütit KELLENE használnunk
+  const referer = req.headers.referer || '';
+  const isRequestingAdmin = referer.includes('/admin');
 
-  if (adminToken) {
-    console.log('Debug: Admin token found');
+  let token: string | undefined;
+  let isActualAdmin = false;
+  let isActualFrontend = false;
+
+  // Logika finomítása:
+  if (isRequestingAdmin && adminToken) {
+    console.log('Debug: Admin area request - Using Admin Token');
     token = adminToken;
+    isActualAdmin = true;
   } else if (frontendToken) {
-    console.log('Debug: Frontend token found');
+    console.log('Debug: Frontend area request (or fallback) - Using Frontend Token');
     token = frontendToken;
+    isActualFrontend = true;
+  } else if (adminToken) {
+    // Ha nem admin terület, de csak admin süti van (pl. admin akar kocsit foglalni)
+    console.log('Debug: No frontend token, but admin is logged in');
+    token = adminToken;
+    isActualAdmin = true;
   } else {
     token = req.headers[env.X_ACCESS_TOKEN] as string;
   }
 
   if (!token) {
-    console.warn('Debug: No token found');
+    console.warn('Debug: No token found at all');
     return res.status(403).send({ message: 'No token provided!' });
   }
 
   try {
     const sessionData = await authHelper.decryptJWT(token);
-    
-    const isActualAdmin = !!adminToken;
-    const isActualFrontend = !!frontendToken && !adminToken;
+    console.log('Debug: Decrypted ID:', sessionData?.id, 'Role:', isActualAdmin ? 'Admin' : 'User');
 
     const $match: mongoose.FilterQuery<bookcarsTypes.User> = {
-      _id: sessionData?.id,
+      _id: new mongoose.Types.ObjectId(sessionData?.id),
     };
 
     if (isActualAdmin) {
       $match.type = { $in: [bookcarsTypes.UserType.Admin] };
-    } else if (isActualFrontend) {
+    } else {
+      // Ha frontend tokenünk van, akkor sima User-t keresünk
       $match.type = bookcarsTypes.UserType.User;
     }
 
     const userExists = await User.exists($match);
     
-    if (!sessionData || !helper.isValidObjectId(sessionData.id) || !userExists) {
+    if (!sessionData || !userExists) {
+      console.error('Debug Auth Fail: User not found with these criteria:', $match);
       return res.status(401).send({ message: 'Unauthorized!' });
     }
 
     console.log('Debug: Auth Successful');
-    return next(); // Fontos a return!
+    return next();
   } catch (err) {
+    console.error('Debug: JWT Decrypt error or DB error:', err);
     return res.status(401).send({ message: 'Unauthorized!' });
   }
 };
