@@ -1132,7 +1132,7 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     const user = await User.findById(id, {
-      supplier: 1,
+      // supplier: 1,
       email: 1,
       phone: 1,
       fullName: 1,
@@ -1151,7 +1151,7 @@ export const getUser = async (req: Request, res: Response) => {
       license: 1,
       minimumRentalDays: 1,
       priceChangeRate: 1,
-      supplierCarLimit: 1,
+      // supplierCarLimit: 1,
       notifyAdminOnNewCar: 1,
     }).lean()
 
