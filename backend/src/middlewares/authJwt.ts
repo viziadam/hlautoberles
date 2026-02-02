@@ -15,6 +15,10 @@ import User from '../models/User'
  * @param {NextFunction} next
  */
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('origin: ', req.headers.origin);
+  console.log('host: ', req.headers.host);
+  console.log('x-forwarded-host: ', req.headers['x-forwarded-host']);
+  console.log('headers: ', req.headers);
   let token: string
   const isAdmin = authHelper.isAdmin(req)
   const isFrontend = authHelper.isFrontend(req)
