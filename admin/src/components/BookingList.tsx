@@ -223,7 +223,7 @@ const BookingList = ({
         field: 'driver',
         headerName: strings.DRIVER,
         flex: 1,
-        renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => <Link href={`/user?u=${(row.driver as bookcarsTypes.User)._id}`}>{value}</Link>,
+        renderCell: ({ row, value }: GridRenderCellParams<bookcarsTypes.Booking, string>) => <Link href={typeof row.driver === 'object' && row.driver !== null && '_id' in row.driver ? `/user?u=${row.driver._id}` : '#'}>{value}</Link>,
         valueGetter: (value: bookcarsTypes.User) => value?.fullName,
       },
       {

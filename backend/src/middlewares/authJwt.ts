@@ -91,70 +91,50 @@ import User from '../models/User'
  * Verify authentication token middleware.
  */
 const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  console.log('--- Auth Debug Start ---');
-  
-  const adminToken = req.signedCookies[env.ADMIN_AUTH_COOKIE_NAME] as string;
-  const frontendToken = req.signedCookies[env.FRONTEND_AUTH_COOKIE_NAME] as string;
+  // 1. Gyűjtsünk be minden lehetséges tokent
+  const adminToken = (req.signedCookies?.[env.ADMIN_AUTH_COOKIE_NAME] || req.cookies?.[env.ADMIN_AUTH_COOKIE_NAME]) as string;
+  const frontendToken = (req.signedCookies?.[env.FRONTEND_AUTH_COOKIE_NAME] || req.cookies?.[env.FRONTEND_AUTH_COOKIE_NAME]) as string;
+  const headerToken = req.headers[env.X_ACCESS_TOKEN] as string;
 
-  // Megnézzük a referer-t, hogy eldöntsük, melyik sütit KELLENE használnunk
-  const referer = req.headers.referer || '';
-  const isRequestingAdmin = referer.includes('/admin');
+  // 2. Prioritási sorrend felállítása
+  // Ha van admin süti, azt próbáljuk meg először, ha nincs, a frontendet, végül a headert
+  const tokensToTry = [
+    { token: adminToken, type: bookcarsTypes.UserType.Admin },
+    { token: frontendToken, type: bookcarsTypes.UserType.User },
+    { token: headerToken, type: null } // A header-nél nem tudjuk előre a típust
+  ];
 
-  let token: string | undefined;
-  let isActualAdmin = false;
-  let isActualFrontend = false;
+  for (const item of tokensToTry) {
+    if (!item.token) continue;
 
-  // Logika finomítása:
-  if (isRequestingAdmin && adminToken) {
-    console.log('Debug: Admin area request - Using Admin Token');
-    token = adminToken;
-    isActualAdmin = true;
-  } else if (frontendToken) {
-    console.log('Debug: Frontend area request (or fallback) - Using Frontend Token');
-    token = frontendToken;
-    isActualFrontend = true;
-  } else if (adminToken) {
-    // Ha nem admin terület, de csak admin süti van (pl. admin akar kocsit foglalni)
-    console.log('Debug: No frontend token, but admin is logged in');
-    token = adminToken;
-    isActualAdmin = true;
-  } else {
-    token = req.headers[env.X_ACCESS_TOKEN] as string;
-  }
+    try {
+      const sessionData = await authHelper.decryptJWT(item.token);
+      
+      if (sessionData && helper.isValidObjectId(sessionData.id)) {
+        // Keressük meg a felhasználót
+        const user = await User.findById(sessionData.id);
 
-  if (!token) {
-    console.warn('Debug: No token found at all');
-    return res.status(403).send({ message: 'No token provided!' });
-  }
+        if (user) {
+          // Ha specifikus típust vártunk (süti alapján), ellenőrizzük
+          if (item.type && user.type !== item.type) {
+            continue; // Rossz típusú süti, próbáljuk a következőt
+          }
 
-  try {
-    const sessionData = await authHelper.decryptJWT(token);
-    console.log('Debug: Decrypted ID:', sessionData?.id, 'Role:', isActualAdmin ? 'Admin' : 'User');
-
-    const $match: mongoose.FilterQuery<bookcarsTypes.User> = {
-      _id: new mongoose.Types.ObjectId(sessionData?.id),
-    };
-
-    if (isActualAdmin) {
-      $match.type = { $in: [bookcarsTypes.UserType.Admin] };
-    } else {
-      // Ha frontend tokenünk van, akkor sima User-t keresünk
-      $match.type = bookcarsTypes.UserType.User;
+          // SIKER: Megvan az érvényes token és a hozzá tartozó user
+          console.log(`[Auth Success] User: ${user.email}, Mode: ${process.env.NODE_ENV}`);
+          (req as any).user = user;
+          return next();
+        }
+      }
+    } catch (err) {
+      // Ez a token nem érvényes, megyünk a következőre a listában
+      continue;
     }
-
-    const userExists = await User.exists($match);
-    
-    if (!sessionData || !userExists) {
-      console.error('Debug Auth Fail: User not found with these criteria:', $match);
-      return res.status(401).send({ message: 'Unauthorized!' });
-    }
-
-    console.log('Debug: Auth Successful');
-    return next();
-  } catch (err) {
-    console.error('Debug: JWT Decrypt error or DB error:', err);
-    return res.status(401).send({ message: 'Unauthorized!' });
   }
+
+  // 3. Ha egyik token sem vált be
+  console.warn(`[Auth Fail] No valid token found. Path: ${req.path}`);
+  return res.status(401).send({ message: 'Unauthorized!' });
 };
 
 // Exportálás objektumként

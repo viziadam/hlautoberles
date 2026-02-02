@@ -117,7 +117,7 @@ const AppLayout = () => {
 //   }
 // ])
 
-const basePath = import.meta.env.VITE_BC_BASE_PATH || '/admin'
+const basePath = import.meta.env.VITE_BC_BASE_PATH || ''
 
 const router = createBrowserRouter(
   [
