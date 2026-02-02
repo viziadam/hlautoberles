@@ -1,19 +1,19 @@
-import { Request, Response, NextFunction } from 'express'
-import mongoose from 'mongoose'
-import * as bookcarsTypes from ':bookcars-types'
-import * as env from '../config/env.config'
-import * as helper from '../utils/helper'
-import * as authHelper from '../utils/authHelper'
-import * as logger from '../utils/logger'
-import User from '../models/User'
+// import { Request, Response, NextFunction } from 'express'
+// import mongoose from 'mongoose'
+// import * as bookcarsTypes from ':bookcars-types'
+// import * as env from '../config/env.config'
+// import * as helper from '../utils/helper'
+// import * as authHelper from '../utils/authHelper'
+// import * as logger from '../utils/logger'
+// import User from '../models/User'
 
-/**
- * Verify authentication token middleware.
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- */
+// /**
+//  * Verify authentication token middleware.
+//  *
+//  * @param {Request} req
+//  * @param {Response} res
+//  * @param {NextFunction} next
+//  */
 // const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 //   console.log(req.signedCookies)
 
@@ -78,75 +78,71 @@ import User from '../models/User'
 //   }
 // }
 
-const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-  // --- DEBUG START ---
-  console.log('--- Auth Debug Start ---');
-  console.log('Headers Host:', req.headers.host);
-  console.log('X-Forwarded-Host:', req.headers['x-forwarded-host']);
-  console.log('Signed Cookies:', req.signedCookies);
-  // --- DEBUG END ---
+import { Request, Response, NextFunction } from 'express'
+import mongoose from 'mongoose'
+import * as bookcarsTypes from ':bookcars-types'
+import * as env from '../config/env.config'
+import * as helper from '../utils/helper'
+import * as authHelper from '../utils/authHelper'
+import * as logger from '../utils/logger'
+import User from '../models/User'
 
-  let token: string | undefined;
+/**
+ * Verify authentication token middleware.
+ */
+const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  // --- DEBUG ---
+  console.log('--- Auth Debug Start ---');
+  console.log('Signed Cookies:', req.signedCookies);
   
-  // Sütik kinyerése
   const adminToken = req.signedCookies[env.ADMIN_AUTH_COOKIE_NAME] as string;
   const frontendToken = req.signedCookies[env.FRONTEND_AUTH_COOKIE_NAME] as string;
 
-  // Logika: Ha van admin süti, adminnak kezeljük, ha nincs, nézzük a frontendet
+  let token: string | undefined;
+
   if (adminToken) {
-    console.log('Debug: Admin token found in cookies');
+    console.log('Debug: Admin token found');
     token = adminToken;
   } else if (frontendToken) {
-    console.log('Debug: Frontend token found in cookies');
+    console.log('Debug: Frontend token found');
     token = frontendToken;
   } else {
-    // Mobil/Unit teszt ág
     token = req.headers[env.X_ACCESS_TOKEN] as string;
-    console.log('Debug: No cookies found, checking header token:', token ? 'Found' : 'Not found');
   }
 
-  if (token) {
-    try {
-      const sessionData = await authHelper.decryptJWT(token);
-      console.log('Debug: JWT Decrypted successfully. User ID:', sessionData?.id);
+  if (!token) {
+    console.warn('Debug: No token found');
+    return res.status(403).send({ message: 'No token provided!' });
+  }
 
-      const isActualAdmin = !!adminToken;
-      const isActualFrontend = !!frontendToken && !adminToken;
+  try {
+    const sessionData = await authHelper.decryptJWT(token);
+    
+    const isActualAdmin = !!adminToken;
+    const isActualFrontend = !!frontendToken && !adminToken;
 
-      const $match: mongoose.FilterQuery<bookcarsTypes.User> = {
-        $and: [{ _id: sessionData?.id }],
-      };
+    const $match: mongoose.FilterQuery<bookcarsTypes.User> = {
+      _id: sessionData?.id,
+    };
 
-      // Jogosultság szűkítése
-      if (isActualAdmin) {
-        console.log('Debug: Validating as Admin role');
-        $match.$and?.push({ type: { $in: [bookcarsTypes.UserType.Admin] } });
-      } else if (isActualFrontend) {
-        console.log('Debug: Validating as Frontend User role');
-        $match.$and?.push({ type: bookcarsTypes.UserType.User });
-      }
+    if (isActualAdmin) {
+      $match.type = { $in: [bookcarsTypes.UserType.Admin] };
+    } else if (isActualFrontend) {
+      $match.type = bookcarsTypes.UserType.User;
+    }
 
-      const userExists = await User.exists($match);
-      
-      if (!sessionData || !helper.isValidObjectId(sessionData.id) || !userExists) {
-        console.warn('Debug Auth Fail: User does not exist or invalid ID. Match query:', JSON.stringify($match));
-        logger.info('Token not valid: User not found');
-        return res.status(401).send({ message: 'Unauthorized!' });
-      }
-
-      console.log('Debug: Auth Successful, calling next()');
-      console.log('--- Auth Debug End ---');
-      next();
-    } catch (err) {
-      console.error('Debug Auth Error: JWT Decryption failed', err);
-      logger.info('Token not valid', err);
+    const userExists = await User.exists($match);
+    
+    if (!sessionData || !helper.isValidObjectId(sessionData.id) || !userExists) {
       return res.status(401).send({ message: 'Unauthorized!' });
     }
-  } else {
-    console.warn('Debug Auth Fail: No token source found (neither cookie nor header)');
-    console.log('--- Auth Debug End ---');
-    return res.status(403).send({ message: 'No token provided!' });
+
+    console.log('Debug: Auth Successful');
+    return next(); // Fontos a return!
+  } catch (err) {
+    return res.status(401).send({ message: 'Unauthorized!' });
   }
 };
 
-export default { verifyToken }
+// Exportálás objektumként
+export default { verifyToken };
