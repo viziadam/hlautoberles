@@ -277,6 +277,13 @@ export const SMTP_PASS = __env__('BC_SMTP_PASS', true)
 export const SMTP_FROM = __env__('BC_SMTP_FROM', true)
 
 /**
+ * SMTP from email.
+ *
+ * @type {string}
+ */
+export const SMTP_API_KEY = __env__('BC_SMTP_API_KEY', true)
+
+/**
  * CDN root folder path.
  *
  * @type {string}

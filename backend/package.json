@@ -39,6 +39,8 @@
     "nanoid": "^5.1.6",
     "nocache": "^4.0.0",
     "nodemailer": "^7.0.10",
+    "nodemailer-brevo-transport": "^2.2.1",
+    "nodemailer-sendinblue-transport": "^2.0.1",
     "stripe": "^19.1.0",
     "validator": "^13.15.15",
     "winston": "^3.18.3"
