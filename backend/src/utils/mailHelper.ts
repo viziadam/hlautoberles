@@ -94,7 +94,7 @@ const createTransporter = async (): Promise<nodemailer.Transporter> => {
    */
   return nodemailer.createTransport(
     new BrevoTransport({
-      apiKey: env.SMTP_PASS // Ez az xkeysib-... kezdetű API v3 kulcsod
+      apiKey: env.SMTP_API_KEY // Ez az xkeysib-... kezdetű API v3 kulcsod
     })
   )
 }
