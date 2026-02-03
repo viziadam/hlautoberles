@@ -116,7 +116,7 @@ const AppLayout = () => {
 //     ]
 //   }
 // ])
-
+console.log('meta.env: ', import.meta.env)
 const basePath = import.meta.env.VITE_BC_BASE_PATH || ''
 
 const router = createBrowserRouter(
