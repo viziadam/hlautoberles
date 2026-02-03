@@ -253,7 +253,7 @@ export const SMTP_HOST = __env__('BC_SMTP_HOST', true)
  *
  * @type {number}
  */
-export const SMTP_PORT = Number.parseInt(__env__('BC_SMTP_PORT', true), 10)
+export const SMTP_PORT = Number.parseInt(__env__('BC_SMTP_PORT', true), 587)
 
 /**
  * SMTP username.

@@ -23,6 +23,7 @@ const createTransporter = async (): Promise<nodemailer.Transporter> => {
       pass: env.SMTP_PASS,
     },
   }
+  console.log('transporterOptions: ', transporterOptions)
 
   return nodemailer.createTransport(transporterOptions)
 }
