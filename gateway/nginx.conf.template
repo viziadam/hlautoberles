@@ -1,7 +1,7 @@
 
 
 server {
-  listen listen 8080;
+  listen 8080;
   server_name _;
 
   client_max_body_size 50m;
