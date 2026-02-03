@@ -150,7 +150,10 @@ export const signout = async (redirect = true) => {
     )
 
   if (redirect) {
-    window.location.href = '/sign-in'
+    // window.location.href = '/sign-in'
+    const basePath = import.meta.env.VITE_BC_BASE_PATH || '/admin'
+    const trimmedBasePath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath
+    window.location.href = `${trimmedBasePath}/sign-in`
   }
 }
 
