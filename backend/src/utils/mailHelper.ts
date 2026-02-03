@@ -15,15 +15,36 @@ const createTransporter = async (): Promise<nodemailer.Transporter> => {
     })
   }
 
+  // const transporterOptions: SMTPTransport.Options = {
+  //   host: env.SMTP_HOST,
+  //   port: env.SMTP_PORT,
+  //   auth: {
+  //     user: env.SMTP_USER,
+  //     pass: env.SMTP_PASS,
+  //   },
+  // }
+
   const transporterOptions: SMTPTransport.Options = {
-    host: env.SMTP_HOST,
-    port: env.SMTP_PORT,
-    auth: {
-      user: env.SMTP_USER,
-      pass: env.SMTP_PASS,
-    },
-  }
-  console.log('transporterOptions: ', transporterOptions)
+  host: env.SMTP_HOST,
+  port: env.SMTP_PORT, // 587
+  secure: false,       // 587-es porton ez KÖTELEZŐEN false!
+  auth: {
+    user: env.SMTP_USER,
+    pass: env.SMTP_PASS,
+  },
+  // Senior beállítások a timeout és TLS hibák ellen:
+  connectionTimeout: 20000, // Emeld meg 20 másodpercre
+  greetingTimeout: 20000,
+  socketTimeout: 20000,
+  tls: {
+    // Ez segít, ha a production szerveren a cert-ellenőrzés szigorú:
+    rejectUnauthorized: false, 
+    minVersion: 'TLSv1.2'
+  },
+  debug: true, // Ezt kapcsold be, hogy lássuk a pontos SMTP logot!
+  logger: true  // Ez kiírja a teljes beszélgetést a Brevo-val a konzolra
+};
+  
 
   return nodemailer.createTransport(transporterOptions)
 }
