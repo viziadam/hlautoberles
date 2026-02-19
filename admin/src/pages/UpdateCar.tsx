@@ -71,7 +71,6 @@ const UpdateCar = () => {
       name: '',
       licensePlate: '',
       // supplier: undefined,
-      minimumAge: String(env.MINIMUM_AGE),
       // locations: [],
       dailyPrice: '',
       discountedDailyPrice: '',
@@ -186,9 +185,6 @@ const UpdateCar = () => {
         _id: car._id,
         name: data.name,
         licensePlate: data.licensePlate,
-        // supplier: supplier._id!,
-        minimumAge: Number.parseInt(data.minimumAge, 10),
-        // locations: data.locations.map((l) => l._id),
         dailyPrice: Number(data.dailyPrice),
         discountedDailyPrice: getPrice(data.discountedDailyPrice!),
         // hourlyPrice: getPrice(data.hourlyPrice || ''),
@@ -273,7 +269,6 @@ const UpdateCar = () => {
               setValue('name', _car.name)
               setValue('licensePlate', _car.licensePlate || '')
               // setValue('supplier', _supplier)
-              setValue('minimumAge', _car.minimumAge.toString())
               // const lcs: Option[] = []
               // for (const loc of _car.locations) {
               //   const { _id, name: _name } = loc

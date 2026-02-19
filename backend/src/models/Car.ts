@@ -21,12 +21,6 @@ const carSchema = new Schema<env.Car>(
     //   ref: 'User',
     //   index: true,
     // },
-    minimumAge: {
-      type: Number,
-      required: [true, "can't be blank"],
-      min: env.MINIMUM_AGE,
-      max: 99,
-    },
     // locations: {
     //   type: [Schema.Types.ObjectId],
     //   ref: 'Location',

@@ -197,8 +197,7 @@ export interface CreateCarPayload {
   loggedUser: string
   name: string
   licensePlate?: string
-  supplier?: string
-  minimumAge: number
+  // supplier?: string
   locations?: string[]
   toolsRentable: boolean
   // price fields

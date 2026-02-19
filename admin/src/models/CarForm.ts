@@ -21,18 +21,18 @@ export const schema = z.object({
   name: z.string(),
   licensePlate: z.string().optional(),
   // supplier: supplierSchema.optional(),
-  minimumAge: z.string()
-    .refine((val) => !val || /^\d{2}$/.test(val), { message: commonStrings.FIELD_NOT_VALID })
-    .refine(
-      (val) => {
-        if (!val) {
-          return true // if no value is provided, skip the validation
-        }
-        const age = Number.parseInt(val, 10)
-        return age >= env.MINIMUM_AGE && age <= 99
-      },
-      { message: strings.MINIMUM_AGE_NOT_VALID }
-    ),
+  // minimumAge: z.string()
+  //   .refine((val) => !val || /^\d{2}$/.test(val), { message: commonStrings.FIELD_NOT_VALID })
+  //   .refine(
+  //     (val) => {
+  //       if (!val) {
+  //         return true // if no value is provided, skip the validation
+  //       }
+  //       const age = Number.parseInt(val, 10)
+  //       return age >= env.MINIMUM_AGE && age <= 99
+  //     },
+  //     { message: strings.MINIMUM_AGE_NOT_VALID }
+  //   ),
   // locations: z.array(optionSchema),
   dailyPrice: z.string().refine((val) => !val || numberRegex.test(val), { message: commonStrings.FIELD_NOT_VALID }),
   discountedDailyPrice: z.string().refine((val) => !val || numberRegex.test(val), { message: commonStrings.FIELD_NOT_VALID }).optional(),

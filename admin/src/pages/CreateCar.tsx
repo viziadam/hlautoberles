@@ -75,9 +75,6 @@ const CreateCar = () => {
     defaultValues: {
       name: '',
       licensePlate: '',
-      // supplier: undefined,
-      minimumAge: String(env.MINIMUM_AGE),
-      // locations: [],
       dailyPrice: '',
       discountedDailyPrice: '',
       // hourlyPrice: '',
@@ -131,7 +128,7 @@ const CreateCar = () => {
   const doors = useWatch({ control, name: 'doors' })
   const fuelPolicy = useWatch({ control, name: 'fuelPolicy' })
   const aircon = useWatch({ control, name: 'aircon' })
-  const toolsRentable = useWatch({ control, name: 'toolsRentable' })
+  const toolsRentable = useWatch({ control, name: 'toolsRentable' }) ?? false;
 
 
   const handleBeforeUpload = () => {
@@ -157,7 +154,6 @@ const CreateCar = () => {
       setImageError(false)
     }
   }
-
   const extraToNumber = (extra: string) => (extra === '' ? -1 : Number(extra))
 
   const getPrice = (price: string) => (price && Number(price)) || null
@@ -185,7 +181,6 @@ const CreateCar = () => {
         name: data.name,
         licensePlate: data.licensePlate || '',
         // supplier: data.supplier?._id!,
-        minimumAge: Number.parseInt(data.minimumAge, 10),
         // locations: data.locations.map((l) => l._id),
         dailyPrice: Number(data.dailyPrice),
         discountedDailyPrice: getPrice(data.discountedDailyPrice || ''),
@@ -321,45 +316,6 @@ const CreateCar = () => {
             </FormControl>
 
 
-            {/* {!isSupplier && (
-              <FormControl fullWidth margin="dense">
-                <SupplierSelectList
-                  label={strings.SUPPLIER}
-                  required
-                  variant="standard"
-                  onChange={(values) => setValue('supplier', values.length > 0 ? values[0] as Supplier : undefined)}
-                />
-              </FormControl>
-            )} */}
-
-            <FormControl fullWidth margin="dense">
-              <InputLabel className="required">{strings.MINIMUM_AGE}</InputLabel>
-              <Input
-                type="text"
-                required
-                {...register('minimumAge')}
-                error={!!errors.minimumAge}
-                autoComplete="off"
-                onChange={() => {
-                  if (errors.minimumAge) {
-                    clearErrors('minimumAge')
-                  }
-                }}
-              />
-              {errors.minimumAge && (
-                <FormHelperText error>{errors.minimumAge.message}</FormHelperText>
-              )}
-            </FormControl>
-
-            {/* <FormControl fullWidth margin="dense">
-              <LocationSelectList
-                label={strings.LOCATIONS}
-                multiple
-                required
-                variant="standard"
-                onChange={(values) => setValue('locations', values as Option[])}
-              />
-            </FormControl> */}
 
             <FormControl fullWidth margin="dense">
               <TextField
@@ -429,7 +385,7 @@ const CreateCar = () => {
               />
             )} */}
 
-             (
+             
               <>
                 
 
@@ -469,7 +425,7 @@ const CreateCar = () => {
 
                
               </>
-            )
+            
 
             <FormControl fullWidth margin="dense">
               <TextField
