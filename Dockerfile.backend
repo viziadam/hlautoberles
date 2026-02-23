@@ -9,3 +9,5 @@ RUN npm install
 
 CMD [ "npm", "run", "start:setup"]
 EXPOSE 4002
+
+
