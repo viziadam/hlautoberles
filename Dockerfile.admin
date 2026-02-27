@@ -14,7 +14,10 @@ RUN npm run build
 FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf -- *
-COPY --from=build /bookcars/admin/build .
+# COPY --from=build /bookcars/admin/build .
+# COPY ./admin/nginx.conf /etc/nginx/conf.d/default.conf
+RUN mkdir -p admin
+COPY --from=build /bookcars/admin/build ./admin
 COPY ./admin/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 3001
