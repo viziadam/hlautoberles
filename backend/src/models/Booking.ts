@@ -58,18 +58,18 @@ const bookingSchema = new Schema<env.Booking>(
       type: Boolean,
       default: false,
     },
-    amendments: {
-      type: Boolean,
-      default: false,
-    },
+    // amendments: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     theftProtection: {
       type: Boolean,
       default: false,
     },
-    collisionDamageWaiver: {
-      type: Boolean,
-      default: false,
-    },
+    // collisionDamageWaiver: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     fullInsurance: {
       type: Boolean,
       default: false,
