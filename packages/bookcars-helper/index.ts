@@ -275,9 +275,9 @@ export const calculateTotalPrice = (car: bookcarsTypes.Car, from: Date, to: Date
    
     const totalHours = hours(from, to)
     totalDays = Math.floor(totalHours / 24)
-    const remainingHours = totalHours % 24
+    // const remainingHours = totalHours % 24
 
-    let remainingDays = totalDays
+    // let remainingDays = totalDays
 
   //   if (remainingDays >= 30) {
   //     if (car.discountedMonthlyPrice || car.monthlyPrice) {

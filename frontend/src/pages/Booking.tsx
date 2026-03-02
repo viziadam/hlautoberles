@@ -122,41 +122,41 @@ const Booking = () => {
     }
   }
 
-  const handleAmendmentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (booking && booking.car) {
-      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
-      _booking.amendments = e.target.checked
+  // const handleAmendmentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (booking && booking.car) {
+  //     const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+  //     // _booking.amendments = e.target.checked
 
-      const _price = bookcarsHelper.calculateTotalPrice(
-        booking.car as bookcarsTypes.Car,
-        new Date(booking.from),
-        new Date(booking.to),
-        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
-        booking as bookcarsTypes.CarOptions,
-      )
-      setBooking(_booking)
-      setPrice(_price)
-      setAmendments(_booking.amendments)
-    }
-  }
+  //     const _price = bookcarsHelper.calculateTotalPrice(
+  //       booking.car as bookcarsTypes.Car,
+  //       new Date(booking.from),
+  //       new Date(booking.to),
+  //       (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+  //       booking as bookcarsTypes.CarOptions,
+  //     )
+  //     setBooking(_booking)
+  //     setPrice(_price)
+  //     setAmendments(_booking.amendments)
+  //   }
+  // }
 
-  const handleCollisionDamageWaiverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (booking && booking.car) {
-      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
-      _booking.collisionDamageWaiver = e.target.checked
+  // const handleCollisionDamageWaiverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (booking && booking.car) {
+  //     const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+  //     _booking.collisionDamageWaiver = e.target.checked
 
-      const _price = bookcarsHelper.calculateTotalPrice(
-        booking.car as bookcarsTypes.Car,
-        new Date(booking.from),
-        new Date(booking.to),
-        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
-        booking as bookcarsTypes.CarOptions,
-      )
-      setBooking(_booking)
-      setPrice(_price)
-      setCollisionDamageWaiver(_booking.collisionDamageWaiver)
-    }
-  }
+  //     const _price = bookcarsHelper.calculateTotalPrice(
+  //       booking.car as bookcarsTypes.Car,
+  //       new Date(booking.from),
+  //       new Date(booking.to),
+  //       (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+  //       booking as bookcarsTypes.CarOptions,
+  //     )
+  //     setBooking(_booking)
+  //     setPrice(_price)
+  //     setCollisionDamageWaiver(_booking.collisionDamageWaiver)
+  //   }
+  // }
 
   const handleTheftProtectionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
@@ -232,9 +232,9 @@ const Booking = () => {
         to,
         status,
         cancellation,
-        amendments,
+        // amendments,
         theftProtection,
-        collisionDamageWaiver,
+        // collisionDamageWaiver,
         fullInsurance,
         price,
         toolsIncluded,
@@ -297,9 +297,9 @@ const Booking = () => {
             setTo(new Date(_booking.to))
             setStatus(_booking.status)
             setCancellation(_booking.cancellation || false)
-            setAmendments(_booking.amendments || false)
+            // setAmendments(_booking.amendments || false)
             setTheftProtection(_booking.theftProtection || false)
-            setCollisionDamageWaiver(_booking.collisionDamageWaiver || false)
+            // setCollisionDamageWaiver(_booking.collisionDamageWaiver || false)
             setFullInsurance(_booking.fullInsurance || false)
             setToolsIncluded(_booking.toolsIncluded || false)
             setChauffeurRequested(_booking.chauffeurRequested || false)
@@ -481,7 +481,7 @@ const Booking = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
+              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   disabled={!edit || (booking.car as bookcarsTypes.Car).amendments === -1 || (booking.car as bookcarsTypes.Car).amendments === 0}
                   control={<Switch checked={amendments} onChange={handleAmendmentsChange} color="primary" />}
@@ -497,7 +497,7 @@ const Booking = () => {
                   label={csStrings.COLLISION_DAMAGE_WAVER}
                   className="checkbox-fcl"
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel

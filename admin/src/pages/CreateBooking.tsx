@@ -71,9 +71,9 @@ const CreateBooking = () => {
       car: undefined,
       status: undefined,
       cancellation: false,
-      amendments: false,
+      // amendments: false,
       theftProtection: false,
-      collisionDamageWaiver: false,
+      // collisionDamageWaiver: false,
       fullInsurance: false,
       toolsIncluded: false,
       chauffeurRequested: false,
@@ -123,9 +123,9 @@ const CreateBooking = () => {
       toolsIncluded: carObj.toolsRentable ? data.toolsIncluded : false,
       chauffeurRequested: data.chauffeurRequested,
       cancellation: data.cancellation,
-      amendments: data.amendments,
+      // amendments: data.amendments,
       theftProtection: data.theftProtection,
-      collisionDamageWaiver: data.collisionDamageWaiver,
+      // collisionDamageWaiver: data.collisionDamageWaiver,
       fullInsurance: data.fullInsurance,
       // additionalDriver: additionalDriverSet,
     }
@@ -142,9 +142,9 @@ const CreateBooking = () => {
 
     const options: bookcarsTypes.CarOptions = {
       cancellation: data.cancellation,
-      amendments: data.amendments,
+      // amendments: data.amendments,
       theftProtection: data.theftProtection,
-      collisionDamageWaiver: data.collisionDamageWaiver,
+      // collisionDamageWaiver: data.collisionDamageWaiver,
       fullInsurance: data.fullInsurance,
       // additionalDriver: additionalDriverSet,
     }
@@ -359,7 +359,7 @@ const CreateBooking = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense" className="checkbox-fc">
+            {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
               <FormControlLabel
                 control={
                   <Switch
@@ -371,7 +371,7 @@ const CreateBooking = () => {
                 label={csStrings.AMENDMENTS}
                 className="checkbox-fcl"
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth margin="dense" className="checkbox-fc">
               <FormControlLabel
@@ -387,7 +387,7 @@ const CreateBooking = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense" className="checkbox-fc">
+            {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
               <FormControlLabel
                 control={
                   <Switch
@@ -399,7 +399,7 @@ const CreateBooking = () => {
                 label={csStrings.COLLISION_DAMAGE_WAVER}
                 className="checkbox-fcl"
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth margin="dense" className="checkbox-fc">
               <FormControlLabel

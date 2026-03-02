@@ -432,11 +432,10 @@ const BookingList = ({
                   </div> */}
 
                   {(booking.cancellation
-                    || booking.amendments
-                    || booking.collisionDamageWaiver
+                    // || booking.amendments
+                    // || booking.collisionDamageWaiver
                     || booking.theftProtection
-                    || booking.fullInsurance
-                    || booking.additionalDriver) && (
+                    || booking.fullInsurance) && (
                       <Extras
                         booking={booking}
                         days={days}

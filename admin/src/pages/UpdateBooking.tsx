@@ -87,9 +87,9 @@ const UpdateBooking = () => {
       car: undefined,
       status: undefined,
       cancellation: false,
-      amendments: false,
+      // amendments: false,
       theftProtection: false,
-      collisionDamageWaiver: false,
+      // collisionDamageWaiver: false,
       fullInsurance: false,
       toolsIncluded: false,
       chauffeurRequested: false,
@@ -108,9 +108,9 @@ const UpdateBooking = () => {
   const to = useWatch({ control, name: 'to' })
   const status = useWatch({ control, name: 'status' })
   const cancellation = useWatch({ control, name: 'cancellation' })
-  const amendments = useWatch({ control, name: 'amendments' })
+  // const amendments = useWatch({ control, name: 'amendments' })
   const theftProtection = useWatch({ control, name: 'theftProtection' })
-  const collisionDamageWaiver = useWatch({ control, name: 'collisionDamageWaiver' })
+  // const collisionDamageWaiver = useWatch({ control, name: 'collisionDamageWaiver' })
   const fullInsurance = useWatch({ control, name: 'fullInsurance' })
   const toolsIncluded = useWatch({ control, name: 'toolsIncluded' })
   const chauffeurRequested = useWatch({ control, name: 'chauffeurRequested' })
@@ -175,9 +175,9 @@ const UpdateBooking = () => {
         to: data.to!,
         status: data.status as bookcarsTypes.BookingStatus,
         cancellation: data.cancellation,
-        amendments: data.amendments,
+        // amendments: data.amendments,
         theftProtection: data.theftProtection,
-        collisionDamageWaiver: data.collisionDamageWaiver,
+        // collisionDamageWaiver: data.collisionDamageWaiver,
         fullInsurance: data.fullInsurance,
         toolsIncluded:  data.toolsIncluded,
         chauffeurRequested: data.chauffeurRequested,
@@ -302,9 +302,9 @@ const UpdateBooking = () => {
 
               setValue('status', _booking.status)
               setValue('cancellation', _booking.cancellation || false)
-              setValue('amendments', _booking.amendments || false)
+              // setValue('amendments', _booking.amendments || false)
               setValue('theftProtection', _booking.theftProtection || false)
-              setValue('collisionDamageWaiver', _booking.collisionDamageWaiver || false)
+              // setValue('collisionDamageWaiver', _booking.collisionDamageWaiver || false)
               setValue('fullInsurance', _booking.fullInsurance || false)
               setValue('toolsIncluded', _booking.toolsIncluded || false)
               setValue('chauffeurRequested', _booking.chauffeurRequested || false)
@@ -408,9 +408,9 @@ const UpdateBooking = () => {
 
                         const options: bookcarsTypes.CarOptions = {
                           cancellation,
-                          amendments,
+                          // amendments,
                           theftProtection,
-                          collisionDamageWaiver,
+                          // collisionDamageWaiver,
                           fullInsurance,
                           
                           // additionalDriver,
@@ -453,9 +453,9 @@ const UpdateBooking = () => {
 
                       const options: bookcarsTypes.CarOptions = {
                         cancellation,
-                        amendments,
+                        // amendments,
                         theftProtection,
-                        collisionDamageWaiver,
+                        // collisionDamageWaiver,
                         fullInsurance,
                         // additionalDriver,
                       }
@@ -503,9 +503,9 @@ const UpdateBooking = () => {
 
                       const options: bookcarsTypes.CarOptions = {
                         cancellation,
-                        amendments,
+                        // amendments,
                         theftProtection,
-                        collisionDamageWaiver,
+                        // collisionDamageWaiver,
                         fullInsurance,
                         // additionalDriver,
                       }
@@ -595,9 +595,9 @@ const UpdateBooking = () => {
 
                           const options: bookcarsTypes.CarOptions = {
                             cancellation: _booking.cancellation,
-                            amendments,
+                            // amendments,
                             theftProtection,
-                            collisionDamageWaiver,
+                            // collisionDamageWaiver,
                             fullInsurance,
                             // additionalDriver,
                           }
@@ -615,7 +615,7 @@ const UpdateBooking = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
+              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   control={
                     <Switch
@@ -648,7 +648,7 @@ const UpdateBooking = () => {
                   label={csStrings.AMENDMENTS}
                   className="checkbox-fcl"
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
@@ -665,9 +665,9 @@ const UpdateBooking = () => {
 
                           const options: bookcarsTypes.CarOptions = {
                             cancellation,
-                            amendments,
+                            // amendments,
                             theftProtection: _booking.theftProtection,
-                            collisionDamageWaiver,
+                            // collisionDamageWaiver,
                             fullInsurance,
                             // additionalDriver,
                           }
@@ -685,7 +685,7 @@ const UpdateBooking = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
+              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
                   control={
                     <Switch
@@ -718,7 +718,7 @@ const UpdateBooking = () => {
                   label={csStrings.COLLISION_DAMAGE_WAVER}
                   className="checkbox-fcl"
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl fullWidth margin="dense" className="checkbox-fc">
                 <FormControlLabel
@@ -735,9 +735,9 @@ const UpdateBooking = () => {
 
                           const options: bookcarsTypes.CarOptions = {
                             cancellation,
-                            amendments,
+                            // amendments,
                             theftProtection,
-                            collisionDamageWaiver,
+                            // collisionDamageWaiver,
                             fullInsurance: _booking.fullInsurance,
                             // additionalDriver,
                           }

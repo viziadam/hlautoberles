@@ -529,7 +529,7 @@ const BookingList = ({
                     
                   </div>
 
-                  {(booking.cancellation || booking.amendments || booking.collisionDamageWaiver || booking.theftProtection || booking.fullInsurance || booking.additionalDriver) && (
+                  {(booking.cancellation  || booking.theftProtection || booking.fullInsurance ) && (
                     <>
                       <div className="extras">
                         <span className="extras-title">{commonStrings.OPTIONS}</span>
@@ -541,21 +541,21 @@ const BookingList = ({
                           </div>
                         )}
 
-                        {booking.amendments && (
+                        {/* {booking.amendments && (
                           <div className="extra">
                             <CheckIcon className="extra-icon" />
                             <span className="extra-title">{csStrings.AMENDMENTS}</span>
                             <span className="extra-text">{helper.getAmendmentsOption((booking.car as bookcarsTypes.Car).amendments, language as string, true)}</span>
                           </div>
-                        )}
+                        )} */}
 
-                        {booking.collisionDamageWaiver && (
+                        {/* {booking.collisionDamageWaiver && (
                           <div className="extra">
                             <CheckIcon className="extra-icon" />
                             <span className="extra-title">{csStrings.COLLISION_DAMAGE_WAVER}</span>
                             <span className="extra-text">{helper.getCollisionDamageWaiverOption((booking.car as bookcarsTypes.Car).collisionDamageWaiver, days, language as string, true)}</span>
                           </div>
-                        )}
+                        )} */}
 
                         {booking.theftProtection && (
                           <div className="extra">
@@ -573,13 +573,13 @@ const BookingList = ({
                           </div>
                         )}
 
-                        {booking.additionalDriver && (
+                        {/* {booking.additionalDriver && (
                           <div className="extra">
                             <CheckIcon className="extra-icon" />
                             <span className="extra-title">{csStrings.ADDITIONAL_DRIVER}</span>
                             <span className="extra-text">{helper.getAdditionalDriverOption((booking.car as bookcarsTypes.Car).additionalDriver, days, language as string, true)}</span>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </>
                   )}
