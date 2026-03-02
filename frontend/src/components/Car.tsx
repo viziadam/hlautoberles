@@ -156,12 +156,12 @@ const Car = ({
       if (option === 'cancellation' && booking.cancellation && extra > 0) {
         available = true
       }
-      if (option === 'amendments' && booking.amendments && extra > 0) {
-        available = true
-      }
-      if (option === 'collisionDamageWaiver' && booking.collisionDamageWaiver && extra > 0) {
-        available = true
-      }
+      // if (option === 'amendments' && booking.amendments && extra > 0) {
+      //   available = true
+      // }
+      // if (option === 'collisionDamageWaiver' && booking.collisionDamageWaiver && extra > 0) {
+      //   available = true
+      // }
       if (option === 'theftProtection' && booking.theftProtection && extra > 0) {
         available = true
       }

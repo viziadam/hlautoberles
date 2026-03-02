@@ -72,13 +72,15 @@ const UpdateCar = () => {
       licensePlate: '',
       // supplier: undefined,
       // locations: [],
-      dailyPrice: '',
-      discountedDailyPrice: '',
+      dailyPrice1_3: '',
+      dailyPrice4_6: '',
+      // discountedDailyPrice: '',
       // hourlyPrice: '',
       // discountedHourlyPrice: '',
       // biWeeklyPrice: '',
       // discountedBiWeeklyPrice: '',
-      weeklyPrice: '',
+      weeklyPrice1_2: '',
+      weeklyPrice3_4: '',
       // discountedWeeklyPrice: '',
       monthlyPrice: '',
       // discountedMonthlyPrice: '',
@@ -96,9 +98,9 @@ const UpdateCar = () => {
       mileage: '',
       fuelPolicy: '',
       cancellation: '',
-      amendments: '',
+      // amendments: '',
       theftProtection: '',
-      collisionDamageWaiver: '',
+      // collisionDamageWaiver: '',
       fullInsurance: '',
       // additionalDriver: '',
       range: '',
@@ -185,13 +187,15 @@ const UpdateCar = () => {
         _id: car._id,
         name: data.name,
         licensePlate: data.licensePlate,
-        dailyPrice: Number(data.dailyPrice),
-        discountedDailyPrice: getPrice(data.discountedDailyPrice!),
+        dailyPrice1_3: Number(data.dailyPrice1_3),
+        dailyPrice4_6: Number(data.dailyPrice1_3),
+        // discountedDailyPrice: getPrice(data.discountedDailyPrice!),
         // hourlyPrice: getPrice(data.hourlyPrice || ''),
         // discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
         // biWeeklyPrice: getPrice(data.biWeeklyPrice!),
         // discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice!),
-        weeklyPrice: getPrice(data.weeklyPrice!),
+        weeklyPrice1_2: getPrice(data.weeklyPrice1_2!),
+        weeklyPrice3_4: getPrice(data.weeklyPrice3_4!),
         // discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice!),
         monthlyPrice: getPrice(data.monthlyPrice!),
         // discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice!),
@@ -208,9 +212,9 @@ const UpdateCar = () => {
         fuelPolicy: data.fuelPolicy,
         mileage: extraToNumber(data.mileage),
         cancellation: extraToNumber(data.cancellation),
-        amendments: extraToNumber(data.amendments),
+        // amendments: extraToNumber(data.amendments),
         theftProtection: extraToNumber(data.theftProtection),
-        collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver),
+        // collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver),
         fullInsurance: extraToNumber(data.fullInsurance),
         // additionalDriver: extraToNumber(data.additionalDriver),
         range: data.range,
@@ -276,15 +280,17 @@ const UpdateCar = () => {
               //   lcs.push(lc)
               // }
               // setValue('locations', lcs)
-              setValue('dailyPrice', getPriceAsString(_car.dailyPrice))
-              setValue('discountedDailyPrice', getPriceAsString(_car.discountedDailyPrice))
+              setValue('dailyPrice1_3', getPriceAsString(_car.dailyPrice1_3))
+              setValue('dailyPrice4_6', getPriceAsString(_car.dailyPrice4_6))
+              // setValue('discountedDailyPrice', getPriceAsString(_car.discountedDailyPrice))
 
               // setValue('hourlyPrice', getPriceAsString(_car.hourlyPrice))
               // setValue('discountedHourlyPrice', getPriceAsString(_car.discountedHourlyPrice))
 
               // setValue('biWeeklyPrice', getPriceAsString(_car.biWeeklyPrice))
               // setValue('discountedBiWeeklyPrice', getPriceAsString(_car.discountedBiWeeklyPrice))
-              setValue('weeklyPrice', getPriceAsString(_car.weeklyPrice))
+              setValue('weeklyPrice1_2', getPriceAsString(_car.weeklyPrice1_2))
+              setValue('weeklyPrice3_4', getPriceAsString(_car.weeklyPrice3_4))
               // setValue('discountedWeeklyPrice', getPriceAsString(_car.discountedWeeklyPrice))
               setValue('monthlyPrice', getPriceAsString(_car.monthlyPrice))
               // setValue('discountedMonthlyPrice', getPriceAsString(_car.discountedMonthlyPrice))
@@ -310,9 +316,9 @@ const UpdateCar = () => {
               setValue('fuelPolicy', _car.fuelPolicy)
               setValue('mileage', extraToString(_car.mileage))
               setValue('cancellation', extraToString(_car.cancellation))
-              setValue('amendments', extraToString(_car.amendments))
+              // setValue('amendments', extraToString(_car.amendments))
               setValue('theftProtection', extraToString(_car.theftProtection))
-              setValue('collisionDamageWaiver', extraToString(_car.collisionDamageWaiver))
+              // setValue('collisionDamageWaiver', extraToString(_car.collisionDamageWaiver))
               setValue('fullInsurance', extraToString(_car.fullInsurance))
               // setValue('additionalDriver', extraToString(_car.additionalDriver))
               setExtraImages(_car?.images || []);
@@ -403,15 +409,15 @@ const UpdateCar = () => {
               <FormControl fullWidth margin="dense">
                 <TextField
                   label={`${strings.DAILY_PRICE} (${commonStrings.CURRENCY})`}
-                  {...register('dailyPrice')}
-                  error={!!errors.dailyPrice}
-                  helperText={errors.dailyPrice?.message}
+                  {...register('dailyPrice1_3')}
+                  error={!!errors.dailyPrice1_3}
+                  helperText={errors.dailyPrice1_3?.message}
                   required
                   variant="standard"
                   autoComplete="off"
                   onChange={() => {
-                    if (errors.dailyPrice) {
-                      clearErrors('dailyPrice')
+                    if (errors.dailyPrice1_3) {
+                      clearErrors('dailyPrice1_3')
                     }
                   }}
                 />
@@ -420,14 +426,14 @@ const UpdateCar = () => {
               <FormControl fullWidth margin="dense">
                 <TextField
                   label={`${strings.DISCOUNTED_DAILY_PRICE} (${commonStrings.CURRENCY})`}
-                  {...register('discountedDailyPrice')}
+                  {...register('dailyPrice4_6')}
                   variant="standard"
                   autoComplete="off"
-                  error={!!errors.discountedDailyPrice}
-                  helperText={errors.discountedDailyPrice?.message}
+                  error={!!errors.dailyPrice4_6}
+                  helperText={errors.dailyPrice4_6?.message}
                   onChange={() => {
-                    if (errors.discountedDailyPrice) {
-                      clearErrors('discountedDailyPrice')
+                    if (errors.dailyPrice4_6) {
+                      clearErrors('dailyPrice4_6')
                     }
                   }}
                 />
@@ -444,14 +450,30 @@ const UpdateCar = () => {
                   <FormControl fullWidth margin="dense">
                     <TextField
                       label={`${strings.WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                      {...register('weeklyPrice')}
+                      {...register('weeklyPrice1_2')}
                       variant="standard"
                       autoComplete="off"
-                      error={!!errors.weeklyPrice}
-                      helperText={errors.weeklyPrice?.message}
+                      error={!!errors.weeklyPrice1_2}
+                      helperText={errors.weeklyPrice1_2?.message}
                       onChange={() => {
-                        if (errors.weeklyPrice) {
-                          clearErrors('weeklyPrice')
+                        if (errors.weeklyPrice1_2) {
+                          clearErrors('weeklyPrice1_2')
+                        }
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormControl fullWidth margin="dense">
+                    <TextField
+                      label={`${strings.DISCOUNTED_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
+                      {...register('weeklyPrice3_4')}
+                      variant="standard"
+                      autoComplete="off"
+                      error={!!errors.weeklyPrice3_4}
+                      helperText={errors.weeklyPrice3_4?.message}
+                      onChange={() => {
+                        if (errors.weeklyPrice3_4) {
+                          clearErrors('weeklyPrice3_4')
                         }
                       }}
                     />
@@ -563,47 +585,6 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              {/* <FormControl fullWidth margin="dense" className="checkbox-fc">
-                <FormControlLabel
-                  control={(
-                    <Switch
-                      checked={fullyBooked}
-                      onChange={(e) => setValue('fullyBooked', e.target.checked)}
-                      color="primary"
-                    />
-                  )}
-                  label={strings.FULLY_BOOKED}
-                  className="checkbox-fcl"
-                />
-              </FormControl>
-
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
-                <FormControlLabel
-                  control={(
-                    <Switch
-                      checked={comingSoon}
-                      onChange={(e) => setValue('comingSoon', e.target.checked)}
-                      color="primary"
-                    />
-                  )}
-                  label={strings.COMING_SOON}
-                  className="checkbox-fcl"
-                />
-              </FormControl>
-
-              <FormControl fullWidth margin="dense" className="checkbox-fc">
-                <FormControlLabel
-                  control={(
-                    <Switch
-                      checked={blockOnPay}
-                      onChange={(e) => setValue('blockOnPay', e.target.checked)}
-                      color="primary"
-                    />
-                  )}
-                  label={strings.BLOCK_ON_PAY}
-                  className="checkbox-fcl"
-                />
-              </FormControl> */}
 
               <FormControl fullWidth margin="dense" className="checkbox-fc">
                             <FormControlLabel
@@ -721,7 +702,7 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense">
+              {/* <FormControl fullWidth margin="dense">
                 <TextField
                   label={`${csStrings.AMENDMENTS} (${commonStrings.CURRENCY})`}
                   {...register('amendments')}
@@ -735,7 +716,7 @@ const UpdateCar = () => {
                     }
                   }}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl fullWidth margin="dense">
                 <TextField
@@ -753,7 +734,7 @@ const UpdateCar = () => {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="dense">
+              {/* <FormControl fullWidth margin="dense">
                 <TextField
                   label={`${csStrings.COLLISION_DAMAGE_WAVER} (${csStrings.CAR_CURRENCY})`}
                   {...register('collisionDamageWaiver')}
@@ -767,7 +748,7 @@ const UpdateCar = () => {
                     }
                   }}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl fullWidth margin="dense">
                 <TextField

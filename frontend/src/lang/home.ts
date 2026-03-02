@@ -65,7 +65,7 @@ const strings = new LocalizedStrings({
     MAP_DROP_OFF_SELECTED: 'Drop-off Location selected',
     DESTINATIONS_TITLE: 'Browse by Destinations',
     CAR_SIZE_TITLE: 'Meet Some of Our Car sizes',
-    CAR_SIZE_TEXT: 'Our vehicles come in three main sizes.',
+    CAR_SIZE_TEXT: 'Explore our wide range of passenger cars and trucks in various sizes.',
     MINI: 'MINI',
     MIDI: 'MIDI',
     MAXI: 'MAXI',
@@ -75,18 +75,18 @@ const strings = new LocalizedStrings({
     SUBTITLE: 'Compare our prices and book your car today!',
     WHY_TITLE: 'Book with us today and drive with confidence!',
     WHY_SERVICE_TITLE: 'Professional Fleet',
-    WHY_SERVICE: 'Vehicles and equipment maintained to professional standards, previously used in industrial production and on-site installations.',
+    WHY_SERVICE: 'Dealer-level quality, well-maintained and fully equipped vehicles.',
     WHY_CHARGES_TITLE: 'Transparent Rental',
-    WHY_CHARGES: 'Clear rental terms with no hidden costs. You know exactly what you rent and for how long.',
+    WHY_CHARGES: 'Simple, transparent rental terms with no hidden costs.',
     WHY_FLEET_TITLE: 'Vehicles & Tools',
     WHY_FLEET: 'From passenger cars to box vans, large trucks, and professional tools – everything you need from one place.',
     WHY_MILEAGE_TITLE: 'Flexible Usage',
-    WHY_MILEAGE: 'hort-term or daily rentals with flexible usage options, tailored to work-related transport needs.',
+    WHY_MILEAGE: 'Long-term, short-term, or daily rentals with flexible usage options. Rental terms remain the same regardless of the vehicle category.',
     WHY_MILEAGE_ASTERISK: '*terms depend on vehicle category',
     SERVICES_TITLE: 'What Makes Us Different?',
     SERVICES_FLEET_TITLE: 'Vehicle Rental',
     SERVICES_FLEET:
-  'Passenger cars, small cargo vans, and large box trucks available for work-related transport and logistics.',
+  'From cars to small vans and heavy trucks, we have the right vehicle for every requirement.',
 
     SERVICES_FLEXIBLE_TITLE: 'Tool Rental',
     SERVICES_FLEXIBLE:
@@ -94,7 +94,7 @@ const strings = new LocalizedStrings({
 
     SERVICES_PRICES_TITLE: 'Fair Pricing',
     SERVICES_PRICES:
-  'Work-oriented pricing designed for short-term and daily use, ideal for projects and installations.',
+  'Special rates available for long-term partners and re-renters.',
 
     SERVICES_BOOKING_ONLINE_TITLE: 'Simple Reservation',
     SERVICES_BOOKING_ONLINE:
@@ -102,7 +102,7 @@ const strings = new LocalizedStrings({
 
     SERVICE_INSTANT_BOOKING_TITLE: 'Driver Service Available',
     SERVICE_INSTANT_BOOKING:
-  'Need a driver? Optional chauffeur service is available for selected vehicles.',
+  'Driver service available for all vehicle types.',
 
 SERVICES_SUPPORT_TITLE: 'Direct Support',
 SERVICES_SUPPORT:
@@ -171,14 +171,14 @@ SERVICES_SUPPORT:
   PICK_UP_DATE: 'Átvétel dátuma',
   DROP_OFF_DATE: 'Leadás dátuma',
   DROP_OFF: 'Vissza ugyanoda',
-  COVER: 'Foglalj autót még ma!',
+  COVER: 'Bérelj autót még ma!',
   SUPPLIERS_TITLE: 'Kapcsolat a legnagyobb márkákkal',
   MAP_TITLE: 'Autókölcsönző helyszínek térképe',
   MAP_PICK_UP_SELECTED: 'Átvételi hely kiválasztva',
   MAP_DROP_OFF_SELECTED: 'Leadási hely kiválasztva',
   DESTINATIONS_TITLE: 'Böngéssz úti célok szerint',
   CAR_SIZE_TITLE: 'Járműkategóriák',
-  CAR_SIZE_TEXT: 'Járműveink három fő méretkategóriába sorolhatók.',
+  CAR_SIZE_TEXT: 'Ismerkedjen meg különböző méretű személy és teherautóinkkal.',
   MINI: 'MINI',
   MIDI: 'MIDI',
   MAXI: 'MAXI',
@@ -189,11 +189,11 @@ SERVICES_SUPPORT:
   WHY_TITLE: 'Foglalj nálunk, és vezess magabiztosan!',
   WHY_SERVICE_TITLE: 'Ipari minőség',
   WHY_SERVICE:
-  'Gépjárműveink és eszközeink ipari környezetben használt, rendszeresen karbantartott flottából származnak.',
+  'Márkaszervíz színvonalú, karbantartott és berendezett járművek.',
 
   WHY_CHARGES_TITLE: 'Átlátható bérlés',
   WHY_CHARGES:
-  'Rejtett költségek nélkül, egyértelmű feltételekkel. Pontosan tudod, mit és mennyi időre bérelsz.',
+  'Egyszerű, átlátható bérleti feltételek rejtett költségek nélkül.',
 
   WHY_FLEET_TITLE: 'Járművek és eszközök',
   WHY_FLEET:
@@ -201,29 +201,29 @@ SERVICES_SUPPORT:
 
   WHY_MILEAGE_TITLE: 'Rugalmas használat',
   WHY_MILEAGE:
-  'Óradíjas vagy napidíjas bérlés, a munkavégzéshez igazítva.',
+  'Hosszú és rövid távú, vagy napi bérlés rugalmas felhasználási lehetőségekkel. A bérleti feltételek a járműkategóriától függetlenül azonosak.',
   WHY_MILEAGE_ASTERISK: '*kategóriától függően',
   SERVICES_TITLE: 'Szolgáltatásaink',
 
   SERVICES_FLEET_TITLE: 'Járműbérlés',
   SERVICES_FLEET:
-  'Személyautók, kis dobozos és nagy teherautók bérlése munkavégzéshez és szállításhoz.',
+  'Személyautók, kisdobozos és nagy teherautók bérelhetőek mindenféle igényt kiszolgálva.',
 
   SERVICES_FLEXIBLE_TITLE: 'Szerszámbérlés',
   SERVICES_FLEXIBLE:
-  'Bérelhető professzionális szerszámok: behajtók, fúrók, ütvefúrók, flexek, fa- és alumínium létrák, fellépők.',
+  'Bérelhető professzionális szerszámok: kézi behajtók, flexek, fa- és alumínium létrák, fellépők, állványok és stb...',
 
   SERVICES_PRICES_TITLE: 'Korrekt árképzés',
   SERVICES_PRICES:
-  'Munkavégzésre optimalizált díjak, rövid és napi bérlésre kialakítva.',
+  'Viszontbérlőknek egyedi árképzés',
 
   SERVICES_BOOKING_ONLINE_TITLE: 'Egyszerű foglalás',
   SERVICES_BOOKING_ONLINE:
-  'Járművek és eszközök igénylése online, egyértelmű elérhetőséggel és feltételekkel.',
+  'Járművek és eszközök igénylése online, egyértelmű foglalás.',
 
   SERVICE_INSTANT_BOOKING_TITLE: 'Sofőrszolgálat',
   SERVICE_INSTANT_BOOKING:
-  'Igény esetén sofőrt is biztosítunk a kiválasztott járművekhez.',
+  'Igény esetén sofőrt biztosítunk minden járművünkhöz.',
 
   SERVICES_SUPPORT_TITLE: 'Közvetlen ügyintézés',
   SERVICES_SUPPORT:

@@ -671,19 +671,21 @@ export interface Car extends Document {
   minimumAge: number
   // locations: Types.ObjectId[]
 
-  hourlyPrice: number | null
-  discountedHourlyPrice: number | null
-  dailyPrice: number
-  discountedDailyPrice: number | null
-  biWeeklyPrice: number | null
-  discountedBiWeeklyPrice: number | null
-  weeklyPrice: number | null
-  discountedWeeklyPrice: number | null
+  // hourlyPrice: number | null
+  // discountedHourlyPrice: number | null
+  dailyPrice1_3: number
+  dailyPrice4_6: number
+  // discountedDailyPrice: number | null
+  // biWeeklyPrice: number | null
+  // discountedBiWeeklyPrice: number | null
+  weeklyPrice1_2: number | null
+  weeklyPrice3_4: number | null
+  // discountedWeeklyPrice: number | null
   monthlyPrice: number | null
-  discountedMonthlyPrice: number | null
+  // discountedMonthlyPrice: number | null
 
-  isDateBasedPrice: boolean
-  dateBasedPrices: Types.ObjectId[]
+  // isDateBasedPrice: boolean
+  // dateBasedPrices: Types.ObjectId[]
 
   deposit: number
   available: boolean

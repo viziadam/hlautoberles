@@ -28,13 +28,16 @@ const carSchema = new Schema<env.Car>(
     // },
 
     // --------- price fields ---------
-    dailyPrice: {
+    dailyPrice1_3: {
       type: Number,
       required: [true, "can't be blank"],
     },
-    discountedDailyPrice: {
+    dailyPrice4_6: {
       type: Number,
     },
+    // discountedDailyPrice: {
+    //   type: Number,
+    // },
     // hourlyPrice: {
     //   type: Number,
     // },
@@ -47,7 +50,10 @@ const carSchema = new Schema<env.Car>(
     // discountedBiWeeklyPrice: {
     //   type: Number,
     // },
-    weeklyPrice: {
+    weeklyPrice1_2: {
+      type: Number,
+    },
+    weeklyPrice3_4: {
       type: Number,
     },
     // discountedWeeklyPrice: {
@@ -61,14 +67,14 @@ const carSchema = new Schema<env.Car>(
     // },
 
     // date based price fields
-    isDateBasedPrice: {
-      type: Boolean,
-      default: false,
-    },
-    dateBasedPrices: {
-      type: [Schema.Types.ObjectId],
-      ref: 'DateBasedPrice',
-    },
+    // isDateBasedPrice: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // dateBasedPrices: {
+    //   type: [Schema.Types.ObjectId],
+    //   ref: 'DateBasedPrice',
+    // },
     // --------- end of price fields ---------
 
     deposit: {
@@ -155,18 +161,18 @@ const carSchema = new Schema<env.Car>(
       type: Number,
       required: [true, "can't be blank"],
     },
-    amendments: {
-      type: Number,
-      required: [true, "can't be blank"],
-    },
+    // amendments: {
+    //   type: Number,
+    //   required: [true, "can't be blank"],
+    // },
     theftProtection: {
       type: Number,
       required: [true, "can't be blank"],
     },
-    collisionDamageWaiver: {
-      type: Number,
-      required: [true, "can't be blank"],
-    },
+    // collisionDamageWaiver: {
+    //   type: Number,
+    //   required: [true, "can't be blank"],
+    // },
     fullInsurance: {
       type: Number,
       required: [true, "can't be blank"],

@@ -359,12 +359,12 @@ const CarList = ({
       if (option === 'cancellation' && booking.cancellation && extra > 0) {
         available = true
       }
-      if (option === 'amendments' && booking.amendments && extra > 0) {
-        available = true
-      }
-      if (option === 'collisionDamageWaiver' && booking.collisionDamageWaiver && extra > 0) {
-        available = true
-      }
+      // if (option === 'amendments' && booking.amendments && extra > 0) {
+      //   available = true
+      // }
+      // if (option === 'collisionDamageWaiver' && booking.collisionDamageWaiver && extra > 0) {
+      //   available = true
+      // }
       if (option === 'theftProtection' && booking.theftProtection && extra > 0) {
         available = true
       }
@@ -448,7 +448,7 @@ const CarList = ({
                   <div className="car-info">
                     <div className="car-info-header">
                       <div className="name"><h2>{car.name}</h2></div>
-                      {!hidePrice && <div className="price">{`${bookcarsHelper.formatPrice(car.dailyPrice, commonStrings.CURRENCY, language as string)}${commonStrings.DAILY}`}</div>}
+                      {!hidePrice && <div className="price">{`${bookcarsHelper.formatPrice(car.dailyPrice1_3 ?? 0, commonStrings.CURRENCY, language as string)}${commonStrings.DAILY}`}</div>}
                     </div>
                     {car.licensePlate && <div className="license-plate">{car.licensePlate}</div>}
                     <ul className="car-info-list">

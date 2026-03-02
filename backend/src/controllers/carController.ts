@@ -145,13 +145,15 @@ export const update = async (req: Request, res: Response) => {
         // comingSoon,
         type,
         // locations,
-        dailyPrice,
-        discountedDailyPrice,
+        dailyPrice1_3,
+        dailyPrice4_6,
+        // discountedDailyPrice,
         // hourlyPrice,
         // discountedHourlyPrice,
         // biWeeklyPrice,
         // discountedBiWeeklyPrice,
-        weeklyPrice,
+        weeklyPrice1_2,
+        weeklyPrice3_4,
         // discountedWeeklyPrice,
         monthlyPrice,
         // discountedMonthlyPrice,
@@ -164,9 +166,9 @@ export const update = async (req: Request, res: Response) => {
         fuelPolicy,
         mileage,
         cancellation,
-        amendments,
+        // amendments,
         theftProtection,
-        collisionDamageWaiver,
+        // collisionDamageWaiver,
         fullInsurance,
         // additionalDriver,
         range,
@@ -187,13 +189,14 @@ export const update = async (req: Request, res: Response) => {
       // car.fullyBooked = fullyBooked
       // car.comingSoon = comingSoon
       car.type = type as bookcarsTypes.CarType
-      car.dailyPrice = dailyPrice
-      car.discountedDailyPrice = discountedDailyPrice
+      car.dailyPrice1_3 = dailyPrice1_3
+      car.dailyPrice4_6 = dailyPrice4_6
       // car.hourlyPrice = hourlyPrice
       // car.discountedHourlyPrice = discountedHourlyPrice
       // car.biWeeklyPrice = biWeeklyPrice
       // car.discountedBiWeeklyPrice = discountedBiWeeklyPrice
-      car.weeklyPrice = weeklyPrice
+      car.weeklyPrice1_2 = weeklyPrice1_2
+      car.weeklyPrice3_4 = weeklyPrice3_4
       // car.discountedWeeklyPrice = discountedWeeklyPrice
       car.monthlyPrice = monthlyPrice
       // car.discountedMonthlyPrice = discountedMonthlyPrice
@@ -205,9 +208,9 @@ export const update = async (req: Request, res: Response) => {
       car.fuelPolicy = fuelPolicy as bookcarsTypes.FuelPolicy
       car.mileage = mileage
       car.cancellation = cancellation
-      car.amendments = amendments
+      // car.amendments = amendments
       car.theftProtection = theftProtection
-      car.collisionDamageWaiver = collisionDamageWaiver
+      // car.collisionDamageWaiver = collisionDamageWaiver
       car.fullInsurance = fullInsurance
       // car.additionalDriver = additionalDriver
       car.range = range

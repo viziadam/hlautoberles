@@ -168,7 +168,7 @@ const Home = () => {
                 setVideoLoaded(true)
               }}
             >
-              <source src="cover.mp4" type="video/mp4" />
+              <source src="cover_gemini2.mp4" type="video/mp4" />
               <track kind="captions" />
             </video>
             {!videoLoaded && (
@@ -234,7 +234,7 @@ const Home = () => {
               <div className="why-text-wrapper">
                 <span className="why-title">{strings.WHY_MILEAGE_TITLE}</span>
                 <span className="why-text">{strings.WHY_MILEAGE}</span>
-                <span className="why-text">{strings.WHY_MILEAGE_ASTERISK}</span>
+                {/* <span className="why-text">{strings.WHY_MILEAGE_ASTERISK}</span> */}
               </div>
             </div>
 

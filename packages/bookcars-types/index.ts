@@ -100,12 +100,12 @@ export interface Booking {
   toolsIncluded?: boolean
   chauffeurRequested?: boolean
   cancellation?: boolean
-  amendments?: boolean
+  // amendments?: boolean
   theftProtection?: boolean
-  collisionDamageWaiver?: boolean
+  // collisionDamageWaiver?: boolean
   fullInsurance?: boolean
-  additionalDriver?: boolean
-  _additionalDriver?: string | AdditionalDriver
+  // additionalDriver?: boolean
+  // _additionalDriver?: string | AdditionalDriver
   cancelRequest?: boolean
   price?: number
   sessionId?: string
@@ -203,11 +203,13 @@ export interface CreateCarPayload {
   // price fields
   // hourlyPrice: number | null
   // discountedHourlyPrice: number | null
-  dailyPrice: number
-  discountedDailyPrice: number | null
+  dailyPrice1_3: number
+  dailyPrice4_6: number
+  // discountedDailyPrice: number | null
   // biWeeklyPrice: number | null
   // discountedBiWeeklyPrice: number | null
-  weeklyPrice: number | null
+  weeklyPrice1_2: number | null
+  weeklyPrice3_4: number | null
   // discountedWeeklyPrice: number | null
   monthlyPrice: number | null
   // discountedMonthlyPrice: number | null
@@ -229,9 +231,9 @@ export interface CreateCarPayload {
   fuelPolicy: string
   mileage: number
   cancellation: number
-  amendments: number
+  // amendments: number
   theftProtection: number
-  collisionDamageWaiver: number
+  // collisionDamageWaiver: number
   fullInsurance: number
   // additionalDriver: number
   range: string
@@ -476,19 +478,21 @@ export interface Car {
   _id: string
   name: string
   licensePlate?: string
-  supplier: User
-  minimumAge: number
-  locations: Location[]
+  // supplier: User
+  // minimumAge: number
+  // locations: Location[]
 
   // price fields
-  dailyPrice: number
-  discountedDailyPrice: number | null
-  hourlyPrice: number | null
-  discountedHourlyPrice: number | null
-  biWeeklyPrice: number | null
-  discountedBiWeeklyPrice: number | null
-  weeklyPrice: number | null
-  discountedWeeklyPrice: number | null
+  dailyPrice1_3: number
+  dailyPrice4_6: number
+  // discountedDailyPrice: number | null
+  // hourlyPrice: number | null
+  // discountedHourlyPrice: number | null
+  // biWeeklyPrice: number | null
+  // discountedBiWeeklyPrice: number | null
+  weeklyPrice1_2: number | null
+  weeklyPrice3_4: number | null
+  // discountedWeeklyPrice: number | null
   monthlyPrice: number | null
   discountedMonthlyPrice: number | null
 
@@ -510,17 +514,17 @@ export interface Car {
   fuelPolicy: FuelPolicy
   mileage: number
   cancellation: number
-  amendments: number
+  // amendments: number
   theftProtection: number
-  collisionDamageWaiver: number
+  // collisionDamageWaiver: number
   fullInsurance: number
-  additionalDriver: number
+  // additionalDriver: number
   range: string
   multimedia: CarMultimedia[] | undefined
   rating?: number
   trips: number
   co2?: number
-  blockOnPay?: boolean
+  // blockOnPay?: boolean
   [propKey: string]: any
 }
 
@@ -667,11 +671,11 @@ export type CarFilterSubmitEvent = (filter: CarFilter) => void
 
 export interface CarOptions {
   cancellation?: boolean
-  amendments?: boolean
+  // amendments?: boolean
   theftProtection?: boolean
-  collisionDamageWaiver?: boolean
+  // collisionDamageWaiver?: boolean
   fullInsurance?: boolean
-  additionalDriver?: boolean
+  // additionalDriver?: boolean
   toolsIncluded?: boolean
   chauffeurRequested?: boolean
 }

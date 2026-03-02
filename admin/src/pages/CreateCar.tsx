@@ -75,13 +75,14 @@ const CreateCar = () => {
     defaultValues: {
       name: '',
       licensePlate: '',
-      dailyPrice: '',
-      discountedDailyPrice: '',
+      dailyPrice1_3: '',
+      dailyPrice4_6: '',
       // hourlyPrice: '',
       // discountedHourlyPrice: '',
       // biWeeklyPrice: '',
       // discountedBiWeeklyPrice: '',
-      weeklyPrice: '',
+      weeklyPrice1_2: '',
+      weeklyPrice3_4: '',
       // discountedWeeklyPrice: '',
       monthlyPrice: '',
       // discountedMonthlyPrice: '',
@@ -99,9 +100,9 @@ const CreateCar = () => {
       mileage: '',
       fuelPolicy: '',
       cancellation: '',
-      amendments: '',
+      // amendments: '',
       theftProtection: '',
-      collisionDamageWaiver: '',
+      // collisionDamageWaiver: '',
       fullInsurance: '',
       // additionalDriver: '',
       range: '',
@@ -182,13 +183,14 @@ const CreateCar = () => {
         licensePlate: data.licensePlate || '',
         // supplier: data.supplier?._id!,
         // locations: data.locations.map((l) => l._id),
-        dailyPrice: Number(data.dailyPrice),
-        discountedDailyPrice: getPrice(data.discountedDailyPrice || ''),
+        dailyPrice1_3: Number(data.dailyPrice1_3),
+        dailyPrice4_6: Number(data.dailyPrice4_6 || ''),
         // hourlyPrice: getPrice(data.hourlyPrice || ''),
         // discountedHourlyPrice: getPrice(data.discountedHourlyPrice || ''),
         // biWeeklyPrice: getPrice(data.biWeeklyPrice || ''),
         // discountedBiWeeklyPrice: getPrice(data.discountedBiWeeklyPrice || ''),
-        weeklyPrice: getPrice(data.weeklyPrice || ''),
+        weeklyPrice1_2: getPrice(data.weeklyPrice1_2 || ''),
+        weeklyPrice3_4: getPrice(data.weeklyPrice3_4 || ''),
         // discountedWeeklyPrice: getPrice(data.discountedWeeklyPrice || ''),
         monthlyPrice: getPrice(data.monthlyPrice || ''),
         // discountedMonthlyPrice: getPrice(data.discountedMonthlyPrice || ''),
@@ -208,9 +210,9 @@ const CreateCar = () => {
         fuelPolicy: data.fuelPolicy,
         mileage: extraToNumber(data.mileage || ''),
         cancellation: extraToNumber(data.cancellation || ''),
-        amendments: extraToNumber(data.amendments || ''),
+        // amendments: extraToNumber(data.amendments || ''),
         theftProtection: extraToNumber(data.theftProtection || ''),
-        collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver || ''),
+        // collisionDamageWaiver: extraToNumber(data.collisionDamageWaiver || ''),
         fullInsurance: extraToNumber(data.fullInsurance || ''),
         // additionalDriver: extraToNumber(data.additionalDriver || ''),
         range: data.range,
@@ -320,15 +322,15 @@ const CreateCar = () => {
             <FormControl fullWidth margin="dense">
               <TextField
                 label={`${strings.DAILY_PRICE} (${commonStrings.CURRENCY})`}
-                {...register('dailyPrice')}
-                error={!!errors.dailyPrice}
-                helperText={errors.dailyPrice?.message}
+                {...register('dailyPrice1_3')}
+                error={!!errors.dailyPrice1_3}
+                helperText={errors.dailyPrice1_3?.message}
                 required
                 variant="standard"
                 autoComplete="off"
                 onChange={() => {
-                  if (errors.dailyPrice) {
-                    clearErrors('dailyPrice')
+                  if (errors.dailyPrice1_3) {
+                    clearErrors('dailyPrice1_3')
                   }
                 }}
               />
@@ -337,14 +339,14 @@ const CreateCar = () => {
             <FormControl fullWidth margin="dense">
               <TextField
                 label={`${strings.DISCOUNTED_DAILY_PRICE} (${commonStrings.CURRENCY})`}
-                {...register('discountedDailyPrice')}
+                {...register('dailyPrice4_6')}
                 variant="standard"
                 autoComplete="off"
-                error={!!errors.discountedDailyPrice}
-                helperText={errors.discountedDailyPrice?.message}
+                error={!!errors.dailyPrice4_6}
+                helperText={errors.dailyPrice4_6?.message}
                 onChange={() => {
-                  if (errors.discountedDailyPrice) {
-                    clearErrors('discountedDailyPrice')
+                  if (errors.dailyPrice4_6) {
+                    clearErrors('dailyPrice4_6')
                   }
                 }}
               />
@@ -392,14 +394,30 @@ const CreateCar = () => {
                 <FormControl fullWidth margin="dense">
                   <TextField
                     label={`${strings.WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
-                    {...register('weeklyPrice')}
+                    {...register('weeklyPrice1_2')}
                     variant="standard"
                     autoComplete="off"
-                    error={!!errors.weeklyPrice}
-                    helperText={errors.weeklyPrice?.message}
+                    error={!!errors.weeklyPrice1_2}
+                    helperText={errors.weeklyPrice1_2?.message}
                     onChange={() => {
-                      if (errors.weeklyPrice) {
-                        clearErrors('weeklyPrice')
+                      if (errors.weeklyPrice1_2) {
+                        clearErrors('weeklyPrice1_2')
+                      }
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth margin="dense">
+                  <TextField
+                    label={`${strings.DISCOUNTED_WEEKLY_PRICE} (${commonStrings.CURRENCY})`}
+                    {...register('weeklyPrice3_4')}
+                    variant="standard"
+                    autoComplete="off"
+                    error={!!errors.weeklyPrice3_4}
+                    helperText={errors.weeklyPrice3_4?.message}
+                    onChange={() => {
+                      if (errors.weeklyPrice3_4) {
+                        clearErrors('weeklyPrice3_4')
                       }
                     }}
                   />
@@ -632,7 +650,7 @@ const CreateCar = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense">
+            {/* <FormControl fullWidth margin="dense">
               <TextField
                 label={`${csStrings.AMENDMENTS} (${commonStrings.CURRENCY})`}
                 {...register('amendments')}
@@ -646,7 +664,7 @@ const CreateCar = () => {
                   }
                 }}
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth margin="dense">
               <TextField
@@ -664,7 +682,7 @@ const CreateCar = () => {
               />
             </FormControl>
 
-            <FormControl fullWidth margin="dense">
+            {/* <FormControl fullWidth margin="dense">
               <TextField
                 label={`${csStrings.COLLISION_DAMAGE_WAVER} (${csStrings.CAR_CURRENCY})`}
                 {...register('collisionDamageWaiver')}
@@ -678,7 +696,7 @@ const CreateCar = () => {
                   }
                 }}
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth margin="dense">
               <TextField
