@@ -671,11 +671,11 @@ export const update = async (req: Request, res: Response) => {
         to,
         status,
         cancellation,
-        amendments,
+        // amendments,
         theftProtection,
-        collisionDamageWaiver,
+        // collisionDamageWaiver,
         fullInsurance,
-        additionalDriver,
+        // additionalDriver,
         price,
         isDeposit,
         isPayedInFull
@@ -689,9 +689,9 @@ export const update = async (req: Request, res: Response) => {
       booking.to = to
       booking.status = status
       booking.cancellation = cancellation
-      booking.amendments = amendments
+      // booking.amendments = amendments
       booking.theftProtection = theftProtection
-      booking.collisionDamageWaiver = collisionDamageWaiver
+      // booking.collisionDamageWaiver = collisionDamageWaiver
       booking.fullInsurance = fullInsurance
       booking.price = price as number
       booking.isDeposit = isDeposit || false
