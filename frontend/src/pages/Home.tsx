@@ -151,7 +151,11 @@ const Home = () => {
   const language = UserService.getLanguage()
 
   return (
-    <Layout onLoad={onLoad} strict={false}>
+    <Layout onLoad={onLoad} strict={false}
+    title="Autóbérlés és Szerszámkölcsönzés Budapest XI. kerület"
+      description="Legjobb autóbérlési ajánlatok: személyautók, teherautók és professzionális szerszámok bérlése. Rejtett költségek nélkül, egyértelmű feltételekkel a Galvani utcában."
+      url="/"
+      >
 
       <div className="home">
         <div className="home-content">

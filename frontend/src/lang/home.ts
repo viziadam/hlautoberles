@@ -71,8 +71,10 @@ const strings = new LocalizedStrings({
     MAXI: 'MAXI',
     SEARCH_FOR_CAR: 'Search for a car',
 
-    TITLE: 'Top Car Rental Deals',
-    SUBTITLE: 'Compare our prices and book your car today!',
+    // TITLE: 'Top Car Rental Deals',
+    // SUBTITLE: 'Compare our prices and book your car today!',
+    TITLE: 'Vehicle and Tool Rental in Budapest',
+    SUBTITLE: 'Rent a car, van, or tools quickly and easily!',
     WHY_TITLE: 'Book with us today and drive with confidence!',
     WHY_SERVICE_TITLE: 'Professional Fleet',
     WHY_SERVICE: 'Dealer-level quality, well-maintained and fully equipped vehicles.',
@@ -184,8 +186,10 @@ SERVICES_SUPPORT:
   MAXI: 'MAXI',
   SEARCH_FOR_CAR: 'Autó keresése',
 
-  TITLE: 'Legjobb autóbérlési ajánlatok',
-  SUBTITLE: 'Hasonlítsd össze árainkat és foglalj egyszerűen!',
+  // TITLE: 'Legjobb autóbérlési ajánlatok',
+  // SUBTITLE: 'Hasonlítsd össze árainkat és foglalj egyszerűen!',
+  TITLE: 'Járművek és Szerszámok Bérlése Budapesten',
+  SUBTITLE: 'Bérelj személyautót, teherautót vagy szerszámot gyorsan és egyszerűen!',
   WHY_TITLE: 'Foglalj nálunk, és vezess magabiztosan!',
   WHY_SERVICE_TITLE: 'Ipari minőség',
   WHY_SERVICE:

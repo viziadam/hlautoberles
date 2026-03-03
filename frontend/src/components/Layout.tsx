@@ -8,16 +8,31 @@ import { useAnalytics } from '@/utils/useAnalytics'
 import { useUserContext, UserContextType } from '@/context/UserContext'
 import Unauthorized from '@/components/Unauthorized'
 
+import SEOHead from '@/utils/SEOHead'
+
+// interface LayoutProps {
+//   strict?: boolean
+//   children: ReactNode
+//   onLoad?: (user?: bookcarsTypes.User) => void
+// }
+
 interface LayoutProps {
   strict?: boolean
   children: ReactNode
   onLoad?: (user?: bookcarsTypes.User) => void
+  // SEO adatok opcionálisan
+  title?: string
+  description?: string
+  url?: string
 }
 
 const Layout = ({
   strict,
   children,
-  onLoad
+  onLoad,
+  title,        // <--- Új prop
+  description,  // <--- Új prop
+  url           // <--- Új prop
 }: LayoutProps) => {
   useAnalytics()
 
@@ -59,6 +74,12 @@ const Layout = ({
 
   return (
     <>
+      <SEOHead 
+        title={title} 
+        description={description || "Minőségi járművek, kézi szerszámok bérlése és sofőrszolgálat a HLdekor megbízásából. Egyszerű online foglalás."}
+        url={url}
+      />
+
       {
         !(unauthorized && strict) && (
           (!user && !loading) || (user && user.verified) ? (
