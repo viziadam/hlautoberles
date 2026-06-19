@@ -36,6 +36,10 @@ const Contact = lazy(() => import('@/pages/Contact'))
 const NoMatch = lazy(() => import('@/pages/NoMatch'))
 const Faq = lazy(() => import('@/pages/Faq'))
 const CookiePolicy = lazy(() => import('@/pages/CookiePolicy'))
+const CarRentalBudapest = lazy(() => import('@/pages/CarRentalBudapest'))
+const TruckRentalBudapest = lazy(() => import('@/pages/TruckRentalBudapest'))
+const ToolRentalBudapest = lazy(() => import('@/pages/ToolRentalBudapest'))
+const DriverService = lazy(() => import('@/pages/DriverService'))
 
 const AppLayout = () => {
   const location = useLocation()
@@ -89,6 +93,10 @@ const router = createBrowserRouter([
       { path: 'tos', element: <ToS /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'contact', element: <Contact /> },
+      { path: 'autoberles-budapest', element: <CarRentalBudapest /> },
+      { path: 'teherauto-berles-budapest', element: <TruckRentalBudapest /> },
+      { path: 'szerszamkolcsonzes-budapest', element: <ToolRentalBudapest /> },
+      { path: 'soforszolgalat', element: <DriverService /> },
       // { path: 'locations', element: <Locations /> },
       { path: 'faq', element: <Faq /> },
       { path: 'cookie-policy', element: <CookiePolicy /> },

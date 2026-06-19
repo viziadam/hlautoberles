@@ -54,6 +54,15 @@ div.footer ul.links li:hover {
   text-decoration: underline;
 }
 
+div.footer ul.links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+div.footer ul.links a:hover {
+  text-decoration: underline;
+}
+
 div.footer div.footer-contact {
   display: flex;
   flex-direction: row;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Button } from '@mui/material'
 import * as bookcarsTypes from ':bookcars-types'
 import { strings } from '@/lang/master'
@@ -16,25 +17,52 @@ import SEOHead from '@/utils/SEOHead'
 //   onLoad?: (user?: bookcarsTypes.User) => void
 // }
 
+// interface LayoutProps {
+//   strict?: boolean
+//   children: ReactNode
+//   onLoad?: (user?: bookcarsTypes.User) => void
+//   // SEO adatok opcionálisan
+//   title?: string
+//   description?: string
+//   url?: string
+// }
+
+type JsonLd = Record<string, unknown>
+
 interface LayoutProps {
   strict?: boolean
   children: ReactNode
   onLoad?: (user?: bookcarsTypes.User) => void
-  // SEO adatok opcionálisan
+
   title?: string
   description?: string
   url?: string
+  image?: string
+  noIndex?: boolean
+  jsonLd?: JsonLd | JsonLd[]
 }
 
 const Layout = ({
   strict,
   children,
   onLoad,
-  title,        // <--- Új prop
-  description,  // <--- Új prop
-  url           // <--- Új prop
+  title,
+  description,
+  url,
+  image,
+  noIndex = false,
+  jsonLd,
 }: LayoutProps) => {
   useAnalytics()
+  const location = useLocation()
+  const privatePaths = [
+    '/sign-in', '/sign-up', '/activate', '/forgot-password',
+    '/reset-password', '/search', '/checkout', '/checkout-session',
+    '/bookings', '/booking', '/settings', '/notifications', '/change-password',
+  ]
+  const resolvedNoIndex = noIndex || privatePaths.some((path) => (
+    location.pathname === path || location.pathname.startsWith(`${path}/`)
+  ))
 
   const { user, userLoaded, unauthorized } = useUserContext() as UserContextType
   const [loading, setLoading] = useState(true)
@@ -74,11 +102,14 @@ const Layout = ({
 
   return (
     <>
-      <SEOHead 
-        title={title} 
-        description={description || "Minőségi járművek, kézi szerszámok bérlése és sofőrszolgálat a HLdekor megbízásából. Egyszerű online foglalás."}
-        url={url}
-      />
+      <SEOHead
+        title={title}
+        description={description}
+        url={url || location.pathname}
+        image={image}
+        noIndex={resolvedNoIndex}
+        jsonLd={jsonLd}
+/>
 
       {
         !(unauthorized && strict) && (

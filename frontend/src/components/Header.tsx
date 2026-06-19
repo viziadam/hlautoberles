@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -13,7 +13,8 @@ import {
   List,
   ListItemIcon,
   ListItemText,
-  ListItem
+  ListItem,
+  ListItemButton
 } from '@mui/material'
 import {
   Menu as MenuIcon,
@@ -27,12 +28,14 @@ import {
   ExitToApp as SignoutIcon,
   Login as LoginIcon,
   EventSeat as BookingsIcon,
-  CarRental as SupplierIcon,
-  LocationOn as LocationIcon,
   PrivacyTip as PrivacyIcon,
   QuestionAnswer as FaqIcon,
   PersonOutline as SignUpIcon,
   Cookie as CookiePolicyIcon,
+  DirectionsCar,
+  LocalShipping,
+  Handyman,
+  SupportAgent,
 } from '@mui/icons-material'
 import Logo from '@/assets/img/logo.png'
 import { toast } from 'react-toastify'
@@ -347,12 +350,13 @@ const Header = ({
 
                 {/* <Button onClick={() => navigate('/')} className="logo">{env.WEBSITE_NAME}</Button> */}
                 <Button
-                  onClick={() => navigate('/')}
+                  component={RouterLink}
+                  to="/"
                   className="logo"
-                  aria-label="Go to home"
+                  aria-label="HLAutóbérlés főoldal"
                   disableRipple
                 >
-                  <img src={Logo} alt={env.WEBSITE_NAME} className="logo-img" />
+                  <img src={Logo} alt="HLAutóbérlés" className="logo-img" width="180" height="60" />
                 </Button>
 
                 {!env.isMobile && headerTitle && <div className="header-title">{headerTitle}</div>}
@@ -361,15 +365,10 @@ const Header = ({
 
             <Drawer open={isSideMenuOpen} onClose={handleSideMenuClose} className="menu side-menu">
               <List sx={classes.list}>
-                <ListItem
-                  onClick={() => {
-                    navigate('/')
-                    handleSideMenuClose()
-                  }}
-                >
+                <ListItemButton component={RouterLink} to="/" onClick={handleSideMenuClose}>
                   <ListItemIcon><HomeIcon /></ListItemIcon>
                   <ListItemText primary={strings.HOME} />
-                </ListItem>
+                </ListItemButton>
                 {isSignedIn && (
                   <ListItem
                     onClick={() => {
@@ -401,60 +400,46 @@ const Header = ({
                   <ListItemIcon><LocationIcon /></ListItemIcon>
                   <ListItemText primary={strings.LOCATIONS} />
                 </ListItem> */}
-                <ListItem
-                  onClick={() => {
-                    navigate('/about')
-                    handleSideMenuClose()
-                  }}
-                >
+                <ListItemButton component={RouterLink} to="/autoberles-budapest" onClick={handleSideMenuClose}>
+                  <ListItemIcon><DirectionsCar /></ListItemIcon>
+                  <ListItemText primary="Autóbérlés" />
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/teherauto-berles-budapest" onClick={handleSideMenuClose}>
+                  <ListItemIcon><LocalShipping /></ListItemIcon>
+                  <ListItemText primary="Teherautó-bérlés" />
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/szerszamkolcsonzes-budapest" onClick={handleSideMenuClose}>
+                  <ListItemIcon><Handyman /></ListItemIcon>
+                  <ListItemText primary="Szerszámkölcsönzés" />
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/soforszolgalat" onClick={handleSideMenuClose}>
+                  <ListItemIcon><SupportAgent /></ListItemIcon>
+                  <ListItemText primary="Sofőrszolgálat" />
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/about" onClick={handleSideMenuClose}>
                   <ListItemIcon><AboutIcon /></ListItemIcon>
                   <ListItemText primary={strings.ABOUT} />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    navigate('/cookie-policy')
-                    handleSideMenuClose()
-                  }}
-                >
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/cookie-policy" onClick={handleSideMenuClose}>
                   <ListItemIcon><CookiePolicyIcon /></ListItemIcon>
                   <ListItemText primary={strings.COOKIE_POLICY} />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    navigate('/privacy')
-                    handleSideMenuClose()
-                  }}
-                >
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/privacy" onClick={handleSideMenuClose}>
                   <ListItemIcon><PrivacyIcon /></ListItemIcon>
                   <ListItemText primary={strings.PRIVACY_POLICY} />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    navigate('/tos')
-                    handleSideMenuClose()
-                  }}
-                >
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/tos" onClick={handleSideMenuClose}>
                   <ListItemIcon><TosIcon /></ListItemIcon>
                   <ListItemText primary={strings.TOS} />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    navigate('/faq')
-                    handleSideMenuClose()
-                  }}
-                >
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/faq" onClick={handleSideMenuClose}>
                   <ListItemIcon><FaqIcon /></ListItemIcon>
                   <ListItemText primary={strings.FAQ} />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    navigate('/contact')
-                    handleSideMenuClose()
-                  }}
-                >
+                </ListItemButton>
+                <ListItemButton component={RouterLink} to="/contact" onClick={handleSideMenuClose}>
                   <ListItemIcon><MailIcon /></ListItemIcon>
                   <ListItemText primary={strings.CONTACT} />
-                </ListItem>
+                </ListItemButton>
                 {env.isMobile && !hideSignin && !isSignedIn && isLoaded && (
                   <>
                     <ListItem

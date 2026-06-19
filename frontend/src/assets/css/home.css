@@ -81,7 +81,13 @@ div.home div.home-content::after {
   z-index: -1;
 }
 
-div.home-title {
+.home-hero-content {
+  z-index: 2;
+  max-width: 1050px;
+  text-align: center;
+}
+
+.home-title {
   color: #F7B644;
   font-size: 28px;
   font-weight: 500;
@@ -89,7 +95,7 @@ div.home-title {
   padding: 0 20px;
 }
 
-div.home div.home-cover {
+.home div.home-cover {
   z-index: 2;
   color: #fff;
   text-align: center;
@@ -180,7 +186,7 @@ div.home div.services {
   align-items: center;
 }
 
-div.home div.services h1 {
+div.home div.services h2 {
   font-weight: 500;
   padding: 0 10px;
   text-align: center;
@@ -191,7 +197,7 @@ div.home div.services div.services-boxes {
   grid-template-columns: auto auto auto;
 }
 
-div.home div.services div.services-boxes div.services-box {
+div.home div.services div.services-boxes .services-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -202,23 +208,33 @@ div.home div.services div.services-boxes div.services-box {
   text-align: center;
 }
 
-div.home div.services div.services-boxes div.services-box div.services-icon-wrapper {
+div.home div.services div.services-boxes .services-box div.services-icon-wrapper {
   padding: 20px;
 }
 
-div.home div.services div.services-boxes div.services-box div.services-icon-wrapper .services-icon {
+div.home div.services div.services-boxes .services-box div.services-icon-wrapper .services-icon {
   font-size: 48px;
   color: var(--hl-blue-dark) !important;
 }
 
-div.home div.services div.services-boxes div.services-box div.services-text-wrapper {
+div.home div.services div.services-boxes .services-box div.services-text-wrapper {
   display: flex;
   flex-direction: column;
 }
 
-div.home div.services div.services-boxes div.services-box div.services-text-wrapper span.services-title {
+div.home div.services div.services-boxes .services-box .services-title {
   font-weight: bold;
   margin-bottom: 15px;
+}
+
+div.home div.services .services-text {
+  margin-top: 0;
+}
+
+div.home div.services .services-box a {
+  margin-top: 8px;
+  color: var(--hl-blue-dark);
+  font-weight: 600;
 }
 
 div.home div.home-suppliers {
@@ -412,7 +428,7 @@ div.home div.customer-care div.customer-care-img img {
     height: 560px;
   }
 
-  div.home div.home-title {
+  div.home .home-title {
     font-size: 22px;
     font-weight: 500;
     margin-bottom: 20px;

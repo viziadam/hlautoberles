@@ -1,12 +1,53 @@
 div.contact {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 1 0 auto;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 70px;
   transform: translate3d(0, 0, 0);
   min-height: 100vh;
+  padding: 70px max(24px, 10vw) 110px;
+  background: #fff;
 }
 
 div.contact .form {
-  margin: 100px 0;
+  margin: 0;
+}
+
+div.contact .contact-details {
+  max-width: 520px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+div.contact .contact-details h1 {
+  margin-top: 0;
+  font-size: 38px;
+}
+
+div.contact .contact-details h2 {
+  margin-top: 35px;
+}
+
+div.contact .contact-details address {
+  margin: 28px 0;
+  font-style: normal;
+}
+
+div.contact .contact-details a {
+  color: var(--hl-blue-dark);
+}
+
+div.contact .eyebrow {
+  color: var(--hl-blue-dark);
+  font-weight: 700;
+}
+
+@media only screen and (width <= 960px) {
+  div.contact {
+    flex-direction: column;
+    gap: 45px;
+    padding: 40px 20px 80px;
+  }
 }

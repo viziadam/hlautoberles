@@ -30,6 +30,13 @@ div.about p {
   margin-bottom: 40px;
 }
 
+div.about .about-cta {
+  display: inline-block;
+  padding: 13px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
 @media only screen and (width <=960px) {
   div.about {
     padding: 30px 20px 120px 20px;

@@ -9,7 +9,7 @@ const ToS = () => {
   const onLoad = () => { }
 
   return (
-    <Layout onLoad={onLoad} strict={false}>
+    <Layout onLoad={onLoad} strict={false} title="Sütikezelési tájékoztató" url="/cookie-policy">
       <div className="cookie-policy">
         <h1>{strings.TITLE}</h1>
         <p>{strings.POLICY}</p>

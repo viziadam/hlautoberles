@@ -9,7 +9,7 @@ const ToS = () => {
   const onLoad = () => { }
 
   return (
-    <Layout onLoad={onLoad} strict={false}>
+    <Layout onLoad={onLoad} strict={false} title="Általános szerződési feltételek" url="/tos">
       <div className="tos">
         <h1>{strings.TITLE}</h1>
         <p>{strings.TOS}</p>

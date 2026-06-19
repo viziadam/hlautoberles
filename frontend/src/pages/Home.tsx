@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Button,
   // Checkbox,
@@ -49,6 +49,7 @@ import SearchForm from '@/components/SearchForm'
 import Map from '@/components/Map'
 import Footer from '@/components/Footer'
 import FaqList from '@/components/FaqList'
+import { localBusinessSchema } from '@/utils/seoSchemas'
 
 import Mini from '@/assets/img/mini.png'
 import Midi from '@/assets/img/midi.png'
@@ -135,7 +136,7 @@ const Home = () => {
       type: 'Point',
       coordinates: [env.MAP_LONGITUDE, env.MAP_LATITUDE],
     },
-  } as any  // ha nagyon kötözködik a TS, ideiglenesen használhatsz "as any"-t
+  } as any // ha nagyon kötözködik a TS, ideiglenesen használhatsz "as any"-t
 
   setLocations([hqLocation])
 
@@ -152,9 +153,10 @@ const Home = () => {
 
   return (
     <Layout onLoad={onLoad} strict={false}
-    title="Autóbérlés és Szerszámkölcsönzés Budapest XI. kerület"
-      description="Legjobb autóbérlési ajánlatok: személyautók, teherautók és professzionális szerszámok bérlése. Rejtett költségek nélkül, egyértelmű feltételekkel a Galvani utcában."
+      title="Autóbérlés és szerszámkölcsönzés Budapest XI. kerületében"
+      description="Személyautók, teherautók és professzionális szerszámok bérlése Budapest XI. kerületében, átlátható feltételekkel és online foglalással."
       url="/"
+      jsonLd={localBusinessSchema}
       >
 
       <div className="home">
@@ -168,11 +170,14 @@ const Home = () => {
               loop
               playsInline
               disablePictureInPicture
+              poster="/cover.webp"
+              preload="metadata"
+              aria-hidden="true"
               onLoadedData={async () => {
                 setVideoLoaded(true)
               }}
             >
-              <source src="cover_gemini2.mp4" type="video/mp4" />
+              <source src="/cover_gemini2.mp4" type="video/mp4" />
               <track kind="captions" />
             </video>
             {!videoLoaded && (
@@ -180,8 +185,15 @@ const Home = () => {
             )}
           </div>
 
-          <div className="home-title">{strings.TITLE}</div>
-          <div className="home-cover">{strings.COVER}</div>
+          <header className="home-hero-content">
+            <h1 className="home-title">
+              Autóbérlés, teherautó- és szerszámkölcsönzés Budapesten
+            </h1>
+            <p className="home-cover">
+              Bérelj személyautót, kisteherautót vagy professzionális szerszámot
+              Budapest XI. kerületében, átlátható feltételekkel.
+            </p>
+          </header>
           {/* <div className="home-subtitle">{strings.SUBTITLE}</div> */}
 
         </div>
@@ -247,32 +259,35 @@ const Home = () => {
 
         <div className="services">
 
-          <h1>{strings.SERVICES_TITLE}</h1>
+          <h2>{strings.SERVICES_TITLE}</h2>
 
           <div className="services-boxes">
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 <DirectionsCar className="services-icon" />
               </div>
               <div className="services-text-wrapper">
-                <span className="services-title">{strings.SERVICES_FLEET_TITLE}</span>
-                <span className="services-text">{strings.SERVICES_FLEET}</span>
+                <h3 className="services-title">{strings.SERVICES_FLEET_TITLE}</h3>
+                <p className="services-text">{strings.SERVICES_FLEET}</p>
+                <RouterLink to="/autoberles-budapest">Személyautó-bérlés</RouterLink>
+                <RouterLink to="/teherauto-berles-budapest">Teherautó-bérlés</RouterLink>
               </div>
-            </div>
+            </article>
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 {/* <Navigation className="services-icon" /> */}
                 <Handyman className="services-icon" />
               </div>
               <div className="services-text-wrapper">
-                <span className="services-title">{strings.SERVICES_FLEXIBLE_TITLE}</span>
-                <span className="services-text">{strings.SERVICES_FLEXIBLE}</span>
+                <h3 className="services-title">{strings.SERVICES_FLEXIBLE_TITLE}</h3>
+                <p className="services-text">{strings.SERVICES_FLEXIBLE}</p>
+                <RouterLink to="/szerszamkolcsonzes-budapest">Bérelhető eszközök</RouterLink>
               </div>
-            </div>
+            </article>
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 <AttachMoney className="services-icon" />
               </div>
@@ -280,9 +295,9 @@ const Home = () => {
                 <span className="services-title">{strings.SERVICES_PRICES_TITLE}</span>
                 <span className="services-text">{strings.SERVICES_PRICES}</span>
               </div>
-            </div>
+            </article>
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 <Public className="services-icon" />
               </div>
@@ -290,20 +305,21 @@ const Home = () => {
                 <span className="services-title">{strings.SERVICES_BOOKING_ONLINE_TITLE}</span>
                 <span className="services-text">{strings.SERVICES_BOOKING_ONLINE}</span>
               </div>
-            </div>
+            </article>
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 {/* <FlashOn className="services-icon" /> */}
                 <PersonPinCircle className="services-icon" />
               </div>
               <div className="services-text-wrapper">
-                <span className="services-title">{strings.SERVICE_INSTANT_BOOKING_TITLE}</span>
-                <span className="services-text">{strings.SERVICE_INSTANT_BOOKING}</span>
+                <h3 className="services-title">{strings.SERVICE_INSTANT_BOOKING_TITLE}</h3>
+                <p className="services-text">{strings.SERVICE_INSTANT_BOOKING}</p>
+                <RouterLink to="/soforszolgalat">Sofőrrel igényelhető bérlés</RouterLink>
               </div>
-            </div>
+            </article>
 
-            <div className="services-box">
+            <article className="services-box">
               <div className="services-icon-wrapper">
                 {/* <RoomService className="services-icon" /> */}
                 <SupportAgent className="services-icon" />
@@ -312,7 +328,7 @@ const Home = () => {
                 <span className="services-title">{strings.SERVICES_SUPPORT_TITLE}</span>
                 <span className="services-text">{strings.SERVICES_SUPPORT}</span>
               </div>
-            </div>
+            </article>
 
           </div>
         </div>
