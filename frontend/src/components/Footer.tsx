@@ -22,10 +22,17 @@ const Footer = () => {
         <div className="main-section">
           <div className="title">{strings.RENT}</div>
           <ul className="links">
-            <li><RouterLink to="/autoberles-budapest">Autóbérlés Budapesten</RouterLink></li>
-            <li><RouterLink to="/teherauto-berles-budapest">Teherautó-bérlés</RouterLink></li>
-            <li><RouterLink to="/szerszamkolcsonzes-budapest">Szerszámkölcsönzés</RouterLink></li>
-            <li><RouterLink to="/soforszolgalat">Sofőrszolgálat</RouterLink></li>
+            <li>
+              <RouterLink to="/autoberles-budapest">
+                Autó- és teherautó-bérlés
+              </RouterLink>
+            </li>
+
+            <li>
+              <RouterLink to="/szerszamkolcsonzes-budapest">
+                Szerszámkölcsönzés
+              </RouterLink>
+            </li>
           </ul>
         </div>
         <div className="main-section">

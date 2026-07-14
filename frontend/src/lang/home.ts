@@ -213,9 +213,9 @@ SERVICES_SUPPORT:
   SERVICES_FLEET:
   'Személyautók, kisdobozos és nagy teherautók bérelhetőek mindenféle igényt kiszolgálva.',
 
-  SERVICES_FLEXIBLE_TITLE: 'Szerszámbérlés',
-  SERVICES_FLEXIBLE:
-  'Bérelhető professzionális szerszámok: kézi behajtók, flexek, fa- és alumínium létrák, fellépők, állványok és stb...',
+  SERVICES_FLEXIBLE_TITLE: 'Szerszámkölcsönzés',
+SERVICES_FLEXIBLE:
+  'Professzionális behajtók, sarokcsiszolók, fa- és alumínium létrák, fellépők és állványok kölcsönzése.',
 
   SERVICES_PRICES_TITLE: 'Korrekt árképzés',
   SERVICES_PRICES:
@@ -225,9 +225,9 @@ SERVICES_SUPPORT:
   SERVICES_BOOKING_ONLINE:
   'Járművek és eszközök igénylése online, egyértelmű foglalás.',
 
-  SERVICE_INSTANT_BOOKING_TITLE: 'Sofőrszolgálat',
+  SERVICE_INSTANT_BOOKING_TITLE: 'Járműbérlés sofőrrel',
   SERVICE_INSTANT_BOOKING:
-  'Igény esetén sofőrt biztosítunk minden járművünkhöz.',
+    'Igény esetén egyes járműveink sofőrrel is kérhetők, előzetes egyeztetés alapján.',
 
   SERVICES_SUPPORT_TITLE: 'Közvetlen ügyintézés',
   SERVICES_SUPPORT:

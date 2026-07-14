@@ -1,5 +1,11 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
-import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useLocation,
+  Navigate,
+} from 'react-router-dom'
 import env from '@/config/env.config'
 import { NotificationProvider } from '@/context/NotificationContext'
 import { UserProvider } from '@/context/UserContext'
@@ -12,6 +18,17 @@ import NProgressIndicator from '@/components/NProgressIndicator'
 
 if (env.GOOGLE_ANALYTICS_ENABLED) {
   initGA()
+}
+
+const LegacySearchRedirect = () => {
+  const location = useLocation()
+
+  return (
+    <Navigate
+      to={`/autoberles-budapest${location.search}`}
+      replace
+    />
+  )
 }
 
 const Header = lazy(() => import('@/components/Header'))
@@ -36,10 +53,10 @@ const Contact = lazy(() => import('@/pages/Contact'))
 const NoMatch = lazy(() => import('@/pages/NoMatch'))
 const Faq = lazy(() => import('@/pages/Faq'))
 const CookiePolicy = lazy(() => import('@/pages/CookiePolicy'))
-const CarRentalBudapest = lazy(() => import('@/pages/CarRentalBudapest'))
-const TruckRentalBudapest = lazy(() => import('@/pages/TruckRentalBudapest'))
+// const CarRentalBudapest = lazy(() => import('@/pages/CarRentalBudapest'))
+// const TruckRentalBudapest = lazy(() => import('@/pages/TruckRentalBudapest'))
 const ToolRentalBudapest = lazy(() => import('@/pages/ToolRentalBudapest'))
-const DriverService = lazy(() => import('@/pages/DriverService'))
+// const DriverService = lazy(() => import('@/pages/DriverService'))
 
 const AppLayout = () => {
   const location = useLocation()
@@ -82,6 +99,7 @@ const router = createBrowserRouter([
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
       { path: 'search', element: <Search /> },
+      { path: 'search', element: <LegacySearchRedirect /> },
       { path: 'checkout', element: <Checkout /> },
       { path: 'checkout-session/:sessionId', element: <CheckoutSession /> },
       { path: 'bookings', element: <Bookings /> },
@@ -93,10 +111,9 @@ const router = createBrowserRouter([
       { path: 'tos', element: <ToS /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'contact', element: <Contact /> },
-      { path: 'autoberles-budapest', element: <CarRentalBudapest /> },
-      { path: 'teherauto-berles-budapest', element: <TruckRentalBudapest /> },
+      { path: 'teherauto-berles-budapest', element: <Navigate to="/autoberles-budapest" replace />, },
       { path: 'szerszamkolcsonzes-budapest', element: <ToolRentalBudapest /> },
-      { path: 'soforszolgalat', element: <DriverService /> },
+      { path: 'soforszolgalat', element: <Navigate to="/" replace />,},
       // { path: 'locations', element: <Locations /> },
       { path: 'faq', element: <Faq /> },
       { path: 'cookie-policy', element: <CookiePolicy /> },

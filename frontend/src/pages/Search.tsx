@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Tune as FiltersIcon } from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import { strings } from '@/lang/search'
-import * as helper from '@/utils/helper'
-import env from '@/config/env.config'
-// import * as LocationService from '@/services/LocationService'
-// import * as SupplierService from '@/services/SupplierService'
-// import * as UserService from '@/services/UserService'
+
 import Layout from '@/components/Layout'
 import NoMatch from './NoMatch'
 import CarFilter from '@/components/CarFilter'
@@ -26,11 +22,43 @@ import CarRangeFilter from '@/components/CarRangeFilter'
 import CarMultimediaFilter from '@/components/CarMultimediaFilter'
 import CarSeatsFilter from '@/components/CarSeatsFilter'
 import Map from '@/components/Map'
-// import Progress from '@/components/Progress'
-import ViewOnMapButton from '@/components/ViewOnMapButton'
-import MapDialog from '@/components/MapDialog'
+import SearchForm from '@/components/SearchForm'
+import Footer from '@/components/Footer'
+import VehicleSeoContent from '@/components/VehicleSeoContent'
+import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
+
+
+
 
 import '@/assets/css/search.css'
+
+const parseDate = (value: unknown): Date | undefined => {
+  if (!value) {
+    return undefined
+  }
+
+  const date = value instanceof Date
+    ? value
+    : new Date(String(value))
+
+  return Number.isNaN(date.getTime()) ? undefined : date
+}
+
+const parseRanges = (
+  value: string | null,
+): bookcarsTypes.CarRange[] => {
+  if (!value) {
+    return []
+  }
+
+  const allowedRanges = Object.values(bookcarsTypes.CarRange)
+
+  return value
+    .split(',')
+    .filter((range): range is bookcarsTypes.CarRange => (
+      allowedRanges.includes(range as bookcarsTypes.CarRange)
+    ))
+}
 
 const COMPANY_POSITION: [number, number] = [
   47.4639, // kb. 1117 Budapest, Galvani u. 1–3 szélesség
@@ -40,8 +68,10 @@ const COMPANY_POSITION: [number, number] = [
 const Search = () => {
   const location = useLocation()
 
+  const navigate = useNavigate()
+
   const [visible, setVisible] = useState(false)
-  const [noMatch, setNoMatch] = useState(false)
+  // const [noMatch, setNoMatch] = useState(false)
   // const [pickupLocation, setPickupLocation] = useState<bookcarsTypes.Location>()
   // const [dropOffLocation, setDropOffLocation] = useState<bookcarsTypes.Location>()
   const [from, setFrom] = useState<Date>()
@@ -66,59 +96,69 @@ const Search = () => {
   const [showFilters, setShowFilters] = useState(false)
   // const [loadingPage, setLoadingPage] = useState(true)
 
-  // useEffect(() => {
-  //   const fetchSuppliers = async () => {
-  //     try {
-  //       const fetchedSuppliers = await SupplierService.getAllSuppliers()
-  //       setAllSuppliers(fetchedSuppliers)
-  //       setAllSuppliersIds(bookcarsHelper.flattenSuppliers(fetchedSuppliers))
-  //     } catch (err) {
-  //       helper.error(err, 'Failed to fetch suppliers')
-  //     }
-  //   }
+  useEffect(() => {
+  const params = new URLSearchParams(location.search)
 
-  //   fetchSuppliers()
-  // }, [])
+  const parsedFrom = parseDate(params.get('from'))
+  const parsedTo = parseDate(params.get('to'))
+  const parsedRanges = parseRanges(params.get('ranges'))
 
-  // useEffect(() => {
-  //   const updateSuppliers = async () => {
-  //     if (pickupLocation) {
-  //       const payload: bookcarsTypes.GetCarsPayload = {
-  //         pickupLocation: pickupLocation._id,
-  //         carSpecs,
-  //         carType,
-  //         gearbox,
-  //         mileage,
-  //         fuelPolicy,
-  //         deposit,
-  //         ranges,
-  //         multimedia,
-  //         rating,
-  //         seats,
-  //         from,
-  //         to,
-  //       }
-  //       const _suppliers = await SupplierService.getFrontendSuppliers(payload)
-  //       setSuppliers(_suppliers)
-  //     }
-  //   }
+  const validDateRange = (
+    parsedFrom
+    && parsedTo
+    && parsedTo.getTime() > parsedFrom.getTime()
+  )
 
-  //   if (from && to) {
-  //     updateSuppliers()
-  //   }
-  // }, [pickupLocation, carSpecs, carType, gearbox, mileage, fuelPolicy, deposit, ranges, multimedia, rating, seats, from, to])
+  if (!validDateRange) {
+    setFrom(undefined)
+    setTo(undefined)
+    setRanges(bookcarsHelper.getAllRanges())
+    return
+  }
+
+  setFrom(parsedFrom)
+  setTo(parsedTo)
+
+  setRanges(
+    parsedRanges.length > 0
+      ? parsedRanges
+      : bookcarsHelper.getAllRanges(),
+  )
+}, [location.search])
+
+  // const handleCarFilterSubmit = async (filter: bookcarsTypes.CarFilter) => {
+  //   // if (suppliers.length < allSuppliers.length) {
+  //   //   const _supplierIds = bookcarsHelper.clone(allSuppliersIds)
+  //   //   setSupplierIds(_supplierIds)
+  //   // }
+
+  //   // setPickupLocation(filter.pickupLocation)
+  //   // setDropOffLocation(filter.dropOffLocation)
+  //   setFrom(filter.from)
+  //   setTo(filter.to)
+  // }
 
   const handleCarFilterSubmit = async (filter: bookcarsTypes.CarFilter) => {
-    // if (suppliers.length < allSuppliers.length) {
-    //   const _supplierIds = bookcarsHelper.clone(allSuppliersIds)
-    //   setSupplierIds(_supplierIds)
-    // }
-
-    // setPickupLocation(filter.pickupLocation)
-    // setDropOffLocation(filter.dropOffLocation)
-    setFrom(filter.from)
-    setTo(filter.to)
+  if (!filter.from || !filter.to) {
+    return
   }
+
+  const params = new URLSearchParams({
+    from: filter.from.toISOString(),
+    to: filter.to.toISOString(),
+    ranges: ranges.join(','),
+  })
+
+  navigate(
+    {
+      pathname: '/autoberles-budapest',
+      search: `?${params.toString()}`,
+    },
+    {
+      replace: true,
+    },
+  )
+}
 
   // const handleSupplierFilterChange = (newSuppliers: string[]) => {
   //   setSupplierIds(newSuppliers)
@@ -164,123 +204,332 @@ const Search = () => {
     setDeposit(value)
   }
 
+  // const onLoad = async (user?: bookcarsTypes.User) => {
+  //   const { state } = location
+  //   if (!state) {
+  //     setNoMatch(true)
+  //     return
+  //   }
+
+  //   const { from: _from, to: _to, ranges: _ranges } = state as {
+  //     from?: Date
+  //     to?: Date
+  //     ranges?: bookcarsTypes.CarRange[]
+  //   }
+
+  //   if (!_from || !_to) {
+  //     setLoading(false)
+  //     setNoMatch(true)
+  //     return
+  //   }
+
+  //   setFrom(_from)
+  //   setTo(_to)
+
+  //   if (_ranges) {
+  //     setRanges(_ranges)
+  //   }
+
+  //   setLoading(false)
+  //   if (!user || (user && user.verified)) {
+  //     setVisible(true)
+  //   }
+  // }
+
   const onLoad = async (user?: bookcarsTypes.User) => {
-    const { state } = location
-    if (!state) {
-      setNoMatch(true)
-      return
-    }
+  const params = new URLSearchParams(location.search)
 
-    const { from: _from, to: _to, ranges: _ranges } = state as {
-      from?: Date
-      to?: Date
-      ranges?: bookcarsTypes.CarRange[]
-    }
+  const state = location.state as {
+    from?: Date | string
+    to?: Date | string
+    ranges?: bookcarsTypes.CarRange[]
+  } | null
 
-    if (!_from || !_to) {
-      setLoading(false)
-      setNoMatch(true)
-      return
-    }
+  // Az új, URL-alapú adatok.
+  const queryFrom = parseDate(params.get('from'))
+  const queryTo = parseDate(params.get('to'))
+  const queryRanges = parseRanges(params.get('ranges'))
 
-    setFrom(_from)
-    setTo(_to)
+  // A régi location.state továbbra is támogatott.
+  const stateFrom = parseDate(state?.from)
+  const stateTo = parseDate(state?.to)
 
-    if (_ranges) {
-      setRanges(_ranges)
-    }
+  const resolvedFrom = queryFrom || stateFrom
+  const resolvedTo = queryTo || stateTo
 
-    setLoading(false)
-    if (!user || (user && user.verified)) {
-      setVisible(true)
+  const resolvedRanges = queryRanges.length > 0
+    ? queryRanges
+    : state?.ranges
+
+  const validDateRange = (
+    resolvedFrom
+    && resolvedTo
+    && resolvedTo.getTime() > resolvedFrom.getTime()
+  )
+
+  if (validDateRange) {
+    setFrom(resolvedFrom)
+    setTo(resolvedTo)
+
+    if (resolvedRanges && resolvedRanges.length > 0) {
+      setRanges(resolvedRanges)
     }
+  } else {
+    // Ez már nem 404-es helyzet.
+    // Egyszerűen nincs még kiválasztott időpont.
+    setFrom(undefined)
+    setTo(undefined)
   }
 
-  return (
-    <>
-      <Layout onLoad={onLoad} strict={false}>
-        {visible && from && to && (
-          <div className="search">
-            <div className="col-1">
-              {!loading && (
-                <>
-                  {/* Map: fixen a cég székhelyére mutat */}
-                  <Map
-                    position={COMPANY_POSITION}
-                    initialZoom={14}
-                    locations={[]}
-                    parkingSpots={undefined}
-                    className="map"
-                  />
+  setLoading(false)
 
-                  {/* CarFilter: location nélkül, csak időintervallum + egyéb logika */}
-                  <CarFilter
-                    className="filter"
-                    from={from}
-                    to={to}
-                    collapse
-                    onSubmit={handleCarFilterSubmit}
-                  />
+  if (!user || user.verified) {
+    setVisible(true)
+  }
+}
 
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<FiltersIcon />}
-                    disableElevation
-                    fullWidth
-                    className="btn btn-filters"
-                    onClick={() => setShowFilters((prev) => !prev)}
-                  >
-                    {showFilters ? strings.HILE_FILTERS : strings.SHOW_FILTERS}
-                  </Button>
+return (
+  <Layout
+    onLoad={onLoad}
+    strict={false}
+    title="Autó- és teherautó-bérlés Budapesten"
+    description="Személyautó-, kisteherautó- és teherautó-bérlés Budapest XI. kerületében. Válassz időpontot, nézd meg az elérhető járműveket és foglalj online."
+    url="/autoberles-budapest"
+    jsonLd={[
+      localBusinessSchema,
+      serviceSchema(
+        'Autó- és teherautó-bérlés Budapesten',
+        'Személyautó-, kisteherautó- és teherautó-bérlés',
+        '/autoberles-budapest',
+      ),
+    ]}
+  >
+    <main className="vehicle-search-page">
+      <header className="vehicle-search-header">
+        <h1>Autó- és teherautó-bérlés Budapesten</h1>
 
-                  {showFilters && (
-                    <>
-                      {/* Nincs SupplierFilter, mert nincsenek beszállítók */}
-                      <CarRatingFilter className="filter" onChange={handleRatingFilterChange} />
-                      <CarRangeFilter className="filter" onChange={handleRangeFilterChange} />
-                      <CarMultimediaFilter className="filter" onChange={handleMultimediaFilterChange} />
-                      <CarSeatsFilter className="filter" onChange={handleSeatsFilterChange} />
-                      <CarSpecsFilter className="filter" onChange={handleCarSpecsFilterChange} />
-                      <CarType className="filter" onChange={handleCarTypeFilterChange} />
-                      <GearboxFilter className="filter" onChange={handleGearboxFilterChange} />
-                      <MileageFilter className="filter" onChange={handleMileageFilterChange} />
-                      <FuelPolicyFilter className="filter" onChange={handleFuelPolicyFilterChange} />
-                      <DepositFilter className="filter" onChange={handleDepositFilterChange} />
-                    </>
-                  )}
-                </>
-              )}
-            </div>
+        <p>
+          Válassz átvételi és leadási időpontot, majd nézd meg az
+          elérhető személyautókat, kisteherautókat és teherautókat.
+        </p>
+      </header>
 
-            <div className="col-2">
-              <CarList
-                carSpecs={carSpecs}
-                carType={carType}
-                gearbox={gearbox}
-                mileage={mileage}
-                fuelPolicy={fuelPolicy}
-                deposit={deposit}
-                loading={loading}
-                from={from}
-                to={to}
-                ranges={ranges}
-                multimedia={multimedia}
-                rating={rating}
-                seats={seats}
-                includeComingSoonCars
-              />
-            </div>
-          </div>
-        )}
+      {visible && !from && !to && (
+        <section
+          className="vehicle-search-start"
+          aria-labelledby="vehicle-search-form-title"
+        >
+          <h2 id="vehicle-search-form-title">
+            Elérhető járművek keresése
+          </h2>
 
-        {noMatch && <NoMatch hideHeader />}
-      </Layout>
+          <SearchForm />
+        </section>
+      )}
 
-      {/* Ha akarod, ide később visszateheted a Progress komponenst */}
-      {/* {loadingPage && !noMatch && <Progress />} */}
-    </>
-  )
+      {visible && from && to && (
+        <div className="search">
+          <aside className="col-1">
+            {!loading && (
+              <>
+                <Map
+                  position={COMPANY_POSITION}
+                  initialZoom={14}
+                  locations={[]}
+                  parkingSpots={undefined}
+                  className="map"
+                />
+
+                <CarFilter
+                  className="filter"
+                  from={from}
+                  to={to}
+                  collapse
+                  onSubmit={handleCarFilterSubmit}
+                />
+
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  startIcon={<FiltersIcon />}
+                  disableElevation
+                  fullWidth
+                  className="btn btn-filters"
+                  onClick={() => setShowFilters((prev) => !prev)}
+                >
+                  {showFilters ? strings.HILE_FILTERS : strings.SHOW_FILTERS}
+                </Button>
+
+                {showFilters && (
+                  <>
+                    <CarRatingFilter
+                      className="filter"
+                      onChange={handleRatingFilterChange}
+                    />
+
+                    <CarRangeFilter
+                      className="filter"
+                      onChange={handleRangeFilterChange}
+                    />
+
+                    <CarMultimediaFilter
+                      className="filter"
+                      onChange={handleMultimediaFilterChange}
+                    />
+
+                    <CarSeatsFilter
+                      className="filter"
+                      onChange={handleSeatsFilterChange}
+                    />
+
+                    <CarSpecsFilter
+                      className="filter"
+                      onChange={handleCarSpecsFilterChange}
+                    />
+
+                    <CarType
+                      className="filter"
+                      onChange={handleCarTypeFilterChange}
+                    />
+
+                    <GearboxFilter
+                      className="filter"
+                      onChange={handleGearboxFilterChange}
+                    />
+
+                    <MileageFilter
+                      className="filter"
+                      onChange={handleMileageFilterChange}
+                    />
+
+                    <FuelPolicyFilter
+                      className="filter"
+                      onChange={handleFuelPolicyFilterChange}
+                    />
+
+                    <DepositFilter
+                      className="filter"
+                      onChange={handleDepositFilterChange}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          </aside>
+
+          <section className="col-2" aria-label="Elérhető járművek">
+            <CarList
+              carSpecs={carSpecs}
+              carType={carType}
+              gearbox={gearbox}
+              mileage={mileage}
+              fuelPolicy={fuelPolicy}
+              deposit={deposit}
+              loading={loading}
+              from={from}
+              to={to}
+              ranges={ranges}
+              multimedia={multimedia}
+              rating={rating}
+              seats={seats}
+              includeComingSoonCars
+            />
+          </section>
+        </div>
+      )}
+
+      <VehicleSeoContent />
+    </main>
+
+    <Footer />
+  </Layout>
+)
+
+  // return (
+  //   <>
+  //     <Layout onLoad={onLoad} strict={false}>
+  //       {visible && from && to && (
+  //         <div className="search">
+  //           <div className="col-1">
+  //             {!loading && (
+  //               <>
+  //                 {/* Map: fixen a cég székhelyére mutat */}
+  //                 <Map
+  //                   position={COMPANY_POSITION}
+  //                   initialZoom={14}
+  //                   locations={[]}
+  //                   parkingSpots={undefined}
+  //                   className="map"
+  //                 />
+
+  //                 {/* CarFilter: location nélkül, csak időintervallum + egyéb logika */}
+  //                 <CarFilter
+  //                   className="filter"
+  //                   from={from}
+  //                   to={to}
+  //                   collapse
+  //                   onSubmit={handleCarFilterSubmit}
+  //                 />
+
+  //                 <Button
+  //                   variant="outlined"
+  //                   color="primary"
+  //                   startIcon={<FiltersIcon />}
+  //                   disableElevation
+  //                   fullWidth
+  //                   className="btn btn-filters"
+  //                   onClick={() => setShowFilters((prev) => !prev)}
+  //                 >
+  //                   {showFilters ? strings.HILE_FILTERS : strings.SHOW_FILTERS}
+  //                 </Button>
+
+  //                 {showFilters && (
+  //                   <>
+  //                     {/* Nincs SupplierFilter, mert nincsenek beszállítók */}
+  //                     <CarRatingFilter className="filter" onChange={handleRatingFilterChange} />
+  //                     <CarRangeFilter className="filter" onChange={handleRangeFilterChange} />
+  //                     <CarMultimediaFilter className="filter" onChange={handleMultimediaFilterChange} />
+  //                     <CarSeatsFilter className="filter" onChange={handleSeatsFilterChange} />
+  //                     <CarSpecsFilter className="filter" onChange={handleCarSpecsFilterChange} />
+  //                     <CarType className="filter" onChange={handleCarTypeFilterChange} />
+  //                     <GearboxFilter className="filter" onChange={handleGearboxFilterChange} />
+  //                     <MileageFilter className="filter" onChange={handleMileageFilterChange} />
+  //                     <FuelPolicyFilter className="filter" onChange={handleFuelPolicyFilterChange} />
+  //                     <DepositFilter className="filter" onChange={handleDepositFilterChange} />
+  //                   </>
+  //                 )}
+  //               </>
+  //             )}
+  //           </div>
+
+  //           <div className="col-2">
+  //             <CarList
+  //               carSpecs={carSpecs}
+  //               carType={carType}
+  //               gearbox={gearbox}
+  //               mileage={mileage}
+  //               fuelPolicy={fuelPolicy}
+  //               deposit={deposit}
+  //               loading={loading}
+  //               from={from}
+  //               to={to}
+  //               ranges={ranges}
+  //               multimedia={multimedia}
+  //               rating={rating}
+  //               seats={seats}
+  //               includeComingSoonCars
+  //             />
+  //           </div>
+  //         </div>
+  //       )}
+
+  //       {noMatch && <NoMatch hideHeader />}
+  //     </Layout>
+
+  //     {/* Ha akarod, ide később visszateheted a Progress komponenst */}
+  //     {/* {loadingPage && !noMatch && <Progress />} */}
+  //   </>
+  // )
   // return (
   //   <>
   //     <Layout onLoad={onLoad} strict={false}>

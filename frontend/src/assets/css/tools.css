@@ -1,0 +1,133 @@
+.tools-page {
+  width: 100%;
+}
+
+.tools-hero {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 20px 48px;
+  text-align: center;
+}
+
+.tools-eyebrow {
+  margin-bottom: 10px;
+  color: var(--hl-blue-dark);
+  font-weight: 600;
+}
+
+.tools-hero h1 {
+  margin: 0 0 18px;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 500;
+}
+
+.tools-hero > p:last-child {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #646464;
+  line-height: 1.75;
+}
+
+.tools-catalog {
+  padding: 52px 20px 64px;
+  background-color: #f9f9f9;
+}
+
+.tools-catalog > h2 {
+  margin: 0 0 36px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.tools-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 230px;
+  padding: 28px 22px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.tool-card-icon-wrapper {
+  margin-bottom: 18px;
+}
+
+.tool-card-icon {
+  color: var(--hl-blue-dark);
+  font-size: 50px !important;
+}
+
+.tool-card h3 {
+  margin: 0 0 14px;
+  font-size: 19px;
+}
+
+.tool-card p {
+  margin: 0;
+  color: #666;
+  line-height: 1.65;
+}
+
+.tools-information {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 64px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.tools-information h2 {
+  margin-top: 0;
+  font-weight: 500;
+}
+
+.tools-information p {
+  max-width: 650px;
+  color: #606060;
+  line-height: 1.7;
+}
+
+.tools-contact-button {
+  flex: 0 0 auto;
+}
+
+@media only screen and (width <= 1000px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media only screen and (width <= 600px) {
+  .tools-hero {
+    padding: 40px 16px 32px;
+  }
+
+  .tools-catalog {
+    padding: 40px 16px;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-information {
+    padding: 44px 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tools-contact-button {
+    width: 100%;
+  }
+}

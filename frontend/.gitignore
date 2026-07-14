@@ -14,6 +14,7 @@
 .DS_Store?
 .env
 .env.local
+.env.docker
 .env.dev
 .env.development
 .env.development.local

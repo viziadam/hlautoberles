@@ -257,7 +257,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="services">
+        <div className="services" id="szolgaltatasaink">
 
           <h2>{strings.SERVICES_TITLE}</h2>
 
@@ -270,8 +270,7 @@ const Home = () => {
               <div className="services-text-wrapper">
                 <h3 className="services-title">{strings.SERVICES_FLEET_TITLE}</h3>
                 <p className="services-text">{strings.SERVICES_FLEET}</p>
-                <RouterLink to="/autoberles-budapest">Személyautó-bérlés</RouterLink>
-                <RouterLink to="/teherauto-berles-budapest">Teherautó-bérlés</RouterLink>
+                <RouterLink to="/autoberles-budapest"> Elérhető járművek keresése </RouterLink>
               </div>
             </article>
 
@@ -283,7 +282,7 @@ const Home = () => {
               <div className="services-text-wrapper">
                 <h3 className="services-title">{strings.SERVICES_FLEXIBLE_TITLE}</h3>
                 <p className="services-text">{strings.SERVICES_FLEXIBLE}</p>
-                <RouterLink to="/szerszamkolcsonzes-budapest">Bérelhető eszközök</RouterLink>
+                <RouterLink to="/szerszamkolcsonzes-budapest"> Szerszámok megtekintése </RouterLink>
               </div>
             </article>
 
@@ -307,7 +306,7 @@ const Home = () => {
               </div>
             </article>
 
-            <article className="services-box">
+            <article className="services-box" id="soforrel-igenyelheto-berles">
               <div className="services-icon-wrapper">
                 {/* <FlashOn className="services-icon" /> */}
                 <PersonPinCircle className="services-icon" />
@@ -315,7 +314,7 @@ const Home = () => {
               <div className="services-text-wrapper">
                 <h3 className="services-title">{strings.SERVICE_INSTANT_BOOKING_TITLE}</h3>
                 <p className="services-text">{strings.SERVICE_INSTANT_BOOKING}</p>
-                <RouterLink to="/soforszolgalat">Sofőrrel igényelhető bérlés</RouterLink>
+                {/* <RouterLink to="/soforszolgalat">Sofőrrel igényelhető bérlés</RouterLink> */}
               </div>
             </article>
 

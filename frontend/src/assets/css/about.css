@@ -1,4 +1,4 @@
-div.about {
+.about {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
@@ -12,25 +12,25 @@ div.about {
   background-color: #FFF;
 }
 
-div.about h1 {
+.about h1 {
   font-size: 36px;
   color: #1a1a1a;
 }
 
-div.about h2 {
+.about h2 {
   font-size: 24px;
   font-weight: 500;
   color: #1a1a1a;
 }
 
-div.about p {
+.about p {
   font-size: 20px;
   /* font-weight: 400; */
   color: #000;
   margin-bottom: 40px;
 }
 
-div.about .about-cta {
+.about .about-cta {
   display: inline-block;
   padding: 13px 20px;
   border-radius: 4px;
@@ -38,7 +38,7 @@ div.about .about-cta {
 }
 
 @media only screen and (width <=960px) {
-  div.about {
+  .about {
     padding: 30px 20px 120px 20px;
   }
 }

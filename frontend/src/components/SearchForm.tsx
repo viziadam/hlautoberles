@@ -281,30 +281,20 @@ const SearchForm = ({
   // }
 
   const onSubmit = (data: FormFields) => {
-    const valid = validateTimes()
-    if (!valid) {
-      return
-    }
+  const valid = validateTimes()
 
-    if (
-      // !data.pickupLocation
-      // || !data.dropOffLocation
-      !data.from
-      || !data.to
-    ) {
-      return
-    }
-
-    setTimeout(navigate, 0, '/search', {
-      state: {
-        // pickupLocationId: pickupLocationId,
-        // dropOffLocationId: dropOffLocationId,
-        from: data.from,
-        to: data.to,
-        ranges,
-      },
-    })
+  if (!valid || !data.from || !data.to) {
+    return
   }
+
+  const params = new URLSearchParams({
+    from: data.from.toISOString(),
+    to: data.to.toISOString(),
+    ranges: ranges.join(','),
+  })
+
+  navigate(`/autoberles-budapest?${params.toString()}`)
+}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="home-search-form">

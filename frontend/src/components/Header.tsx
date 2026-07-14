@@ -33,9 +33,9 @@ import {
   PersonOutline as SignUpIcon,
   Cookie as CookiePolicyIcon,
   DirectionsCar,
-  LocalShipping,
+  // LocalShipping,
   Handyman,
-  SupportAgent,
+  // SupportAgent,
 } from '@mui/icons-material'
 import Logo from '@/assets/img/logo.png'
 import { toast } from 'react-toastify'
@@ -400,21 +400,28 @@ const Header = ({
                   <ListItemIcon><LocationIcon /></ListItemIcon>
                   <ListItemText primary={strings.LOCATIONS} />
                 </ListItem> */}
-                <ListItemButton component={RouterLink} to="/autoberles-budapest" onClick={handleSideMenuClose}>
-                  <ListItemIcon><DirectionsCar /></ListItemIcon>
-                  <ListItemText primary="Autóbérlés" />
+                <ListItemButton
+                  component={RouterLink}
+                  to="/autoberles-budapest"
+                  onClick={handleSideMenuClose}
+                >
+                  <ListItemIcon>
+                    <DirectionsCar />
+                  </ListItemIcon>
+
+                  <ListItemText primary="Járművek keresése" />
                 </ListItemButton>
-                <ListItemButton component={RouterLink} to="/teherauto-berles-budapest" onClick={handleSideMenuClose}>
-                  <ListItemIcon><LocalShipping /></ListItemIcon>
-                  <ListItemText primary="Teherautó-bérlés" />
-                </ListItemButton>
-                <ListItemButton component={RouterLink} to="/szerszamkolcsonzes-budapest" onClick={handleSideMenuClose}>
-                  <ListItemIcon><Handyman /></ListItemIcon>
+
+                <ListItemButton
+                  component={RouterLink}
+                  to="/szerszamkolcsonzes-budapest"
+                  onClick={handleSideMenuClose}
+                >
+                  <ListItemIcon>
+                    <Handyman />
+                  </ListItemIcon>
+
                   <ListItemText primary="Szerszámkölcsönzés" />
-                </ListItemButton>
-                <ListItemButton component={RouterLink} to="/soforszolgalat" onClick={handleSideMenuClose}>
-                  <ListItemIcon><SupportAgent /></ListItemIcon>
-                  <ListItemText primary="Sofőrszolgálat" />
                 </ListItemButton>
                 <ListItemButton component={RouterLink} to="/about" onClick={handleSideMenuClose}>
                   <ListItemIcon><AboutIcon /></ListItemIcon>

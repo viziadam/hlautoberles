@@ -66,3 +66,92 @@ div.search .btn-filters {
     flex: 1 0 auto;
   }
 }
+
+.vehicle-search-page {
+  width: 100%;
+}
+
+.vehicle-search-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 18px;
+  text-align: center;
+}
+
+.vehicle-search-header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 500;
+}
+
+.vehicle-search-header p {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #646464;
+  line-height: 1.7;
+}
+
+.vehicle-search-start {
+  width: min(760px, calc(100% - 40px));
+  margin: 20px auto 48px;
+  padding: 28px;
+  background-color: #f9f9f9;
+}
+
+.vehicle-search-start h2 {
+  margin-top: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.vehicle-seo-content {
+  width: min(1100px, calc(100% - 40px));
+  margin: 56px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.vehicle-seo-content section {
+  padding: 28px;
+  background-color: #f9f9f9;
+}
+
+.vehicle-seo-content h2 {
+  margin: 0 0 16px;
+  color: var(--hl-blue-dark);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.vehicle-seo-content p {
+  color: #555;
+  line-height: 1.7;
+}
+
+.vehicle-seo-content a {
+  color: var(--hl-blue-dark);
+  font-weight: 600;
+}
+
+@media only screen and (width <= 720px) {
+  .vehicle-search-header {
+    padding: 24px 16px 12px;
+  }
+
+  .vehicle-search-start {
+    width: auto;
+    margin: 16px;
+    padding: 20px;
+  }
+
+  .vehicle-seo-content {
+    width: auto;
+    margin: 40px 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-seo-content section {
+    padding: 22px;
+  }
+}

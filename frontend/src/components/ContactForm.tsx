@@ -89,7 +89,7 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
 
   return (
     <Paper className={`${className ? `${className} ` : ''}contact-form`} elevation={10}>
-      <h1 className="contact-form-title">{strings.CONTACT_HEADING}</h1>
+      <h2 className="contact-form-title">{strings.CONTACT_HEADING}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!isAuthenticated && (
           <FormControl fullWidth margin="dense" error={!!errors.email}>
