@@ -62,6 +62,8 @@ services:
 
 volumes:
   cdn:
-  mongodb_data:
-  mongodb_config:
+    name: hlautoberles_cdn
+    external: true
+
   backend_logs:
+    name: hlautoberles_backend_logs

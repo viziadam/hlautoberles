@@ -176,7 +176,7 @@ const Home = () => {
               loop
               playsInline
               disablePictureInPicture
-              poster="/cover.webp"
+              poster="/cover2.png"
               preload="metadata"
               aria-hidden="true"
               onLoadedData={async () => {
