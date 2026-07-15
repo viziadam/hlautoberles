@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { Tune as FiltersIcon } from '@mui/icons-material'
+import {
+  CheckCircle,
+  DirectionsCar,
+  LocationOn,
+  Tune as FiltersIcon,
+} from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import { strings } from '@/lang/search'
@@ -27,7 +32,12 @@ import Footer from '@/components/Footer'
 import VehicleSeoContent from '@/components/VehicleSeoContent'
 import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
 
+import env from '@/config/env.config'
 
+const COMPANY_POSITION: [number, number] = [
+  Number(env.MAP_LATITUDE),
+  Number(env.MAP_LONGITUDE),
+]
 
 
 import '@/assets/css/search.css'
@@ -60,10 +70,6 @@ const parseRanges = (
     ))
 }
 
-const COMPANY_POSITION: [number, number] = [
-  47.4639, // kb. 1117 Budapest, Galvani u. 1–3 szélesség
-  19.0583, // kb. hosszúság
-]
 
 const Search = () => {
   const location = useLocation()
@@ -96,6 +102,13 @@ const Search = () => {
   const [showFilters, setShowFilters] = useState(false)
   // const [loadingPage, setLoadingPage] = useState(true)
 
+  const companyLocation = {
+  _id: 'hl-auto-rental-depot',
+  name: strings.COMPANY_LOCATION_NAME,
+  latitude: COMPANY_POSITION[0],
+  longitude: COMPANY_POSITION[1],
+} as bookcarsTypes.Location
+
   useEffect(() => {
   const params = new URLSearchParams(location.search)
 
@@ -125,6 +138,34 @@ const Search = () => {
       : bookcarsHelper.getAllRanges(),
   )
 }, [location.search])
+
+useEffect(() => {
+  if (
+    location.hash !== '#elerheto-jarmuvek'
+    || !from
+    || !to
+  ) {
+    return
+  }
+
+  const animationFrame = window.requestAnimationFrame(() => {
+    const results = document.getElementById('elerheto-jarmuvek')
+
+    results?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  })
+
+  return () => {
+    window.cancelAnimationFrame(animationFrame)
+  }
+}, [
+  location.hash,
+  location.search,
+  from,
+  to,
+])
 
   // const handleCarFilterSubmit = async (filter: bookcarsTypes.CarFilter) => {
   //   // if (suppliers.length < allSuppliers.length) {
@@ -292,29 +333,71 @@ return (
   <Layout
     onLoad={onLoad}
     strict={false}
-    title="Autó- és teherautó-bérlés Budapesten"
-    description="Személyautó-, kisteherautó- és teherautó-bérlés Budapest XI. kerületében. Válassz időpontot, nézd meg az elérhető járműveket és foglalj online."
+    title={strings.SEO_TITLE}
+    description={strings.SEO_DESCRIPTION}
     url="/autoberles-budapest"
     jsonLd={[
       localBusinessSchema,
       serviceSchema(
-        'Autó- és teherautó-bérlés Budapesten',
-        'Személyautó-, kisteherautó- és teherautó-bérlés',
+        strings.SCHEMA_NAME,
+        strings.SCHEMA_DESCRIPTION,
         '/autoberles-budapest',
       ),
     ]}
   >
     <main className="vehicle-search-page">
-      <header className="vehicle-search-header">
+      {/* <header className="vehicle-search-header">
         <h1>Autó- és teherautó-bérlés Budapesten</h1>
 
         <p>
           Válassz átvételi és leadási időpontot, majd nézd meg az
           elérhető személyautókat, kisteherautókat és teherautókat.
         </p>
+      </header> */}
+      <header
+        className="vehicle-search-hero"
+        aria-labelledby="vehicle-search-title"
+      >
+        <div className="vehicle-search-hero-inner">
+          <div className="vehicle-search-hero-icon" aria-hidden="true">
+            <DirectionsCar />
+          </div>
+
+          <div className="vehicle-search-hero-content">
+            <span className="vehicle-search-eyebrow">
+              {strings.HERO_EYEBROW}
+            </span>
+
+            <h1 id="vehicle-search-title">
+              {strings.HERO_TITLE}
+            </h1>
+
+            <p>{strings.HERO_DESCRIPTION}</p>
+
+            <div
+              className="vehicle-search-highlights"
+              aria-label="A szolgáltatás előnyei"
+            >
+              <span>
+                <CheckCircle aria-hidden="true" />
+                {strings.HIGHLIGHT_AVAILABILITY}
+              </span>
+
+              <span>
+                <CheckCircle aria-hidden="true" />
+                {strings.HIGHLIGHT_TERMS}
+              </span>
+
+              <span>
+                <LocationOn aria-hidden="true" />
+                {strings.HIGHLIGHT_TERMS}
+              </span>
+            </div>
+          </div>
+        </div>
       </header>
 
-      {visible && !from && !to && (
+      {/* {visible && !from && !to && (
         <section
           className="vehicle-search-start"
           aria-labelledby="vehicle-search-form-title"
@@ -325,20 +408,38 @@ return (
 
           <SearchForm />
         </section>
+      )} */}
+      {visible && (!from || !to) && (
+        <section
+          className="vehicle-search-direct-search"
+          aria-labelledby="direct-search-title"
+        >
+          <div className="vehicle-search-direct-search-heading">
+            <span>{strings.DIRECT_SEARCH_EYEBROW}</span>
+
+            <h2 id="direct-search-title">
+              {strings.DIRECT_SEARCH_TITLE}
+            </h2>
+
+            <p>{strings.DIRECT_SEARCH_TEXT}</p>
+          </div>
+
+          <SearchForm />
+        </section>
       )}
 
       {visible && from && to && (
-        <div className="search">
-          <aside className="col-1">
+        <div className="search" id="elerheto-jarmuvek">
+          <div className="col-1">
             {!loading && (
               <>
                 <Map
-                  position={COMPANY_POSITION}
-                  initialZoom={14}
-                  locations={[]}
-                  parkingSpots={undefined}
-                  className="map"
-                />
+                position={COMPANY_POSITION}
+                initialZoom={14}
+                locations={[companyLocation]}
+                parkingSpots={undefined}
+                className="map"
+              />
 
                 <CarFilter
                   className="filter"
@@ -415,9 +516,9 @@ return (
                 )}
               </>
             )}
-          </aside>
+          </div>
 
-          <section className="col-2" aria-label="Elérhető járművek">
+          <div className="col-2" aria-label="Elérhető járművek">
             <CarList
               carSpecs={carSpecs}
               carType={carType}
@@ -434,7 +535,7 @@ return (
               seats={seats}
               includeComingSoonCars
             />
-          </section>
+          </div>
         </div>
       )}
 

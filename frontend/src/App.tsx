@@ -99,7 +99,7 @@ const router = createBrowserRouter([
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
       { path: 'search', element: <Search /> },
-      { path: 'search', element: <LegacySearchRedirect /> },
+      { path: 'autoberles-budapest', element: <Search /> },
       { path: 'checkout', element: <Checkout /> },
       { path: 'checkout-session/:sessionId', element: <CheckoutSession /> },
       { path: 'bookings', element: <Bookings /> },

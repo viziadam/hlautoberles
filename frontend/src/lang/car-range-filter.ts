@@ -24,7 +24,7 @@ const strings = new LocalizedStrings({
     SCOOTER: 'Scooter',
   },
   hu: {
-    RANGE: 'Range',
+    RANGE: 'Járműkategória',
     MINI: 'Mini',
     MIDI: 'Midi',
     MAXI: 'Maxi',

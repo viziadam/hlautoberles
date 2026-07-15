@@ -465,8 +465,29 @@ export const getBookingStatuses = (): bookcarsTypes.StatusFilterItem[] => [
  * @param {number} days
  * @returns {string}
  */
-export const getDays = (days: number) =>
-  `${strings.PRICE_DAYS_PART_1} ${days} ${strings.PRICE_DAYS_PART_2}${days > 1 ? 's' : ''}`
+
+const getDayPluralSuffix = (days: number) => (
+  days > 1 && UserService.getLanguage() !== 'hu'
+    ? 's'
+    : ''
+)
+
+// export const getDays = (days: number) =>
+//   `${strings.PRICE_DAYS_PART_1} ${days} ${strings.PRICE_DAYS_PART_2}${days > 1 ? 's' : ''}`
+// export const getDays = (days: number) =>
+//   `${strings.PRICE_DAYS_PART_1} ${days} `
+//   + `${strings.PRICE_DAYS_PART_2}${getDayPluralSuffix(days)}`
+export const getDays = (days: number) => {
+  const language = UserService.getLanguage()
+  const pluralSuffix = language === 'en' && days > 1 ? 's' : ''
+
+  return (
+    `${strings.PRICE_DAYS_PART_1}`
+    + `${days}`
+    + `${strings.PRICE_DAYS_PART_2}`
+    + pluralSuffix
+  )
+}
 
 /**
  * Get short days label.
@@ -474,7 +495,17 @@ export const getDays = (days: number) =>
  * @param {number} days
  * @returns {string}
  */
-export const getDaysShort = (days: number) => `${days} ${strings.PRICE_DAYS_PART_2}${days > 1 ? 's' : ''}`
+// export const getDaysShort = (days: number) => `${days} ${strings.PRICE_DAYS_PART_2}${days > 1 ? 's' : ''}`
+// export const getDaysShort = (days: number) =>
+//   `${days} ${strings.PRICE_DAYS_PART_2}`
+//   + `${getDayPluralSuffix(days)}`
+
+export const getDaysShort = (days: number) => {
+  const language = UserService.getLanguage()
+  const pluralSuffix = language === 'en' && days > 1 ? 's' : ''
+
+  return `${days}${strings.PRICE_DAYS_PART_2}${pluralSuffix}`
+}
 
 /**
  * Get cancellation option label.

@@ -382,6 +382,21 @@ const strings = new LocalizedStrings({
   ENGINE: 'Meghajtás',
   DEPOSIT: 'Kaució átvételkor',
 
+  LESS_THAN_VALUE_1:
+    `Kevesebb mint ${PaymentService.currencyRTL() ? currency : ''}`
+    + `${depositFilterValue1}`
+    + `${!PaymentService.currencyRTL() ? ` ${currency}` : ''}`,
+
+  LESS_THAN_VALUE_2:
+    `Kevesebb mint ${PaymentService.currencyRTL() ? currency : ''}`
+    + `${depositFilterValue2}`
+    + `${!PaymentService.currencyRTL() ? ` ${currency}` : ''}`,
+
+  LESS_THAN_VALUE_3:
+    `Kevesebb mint ${PaymentService.currencyRTL() ? currency : ''}`
+    + `${depositFilterValue3}`
+    + `${!PaymentService.currencyRTL() ? ` ${currency}` : ''}`,
+
   TRIPS: 'utazás',
   CO2: 'CO₂ kibocsátás',
   FROM_YOU: ' Öntől',
@@ -397,7 +412,7 @@ const strings = new LocalizedStrings({
 
   CAR_RANGE_MINI: 'Személyautó',
   CAR_RANGE_MIDI: 'Dobozos furgon',
-  CAR_RANGE_MAXI: 'teherautó',
+  CAR_RANGE_MAXI: 'Teherautó',
   CAR_RANGE_SCOOTER: 'Robogó',
   CAR_RANGE_BUS: 'Busz',
   CAR_RANGE_TRUCK: 'Teherautó',

@@ -67,7 +67,7 @@ div.search .btn-filters {
   }
 }
 
-.vehicle-search-page {
+/* .vehicle-search-page {
   width: 100%;
 }
 
@@ -153,5 +153,506 @@ div.search .btn-filters {
 
   .vehicle-seo-content section {
     padding: 22px;
+  }
+} */
+
+
+.vehicle-search-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.vehicle-search-page > .search {
+  width: 100%;
+}
+
+/* Kompakt szolgáltatásfejléc */
+
+.vehicle-search-hero {
+  position: relative;
+  width: min(1260px, calc(100% - 32px));
+  margin: 16px auto 12px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      135deg,
+      var(--hl-blue-dark) 0%,
+      #003b63 100%
+    );
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(0 87 145 / 14%);
+}
+
+.vehicle-search-hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background-color: var(--hl-orange);
+  content: "";
+}
+
+.vehicle-search-hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 24px 22px;
+}
+
+.vehicle-search-hero-icon {
+  display: flex;
+  flex: 0 0 64px;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: rgb(255 255 255 / 12%);
+}
+
+.vehicle-search-hero-icon svg {
+  color: var(--hl-orange);
+  font-size: 40px;
+}
+
+.vehicle-search-hero-content {
+  min-width: 0;
+}
+
+.vehicle-search-eyebrow {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--hl-orange);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.vehicle-search-hero h1 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.vehicle-search-hero p {
+  max-width: 900px;
+  margin: 0;
+  color: rgb(255 255 255 / 88%);
+  line-height: 1.55;
+}
+
+.vehicle-search-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 12px;
+}
+
+.vehicle-search-highlights span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vehicle-search-highlights svg {
+  color: var(--hl-orange);
+  font-size: 18px;
+}
+
+/* Csak közvetlen, dátum nélküli megnyitásnál */
+
+.vehicle-search-direct-search {
+  width: min(980px, calc(100% - 32px));
+  margin: 4px auto 24px;
+  padding: 24px;
+  border: 1px solid #e4e7eb;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+}
+
+.vehicle-search-direct-search-heading {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.vehicle-search-direct-search-heading > span {
+  color: var(--hl-blue-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.vehicle-search-direct-search h2 {
+  margin: 6px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.vehicle-search-direct-search p {
+  margin: 0;
+  color: #60656b;
+}
+
+/* Szolgáltatásválasztó */
+
+.vehicle-services {
+  width: 100%;
+  margin-top: 48px;
+  padding: 58px 20px;
+  background-color: #f5f7f9;
+  box-sizing: border-box;
+}
+
+.vehicle-services-heading {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.vehicle-services-eyebrow {
+  color: var(--hl-blue-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.vehicle-services-heading h2 {
+  margin: 8px 0 12px;
+  color: #171717;
+  font-size: clamp(27px, 4vw, 36px);
+  font-weight: 600;
+}
+
+.vehicle-services-heading p {
+  margin: 0;
+  color: #5a6067;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.vehicle-service-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 22px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vehicle-service-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  padding: 28px;
+  border-top: 4px solid var(--hl-blue-dark);
+  background-color: #fff;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 6%);
+  box-sizing: border-box;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+.vehicle-service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgb(0 0 0 / 9%);
+}
+
+.vehicle-service-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 20px;
+  background-color: rgb(0 87 145 / 9%);
+}
+
+.vehicle-service-card-icon svg {
+  color: var(--hl-blue-dark);
+  font-size: 32px;
+}
+
+.vehicle-service-card h3 {
+  margin: 0 0 13px;
+  color: #1b1b1b;
+  font-size: 21px;
+}
+
+.vehicle-service-card p {
+  flex: 1;
+  margin: 0 0 24px;
+  color: #555d64;
+  line-height: 1.7;
+}
+
+.vehicle-service-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  gap: 7px;
+  min-height: 42px;
+  padding: 10px 15px;
+  background-color: var(--hl-blue-dark);
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color .15s ease,
+    color .15s ease;
+}
+
+.vehicle-service-link:hover {
+  background-color: #111;
+  color: var(--hl-orange) !important;
+}
+
+.vehicle-service-link svg {
+  font-size: 18px;
+}
+
+.vehicle-service-button {
+  align-self: flex-start;
+  margin-top: auto !important;
+  min-height: 42px;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+/* Szerszámos kiemelés */
+
+.vehicle-extra-service {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 1200px;
+  margin: 24px auto 0;
+  padding: 24px 28px;
+  border-left: 5px solid var(--hl-orange);
+  background-color: var(--hl-blue-dark);
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.vehicle-extra-service-icon {
+  display: flex;
+  flex: 0 0 58px;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  background-color: rgb(255 255 255 / 12%);
+}
+
+.vehicle-extra-service-icon svg {
+  color: var(--hl-orange);
+  font-size: 34px;
+}
+
+.vehicle-extra-service-content {
+  flex: 1;
+}
+
+.vehicle-extra-service-content > span {
+  color: var(--hl-orange);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.vehicle-extra-service h3 {
+  margin: 5px 0 7px;
+  color: #fff;
+  font-size: 22px;
+}
+
+.vehicle-extra-service p {
+  margin: 0;
+  color: rgb(255 255 255 / 84%);
+  line-height: 1.6;
+}
+
+.vehicle-extra-service-button {
+  flex: 0 0 auto;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+/* Átvételi információ */
+
+.vehicle-pickup-information {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 18px auto 0;
+  padding: 16px 20px;
+  border: 1px solid #dfe3e7;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.vehicle-pickup-information > svg {
+  flex: 0 0 auto;
+  color: var(--hl-blue-dark);
+}
+
+.vehicle-pickup-information p {
+  flex: 1;
+  margin: 0;
+  color: #444;
+}
+
+.vehicle-pickup-information a {
+  color: var(--hl-blue-dark);
+  font-weight: 700;
+}
+
+/* Tablet és mobil */
+
+@media only screen and (width <= 760px) {
+  .vehicle-search-hero {
+    width: calc(100% - 20px);
+    margin: 10px auto 8px;
+  }
+
+  .vehicle-search-hero-inner {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 16px 20px;
+  }
+
+  .vehicle-search-hero-icon {
+    flex-basis: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .vehicle-search-hero-icon svg {
+    font-size: 30px;
+  }
+
+  .vehicle-search-hero h1 {
+    font-size: 23px;
+  }
+
+  .vehicle-search-highlights {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .vehicle-search-direct-search {
+    width: calc(100% - 20px);
+    padding: 18px 14px;
+  }
+
+  .vehicle-services {
+    margin-top: 34px;
+    padding: 42px 14px;
+  }
+
+  .vehicle-services-heading {
+    margin-bottom: 25px;
+  }
+
+  .vehicle-service-card {
+    min-height: 0;
+    padding: 24px 20px;
+  }
+
+  .vehicle-extra-service {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 22px 20px;
+  }
+
+  .vehicle-extra-service-button {
+    width: 100%;
+  }
+
+  .vehicle-pickup-information {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .vehicle-pickup-information p {
+    flex-basis: calc(100% - 40px);
+  }
+
+  .vehicle-pickup-information a {
+    margin-left: 36px;
+  }
+}
+
+@media only screen and (width <= 430px) {
+  .vehicle-search-hero-icon {
+    display: none;
+  }
+
+  .vehicle-search-hero-inner {
+    padding: 16px 14px 20px;
+  }
+
+  .vehicle-search-hero p {
+    font-size: 14px;
+  }
+}
+
+
+@media only screen and (min-width: 961px) {
+  .vehicle-search-direct-search form.home-search-form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .vehicle-search-direct-search form.home-search-form .from,
+  .vehicle-search-direct-search form.home-search-form .to {
+    display: block;
+    flex: 0 1 245px;
+    width: 245px;
+    padding: 0;
+  }
+
+  .vehicle-search-direct-search form.home-search-form .btn-search {
+    flex: 0 0 190px;
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .vehicle-search-direct-search form.home-search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .vehicle-search-direct-search form.home-search-form .from,
+  .vehicle-search-direct-search form.home-search-form .to {
+    width: 100%;
+    padding: 8px 0;
+  }
+
+  .vehicle-search-direct-search form.home-search-form .btn-search {
+    width: 100%;
+    margin: 4px 0 !important;
   }
 }

@@ -353,7 +353,7 @@ const Header = ({
                   component={RouterLink}
                   to="/"
                   className="logo"
-                  aria-label="HLAutóbérlés főoldal"
+                  aria-label={strings.HOME_ARIA_LABEL}
                   disableRipple
                 >
                   <img src={Logo} alt="HLAutóbérlés" className="logo-img" width="180" height="60" />
@@ -409,7 +409,7 @@ const Header = ({
                     <DirectionsCar />
                   </ListItemIcon>
 
-                  <ListItemText primary="Járművek keresése" />
+                  <ListItemText primary={strings.VEHICLE_SEARCH} />
                 </ListItemButton>
 
                 <ListItemButton
@@ -421,7 +421,7 @@ const Header = ({
                     <Handyman />
                   </ListItemIcon>
 
-                  <ListItemText primary="Szerszámkölcsönzés" />
+                  <ListItemText primary={strings.TOOL_RENTAL} />
                 </ListItemButton>
                 <ListItemButton component={RouterLink} to="/about" onClick={handleSideMenuClose}>
                   <ListItemIcon><AboutIcon /></ListItemIcon>
@@ -456,7 +456,7 @@ const Header = ({
                       }}
                     >
                       <ListItemIcon><LoginIcon /></ListItemIcon>
-                      <ListItemText primary={strings.SIGN_IN} />
+                      <ListItemText primary={strings.SIGN_UP} />
                     </ListItem>
                     <ListItem
                       onClick={() => {
@@ -465,7 +465,7 @@ const Header = ({
                       }}
                     >
                       <ListItemIcon><SignUpIcon /></ListItemIcon>
-                      <ListItemText primary={suStrings.SIGN_UP} />
+                      <ListItemText primary={suStrings.SIGN_IN} />
                     </ListItem>
                   </>
                 )}

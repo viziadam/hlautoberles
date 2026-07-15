@@ -1,4 +1,4 @@
-div.tos {
+/* div.tos {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
@@ -14,5 +14,421 @@ div.tos {
 @media only screen and (width <=960px) {
   div.tos {
     padding: 30px 20px;
+  }
+} */
+
+.rental-terms-page {
+  width: 100%;
+  background-color: #fff;
+  color: #1d252c;
+}
+
+/* Hero */
+
+.rental-terms-hero {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: min(1180px, calc(100% - 40px));
+  margin: 28px auto 0;
+  padding: 36px 42px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(
+      135deg,
+      var(--hl-blue-dark) 0%,
+      #003b63 100%
+    );
+  color: #fff;
+  box-shadow: 0 10px 30px rgb(0 87 145 / 14%);
+  border-bottom: 5px solid var(--hl-orange);
+}
+
+.rental-terms-hero-icon {
+  display: flex;
+  flex: 0 0 78px;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  background-color: rgb(255 255 255 / 12%);
+}
+
+.rental-terms-hero-icon svg {
+  color: var(--hl-orange);
+  font-size: 46px;
+}
+
+.rental-terms-hero-content {
+  min-width: 0;
+}
+
+.rental-terms-eyebrow,
+.rental-section-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--hl-orange);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.rental-terms-hero h1 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 43px);
+  line-height: 1.15;
+}
+
+.rental-terms-hero p {
+  max-width: 840px;
+  margin: 0;
+  color: rgb(255 255 255 / 88%);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* Common heading */
+
+.rental-section-heading {
+  max-width: 790px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.rental-section-heading h2 {
+  margin: 0 0 12px;
+  color: #17202a;
+  font-size: clamp(27px, 3vw, 36px);
+  line-height: 1.25;
+}
+
+.rental-section-heading p {
+  margin: 0;
+  color: #5c656d;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Download documents */
+
+.rental-documents {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0 50px;
+}
+
+.rental-document-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.rental-document-card {
+  display: flex;
+  gap: 24px;
+  min-height: 230px;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 1px solid #e0e5e9;
+  border-top: 4px solid var(--hl-blue-dark);
+  background-color: #fff;
+  box-shadow: 0 7px 22px rgb(0 0 0 / 6%);
+}
+
+.rental-document-icon {
+  display: flex;
+  flex: 0 0 66px;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+}
+
+.rental-document-icon svg {
+  font-size: 39px;
+}
+
+.rental-document-icon-pdf {
+  background-color: #fff0f0;
+  color: #c62828;
+}
+
+.rental-document-icon-word {
+  background-color: rgb(0 87 145 / 9%);
+  color: var(--hl-blue-dark);
+}
+
+.rental-document-content {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.rental-document-format {
+  color: var(--hl-blue-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.rental-document-card h3 {
+  margin: 6px 0 10px;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.rental-document-card p {
+  flex: 1;
+  margin: 0 0 24px;
+  color: #5b646c;
+  line-height: 1.65;
+}
+
+.rental-document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rental-download-button,
+.rental-open-button {
+  min-height: 43px;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+.rental-open-button {
+  border-color: var(--hl-blue-dark) !important;
+  color: var(--hl-blue-dark) !important;
+}
+
+/* Important notice */
+
+.rental-terms-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  width: min(1040px, calc(100% - 40px));
+  margin: 12px auto 65px;
+  padding: 22px 26px;
+  box-sizing: border-box;
+  border-left: 5px solid var(--hl-orange);
+  background-color: #f4f7f9;
+}
+
+.rental-terms-notice > svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--hl-blue-dark);
+  font-size: 30px;
+}
+
+.rental-terms-notice h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.rental-terms-notice p {
+  margin: 0;
+  color: #555f67;
+  line-height: 1.65;
+}
+
+/* Rules */
+
+.rental-rules {
+  padding: 65px 20px 76px;
+  background-color: #f5f7f9;
+}
+
+.rental-rules .rental-section-eyebrow {
+  color: var(--hl-blue-dark);
+}
+
+.rental-rules-list {
+  display: grid;
+  gap: 15px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.rental-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 25px 28px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #e4e8eb;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease;
+}
+
+.rental-rule:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 7%);
+}
+
+.rental-rule-number {
+  display: flex;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--hl-blue-dark);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.rental-rule-content h3 {
+  margin: 1px 0 8px;
+  color: #17202a;
+  font-size: 19px;
+}
+
+.rental-rule-content p {
+  margin: 0;
+  color: #535e66;
+  line-height: 1.72;
+}
+
+/* Contact CTA */
+
+.rental-contract-contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  width: min(1040px, calc(100% - 40px));
+  margin: 62px auto;
+  padding: 30px 34px;
+  box-sizing: border-box;
+  background-color: var(--hl-blue-dark);
+  color: #fff;
+  border-left: 5px solid var(--hl-orange);
+}
+
+.rental-contract-contact h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 24px;
+}
+
+.rental-contract-contact p {
+  margin: 0;
+  color: rgb(255 255 255 / 84%);
+  line-height: 1.65;
+}
+
+.rental-contact-button {
+  flex: 0 0 auto;
+  min-height: 45px;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+/* Responsive */
+
+@media only screen and (width <= 820px) {
+  .rental-terms-hero {
+    align-items: flex-start;
+    gap: 16px;
+    padding: 28px 25px;
+  }
+
+  .rental-terms-hero-icon {
+    flex-basis: 56px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .rental-terms-hero-icon svg {
+    font-size: 34px;
+  }
+
+  .rental-document-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rental-contract-contact {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rental-contact-button {
+    width: 100%;
+  }
+}
+
+@media only screen and (width <= 540px) {
+  .rental-terms-hero {
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    padding: 24px 19px;
+  }
+
+  .rental-terms-hero-icon {
+    display: none;
+  }
+
+  .rental-terms-hero h1 {
+    font-size: 29px;
+  }
+
+  .rental-terms-hero p {
+    font-size: 15px;
+  }
+
+  .rental-documents {
+    width: calc(100% - 24px);
+    padding: 46px 0 38px;
+  }
+
+  .rental-document-card {
+    flex-direction: column;
+    padding: 24px 20px;
+  }
+
+  .rental-document-actions {
+    flex-direction: column;
+  }
+
+  .rental-download-button,
+  .rental-open-button {
+    width: 100%;
+  }
+
+  .rental-terms-notice {
+    width: calc(100% - 24px);
+    margin-bottom: 48px;
+    padding: 20px;
+  }
+
+  .rental-rules {
+    padding: 48px 12px 56px;
+  }
+
+  .rental-rule {
+    gap: 15px;
+    padding: 21px 18px;
+  }
+
+  .rental-rule-number {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .rental-contract-contact {
+    width: calc(100% - 24px);
+    margin: 42px auto;
+    padding: 25px 20px;
   }
 }

@@ -22,6 +22,9 @@ const strings = new LocalizedStrings({
     COOKIE_POLICY: 'Politique de cookies',
   },
   en: {
+    // RENT: 'Services',
+    VEHICLE_RENTAL: 'Car and van rental',
+    TOOL_RENTAL: 'Tool rental',
     COPYRIGHT_PART1,
     COPYRIGHT_PART2: '. All rights reserved.',
     CORPORATE: 'Corporate',
@@ -54,6 +57,8 @@ const strings = new LocalizedStrings({
     COOKIE_POLICY: 'Política de Cookies',
   },
   hu: {
+  VEHICLE_RENTAL: 'Autó- és teherautó-bérlés',
+  TOOL_RENTAL: 'Szerszámkölcsönzés',
   COPYRIGHT_PART1,
   COPYRIGHT_PART2: '. Minden jog fenntartva.',
   CORPORATE: 'Cég',

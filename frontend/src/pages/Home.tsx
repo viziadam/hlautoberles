@@ -27,7 +27,8 @@ import {
   PriceCheck,
   Assignment,
   PersonPinCircle,
-  SupportAgent
+  SupportAgent,
+  ArrowForward,
 } from '@mui/icons-material'
 import L from 'leaflet'
 import * as bookcarsTypes from ':bookcars-types'
@@ -128,15 +129,18 @@ const Home = () => {
     // HQ location lista a maphoz
   const hqLocation: bookcarsTypes.Location = {
     _id: 'hq',
-    name: 'Cég székhelye',
+    name: strings.MAP_LOCATION_NAME,
     address: '1117 Budapest, Galvani u. 1-3',
-    // a Location típusban valószínűleg GeoJSON jellegű position van;
-    // ha más a struktúra, igazítsd a saját bookcarsTypes.Location definíciódhoz
+    latitude: Number(env.MAP_LATITUDE),
+    longitude: Number(env.MAP_LONGITUDE),
     position: {
       type: 'Point',
-      coordinates: [env.MAP_LONGITUDE, env.MAP_LATITUDE],
+      coordinates: [
+        Number(env.MAP_LONGITUDE),
+        Number(env.MAP_LATITUDE),
+      ],
     },
-  } as any // ha nagyon kötözködik a TS, ideiglenesen használhatsz "as any"-t
+  } as bookcarsTypes.Location
 
   setLocations([hqLocation])
 
@@ -152,12 +156,14 @@ const Home = () => {
   const language = UserService.getLanguage()
 
   return (
-    <Layout onLoad={onLoad} strict={false}
-      title="Autóbérlés és szerszámkölcsönzés Budapest XI. kerületében"
-      description="Személyautók, teherautók és professzionális szerszámok bérlése Budapest XI. kerületében, átlátható feltételekkel és online foglalással."
+    <Layout 
+      onLoad={onLoad} 
+      strict={false}
+      title={strings.SEO_TITLE}
+      description={strings.SEO_DESCRIPTION}
       url="/"
       jsonLd={localBusinessSchema}
-      >
+    >
 
       <div className="home">
         <div className="home-content">
@@ -186,19 +192,21 @@ const Home = () => {
           </div>
 
           <header className="home-hero-content">
+            <div className="home-price-badge">
+              {strings.PRICE_BADGE}
+            </div>
             <h1 className="home-title">
-              Autóbérlés, teherautó- és szerszámkölcsönzés Budapesten
+              {strings.HERO_TITLE}
             </h1>
             <p className="home-cover">
-              Bérelj személyautót, kisteherautót vagy professzionális szerszámot
-              Budapest XI. kerületében, átlátható feltételekkel.
+              {strings.HERO_DESCRIPTION}
             </p>
           </header>
           {/* <div className="home-subtitle">{strings.SUBTITLE}</div> */}
 
         </div>
 
-        <div className="search">
+        <div className="search" id="jarmukereses">
           <div className="home-search">
             <SearchForm />
           </div>
@@ -270,7 +278,14 @@ const Home = () => {
               <div className="services-text-wrapper">
                 <h3 className="services-title">{strings.SERVICES_FLEET_TITLE}</h3>
                 <p className="services-text">{strings.SERVICES_FLEET}</p>
-                <RouterLink to="/autoberles-budapest"> Elérhető járművek keresése </RouterLink>
+                <RouterLink to="/autoberles-budapest" className="service-card-link">
+                  {strings.VEHICLE_SEARCH_LINK}
+                  <ArrowForward aria-hidden="true" />
+                </RouterLink>
+                {/* <a href="#jarmukereses" className="service-card-link">
+                  Jármű keresése
+                  <ArrowForward aria-hidden="true" />
+                </a> */}
               </div>
             </article>
 
@@ -282,7 +297,13 @@ const Home = () => {
               <div className="services-text-wrapper">
                 <h3 className="services-title">{strings.SERVICES_FLEXIBLE_TITLE}</h3>
                 <p className="services-text">{strings.SERVICES_FLEXIBLE}</p>
-                <RouterLink to="/szerszamkolcsonzes-budapest"> Szerszámok megtekintése </RouterLink>
+                <RouterLink
+                  to="/szerszamkolcsonzes-budapest"
+                  className="service-card-link"
+                >
+                  {strings.TOOLS_LINK}
+                  <ArrowForward aria-hidden="true" />
+                </RouterLink>
               </div>
             </article>
 
@@ -570,13 +591,13 @@ const Home = () => {
         </div> */}
         <div className="home-map">
           <Map
-            title={strings.MAP_TITLE} // vagy írj fixet: "Cég székhelye"
-            position={new L.LatLng(env.MAP_LATITUDE, env.MAP_LONGITUDE)}
-            initialZoom={env.MAP_ZOOM}
+            title={strings.MAP_TITLE}
+            position={new L.LatLng(
+              Number(env.MAP_LATITUDE),
+              Number(env.MAP_LONGITUDE),
+            )}
+            initialZoom={Number(env.MAP_ZOOM)}
             locations={locations}
-            onSelelectPickUpLocation={() => {
-              // NOP: csak mutatjuk a székhelyet, nem választunk pickup-ot
-            }}
           />
         </div>
 

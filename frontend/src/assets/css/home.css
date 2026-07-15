@@ -17,6 +17,8 @@ div.home div.home-content {
   /* background-image: url('/cover.jpg');
   background-size: cover;
   background-position: bottom; */
+  /* justify-content: center;
+  align-items: center; */
   width: 100%;
   z-index: 1;
 }
@@ -81,7 +83,7 @@ div.home div.home-content::after {
   z-index: -1;
 }
 
-.home-hero-content {
+/* .home-hero-content {
   z-index: 2;
   max-width: 1050px;
   text-align: center;
@@ -102,6 +104,62 @@ div.home div.home-content::after {
   -webkit-font-smoothing: antialiased;
   letter-spacing: .065rem;
   padding: 0 20px;
+} */
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(1380px, calc(100% - 40px));
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 10px 20px 0;
+  box-sizing: border-box;
+  text-align: center;
+
+  /* Nem takarjuk el a videó közepét. */
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.home-title {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0;
+  color: #fff;
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 800;
+  line-height: 1.18;
+  text-align: center;
+  text-shadow:
+    0 2px 5px rgb(0 0 0 / 90%),
+    0 0 16px rgb(0 0 0 / 55%);
+}
+
+.home-title::after {
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin: 9px auto 7px;
+  background-color: var(--hl-orange);
+  content: "";
+}
+
+.home .home-cover {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  color: #fff;
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 650;
+  line-height: 1.55;
+  letter-spacing: .01rem;
+  text-align: center;
+  text-shadow:
+    0 2px 4px rgb(0 0 0 / 95%),
+    0 0 12px rgb(0 0 0 / 65%);
+  -webkit-font-smoothing: antialiased;
 }
 
 div.home-subtitle {
@@ -231,10 +289,49 @@ div.home div.services .services-text {
   margin-top: 0;
 }
 
-div.home div.services .services-box a {
-  margin-top: 8px;
-  color: var(--hl-blue-dark);
-  font-weight: 600;
+div.home div.services div.services-boxes .services-box {
+  box-sizing: border-box;
+}
+
+div.home div.services div.services-boxes .services-box
+div.services-text-wrapper {
+  flex: 1;
+  width: 100%;
+  align-items: center;
+}
+
+div.home div.services .service-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  margin-top: auto;
+  padding: 10px 16px;
+  background-color: var(--hl-blue-dark);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color .15s ease,
+    color .15s ease;
+}
+
+div.home div.services .service-card-link:hover {
+  background-color: #111;
+  color: var(--hl-orange);
+}
+
+div.home div.services .service-card-link svg {
+  font-size: 18px;
+}
+
+@media only screen and (width <= 960px) {
+  div.home div.services div.services-boxes .services-box {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+    margin: 12px 16px;
+  }
 }
 
 div.home div.home-suppliers {
@@ -352,9 +449,17 @@ div.home div.car-size div.boxes div.box div.car-size-action .btn-car-size:hover 
   background-color: #111111 !important;
 }
 
-div.home div.home-map {
+/* div.home div.home-map {
   width: 80%;
   margin: 15px 0 30px;
+} */
+
+div.home div.home-map {
+  width: min(1520px, calc(100% - 48px));
+  margin: 32px auto 48px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
 }
 
 div.home div.faq {
@@ -422,13 +527,19 @@ div.home div.customer-care div.customer-care-img img {
 }
 
 @media only screen and (width <=960px) {
-  div.home div.home-content {
+  /* div.home div.home-content {
     padding: 85px 0;
     justify-content: flex-start !important;
     height: 560px;
+  } */
+
+  div.home div.home-content {
+    height: 560px;
+    padding: 32px 0 85px;
+    justify-content: flex-start !important;
   }
 
-  div.home .home-title {
+  /* div.home .home-title {
     font-size: 22px;
     font-weight: 500;
     margin-bottom: 20px;
@@ -438,7 +549,48 @@ div.home div.customer-care div.customer-care-img img {
     font-size: 40px;
     font-weight: 800;
     padding: 0 10px;
+  } */
+   /* div.home div.home-content {
+    justify-content: flex-start;
+    align-items: center;
+    height: 560px;
+    padding: 54px 0 85px;
+  } */
+
+  /* .home-hero-content {
+    width: calc(100% - 32px);
+    padding: 22px 20px 26px;
+  } */
+
+  .home-hero-content {
+    margin-top: 0;
+    padding-top: 0;
+    align-self: flex-start;
   }
+
+  .home-title {
+    margin-top: 0;
+  }
+
+  /* .home .home-cover {
+    font-size: 17px;
+    line-height: 1.55;
+  } */
+
+  .home .home-cover {
+    max-width: 680px;
+    padding: 0 8px;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  div.home div.search div.home-search {
+    padding: 20px 10px;
+    margin: -187px 20px 0;
+    width: calc(100% - 20px);
+    max-width: 480px;
+  }
+
 
   div.home div.search div.home-search {
     padding: 20px 10px;
@@ -467,9 +619,25 @@ div.home div.customer-care div.customer-care-img img {
     padding: 5px;
   }
 
+  /* div.home div.home-map .map {
+    min-height: 0;
+    height: 540px;
+  } */
+
+  div.home div.home-map {
+    width: calc(100% - 20px);
+    margin: 24px auto 36px;
+    padding: 0;
+  }
+
   div.home div.home-map .map {
     min-height: 0;
     height: 340px;
+  }
+
+  div.home div.home-map .map-title {
+    padding: 17px 15px;
+    font-size: 24px;
   }
 
   div.home div.customer-care div.customer-care-wrapper {
@@ -491,14 +659,14 @@ div.home div.customer-care div.customer-care-img img {
 
 @media only screen and (width >=960px) {
   div.home div.home-content {
-    height: 365px;
+    height: 425px;
   }
 
-  div.home div.home-cover {
+  /* div.home div.home-cover {
     font-size: 47px;
     font-weight: 700;
     margin-bottom: 5px;
-  }
+  } */
 
   div.home div.search div.home-search {
     padding: 20px;
@@ -513,5 +681,40 @@ div.home div.customer-care div.customer-care-img img {
 
   div.home div.car-size div.boxes div.box {
     margin-right: 30px;
+  }
+}
+
+@media only screen and (width >= 960px) {
+  div.home div.home-content {
+    height: 425px;
+  }
+
+  div.home div.search div.home-search {
+    padding: 20px;
+    margin-top: -75px;
+  }
+}
+
+
+.home-price-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0px;
+  padding: 4px 8px;
+  background-color: var(--hl-orange);
+  color: #111;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 25%);
+}
+
+@media only screen and (width <= 960px) {
+  .home-price-badge {
+    margin-bottom: 10px;
+    padding: 7px 12px;
+    font-size: 12px;
   }
 }

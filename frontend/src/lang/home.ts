@@ -55,6 +55,19 @@ const strings = new LocalizedStrings({
     CUSTOMER_CARE_SUPPORT: 'Conseils et assistance',
   },
   en: {
+    SEO_TITLE: 'Car, Van and Tool Rental in Budapest District XI',
+    SEO_DESCRIPTION:
+      'Passenger cars, vans, trucks and professional tools for rent in Budapest District XI, with clear rental terms and online booking.',
+
+    HERO_TITLE: 'Car, Van and Tool Rental in Budapest',
+    HERO_DESCRIPTION:
+      'Rent a passenger car, van or professional tool in Budapest District XI with clear and transparent rental terms.',
+    PRICE_BADGE: 'Rent car from 7 990 Ft',
+
+    VEHICLE_SEARCH_LINK: 'Search available vehicles',
+    TOOLS_LINK: 'View rental tools',
+    DRIVER_CONTACT_LINK: 'Ask about rental with a driver',
+    MAP_LOCATION_NAME: 'HL Auto Rental depot',
     PICK_UP_DATE: 'Pick-up Date',
     DROP_OFF_DATE: 'Drop-off Date',
     DROP_OFF: 'Return to same location',
@@ -170,6 +183,20 @@ SERVICES_SUPPORT:
     CUSTOMER_CARE_SUPPORT: 'Asesoramiento y asistencia',
   },
   hu: {
+  SEO_TITLE: 'Autó- és szerszámkölcsönzés Budapest XI. kerületében',
+  SEO_DESCRIPTION:
+    'Autóbérlés már 7 990 Ft-tól, valamint személyautók, kisteherautók, teherautók és professzionális szerszámok bérlése Budapest XI. kerületében, átlátható feltételekkel és online foglalással.',
+  
+  HERO_TITLE: 'Autó-, teherautó- és szerszámkölcsönzés Budapesten',
+  HERO_DESCRIPTION:
+    'Bérelj személyautót, kisteherautót vagy professzionális szerszámot Budapest XI. kerületében, átlátható feltételekkel.',
+    // 'Autóbérlés már 7990 Ft-tól Budapest XI. kerületében, átlátható feltételekkel.',
+  PRICE_BADGE: 'Autóbérlés már 7 990 Ft-tól',
+
+  VEHICLE_SEARCH_LINK: 'Elérhető járművek keresése',
+  TOOLS_LINK: 'Bérelhető szerszámok',
+  DRIVER_CONTACT_LINK: 'Érdeklődés sofőrös bérlésről',
+  MAP_LOCATION_NAME: 'HL Autóbérlés telephely',
   PICK_UP_DATE: 'Átvétel dátuma',
   DROP_OFF_DATE: 'Leadás dátuma',
   DROP_OFF: 'Vissza ugyanoda',

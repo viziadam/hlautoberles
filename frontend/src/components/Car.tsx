@@ -261,11 +261,11 @@ const Car = ({
             <div className="name">{car.name}</div>
             {!hidePrice && (
               <div className="price">
-                <span className="price-days">{helper.getDays(days)}</span>
-                <span className="price-main">{bookcarsHelper.formatPrice(totalPrice, commonStrings.CURRENCY, language)}</span>
+                <span className="price-days">{strings.PRICE_PER_DAY}</span>
+                <span className="price-main">{bookcarsHelper.formatPrice(totalPrice / days, commonStrings.CURRENCY, language)}</span>
                 <span className="price-day">
-                  <span>{`${strings.PRICE_PER_DAY} `}</span>
-                  <span className="price-day-value">{bookcarsHelper.formatPrice(totalPrice / days, commonStrings.CURRENCY, language)}</span>
+                  <span>{`${helper.getDays(days)}:`}</span>
+                  <span className="price-day-value">{bookcarsHelper.formatPrice(totalPrice, commonStrings.CURRENCY, language)}</span>
                 </span>
                 {
                   car.comingSoon ? (

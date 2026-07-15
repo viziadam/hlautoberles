@@ -298,14 +298,25 @@ const ZoomControlledLayer = ({ zoom, minZoom, children }: ZoomControlledLayerPro
  * - csak akkor fut le, ha van legalabb 1 marker
  * - padding, hogy ne a szelere ragadjanak a pontok
  */
-const FitToMarkers = ({ markersToFit }: { markersToFit: MarkerItem[] }) => {
+const FitToMarkers = ({
+  markersToFit,
+}: {
+  markersToFit: MarkerItem[]
+}) => {
   const map = useMap()
 
   useEffect(() => {
-    if (!markersToFit || markersToFit.length === 0) return
+    if (!markersToFit || markersToFit.length <= 1) {
+      return
+    }
 
-    const bounds = L.latLngBounds(markersToFit.map((m) => m.position))
-    map.fitBounds(bounds, { padding: [30, 30] })
+    const bounds = L.latLngBounds(
+      markersToFit.map((marker) => marker.position),
+    )
+
+    map.fitBounds(bounds, {
+      padding: [30, 30],
+    })
   }, [markersToFit, map])
 
   return null
@@ -431,7 +442,11 @@ const Map = ({
 
   return (
     <>
-      {title && <h1 className="title">{title}</h1>}
+      {title && (
+        <h2 className="map-title">
+          {title}
+        </h2>
+      )}
 
       <MapContainer
         center={position}
@@ -447,14 +462,11 @@ const Map = ({
         {/* Fit bounds a locations pontokra (ha vannak) */}
         <FitToMarkers markersToFit={locationMarkers} />
 
-        {/* Opcionális “zoom rétegek” (a tied) */}
-        <ZoomControlledLayer zoom={zoom} minZoom={7.5}>
-          {getMarkers(zoomMarkers)}
-        </ZoomControlledLayer>
+        {/* A telephelyek minden zoomszinten láthatók maradnak. */}
+        {getMarkers(locationMarkers, true)}
 
-        <ZoomControlledLayer zoom={zoom} minZoom={5.5}>
-          {getMarkers(markers)}
-        </ZoomControlledLayer>
+        {/* A parkolóhelyek is maradhatnak állandóan láthatók. */}
+        {getParkingSpots()}
 
         {/* Locations + ParkingSpots */}
         <ZoomControlledLayer zoom={zoom} minZoom={_initialZoom}>

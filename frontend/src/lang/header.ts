@@ -19,6 +19,9 @@ const strings = new LocalizedStrings({
     COOKIE_POLICY: 'Politique de cookies',
   },
   en: {
+    VEHICLE_SEARCH: 'Search vehicles',
+    TOOL_RENTAL: 'Tool rental',
+    HOME_ARIA_LABEL: 'HL Auto Rental home page',
     SIGN_IN: 'Sign in',
     HOME: 'Home',
     BOOKINGS: 'Bookings',
@@ -51,6 +54,9 @@ const strings = new LocalizedStrings({
     COOKIE_POLICY: 'Política de Cookies',
   },
   hu: {
+  VEHICLE_SEARCH: 'Járművek keresése',
+  TOOL_RENTAL: 'Szerszámkölcsönzés',
+  HOME_ARIA_LABEL: 'HL Autóbérlés főoldal',
   SIGN_IN: 'Bejelentkezés',
   HOME: 'Főoldal',
   BOOKINGS: 'Foglalások',

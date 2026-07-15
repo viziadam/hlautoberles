@@ -49,6 +49,7 @@ import { strings as newsletterFormStrings } from '@/lang/newsletter-form'
 import { strings as privacyStrings } from '@/lang/privacy'
 import { strings as faqListStrings } from '@/lang/faq-list'
 import { strings as checkoutStatusStrings } from '@/lang/checkout-status'
+import { strings as toolRentalStrings } from '@/lang/tool-rental'
 
 import '@/assets/css/common.css'
 import '@/assets/css/index.css'
@@ -154,6 +155,7 @@ if (lang) {
     privacyStrings.setLanguage(_lang)
     faqListStrings.setLanguage(_lang)
     checkoutStatusStrings.setLanguage(_lang)
+    toolRentalStrings.setLanguage(_lang)
   }
 
   if (env.SET_LANGUAGE_FROM_IP && !storedLang) {

@@ -24,13 +24,13 @@ const Footer = () => {
           <ul className="links">
             <li>
               <RouterLink to="/autoberles-budapest">
-                Autó- és teherautó-bérlés
+                {strings.VEHICLE_RENTAL}
               </RouterLink>
             </li>
 
             <li>
               <RouterLink to="/szerszamkolcsonzes-budapest">
-                Szerszámkölcsönzés
+                {strings.TOOL_RENTAL}
               </RouterLink>
             </li>
           </ul>
