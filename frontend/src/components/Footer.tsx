@@ -5,7 +5,14 @@ import { strings } from '@/lang/footer'
 import env from '@/config/env.config'
 import '@/assets/css/footer.css'
 
+import * as UserService from '@/services/UserService'
+import { useConsent } from '@/context/ConsentContext'
+
 const Footer = () => {
+
+  const { openSettings } = useConsent()
+  const language = UserService.getLanguage()
+
   return (
     <div className="footer">
       <div className="header">{env.WEBSITE_NAME}</div>
@@ -17,6 +24,19 @@ const Footer = () => {
             <li><RouterLink to="/cookie-policy">{strings.COOKIE_POLICY}</RouterLink></li>
             <li><RouterLink to="/privacy">{strings.PRIVACY_POLICY}</RouterLink></li>
             <li><RouterLink to="/tos">{strings.TOS}</RouterLink></li>
+            <li>
+              <button
+                type="button"
+                className="footer-cookie-settings"
+                onClick={openSettings}
+              >
+                {
+                  language === 'en'
+                    ? 'Cookie settings'
+                    : 'Sütibeállítások'
+                }
+              </button>
+            </li>
           </ul>
         </div>
         <div className="main-section">

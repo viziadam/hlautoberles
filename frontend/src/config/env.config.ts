@@ -88,8 +88,8 @@ const env = {
   API_HOST: String(import.meta.env.VITE_BC_API_HOST),
   LANGUAGES: LANGUAGES.map((l) => l.code),
   _LANGUAGES: LANGUAGES,
-  DEFAULT_LANGUAGE: String(import.meta.env.VITE_BC_DEFAULT_LANGUAGE || 'en'),
-  BASE_CURRENCY: String(import.meta.env.VITE_BC_BASE_CURRENCY || 'USD'),
+  DEFAULT_LANGUAGE: String(import.meta.env.VITE_BC_DEFAULT_LANGUAGE || 'hu'),
+  BASE_CURRENCY: String(import.meta.env.VITE_BC_BASE_CURRENCY || 'HUF'),
   CURRENCIES,
   PAGE_SIZE: Number.parseInt(String(import.meta.env.VITE_BC_PAGE_SIZE), 10) || 30,
   CARS_PAGE_SIZE: Number.parseInt(String(import.meta.env.VITE_BC_CARS_PAGE_SIZE), 10) || 15,
@@ -144,6 +144,13 @@ const env = {
   MAP_LONGITUDE: Number(String(import.meta.env.VITE_BC_MAP_LONGITUDE || '1.6528399999999976')),
   MAP_ZOOM: Number(String(import.meta.env.VITE_BC_MAP_ZOOM || '5')),
   PASSWORD_MIN_LENGTH: 6,
-}
+  CLARITY_ENABLED: (
+    import.meta.env.VITE_BC_CLARITY_ENABLED
+    && import.meta.env.VITE_BC_CLARITY_ENABLED.toLowerCase()
+  ) === 'true',
+  
+  CLARITY_PROJECT_ID:
+    String(import.meta.env.VITE_BC_CLARITY_PROJECT_ID || ''),
+  }
 
 export default env

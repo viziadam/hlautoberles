@@ -153,3 +153,18 @@ div.footer section.copyright {
     padding: 12px 10%;
   }
 }
+
+
+.footer-cookie-settings {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.footer-cookie-settings:hover {
+  text-decoration: underline;
+}

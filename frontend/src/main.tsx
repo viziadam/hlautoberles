@@ -59,7 +59,6 @@ if (env.isProduction) {
   disableDevTools()
 }
 
-console.log('env:', import.meta.env)
 
 let language = env.DEFAULT_LANGUAGE
 const user = JSON.parse(localStorage.getItem('bc-fe-user') ?? 'null')
@@ -172,6 +171,57 @@ if (lang) {
 }
 
 language = UserService.getLanguage()
+const resolvedLanguage = (
+  env.LANGUAGES.includes(language)
+    ? language
+    : env.DEFAULT_LANGUAGE
+)
+
+UserService.setLanguage(resolvedLanguage)
+
+activateStrings.setLanguage(resolvedLanguage)
+bookingStrings.setLanguage(resolvedLanguage)
+bookingCarListStrings.setLanguage(resolvedLanguage)
+bookingFilterStrings.setLanguage(resolvedLanguage)
+bookingListStrings.setLanguage(resolvedLanguage)
+bookingsStrings.setLanguage(resolvedLanguage)
+carMultimediaFilterStrings.setLanguage(resolvedLanguage)
+carRangeFilterStrings.setLanguage(resolvedLanguage)
+carRatingFilterStrings.setLanguage(resolvedLanguage)
+carsStrings.setLanguage(resolvedLanguage)
+carSeatsFilterStrings.setLanguage(resolvedLanguage)
+changePasswordStrings.setLanguage(resolvedLanguage)
+checkoutStrings.setLanguage(resolvedLanguage)
+commonStrings.setLanguage(resolvedLanguage)
+contactFormStrings.setLanguage(resolvedLanguage)
+footerStrings.setLanguage(resolvedLanguage)
+headerStrings.setLanguage(resolvedLanguage)
+homeStrings.setLanguage(resolvedLanguage)
+locationCarrouselStrings.setLanguage(resolvedLanguage)
+mapStrings.setLanguage(resolvedLanguage)
+masterStrings.setLanguage(resolvedLanguage)
+noMatchStrings.setLanguage(resolvedLanguage)
+notificationsStrings.setLanguage(resolvedLanguage)
+resetPasswordStrings.setLanguage(resolvedLanguage)
+searchSrings.setLanguage(resolvedLanguage)
+searchFormStrings.setLanguage(resolvedLanguage)
+settingsStrings.setLanguage(resolvedLanguage)
+signInStrings.setLanguage(resolvedLanguage)
+signUpStrings.setLanguage(resolvedLanguage)
+tosStrings.setLanguage(resolvedLanguage)
+carSpecsStrings.setLanguage(resolvedLanguage)
+newsletterFormStrings.setLanguage(resolvedLanguage)
+privacyStrings.setLanguage(resolvedLanguage)
+faqListStrings.setLanguage(resolvedLanguage)
+checkoutStatusStrings.setLanguage(resolvedLanguage)
+toolRentalStrings.setLanguage(resolvedLanguage)
+
+document.documentElement.lang = (
+  resolvedLanguage === 'en' ? 'en' : 'hu'
+)
+
+language = resolvedLanguage
+
 const isFr = language === 'fr'
 const isEs = language === 'es'
 

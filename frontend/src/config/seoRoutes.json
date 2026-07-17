@@ -1,0 +1,188 @@
+{
+  "site": {
+    "url": "https://hlautoberles.hu",
+    "name": "HLAutóbérlés",
+    "htmlLanguage": "hu",
+    "schemaLanguage": "hu-HU",
+    "locale": "hu_HU",
+    "defaultImage": "/cover2.png",
+    "logo": "/favicon.png",
+    "phone": "+36309719513",
+    "email": "info@hlautoberles.hu",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=1117%20Budapest%20Galvani%20utca%201-3",
+    "currenciesAccepted": "HUF",
+    "address": {
+      "streetAddress": "Galvani utca 1–3.",
+      "addressLocality": "Budapest",
+      "postalCode": "1117",
+      "addressCountry": "HU"
+    },
+    "geo": {
+      "latitude": 47.465,
+      "longitude": 19.049
+    },
+    "socialProfiles": []
+  },
+  "routes": [
+    {
+      "path": "/",
+      "title": "Autóbérlés, teherautó- és szerszámkölcsönzés Budapesten",
+      "description": "Személyautók, kisteherautók, teherautók és professzionális szerszámok bérlése Budapest XI. kerületében. Átlátható feltételek és egyszerű online foglalás.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "preloadImage": "/cover2.png",
+      "schema": {
+        "kind": "business"
+      }
+    },
+    {
+      "path": "/autoberles-budapest",
+      "title": "Autó- és teherautó-bérlés Budapesten",
+      "description": "Személyautó-, kisteherautó- és teherautó-bérlés Budapest XI. kerületében. Hasonlítsd össze az árakat, az elérhetőséget és a bérlési feltételeket.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "service",
+        "serviceName": "Autó- és teherautó-bérlés Budapesten",
+        "serviceDescription": "Személyautók, kisteherautók és teherautók bérlése Budapest XI. kerületében."
+      }
+    },
+    {
+      "path": "/szemelyauto-berles-budapest",
+      "title": "Személyautó-bérlés Budapesten",
+      "description": "Személyautó-bérlés Budapest XI. kerületében városi használatra, üzleti útra vagy hosszabb időszakra. Online keresés és átlátható feltételek.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "service",
+        "serviceName": "Személyautó-bérlés Budapesten",
+        "serviceDescription": "Személyautók bérlése Budapest XI. kerületében."
+      }
+    },
+    {
+      "path": "/teherauto-berles-budapest",
+      "title": "Kisteherautó- és teherautó-bérlés Budapesten",
+      "description": "Kisteherautó- és teherautó-bérlés Budapest XI. kerületében költözéshez, áruszállításhoz és munkavégzéshez. Online keresés és foglalás.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "service",
+        "serviceName": "Kisteherautó- és teherautó-bérlés Budapesten",
+        "serviceDescription": "Kisteherautók és nagyobb teherautók bérlése Budapest XI. kerületében."
+      }
+    },
+    {
+      "path": "/szerszamkolcsonzes-budapest",
+      "title": "Szerszámkölcsönzés Budapesten",
+      "description": "Professzionális szerszámok, létrák, állványok és gépek kölcsönzése Budapest XI. kerületében. Érdeklődj az elérhetőségről és a bérlési feltételekről.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "service",
+        "serviceName": "Szerszámkölcsönzés Budapesten",
+        "serviceDescription": "Szerszámok, létrák, állványok és munkavégzéshez használható eszközök kölcsönzése Budapest XI. kerületében."
+      }
+    },
+    {
+      "path": "/about",
+      "title": "Rólunk",
+      "description": "Ismerd meg a HLAutóbérlés budapesti jármű- és szerszámbérlési szolgáltatásait, valamint az egyszerű online foglalás menetét.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "webPage"
+      }
+    },
+    {
+      "path": "/faq",
+      "title": "Gyakori kérdések",
+      "description": "Válaszok a HLAutóbérlés jármű- és eszközbérlésével, foglalásával és átvételével kapcsolatos gyakori kérdésekre.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "webPage"
+      }
+    },
+    {
+      "path": "/contact",
+      "title": "Kapcsolat és járműátvétel",
+      "description": "Kapcsolatfelvétel a HLAutóbérléssel. Jármű- és eszközátvétel Budapest XI. kerületében, a Galvani utcában.",
+      "index": true,
+      "sitemap": true,
+      "ogType": "website",
+      "schema": {
+        "kind": "business"
+      }
+    },
+    {
+      "path": "/privacy",
+      "title": "Adatvédelmi tájékoztató",
+      "description": "A HLAutóbérlés adatvédelmi tájékoztatója a személyes adatok kezeléséről és az érintetti jogokról.",
+      "index": false,
+      "sitemap": false,
+      "ogType": "website",
+      "schema": {
+        "kind": "webPage"
+      }
+    },
+    {
+      "path": "/tos",
+      "title": "Általános bérleti feltételek",
+      "description": "A HLAutóbérlés járműbérlési feltételei, fontos szabályai és letölthető gépjármű-bérleti szerződése.",
+      "index": false,
+      "sitemap": false,
+      "ogType": "website",
+      "schema": {
+        "kind": "webPage"
+      }
+    },
+    {
+      "path": "/cookie-policy",
+      "title": "Sütikezelési tájékoztató",
+      "description": "Tájékoztató a HLAutóbérlés weboldalán használt szükséges és statisztikai sütikről, valamint a hozzájárulás kezeléséről.",
+      "index": false,
+      "sitemap": false,
+      "ogType": "website",
+      "schema": {
+        "kind": "webPage"
+      }
+    }
+  ],
+  "privateRoutes": [
+    "/sign-in",
+    "/sign-up",
+    "/activate",
+    "/forgot-password",
+    "/reset-password",
+    "/checkout",
+    "/bookings",
+    "/booking",
+    "/settings",
+    "/notifications",
+    "/change-password"
+  ],
+  "privateRoutePrefixes": [
+    "/checkout-session/"
+  ],
+  "redirects": [
+    {
+      "from": "/search",
+      "to": "/autoberles-budapest"
+    },
+    {
+      "from": "/soforszolgalat",
+      "to": "/"
+    }
+  ],
+  "notFound": {
+    "title": "Az oldal nem található",
+    "description": "A keresett oldal nem létezik, vagy már nem érhető el."
+  }
+}

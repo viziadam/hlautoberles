@@ -10,22 +10,15 @@ import {
   Tabs
 } from '@mui/material'
 import {
-  RoomService,
-  VisibilityOff,
+
   DirectionsCar,
-  Speed,
-  Navigation,
   AttachMoney,
   Public,
-  FlashOn,
   CheckBox,
   Build,
   Rule,
   Handyman,
   Schedule,
-  LocalShipping,
-  PriceCheck,
-  Assignment,
   PersonPinCircle,
   SupportAgent,
   ArrowForward,
@@ -38,19 +31,13 @@ import { strings as commonStrings } from '@/lang/common'
 import { strings as carsStrings } from '@/lang/cars'
 import { strings } from '@/lang/home'
 import * as UserService from '@/services/UserService'
-// import * as SupplierService from '@/services/SupplierService'
-// import * as CountryService from '@/services/CountryService'
-// import * as LocationService from '@/services/LocationService'
 import * as PaymentService from '@/services/PaymentService'
 import Layout from '@/components/Layout'
-// import SupplierCarrousel from '@/components/SupplierCarrousel'
-import TabPanel, { a11yProps } from '@/components/TabPanel'
-import LocationCarrousel from '@/components/LocationCarrousel'
 import SearchForm from '@/components/SearchForm'
 import Map from '@/components/Map'
 import Footer from '@/components/Footer'
 import FaqList from '@/components/FaqList'
-import { localBusinessSchema } from '@/utils/seoSchemas'
+
 
 import Mini from '@/assets/img/mini.png'
 import Midi from '@/assets/img/midi.png'
@@ -159,10 +146,6 @@ const Home = () => {
     <Layout 
       onLoad={onLoad} 
       strict={false}
-      title={strings.SEO_TITLE}
-      description={strings.SEO_DESCRIPTION}
-      url="/"
-      jsonLd={localBusinessSchema}
     >
 
       <div className="home">

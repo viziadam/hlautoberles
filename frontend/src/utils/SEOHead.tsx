@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { absoluteUrl, SITE } from '@/config/site.config'
+import { getFullSeoTitle } from '@/config/seoRoutes'
 
 type JsonLd = Record<string, unknown>
 
@@ -9,7 +10,7 @@ interface SEOHeadProps {
   url?: string
   image?: string
   noIndex?: boolean
-  language?: string
+  noFollow?: boolean
   type?: 'website' | 'article'
   jsonLd?: JsonLd | JsonLd[]
 }
@@ -52,24 +53,23 @@ const SEOHead = ({
   url = '/',
   image = SITE.defaultImage,
   noIndex = false,
-  language = 'hu',
+  noFollow = false,
   type = 'website',
   jsonLd,
 }: SEOHeadProps) => {
-  const fullTitle = title ? `${title} | ${SITE.name}` : SITE.defaultTitle
+  const fullTitle = getFullSeoTitle(title)
   const canonicalUrl = absoluteUrl(url)
   const imageUrl = absoluteUrl(image)
 
   useEffect(() => {
     document.title = fullTitle
-    document.documentElement.lang = language
 
     upsertMeta('name', 'description', description)
     upsertMeta(
       'name',
       'robots',
       noIndex
-        ? 'noindex, nofollow'
+        ? `noindex, ${noFollow ? 'nofollow' : 'follow'}`
         : 'index, follow, max-image-preview:large',
     )
 
@@ -79,7 +79,7 @@ const SEOHead = ({
     upsertMeta('property', 'og:image', imageUrl)
     upsertMeta('property', 'og:type', type)
     upsertMeta('property', 'og:site_name', SITE.name)
-    upsertMeta('property', 'og:locale', language === 'hu' ? 'hu_HU' : 'en_US')
+    upsertMeta('property', 'og:locale', SITE.locale)
 
     upsertMeta('name', 'twitter:card', 'summary_large_image')
     upsertMeta('name', 'twitter:title', fullTitle)
@@ -108,7 +108,7 @@ const SEOHead = ({
     fullTitle,
     imageUrl,
     jsonLd,
-    language,
+    noFollow,
     noIndex,
     type,
   ])

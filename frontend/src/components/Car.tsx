@@ -28,6 +28,7 @@ import { strings } from '@/lang/cars'
 import Badge from '@/components/Badge'
 import * as UserService from '@/services/UserService'
 import * as PaymentService from '@/services/PaymentService'
+import { sendEvent } from '@/utils/ga4'
 
 import DoorsIcon from '@/assets/img/car-door.png'
 import DistanceIcon from '@/assets/img/distance-icon.png'
@@ -432,6 +433,22 @@ const Car = ({
                     variant="contained"
                     className="btn-primary btn-book btn-margin-bottom"
                     onClick={() => {
+                      sendEvent('select_item', {
+                        item_list_name: 'available_vehicles',
+                        currency: PaymentService.getCurrency() || 'HUF',
+                        value: totalPrice,
+                        items: [
+                          {
+                            item_id: String(car._id),
+                            item_name: car.name,
+                            item_category: String(
+                              (car as any).range
+                              || (car as any).type
+                              || 'vehicle',
+                            ),
+                          },
+                        ],
+                      })
                       navigate('/checkout', {
                         state: {
                           carId: car._id,

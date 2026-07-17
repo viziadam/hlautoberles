@@ -6,31 +6,36 @@ import {
   useLocation,
   Navigate,
 } from 'react-router-dom'
-import env from '@/config/env.config'
+
 import { NotificationProvider } from '@/context/NotificationContext'
 import { UserProvider } from '@/context/UserContext'
 import { RecaptchaProvider } from '@/context/RecaptchaContext'
 import { PayPalProvider } from '@/context/PayPalContext'
 import { SettingProvider } from '@/context/SettingContext'
-import { init as initGA } from '@/utils/ga4'
+
 import ScrollToTop from '@/components/ScrollToTop'
 import NProgressIndicator from '@/components/NProgressIndicator'
 
-if (env.GOOGLE_ANALYTICS_ENABLED) {
-  initGA()
-}
+import {
+  ConsentProvider,
+} from '@/context/ConsentContext'
+import CookieConsent from '@/components/CookieConsent'
+
 
 const LegacySearchRedirect = () => {
   const location = useLocation()
 
   return (
     <Navigate
-      to={`/autoberles-budapest${location.search}`}
+      to={{
+        pathname: '/autoberles-budapest',
+        search: location.search,
+        hash: location.hash,
+      }}
       replace
     />
   )
 }
-
 const Header = lazy(() => import('@/components/Header'))
 const SignIn = lazy(() => import('@/pages/SignIn'))
 const SignUp = lazy(() => import('@/pages/SignUp'))
@@ -98,9 +103,7 @@ const router = createBrowserRouter([
       { path: 'activate', element: <Activate /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
-      // { path: 'search', element: <Search /> },
       { path: 'search', element: <LegacySearchRedirect /> },
-      // { path: 'autoberles-budapest', element: <Search /> },
       { path: 'checkout', element: <Checkout /> },
       { path: 'checkout-session/:sessionId', element: <CheckoutSession /> },
       { path: 'bookings', element: <Bookings /> },
@@ -112,7 +115,6 @@ const router = createBrowserRouter([
       { path: 'tos', element: <ToS /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'contact', element: <Contact /> },
-      // { path: 'teherauto-berles-budapest', element: <Navigate to="/autoberles-budapest" replace />, },
       { path: 'autoberles-budapest', element: <Search /> },
       { path: 'szemelyauto-berles-budapest', element: <Search /> },
       { path: 'teherauto-berles-budapest', element: <Search /> },
@@ -127,6 +129,11 @@ const router = createBrowserRouter([
   }
 ])
 
-const App = () => <RouterProvider router={router} />
+const App = () => (
+  <ConsentProvider>
+    <RouterProvider router={router} />
+    <CookieConsent />
+  </ConsentProvider>
+)
 
 export default App

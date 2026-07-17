@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   OutlinedInput,
@@ -59,6 +59,10 @@ import CheckoutOptions from '@/components/CheckoutOptions'
 import Footer from '@/components/Footer'
 import Unauthorized from '@/components/Unauthorized'
 
+import { sendEvent } from '@/utils/ga4'
+import { useConsent } from '@/context/ConsentContext'
+
+
 import '@/assets/css/checkout.css'
 
 //
@@ -89,6 +93,9 @@ const Checkout = () => {
   const [recaptchaError, setRecaptchaError] = useState(false)
   const [authenticatedError, setAuthenticatedError] = useState(false)
   const [adManuallyChecked, setAdManuallyChecked] = useState(false)
+
+  const { analyticsAllowed } = useConsent()
+  const beginCheckoutTracked = useRef(false)
 
   const [bookingId, setBookingId] = useState<string>()
 
@@ -240,12 +247,13 @@ const Checkout = () => {
       const { status, bookingId: _bookingId } = await BookingService.checkout(payload)
 
       if (status === 200) {
-        // if (payLater) {
-        //   setVisible(false)
-        //   setSuccess(true)
-        // }
         setBookingId(_bookingId)
-        // setSessionId(_sessionId)
+            
+        sendEvent('generate_lead', {
+          lead_type: 'booking_request',
+          currency: PaymentService.getCurrency() || 'HUF',
+          value: price,
+        })
       } else {
         helper.error()
       }
@@ -323,6 +331,47 @@ const Checkout = () => {
       helper.error(err)
     }
   }
+
+  useEffect(() => {
+  if (
+    !analyticsAllowed
+    || beginCheckoutTracked.current
+    || !visible
+    || !car
+    || !from
+    || !to
+    || price <= 0
+  ) {
+    return
+  }
+
+  const sent = sendEvent('begin_checkout', {
+      currency: PaymentService.getCurrency() || 'HUF',
+      value: price,
+      items: [
+        {
+          item_id: String(car._id),
+          item_name: car.name,
+          item_category: String(
+            (car as any).range
+            || (car as any).type
+            || 'vehicle',
+          ),
+        },
+      ],
+    })
+  
+    if (sent) {
+      beginCheckoutTracked.current = true
+    }
+  }, [
+    analyticsAllowed,
+    car,
+    from,
+    price,
+    to,
+    visible,
+  ])
 
   return (
     <>

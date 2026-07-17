@@ -12,9 +12,6 @@ const About = () => {
     <Layout
       onLoad={onLoad}
       strict={false}
-      title="Rólunk"
-      description="Ismerd meg a HLAutóbérlés budapesti jármű- és szerszámbérlési szolgáltatásait, valamint az egyszerű online foglalás menetét."
-      url="/about"
     >
       <main className="about">
         <h1>A HLAutóbérlés bemutatása</h1>

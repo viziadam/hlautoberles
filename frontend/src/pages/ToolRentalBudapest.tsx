@@ -9,7 +9,6 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import Layout from '@/components/Layout'
 import Footer from '@/components/Footer'
-import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
 import '@/assets/css/tools.css'
 import { strings } from '@/lang/tool-rental'
 
@@ -69,17 +68,6 @@ const ToolRentalBudapest = () => {
   return (
   <Layout
     strict={false}
-    title={strings.SEO_TITLE}
-    description={strings.SEO_DESCRIPTION}
-    url="/szerszamkolcsonzes-budapest"
-    jsonLd={[
-      localBusinessSchema,
-      serviceSchema(
-      strings.SCHEMA_NAME,
-      strings.SCHEMA_DESCRIPTION,
-      '/szerszamkolcsonzes-budapest',
-    ),
-    ]}
   >
     <main className="tools-page">
       <header className="tools-hero">

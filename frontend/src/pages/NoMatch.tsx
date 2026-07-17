@@ -25,7 +25,7 @@ const NoMatch = ({ hideHeader }: NoMatchProps) => {
 
   return hideHeader ? (
     <>
-      <SEOHead title="Az oldal nem található" url={window.location.pathname} noIndex />
+      <SEOHead title="Az oldal nem található" url={window.location.pathname} noIndex noFollow />
       {content}
     </>
   ) : (
@@ -34,6 +34,7 @@ const NoMatch = ({ hideHeader }: NoMatchProps) => {
       title="Az oldal nem található"
       url={window.location.pathname}
       noIndex
+      noFollow
     >
       {content}
     </Layout>

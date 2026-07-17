@@ -20,6 +20,8 @@ import { useRecaptchaContext, RecaptchaContextType } from '@/context/RecaptchaCo
 import * as helper from '@/utils/helper'
 import { schema, FormFields } from '@/models/ContactForm'
 
+import { sendEvent } from '@/utils/ga4'
+
 import '@/assets/css/contact-form.css'
 
 interface ContactFormProps {
@@ -52,7 +54,6 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
 
   const onSubmit = async (data: FormFields) => {
     try {
-      console.log('boo')
       let recaptchaToken = ''
       if (reCaptchaLoaded) {
         recaptchaToken = await generateReCaptchaToken()
@@ -76,6 +77,9 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
       const status = await UserService.sendEmail(payload)
 
       if (status === 200) {
+        sendEvent('generate_lead', {
+          lead_type: 'contact_form',
+        })
         reset()
         initForm(user)
         helper.info(strings.MESSAGE_SENT)
@@ -88,7 +92,11 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
   }
 
   return (
-    <Paper className={`${className ? `${className} ` : ''}contact-form`} elevation={10}>
+    <Paper
+      className={`${className ? `${className} ` : ''}contact-form`}
+      elevation={10}
+      data-clarity-mask="true"
+    >
       <h2 className="contact-form-title">{strings.CONTACT_HEADING}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!isAuthenticated && (

@@ -38,8 +38,7 @@ import Footer from '@/components/Footer'
 
 import '@/assets/css/tos.css'
 
-const PDF_PATH = '/documents/gepjarmu-berleti-szerzodes.pdf'
-const WORD_PATH = '/documents/gepjarmu-berleti-szerzodes.docx'
+
 
 const ToS = () => {
   const onLoad = () => {}
@@ -107,9 +106,6 @@ const WORD_PATH = getPublicDocumentUrl(
     <Layout
       onLoad={onLoad}
       strict={false}
-      title={strings.SEO_TITLE}
-      description={strings.SEO_DESCRIPTION}
-      url="/tos"
     >
       <main className="rental-terms-page">
         <header className="rental-terms-hero">

@@ -3,7 +3,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import Layout from '@/components/Layout'
 import Footer from '@/components/Footer'
 import { SITE } from '@/config/site.config'
-import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
 import '@/assets/css/service-page.css'
 
 export interface ServiceLandingProps {
@@ -23,7 +22,6 @@ const ServiceLanding = ({
   path,
   title,
   metaDescription,
-  serviceType,
   intro,
   sections,
 }: ServiceLandingProps) => (
@@ -32,10 +30,6 @@ const ServiceLanding = ({
     title={title}
     description={metaDescription}
     url={path}
-    jsonLd={[
-      localBusinessSchema,
-      serviceSchema(title, serviceType, path),
-    ]}
   >
     <main className="service-page">
       <nav aria-label="Morzsamenü" className="breadcrumb">

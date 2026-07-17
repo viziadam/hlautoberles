@@ -12,10 +12,8 @@ import * as bookcarsHelper from ':bookcars-helper'
 import { strings } from '@/lang/search'
 
 import Layout from '@/components/Layout'
-import NoMatch from './NoMatch'
 import CarFilter from '@/components/CarFilter'
 import CarSpecsFilter from '@/components/CarSpecsFilter'
-import SupplierFilter from '@/components/SupplierFilter'
 import CarType from '@/components/CarTypeFilter'
 import GearboxFilter from '@/components/GearboxFilter'
 import MileageFilter from '@/components/MileageFilter'
@@ -30,7 +28,6 @@ import Map from '@/components/Map'
 import SearchForm from '@/components/SearchForm'
 import Footer from '@/components/Footer'
 import VehicleSeoContent from '@/components/VehicleSeoContent'
-import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
 import {getLanguage} from '@/services/UserService'
 import {
   getVehicleLandingByPath,
@@ -366,17 +363,6 @@ return (
     <Layout
       onLoad={onLoad}
       strict={false}
-      title={landing.seoTitle}
-      description={landing.seoDescription}
-      url={landing.path}
-      jsonLd={[
-        localBusinessSchema,
-        serviceSchema(
-          landing.schemaName,
-          landing.schemaDescription,
-          landing.path,
-        ),
-      ]}
     >
     <main className="vehicle-search-page">
       {/* <header className="vehicle-search-header">

@@ -21,19 +21,16 @@ import DateTimePicker from '@/components/DateTimePicker'
 import { schema, FormFields, LocationField } from '@/models/SearchForm'
 import { useSetting } from '@/context/SettingContext'
 import { getVehicleLandingByRanges } from '@/config/vehicleLanding.config'
+import { sendEvent } from '@/utils/ga4'
 
 import '@/assets/css/search-form.css'
 
 interface SearchFormProps {
-  // pickupLocation?: string
-  // dropOffLocation?: string
   ranges?: bookcarsTypes.CarRange[]
   onCancel?: () => void
 }
 
 const SearchForm = ({
-  // pickupLocation: __pickupLocation,
-  // dropOffLocation: __dropOffLocation,
   ranges: __ranges,
   onCancel,
 }: SearchFormProps) => {
@@ -41,8 +38,6 @@ const SearchForm = ({
 
   const { settings } = useSetting()
 
-  // const [pickupLocationId, setPickupLocationId] = useState('')
-  // const [dropOffLocationId, setDropOffLocationId] = useState('')
   const [minTime, setMinTime] = useState<Date | null>(null)
   const [maxTime, setMaxTime] = useState<Date | null>(null)
   const [minDate, setMinDate] = useState<Date | null>(null)
@@ -117,35 +112,6 @@ const SearchForm = ({
       setValue('to', _to)
     }
   }, [settings]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   const init = async () => {
-  //     if (__pickupLocation) {
-  //       const location = await LocationService.getLocation(__pickupLocation) as LocationField
-  //       setValue('pickupLocation', location)
-  //       setPickupLocationId(__pickupLocation)
-  //       if (sameLocation) {
-  //         setValue('dropOffLocation', location)
-  //         setDropOffLocationId(__pickupLocation)
-  //       } else {
-  //         setValue('sameLocation', dropOffLocationId === __pickupLocation)
-  //       }
-  //     }
-  //   }
-  //   init()
-  // }, [__pickupLocation]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   const init = async () => {
-  //     if (__dropOffLocation) {
-  //       const location = await LocationService.getLocation(__dropOffLocation) as LocationField
-  //       setValue('dropOffLocation', location)
-  //       setDropOffLocationId(__dropOffLocation)
-  //       setValue('sameLocation', pickupLocationId === __dropOffLocation)
-  //     }
-  //   }
-  //   init()
-  // }, [__dropOffLocation]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setRanges(__ranges || bookcarsHelper.getAllRanges())
@@ -239,47 +205,7 @@ const SearchForm = ({
     return null
   }
 
-  // const handlePickupLocationChange = async (values: bookcarsTypes.Option[]) => {
-  //   const _pickupLocationId = (values.length > 0 && values[0]._id) || ''
-  //   setPickupLocationId(_pickupLocationId)
-
-  //   if (_pickupLocationId) {
-  //     const location = await LocationService.getLocation(_pickupLocationId) as LocationField
-  //     setValue('pickupLocation', location)
-  //     if (sameLocation) {
-  //       setValue('dropOffLocation', location)
-  //     }
-  //   } else {
-  //     setValue('pickupLocation', null)
-  //   }
-
-  //   if (sameLocation) {
-  //     setDropOffLocationId(_pickupLocationId)
-  //   }
-  // }
-
-  // const handleSameLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { checked } = e.target
-  //   setValue('sameLocation', checked)
-
-  //   if (checked) {
-  //     setDropOffLocationId(pickupLocationId)
-  //   } else {
-  //     setDropOffLocationId('')
-  //   }
-  // }
-
-  // const handleDropOffLocationChange = async (values: bookcarsTypes.Option[]) => {
-  //   const _dropOffLocationId = (values.length > 0 && values[0]._id) || ''
-  //   setDropOffLocationId(_dropOffLocationId)
-
-  //   if (_dropOffLocationId) {
-  //     const location = await LocationService.getLocation(_dropOffLocationId) as LocationField
-  //     setValue('dropOffLocation', location)
-  //   } else {
-  //     setValue('dropOffLocation', null)
-  //   }
-  // }
+  
 
   const onSubmit = (data: FormFields) => {
   const valid = validateTimes()
@@ -287,6 +213,22 @@ const SearchForm = ({
   if (!valid || !data.from || !data.to) {
     return
   }
+
+  const rentalDays = Math.max(
+    1,
+    Math.ceil(
+      (
+        data.to.getTime()
+        - data.from.getTime()
+      ) / 86_400_000,
+    ),
+  )
+  
+  sendEvent('search', {
+    search_term: 'vehicle_rental',
+    vehicle_ranges: ranges.join(','),
+    rental_days: rentalDays,
+  })
 
   const params = new URLSearchParams({
     from: data.from.toISOString(),

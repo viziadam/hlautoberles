@@ -4,7 +4,8 @@ import Layout from '@/components/Layout'
 import ContactForm from '@/components/ContactForm'
 import Footer from '@/components/Footer'
 import { SITE } from '@/config/site.config'
-import { localBusinessSchema } from '@/utils/seoSchemas'
+
+import { sendEvent } from '@/utils/ga4'
 
 import '@/assets/css/contact.css'
 
@@ -19,10 +20,6 @@ const Contact = () => {
     <Layout
       onLoad={onLoad}
       strict={false}
-      title="Kapcsolat és járműátvétel"
-      description="Kapcsolatfelvétel a HLAutóbérléssel. Jármű- és eszközátvétel Budapest XI. kerületében, a Galvani utcában."
-      url="/contact"
-      jsonLd={localBusinessSchema}
     >
       <main className="contact">
         <section className="contact-details">
@@ -37,7 +34,16 @@ const Contact = () => {
             <strong>{SITE.name}</strong><br />
             {SITE.address.postalCode} {SITE.address.addressLocality},{' '}
             {SITE.address.streetAddress}<br />
-            Telefon: <a href={`tel:${SITE.phone}`}>{SITE.phone}</a><br />
+            Telefon: <a
+                      href={`tel:${SITE.phone}`}
+                      onClick={() => {
+                        sendEvent('phone_click', {
+                          link_location: 'contact_page',
+                        })
+                      }}
+                    >
+                      {SITE.phone}
+                    </a><br />
             E-mail: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
           </address>
 
@@ -47,9 +53,14 @@ const Contact = () => {
             visszaigazolásakor egyeztetjük.
           </p>
           <a
-            href="https://www.google.com/maps/search/?api=1&query=1117%20Budapest%20Galvani%20utca%201-3"
+            href={SITE.mapUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={() => {
+              sendEvent('map_click', {
+                link_location: 'contact_page',
+              })
+            }}
           >
             Cím megnyitása térképen
           </a>

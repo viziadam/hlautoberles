@@ -12,11 +12,6 @@ export interface VehicleLandingConfig {
   path: string
   defaultRanges: bookcarsTypes.CarRange[]
 
-  seoTitle: string
-  seoDescription: string
-  schemaName: string
-  schemaDescription: string
-
   hu: {
     heroEyebrow: string
     heroTitle: string
@@ -43,13 +38,6 @@ export const VEHICLE_LANDINGS: Record<
     path: '/autoberles-budapest',
     defaultRanges: [Mini, Midi, Maxi],
 
-    seoTitle: 'Autó- és teherautó-bérlés Budapesten',
-    seoDescription:
-      'Személyautó-, kisteherautó- és teherautó-bérlés Budapest XI. kerületében. Hasonlítsd össze az árakat, az elérhetőséget és a bérlési feltételeket.',
-
-    schemaName: 'Autó- és teherautó-bérlés Budapesten',
-    schemaDescription:
-      'Személyautók, kisteherautók és teherautók bérlése Budapest XI. kerületében.',
 
     hu: {
       heroEyebrow: 'Járműbérlés · Budapest XI. kerület',
@@ -77,13 +65,6 @@ export const VEHICLE_LANDINGS: Record<
     path: '/szemelyauto-berles-budapest',
     defaultRanges: [Mini],
 
-    seoTitle: 'Személyautó-bérlés Budapesten',
-    seoDescription:
-      'Személyautó-bérlés Budapest XI. kerületében városi használatra, üzleti útra vagy hosszabb időszakra. Online keresés és átlátható feltételek.',
-
-    schemaName: 'Személyautó-bérlés Budapesten',
-    schemaDescription:
-      'Személyautók bérlése Budapest XI. kerületében.',
 
     hu: {
       heroEyebrow: 'Személyautó-bérlés · Budapest XI. kerület',
@@ -111,13 +92,6 @@ export const VEHICLE_LANDINGS: Record<
     path: '/teherauto-berles-budapest',
     defaultRanges: [Midi, Maxi],
 
-    seoTitle: 'Kisteherautó- és teherautó-bérlés Budapesten',
-    seoDescription:
-      'Kisteherautó- és teherautó-bérlés Budapest XI. kerületében költözéshez, áruszállításhoz és munkavégzéshez. Online keresés és foglalás.',
-
-    schemaName: 'Kisteherautó- és teherautó-bérlés Budapesten',
-    schemaDescription:
-      'Kisteherautók és nagyobb teherautók bérlése Budapest XI. kerületében.',
 
     hu: {
       heroEyebrow: 'Teherautó-bérlés · Budapest XI. kerület',

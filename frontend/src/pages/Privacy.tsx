@@ -9,7 +9,7 @@ const ToS = () => {
   const onLoad = () => { }
 
   return (
-    <Layout onLoad={onLoad} strict={false} title="Adatvédelmi tájékoztató" url="/privacy">
+    <Layout onLoad={onLoad} strict={false} >
       <div className="privacy">
         <h1>{strings.TITLE}</h1>
         <p>{strings.PRIVACY_POLICY}</p>

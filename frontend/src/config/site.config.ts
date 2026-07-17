@@ -1,40 +1,18 @@
-const siteUrl = String(
-  import.meta.env.VITE_PUBLIC_SITE_URL || 'https://hlautoberles.hu'
+import { SEO_CONFIG } from './seoRoutes'
+
+const configuredSiteUrl = String(
+  import.meta.env.VITE_PUBLIC_SITE_URL || SEO_CONFIG.site.url,
 ).replace(/\/+$/, '')
 
 export const SITE = {
-  url: siteUrl,
-
-  name: 'HLAutóbérlés',
+  ...SEO_CONFIG.site,
+  url: configuredSiteUrl,
 
   defaultTitle:
-    'Autóbérlés, teherautó- és szerszámkölcsönzés Budapesten | HLAutóbérlés',
+    `Autóbérlés, teherautó- és szerszámkölcsönzés Budapesten | ${SEO_CONFIG.site.name}`,
 
   defaultDescription:
-    'Személyautók, kisteherautók, teherautók és professzionális szerszámok bérlése Budapest XI. kerületében. Átlátható feltételek és egyszerű online foglalás.',
-
-  phone: '+36309719513',
-  email: 'info@hlautoberles.hu',
-
-  address: {
-    streetAddress: 'Galvani utca 1–3.',
-    addressLocality: 'Budapest',
-    postalCode: '1117',
-    addressCountry: 'HU',
-  },
-
-  geo: {
-    latitude: 47.465,
-    longitude: 19.049,
-  },
-
-  defaultImage: '/cover.webp',
-
-  socialProfiles: [
-    // A kliens valós profiljai kerüljenek ide.
-    // 'https://www.facebook.com/...',
-    // 'https://www.instagram.com/...',
-  ],
+    SEO_CONFIG.routes.find((route) => route.path === '/')?.description || '',
 } as const
 
 export const absoluteUrl = (path = '/') => {
