@@ -129,31 +129,30 @@ const Search = () => {
   const parsedTo = parseDate(params.get('to'))
   const parsedRanges = parseRanges(params.get('ranges'))
 
-  setRanges(parsedRanges.length > 0 ? parsedRanges : landing.defaultRanges,)
-  
+  const resolvedRanges = parsedRanges.length > 0
+    ? parsedRanges
+    : landing.defaultRanges
 
-  const validDateRange = (
+  setRanges(resolvedRanges)
+
+  const validDateRange = Boolean(
     parsedFrom
     && parsedTo
-    && parsedTo.getTime() > parsedFrom.getTime()
+    && parsedTo.getTime() > parsedFrom.getTime(),
   )
 
   if (!validDateRange) {
     setFrom(undefined)
     setTo(undefined)
-    setRanges(bookcarsHelper.getAllRanges())
     return
   }
 
   setFrom(parsedFrom)
   setTo(parsedTo)
-
-  setRanges(
-    parsedRanges.length > 0
-      ? parsedRanges
-      : bookcarsHelper.getAllRanges(),
-  )
-}, [location.search, location.pathname, landing.key])
+}, [
+  location.search,
+  landing.key,
+])
 
 useEffect(() => {
   if (
@@ -577,7 +576,10 @@ return (
         </div>
       )}
 
-      <VehicleSeoContent />
+      <VehicleSeoContent
+        title={visibleContent.contentTitle}
+        description={visibleContent.contentDescription}
+      />
     </main>
 
     <Footer />

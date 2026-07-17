@@ -20,6 +20,7 @@ import LocationSelectList from '@/components/LocationSelectList'
 import DateTimePicker from '@/components/DateTimePicker'
 import { schema, FormFields, LocationField } from '@/models/SearchForm'
 import { useSetting } from '@/context/SettingContext'
+import { getVehicleLandingByRanges } from '@/config/vehicleLanding.config'
 
 import '@/assets/css/search-form.css'
 
@@ -293,7 +294,14 @@ const SearchForm = ({
     ranges: ranges.join(','),
   })
 
-  navigate(`/autoberles-budapest?${params.toString()}`)
+  // navigate(`/autoberles-budapest?${params.toString()}`)
+  const targetLanding = getVehicleLandingByRanges(ranges)
+
+navigate({
+  pathname: targetLanding.path,
+  search: `?${params.toString()}`,
+  hash: '#elerheto-jarmuvek',
+})
 }
 
   return (
