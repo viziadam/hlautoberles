@@ -1,4 +1,7 @@
 import * as bookcarsTypes from ':bookcars-types'
+import {
+  getVehicleLandingByRanges,
+} from '@/config/vehicleLanding.config'
 
 /**
  * A kereső alapértelmezett időszaka:
@@ -21,10 +24,28 @@ const getDefaultRentalPeriod = () => {
   }
 }
 
+// export const createVehicleSearchUrl = (
+//   ranges: bookcarsTypes.CarRange[],
+// ) => {
+//   const { from, to } = getDefaultRentalPeriod()
+
+//   const params = new URLSearchParams({
+//     from: from.toISOString(),
+//     to: to.toISOString(),
+//     ranges: ranges.join(','),
+//   })
+
+//   return (
+//     `/autoberles-budapest?${params.toString()}`
+//     + '#elerheto-jarmuvek'
+//   )
+// }
+
 export const createVehicleSearchUrl = (
   ranges: bookcarsTypes.CarRange[],
 ) => {
   const { from, to } = getDefaultRentalPeriod()
+  const landing = getVehicleLandingByRanges(ranges)
 
   const params = new URLSearchParams({
     from: from.toISOString(),
@@ -33,7 +54,7 @@ export const createVehicleSearchUrl = (
   })
 
   return (
-    `/autoberles-budapest?${params.toString()}`
+    `${landing.path}?${params.toString()}`
     + '#elerheto-jarmuvek'
   )
 }

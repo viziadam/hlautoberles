@@ -31,6 +31,11 @@ import SearchForm from '@/components/SearchForm'
 import Footer from '@/components/Footer'
 import VehicleSeoContent from '@/components/VehicleSeoContent'
 import { localBusinessSchema, serviceSchema } from '@/utils/seoSchemas'
+import {getLanguage} from '@/services/UserService'
+import {
+  getVehicleLandingByPath,
+  getVehicleLandingByRanges,
+} from '@/config/vehicleLanding.config'
 
 import env from '@/config/env.config'
 
@@ -76,6 +81,8 @@ const Search = () => {
 
   const navigate = useNavigate()
 
+  const landing = getVehicleLandingByPath(location.pathname)
+
   const [visible, setVisible] = useState(false)
   // const [noMatch, setNoMatch] = useState(false)
   // const [pickupLocation, setPickupLocation] = useState<bookcarsTypes.Location>()
@@ -93,7 +100,8 @@ const Search = () => {
   const [mileage, setMileage] = useState([bookcarsTypes.Mileage.Limited, bookcarsTypes.Mileage.Unlimited])
   const [fuelPolicy, setFuelPolicy] = useState(bookcarsHelper.getAllFuelPolicies())
   const [deposit, setDeposit] = useState(-1)
-  const [ranges, setRanges] = useState(bookcarsHelper.getAllRanges())
+  // const [ranges, setRanges] = useState(bookcarsHelper.getAllRanges())
+  const [ranges, setRanges] = useState<bookcarsTypes.CarRange[]>( landing.defaultRanges,)
   const [multimedia, setMultimedia] = useState<bookcarsTypes.CarMultimedia[]>([])
   const [rating, setRating] = useState(-1)
   const [seats, setSeats] = useState(-1)
@@ -109,12 +117,20 @@ const Search = () => {
   longitude: COMPANY_POSITION[1],
 } as bookcarsTypes.Location
 
+  const language = getLanguage()
+  const visibleContent = language === 'en'
+    ? landing.en
+    : landing.hu
+
   useEffect(() => {
   const params = new URLSearchParams(location.search)
 
   const parsedFrom = parseDate(params.get('from'))
   const parsedTo = parseDate(params.get('to'))
   const parsedRanges = parseRanges(params.get('ranges'))
+
+  setRanges(parsedRanges.length > 0 ? parsedRanges : landing.defaultRanges,)
+  
 
   const validDateRange = (
     parsedFrom
@@ -137,7 +153,7 @@ const Search = () => {
       ? parsedRanges
       : bookcarsHelper.getAllRanges(),
   )
-}, [location.search])
+}, [location.search, location.pathname, landing.key])
 
 useEffect(() => {
   if (
@@ -190,10 +206,13 @@ useEffect(() => {
     ranges: ranges.join(','),
   })
 
+  const targetLanding = getVehicleLandingByRanges(ranges)
+
   navigate(
     {
-      pathname: '/autoberles-budapest',
+      pathname: targetLanding.path,
       search: `?${params.toString()}`,
+      hash: '#elerheto-jarmuvek',
     },
     {
       replace: true,
@@ -330,21 +349,36 @@ useEffect(() => {
 }
 
 return (
-  <Layout
-    onLoad={onLoad}
-    strict={false}
-    title={strings.SEO_TITLE}
-    description={strings.SEO_DESCRIPTION}
-    url="/autoberles-budapest"
-    jsonLd={[
-      localBusinessSchema,
-      serviceSchema(
-        strings.SCHEMA_NAME,
-        strings.SCHEMA_DESCRIPTION,
-        '/autoberles-budapest',
-      ),
-    ]}
-  >
+  // <Layout
+  //   onLoad={onLoad}
+  //   strict={false}
+  //   title={strings.SEO_TITLE}
+  //   description={strings.SEO_DESCRIPTION}
+  //   url="/autoberles-budapest"
+  //   jsonLd={[
+  //     localBusinessSchema,
+  //     serviceSchema(
+  //       strings.SCHEMA_NAME,
+  //       strings.SCHEMA_DESCRIPTION,
+  //       '/autoberles-budapest',
+  //     ),
+  //   ]}
+  // >
+    <Layout
+      onLoad={onLoad}
+      strict={false}
+      title={landing.seoTitle}
+      description={landing.seoDescription}
+      url={landing.path}
+      jsonLd={[
+        localBusinessSchema,
+        serviceSchema(
+          landing.schemaName,
+          landing.schemaDescription,
+          landing.path,
+        ),
+      ]}
+    >
     <main className="vehicle-search-page">
       {/* <header className="vehicle-search-header">
         <h1>Autó- és teherautó-bérlés Budapesten</h1>
@@ -369,10 +403,14 @@ return (
             </span>
 
             <h1 id="vehicle-search-title">
-              {strings.HERO_TITLE}
+              {/* {strings.HERO_TITLE} */}
+              {visibleContent.heroTitle}
             </h1>
 
-            <p>{strings.HERO_DESCRIPTION}</p>
+            <p>
+              {/* {strings.HERO_DESCRIPTION} */}
+              {visibleContent.heroDescription}
+            </p>
 
             <div
               className="vehicle-search-highlights"
@@ -424,7 +462,7 @@ return (
             <p>{strings.DIRECT_SEARCH_TEXT}</p>
           </div>
 
-          <SearchForm />
+          <SearchForm  ranges={landing.defaultRanges}/>
         </section>
       )}
 

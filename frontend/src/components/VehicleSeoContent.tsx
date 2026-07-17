@@ -15,7 +15,16 @@ import * as bookcarsTypes from ':bookcars-types'
 import { createVehicleSearchUrl } from '@/utils/vehicleSearch'
 import { strings } from '@/lang/search'
 
-const VehicleSeoContent = () => (
+
+interface VehicleSeoContentProps {
+  title?: string
+  description?: string
+}
+
+const VehicleSeoContent = ({
+  title = strings.SERVICES_TITLE,
+  description = strings.SERVICES_DESCRIPTION,
+}: VehicleSeoContentProps) => (
   <section
     className="vehicle-services"
     aria-labelledby="vehicle-services-title"
@@ -26,10 +35,10 @@ const VehicleSeoContent = () => (
       </span>
 
       <h2 id="vehicle-services-title">
-        {strings.SERVICES_TITLE}
+        {title}
       </h2>
 
-      <p> {strings.SERVICES_DESCRIPTION} </p>
+      <p> {description} </p>
     </header>
 
     <div className="vehicle-service-grid">
