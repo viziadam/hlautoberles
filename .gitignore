@@ -7,3 +7,19 @@
 /**/dist
 /node_modules
 .eslintcache
+
+# Visual Studio local files
+.vs/
+
+# Build-generated SEO files
+frontend/generated/
+
+# Local deployment documentation
+hlautoberles_deployment_osszefoglalo_es_script.md
+
+# Local unused video files
+frontend/public/cover-gemini_resized.mp4
+frontend/public/cover_gemini.mp4
+frontend/public/cover_slowdown.mp4
+frontend/public/video.mp4
+frontend/public/video_simple.mp4

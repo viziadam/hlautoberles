@@ -399,6 +399,9 @@ div.home div.car-size div.boxes div.box {
 
 div.home div.car-size div.boxes div.box div.box-img {
   height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 div.home div.car-size div.boxes div.box img {
