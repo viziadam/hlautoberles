@@ -268,111 +268,238 @@ export const formatPrice = (price: number, currency: string, language: string) =
  * @param {?bookcarsTypes.CarOptions} [options]
  * @returns {number}
  */
-export const calculateTotalPrice = (car: bookcarsTypes.Car, from: Date, to: Date, priceChangeRate: number, options?: bookcarsTypes.CarOptions) => {
-  let totalPrice = 0
-  let totalDays = days(from, to)
+// export const calculateTotalPrice = (car: bookcarsTypes.Car, from: Date, to: Date, priceChangeRate: number, options?: bookcarsTypes.CarOptions) => {
+//   let totalPrice = 0
+//   let totalDays = days(from, to)
 
    
-    const totalHours = hours(from, to)
-    totalDays = Math.floor(totalHours / 24)
-    // const remainingHours = totalHours % 24
+//     const totalHours = hours(from, to)
+//     totalDays = Math.floor(totalHours / 24)
+//     // const remainingHours = totalHours % 24
 
-    // let remainingDays = totalDays
+//     // let remainingDays = totalDays
 
-  //   if (remainingDays >= 30) {
-  //     if (car.discountedMonthlyPrice || car.monthlyPrice) {
-  //       totalPrice += (car.discountedMonthlyPrice || car.monthlyPrice)! * Math.floor(remainingDays / 30)
-  //       remainingDays %= 30
-  //     }
-  //   }
+//   //   if (remainingDays >= 30) {
+//   //     if (car.discountedMonthlyPrice || car.monthlyPrice) {
+//   //       totalPrice += (car.discountedMonthlyPrice || car.monthlyPrice)! * Math.floor(remainingDays / 30)
+//   //       remainingDays %= 30
+//   //     }
+//   //   }
 
-  //   if (remainingDays >= 7) {
-  //     if (car.discountedWeeklyPrice || car.weeklyPrice) {
-  //       totalPrice += (car.discountedWeeklyPrice || car.weeklyPrice)! * Math.floor(remainingDays / 7)
-  //       remainingDays %= 7
-  //     }
-  //   }
+//   //   if (remainingDays >= 7) {
+//   //     if (car.discountedWeeklyPrice || car.weeklyPrice) {
+//   //       totalPrice += (car.discountedWeeklyPrice || car.weeklyPrice)! * Math.floor(remainingDays / 7)
+//   //       remainingDays %= 7
+//   //     }
+//   //   }
 
-  //   if (remainingDays >= 3) {
-  //     if (car.discountedBiWeeklyPrice || car.biWeeklyPrice) {
-  //       totalPrice += (car.discountedBiWeeklyPrice || car.biWeeklyPrice)! * Math.floor(remainingDays / 3)
-  //       remainingDays %= 3
-  //     }
-  //   }
+//   //   if (remainingDays >= 3) {
+//   //     if (car.discountedBiWeeklyPrice || car.biWeeklyPrice) {
+//   //       totalPrice += (car.discountedBiWeeklyPrice || car.biWeeklyPrice)! * Math.floor(remainingDays / 3)
+//   //       remainingDays %= 3
+//   //     }
+//   //   }
 
-  //   if (remainingDays > 0) {
-  //     totalPrice += (car.discountedDailyPrice || car.dailyPrice) * remainingDays
-  //   }
+//   //   if (remainingDays > 0) {
+//   //     totalPrice += (car.discountedDailyPrice || car.dailyPrice) * remainingDays
+//   //   }
 
-  //   // Handle hours if less than a day OR leftover time
-  //   if (totalDays === 0 || remainingHours > 0) {
-  //     const hourlyRate = car.discountedHourlyPrice || car.hourlyPrice
-  //     if (hourlyRate) {
-  //       totalPrice += hourlyRate * remainingHours
-  //     } else if (car.dailyPrice || car.discountedDailyPrice) {
-  //       // fallback to daily rate if no hourly price
-  //       totalPrice += (car.discountedDailyPrice || car.dailyPrice)
-  //     }
-  // }
+//   //   // Handle hours if less than a day OR leftover time
+//   //   if (totalDays === 0 || remainingHours > 0) {
+//   //     const hourlyRate = car.discountedHourlyPrice || car.hourlyPrice
+//   //     if (hourlyRate) {
+//   //       totalPrice += hourlyRate * remainingHours
+//   //     } else if (car.dailyPrice || car.discountedDailyPrice) {
+//   //       // fallback to daily rate if no hourly price
+//   //       totalPrice += (car.discountedDailyPrice || car.dailyPrice)
+//   //     }
+//   // }
 
-if (totalDays > 0) {
-  let effectiveDailyRate = 0;
+// if (totalDays > 0) {
+//   let effectiveDailyRate = 0;
 
-  if (totalDays >= 30) {
-    // 30 nap felett a havi díjból számolunk napi átlagot (havi díj / 30)
-    const monthlyRate = car.monthlyPrice ?? (car.weeklyPrice3_4 ?? car.weeklyPrice1_2 ?? 0) * 4; 
-    effectiveDailyRate = monthlyRate / 30;
-  } 
-  else if (totalDays >= 14) {
-    // 2-4 hét között a 3-4 hetes csomagból (heti díj / 7)
-    const weeklyRate = car.weeklyPrice3_4 ?? car.weeklyPrice1_2 ?? 0;
-    effectiveDailyRate = weeklyRate / 7;
-  } 
-  else if (totalDays >= 7) {
-    // 1-2 hét között az 1-2 hetes csomagból (heti díj / 7)
-    const weeklyRate = car.weeklyPrice1_2 ?? 0;
-    effectiveDailyRate = weeklyRate / 7;
-  } 
-  else if (totalDays >= 4) {
-    // 4-7 nap között a kedvezményes napi árból
-    effectiveDailyRate = car.dailyPrice4_6 ?? car.dailyPrice1_3 ?? 0;
-  } 
-  else {
-    // 0-3 nap között az alap napi árból
-    effectiveDailyRate = car.dailyPrice1_3 ?? 0;
-  }
+//   if (totalDays >= 30) {
+//     // 30 nap felett a havi díjból számolunk napi átlagot (havi díj / 30)
+//     const monthlyRate = car.monthlyPrice ?? (car.weeklyPrice3_4 ?? car.weeklyPrice1_2 ?? 0) * 4; 
+//     effectiveDailyRate = monthlyRate / 30;
+//   } 
+//   else if (totalDays >= 14) {
+//     // 2-4 hét között a 3-4 hetes csomagból (heti díj / 7)
+//     const weeklyRate = car.weeklyPrice3_4 ?? car.weeklyPrice1_2 ?? 0;
+//     effectiveDailyRate = weeklyRate / 7;
+//   } 
+//   else if (totalDays >= 7) {
+//     // 1-2 hét között az 1-2 hetes csomagból (heti díj / 7)
+//     const weeklyRate = car.weeklyPrice1_2 ?? 0;
+//     effectiveDailyRate = weeklyRate / 7;
+//   } 
+//   else if (totalDays >= 4) {
+//     // 4-7 nap között a kedvezményes napi árból
+//     effectiveDailyRate = car.dailyPrice4_6 ?? car.dailyPrice1_3 ?? 0;
+//   } 
+//   else {
+//     // 0-3 nap között az alap napi árból
+//     effectiveDailyRate = car.dailyPrice1_3 ?? 0;
+//   }
 
-  // A teljes időtartamot a kiszámolt, "visszaosztott" napidíjjal szorozzuk
-  totalPrice = totalDays * effectiveDailyRate;
-}
+//   // A teljes időtartamot a kiszámolt, "visszaosztott" napidíjjal szorozzuk
+//   totalPrice = totalDays * effectiveDailyRate;
+// }
   
 
-  // add extra options
+//   // add extra options
+//   if (options) {
+//     if (options.cancellation && car.cancellation > 0) {
+//       totalPrice += car.cancellation
+//     }
+//     // if (options.amendments && car.amendments > 0) {
+//     //   totalPrice += car.amendments
+//     // }
+//     if (options.theftProtection && car.theftProtection > 0) {
+//       totalPrice += car.theftProtection * totalDays
+//     }
+//     // if (options.collisionDamageWaiver && car.collisionDamageWaiver > 0) {
+//     //   totalPrice += car.collisionDamageWaiver * totalDays
+//     // }
+//     if (options.fullInsurance && car.fullInsurance > 0) {
+//       totalPrice += car.fullInsurance * totalDays
+//     }
+//     // if (options.additionalDriver && car.additionalDriver > 0) {
+//     //   totalPrice += car.additionalDriver * totalDays
+//     // }
+//   }
+
+//   // apply price change rate
+//   totalPrice += totalPrice * (priceChangeRate / 100)
+
+//   return totalPrice
+// }
+
+export const calculateTotalPrice = (
+  car: bookcarsTypes.Car,
+  from: Date,
+  to: Date,
+  priceChangeRate: number,
+  options?: bookcarsTypes.CarOptions,
+): number => {
+  const normalizedFrom = from instanceof Date
+    ? from
+    : new Date(from)
+
+  const normalizedTo = to instanceof Date
+    ? to
+    : new Date(to)
+
+  const fromTime = normalizedFrom.getTime()
+  const toTime = normalizedTo.getTime()
+
+  if (
+    Number.isNaN(fromTime)
+    || Number.isNaN(toTime)
+    || toTime <= fromTime
+  ) {
+    return 0
+  }
+
+  const millisecondsPerDay = 24 * 60 * 60 * 1000
+
+  // Minden megkezdett 24 órás időszak egy bérleti nap.
+  const totalDays = Math.max(
+    1,
+    Math.ceil((toTime - fromTime) / millisecondsPerDay),
+  )
+
+  const firstPositive = (
+    ...values: Array<number | null | undefined>
+  ): number => {
+    const value = values.find(
+      (item) => (
+        typeof item === 'number'
+        && Number.isFinite(item)
+        && item > 0
+      ),
+    )
+
+    return value ?? 0
+  }
+
+  let effectiveDailyRate = 0
+
+  if (totalDays >= 30) {
+    const monthlyRate = firstPositive(
+      car.monthlyPrice,
+      car.weeklyPrice3_4
+        ? car.weeklyPrice3_4 * 4
+        : undefined,
+      car.weeklyPrice1_2
+        ? car.weeklyPrice1_2 * 4
+        : undefined,
+      car.dailyPrice4_6
+        ? car.dailyPrice4_6 * 30
+        : undefined,
+      car.dailyPrice1_3
+        ? car.dailyPrice1_3 * 30
+        : undefined,
+    )
+
+    effectiveDailyRate = monthlyRate / 30
+  } else if (totalDays >= 14) {
+    const weeklyRate = firstPositive(
+      car.weeklyPrice3_4,
+      car.weeklyPrice1_2,
+      car.dailyPrice4_6
+        ? car.dailyPrice4_6 * 7
+        : undefined,
+      car.dailyPrice1_3
+        ? car.dailyPrice1_3 * 7
+        : undefined,
+    )
+
+    effectiveDailyRate = weeklyRate / 7
+  } else if (totalDays >= 7) {
+    const weeklyRate = firstPositive(
+      car.weeklyPrice1_2,
+      car.weeklyPrice3_4,
+      car.dailyPrice4_6
+        ? car.dailyPrice4_6 * 7
+        : undefined,
+      car.dailyPrice1_3
+        ? car.dailyPrice1_3 * 7
+        : undefined,
+    )
+
+    effectiveDailyRate = weeklyRate / 7
+  } else if (totalDays >= 4) {
+    effectiveDailyRate = firstPositive(
+      car.dailyPrice4_6,
+      car.dailyPrice1_3,
+    )
+  } else {
+    effectiveDailyRate = firstPositive(
+      car.dailyPrice1_3,
+      car.dailyPrice4_6,
+    )
+  }
+
+  let totalPrice = totalDays * effectiveDailyRate
+
   if (options) {
     if (options.cancellation && car.cancellation > 0) {
       totalPrice += car.cancellation
     }
-    // if (options.amendments && car.amendments > 0) {
-    //   totalPrice += car.amendments
-    // }
+
     if (options.theftProtection && car.theftProtection > 0) {
       totalPrice += car.theftProtection * totalDays
     }
-    // if (options.collisionDamageWaiver && car.collisionDamageWaiver > 0) {
-    //   totalPrice += car.collisionDamageWaiver * totalDays
-    // }
+
     if (options.fullInsurance && car.fullInsurance > 0) {
       totalPrice += car.fullInsurance * totalDays
     }
-    // if (options.additionalDriver && car.additionalDriver > 0) {
-    //   totalPrice += car.additionalDriver * totalDays
-    // }
   }
 
-  // apply price change rate
   totalPrice += totalPrice * (priceChangeRate / 100)
 
-  return totalPrice
+  return Math.round(totalPrice)
 }
 
 /**

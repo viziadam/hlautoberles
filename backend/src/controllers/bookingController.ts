@@ -158,16 +158,27 @@ export const notify = async (driver: env.User, bookingId: string, user: env.User
  */
 export const confirm = async (user: env.User, booking: env.Booking) => {
   const { language } = user
-  const locale = language === 'fr' ? 'fr-FR' : 'en-US'
+
+  const localeByLanguage: Record<string, string> = {
+    hu: 'hu-HU',
+    en: 'en-US',
+    fr: 'fr-FR',
+    es: 'es-ES',
+  }
+  
+  const locale = localeByLanguage[language] || 'hu-HU'
+  
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    month: 'long',
     year: 'numeric',
+    month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
     timeZone: env.TIMEZONE,
   }
+  
   const from = booking.from.toLocaleString(locale, options)
   const to = booking.to.toLocaleString(locale, options)
   const car = await Car.findById(booking.car)
@@ -224,7 +235,7 @@ export const confirm = async (user: env.User, booking: env.Booking) => {
       ${i18n.t('BOOKING_REQUEST_RECEIVED_NEXT_STEPS')}<br><br>
 
       ${i18n.t('REGARDS')}<br>
-      ${i18n.t('COMPANY')}<br>
+      // ${i18n.t('COMPANY')}<br>
     </p>`,
   }
   // <a href="${detailsUrl}">${i18n.t('VIEW_BOOKING')}</a><br><br>
@@ -302,8 +313,15 @@ export const checkout = async (req: Request, res: Response) => {
     }
 
     const { language } = user
-    i18n.locale = language
 
+    const localeByLanguage: Record<string, string> = {
+      hu: 'hu-HU',
+      en: 'en-US',
+      fr: 'fr-FR',
+      es: 'es-ES',
+    }
+
+const locale = localeByLanguage[language] || 'hu-HU'
    
 
     const booking = new Booking(body.booking)

@@ -96,18 +96,47 @@ const Car = ({
     setLanguage(UserService.getLanguage())
   }, [])
 
-  useEffect(() => {
-    const fetchPrice = async () => {
-      if (from && to) {
-        const priceChangeRate = 0
-        const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from, to, priceChangeRate))
-        setTotalPrice(_totalPrice)
-        setDays(bookcarsHelper.days(from, to))
+useEffect(() => {
+  let active = true
+
+  const fetchPrice = async () => {
+    const calculatedDays = bookcarsHelper.days(from, to)
+
+    if (calculatedDays <= 0) {
+      if (active) {
+        setDays(0)
+        setTotalPrice(0)
       }
+
+      return
     }
 
-    fetchPrice()
-  }, [from, to]) // eslint-disable-line react-hooks/exhaustive-deps
+    const basePrice = bookcarsHelper.calculateTotalPrice(
+      car,
+      from,
+      to,
+      0,
+    )
+
+    const convertedPrice =
+      await PaymentService.convertPrice(basePrice)
+
+    if (active) {
+      setDays(calculatedDays)
+      setTotalPrice(convertedPrice)
+    }
+  }
+
+  fetchPrice()
+
+  return () => {
+    active = false
+  }
+}, [
+  car,
+  from,
+  to,
+])
 
   useEffect(() => {
     const fetchDeposit = async () => {
@@ -140,16 +169,16 @@ const Car = ({
       // setAdditionalDriver(_additionalDriver)
       setLoading(false)
 
-      if (!hidePrice) {
-        // const priceChangeRate = (car as any)?.supplier?.priceChangeRate ?? 0
-        const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from, to, 0))
-        // let _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from as Date, to as Date, car.supplier.priceChangeRate || 0))
-        setTotalPrice(_totalPrice)
-      }
+      // if (!hidePrice) {
+      //   // const priceChangeRate = (car as any)?.supplier?.priceChangeRate ?? 0
+      //   const _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from, to, 0))
+      //   // let _totalPrice = await PaymentService.convertPrice(bookcarsHelper.calculateTotalPrice(car, from as Date, to as Date, car.supplier.priceChangeRate || 0))
+      //   setTotalPrice(_totalPrice)
+      // }
     }
 
     init()
-  }, [hidePrice]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [hidePrice, car, language]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getExtraIcon = (option: string, extra: number) => {
     let available = false

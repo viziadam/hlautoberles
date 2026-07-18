@@ -229,7 +229,7 @@ const CarList = ({
 
               {rows.map((car) => (
                 <Car
-                  key={car._id}
+                  key={`${car._id}-${from?.getTime()}-${to?.getTime()}`}
                   car={car}
                   booking={booking}
                   // pickupLocation={pickupLocation}

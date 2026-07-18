@@ -82,7 +82,51 @@ const env = {
   isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
 
   WEBSITE_NAME: String(import.meta.env.VITE_BC_WEBSITE_NAME || 'BookCars'),
-  COMPANY_ADDRESS: String('1117 Budapest, Galvani u. 1-3'),
+  COMPANY_ADDRESS: String(
+    import.meta.env.VITE_BC_COMPANY_ADDRESS
+    || '1117 Budapest, Galvani u. 1-3',
+  ),
+
+  PUBLIC_SITE_URL: String(
+    import.meta.env.VITE_PUBLIC_SITE_URL || 'https://hlautoberles.hu',
+  ).replace(/\/+$/, ''),
+
+  CONTACT_EMAIL: String(
+    import.meta.env.VITE_BC_CONTACT_EMAIL || 'info@hlautoberles.hu',
+  ),
+
+  CONTACT_PHONE: String(
+    import.meta.env.VITE_BC_CONTACT_PHONE || '+36308730427',
+  ),
+
+  COMPANY_STREET_ADDRESS: String(
+    import.meta.env.VITE_BC_COMPANY_STREET_ADDRESS
+    || 'Galvani utca 1–3.',
+  ),
+
+  COMPANY_POSTAL_CODE: String(
+    import.meta.env.VITE_BC_COMPANY_POSTAL_CODE || '1117',
+  ),
+
+  COMPANY_CITY: String(
+    import.meta.env.VITE_BC_COMPANY_CITY || 'Budapest',
+  ),
+
+  COMPANY_COUNTRY: String(
+    import.meta.env.VITE_BC_COMPANY_COUNTRY || 'HU',
+  ),
+
+  COMPANY_MAP_URL: String(
+    import.meta.env.VITE_BC_COMPANY_MAP_URL || '',
+  ),
+
+  MAP_LATITUDE: Number(
+    String(import.meta.env.VITE_BC_MAP_LATITUDE || '47.468370'),
+  ),
+
+  MAP_LONGITUDE: Number(
+    String(import.meta.env.VITE_BC_MAP_LONGITUDE || '19.056240'),
+  ),
 
   APP_TYPE: bookcarsTypes.AppType.Frontend,
   API_HOST: String(import.meta.env.VITE_BC_API_HOST),
@@ -128,7 +172,10 @@ const env = {
   SET_LANGUAGE_FROM_IP: (import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP && import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP.toLowerCase()) === 'true',
   GOOGLE_ANALYTICS_ENABLED: (import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED && import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED.toLowerCase()) === 'true',
   GOOGLE_ANALYTICS_ID: String(import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ID),
-  CONTACT_EMAIL: import.meta.env.VITE_BC_CONTACT_EMAIL,
+  // CONTACT_EMAIL: import.meta.env.VITE_BC_CONTACT_EMAIL,
+  // CONTACT_PHONE: String(
+  //   import.meta.env.VITE_BC_CONTACT_PHONE || '+36308730427',
+  // ),
   DEPOSIT_FILTER_VALUE_1: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_1), 10),
   DEPOSIT_FILTER_VALUE_2: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_2), 10),
   DEPOSIT_FILTER_VALUE_3: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_3), 10),
@@ -140,17 +187,40 @@ const env = {
    */
   MIN_LOCATIONS: Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
   HIDE_SUPPLIERS: (import.meta.env.VITE_BC_HIDE_SUPPLIERS && import.meta.env.VITE_BC_HIDE_SUPPLIERS.toLowerCase()) === 'true',
-  MAP_LATITUDE: Number(String(import.meta.env.VITE_BC_MAP_LATITUDE || '34.0268755')),
-  MAP_LONGITUDE: Number(String(import.meta.env.VITE_BC_MAP_LONGITUDE || '1.6528399999999976')),
-  MAP_ZOOM: Number(String(import.meta.env.VITE_BC_MAP_ZOOM || '5')),
+  // MAP_LATITUDE: Number(String(import.meta.env.VITE_BC_MAP_LATITUDE || '47.468370')),
+  // MAP_LONGITUDE: Number(String(import.meta.env.VITE_BC_MAP_LONGITUDE || '19.056240')),
+  MAP_ZOOM: Number(String(import.meta.env.VITE_BC_MAP_ZOOM || '15')),
   PASSWORD_MIN_LENGTH: 6,
   CLARITY_ENABLED: (
     import.meta.env.VITE_BC_CLARITY_ENABLED
     && import.meta.env.VITE_BC_CLARITY_ENABLED.toLowerCase()
   ) === 'true',
-  
+
   CLARITY_PROJECT_ID:
     String(import.meta.env.VITE_BC_CLARITY_PROJECT_ID || ''),
-  }
+  HOME_MINI_DAILY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MINI_DAILY_PRICE || '12000'),
+  ),
+
+  HOME_MINI_WEEKLY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MINI_WEEKLY_PRICE || '60000'),
+  ),
+
+  HOME_MIDI_DAILY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MIDI_DAILY_PRICE || '20000'),
+  ),
+
+  HOME_MIDI_WEEKLY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MIDI_WEEKLY_PRICE || '100000'),
+  ),
+
+  HOME_MAXI_DAILY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MAXI_DAILY_PRICE || '30000'),
+  ),
+
+  HOME_MAXI_WEEKLY_PRICE: Number(
+    String(import.meta.env.VITE_BC_HOME_MAXI_WEEKLY_PRICE || '150000'),
+  ),
+}
 
 export default env

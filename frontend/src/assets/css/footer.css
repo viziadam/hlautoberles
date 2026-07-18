@@ -168,3 +168,7 @@ div.footer section.copyright {
 .footer-cookie-settings:hover {
   text-decoration: underline;
 }
+
+div.footer div.footer-contact a {
+  overflow-wrap: anywhere;
+}

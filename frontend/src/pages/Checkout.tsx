@@ -1,17 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
-  OutlinedInput,
-  InputLabel,
   FormControl,
-  FormHelperText,
   Button,
   Paper,
-  Checkbox,
-  Link,
   FormControlLabel,
-  RadioGroup,
-  Radio,
   CircularProgress,
   Switch,
 } from '@mui/material'
@@ -248,7 +241,7 @@ const Checkout = () => {
 
       if (status === 200) {
         setBookingId(_bookingId)
-            
+
         sendEvent('generate_lead', {
           lead_type: 'booking_request',
           currency: PaymentService.getCurrency() || 'HUF',

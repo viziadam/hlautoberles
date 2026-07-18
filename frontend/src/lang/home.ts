@@ -130,6 +130,8 @@ SERVICES_SUPPORT:
     CUSTOMER_CARE_MODIFICATION: 'Inquiries and Modifications',
     CUSTOMER_CARE_GUIDANCE: 'Vehicle Selection Guidance',
     CUSTOMER_CARE_SUPPORT: 'Advice and Support',
+    PRICE_PER_DAY_UNIT: 'pday',
+    PRICE_PER_WEEK_UNIT: 'pweek',
   },
   es: {
     PICK_UP_DATE: 'Fecha de recogida',
@@ -268,6 +270,8 @@ SERVICES_FLEXIBLE:
   CUSTOMER_CARE_MODIFICATION: 'Kérdések és módosítások',
   CUSTOMER_CARE_GUIDANCE: 'Segítség járműválasztásban',
   CUSTOMER_CARE_SUPPORT: 'Tanácsadás és támogatás',
+  PRICE_PER_DAY_UNIT: '/nap',
+  PRICE_PER_WEEK_UNIT: '/hét',
 },
 })
 

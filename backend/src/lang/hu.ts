@@ -77,8 +77,8 @@ export const hu = {
   CONTACT_SUBJECT:
     'Új üzenet a kapcsolatfelvételi űrlapról',
   SUBJECT: 'Tárgy',
-  FROM: 'Feladó',
-  MESSAGE: 'Üzenet',
+  FROM: 'Átvétel időpontja',
+  MESSAGE: 'Leadás időpontja',
 
   LOCATION_IMAGE_NOT_FOUND:
     'A helyszín képe nem található',
@@ -109,7 +109,7 @@ export const hu = {
   BOOKING_STATUS_CANCELLED: "Törölt",
   BOOKING_STATUS_VOID: "Érvénytelen",
   REQUESTED_BY: 'Igénylő',
-  COMPANY: 'HL Dekor',
+  COMPANY: env.WEBSITE_NAME,
   CAR: 'Jármű',
   TO: 'Címzett',
 

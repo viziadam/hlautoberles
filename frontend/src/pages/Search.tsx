@@ -34,12 +34,11 @@ import {
   getVehicleLandingByRanges,
 } from '@/config/vehicleLanding.config'
 
-import env from '@/config/env.config'
-
-const COMPANY_POSITION: [number, number] = [
-  Number(env.MAP_LATITUDE),
-  Number(env.MAP_LONGITUDE),
-]
+import {
+  COMPANY_LOCATION,
+  COMPANY_MAP_ZOOM,
+  COMPANY_POSITION,
+} from '@/config/company.config'
 
 
 import '@/assets/css/search.css'
@@ -105,14 +104,9 @@ const Search = () => {
   const [openMapDialog, setOpenMapDialog] = useState(false)
   // const [distance, setDistance] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  
   // const [loadingPage, setLoadingPage] = useState(true)
 
-  const companyLocation = {
-  _id: 'hl-auto-rental-depot',
-  name: strings.COMPANY_LOCATION_NAME,
-  latitude: COMPANY_POSITION[0],
-  longitude: COMPANY_POSITION[1],
-} as bookcarsTypes.Location
 
   const language = getLanguage()
   const visibleContent = language === 'en'
@@ -457,12 +451,11 @@ return (
             {!loading && (
               <>
                 <Map
-                position={COMPANY_POSITION}
-                initialZoom={14}
-                locations={[companyLocation]}
-                parkingSpots={undefined}
-                className="map"
-              />
+                  position={COMPANY_POSITION}
+                  initialZoom={COMPANY_MAP_ZOOM}
+                  locations={[COMPANY_LOCATION]}
+                  className="map"
+                />
 
                 <CarFilter
                   className="filter"

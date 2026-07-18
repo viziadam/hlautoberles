@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { MailOutline } from '@mui/icons-material'
+import { MailOutline, PhoneOutlined, } from '@mui/icons-material'
 import { strings } from '@/lang/footer'
 import env from '@/config/env.config'
 import '@/assets/css/footer.css'
@@ -65,6 +65,18 @@ const Footer = () => {
             <MailOutline className="icon" />
             <a href={`mailto:${env.CONTACT_EMAIL}`}>{env.CONTACT_EMAIL}</a>
           </div>
+          {env.CONTACT_PHONE && (
+            <div className="footer-contact">
+              <PhoneOutlined className="icon" />
+                    
+              <a
+                href={`tel:${env.CONTACT_PHONE.replace(/[^\d+]/g, '')}`}
+                aria-label={`${strings.PHONE}: ${env.CONTACT_PHONE}`}
+              >
+                {env.CONTACT_PHONE}
+              </a>
+            </div>
+          )}
           {/* <div className="newsletter">
             <NewsletterForm />
           </div> */}

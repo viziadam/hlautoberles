@@ -59,31 +59,51 @@ const Home = () => {
   const [ranges, setRanges] = useState([bookcarsTypes.CarRange.Mini, bookcarsTypes.CarRange.Midi])
   const [openRangeSearchFormDialog, setOpenRangeSearchFormDialog] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
-  const [miniPricePhr, setMiniPricePhr] = useState(1500)
-  const [miniPricePday, setMiniPricePday] = useState(12000)
-  const [midiPricePhr, setMidiPricePhr] = useState(2500)
-  const [midiPricePday, setMidiPricePday] = useState(20000)
-  const [maxiPricePhr, setMaxiPricePhr] = useState(4000)
-  const [maxiPricePday, setMaxiPricePday] = useState(30000)
+  const [miniDailyPrice, setMiniDailyPrice] = useState(env.HOME_MINI_DAILY_PRICE,)
+  const [miniWeeklyPrice, setMiniWeeklyPrice] = useState(env.HOME_MINI_WEEKLY_PRICE,)
+  const [midiDailyPrice, setMidiDailyPrice] = useState(env.HOME_MIDI_DAILY_PRICE,)
+  const [midiWeeklyPrice, setMidiWeeklyPrice] = useState(env.HOME_MIDI_WEEKLY_PRICE,)
+  const [maxiDailyPrice, setMaxiDailyPrice] = useState(env.HOME_MAXI_DAILY_PRICE,)
+  const [maxiWeeklyPrice, setMaxiWeeklyPrice] = useState(env.HOME_MAXI_WEEKLY_PRICE,)
 
   useEffect(() => {
-    const init = async () => {
-      const _miniPricePhr = await PaymentService.convertPrice(miniPricePhr)
-      setMiniPricePhr(_miniPricePhr)
-      const _miniPricePday = await PaymentService.convertPrice(miniPricePday)
-      setMiniPricePday(_miniPricePday)
-      const _midiPricePhr = await PaymentService.convertPrice(midiPricePhr)
-      setMidiPricePhr(_midiPricePhr)
-      const _midiPricePday = await PaymentService.convertPrice(midiPricePday)
-      setMidiPricePday(_midiPricePday)
-      const _maxiPricePhr = await PaymentService.convertPrice(maxiPricePhr)
-      setMaxiPricePhr(_maxiPricePhr)
-      const _maxiPricePday = await PaymentService.convertPrice(maxiPricePday)
-      setMaxiPricePday(_maxiPricePday)
+    let active = true
+
+    const initPrices = async () => {
+      const [
+        convertedMiniDailyPrice,
+        convertedMiniWeeklyPrice,
+        convertedMidiDailyPrice,
+        convertedMidiWeeklyPrice,
+        convertedMaxiDailyPrice,
+        convertedMaxiWeeklyPrice,
+      ] = await Promise.all([
+        PaymentService.convertPrice(env.HOME_MINI_DAILY_PRICE),
+        PaymentService.convertPrice(env.HOME_MINI_WEEKLY_PRICE),
+        PaymentService.convertPrice(env.HOME_MIDI_DAILY_PRICE),
+        PaymentService.convertPrice(env.HOME_MIDI_WEEKLY_PRICE),
+        PaymentService.convertPrice(env.HOME_MAXI_DAILY_PRICE),
+        PaymentService.convertPrice(env.HOME_MAXI_WEEKLY_PRICE),
+      ])
+
+      if (!active) {
+        return
+      }
+
+      setMiniDailyPrice(convertedMiniDailyPrice)
+      setMiniWeeklyPrice(convertedMiniWeeklyPrice)
+      setMidiDailyPrice(convertedMidiDailyPrice)
+      setMidiWeeklyPrice(convertedMidiWeeklyPrice)
+      setMaxiDailyPrice(convertedMaxiDailyPrice)
+      setMaxiWeeklyPrice(convertedMaxiWeeklyPrice)
     }
 
-    init()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    initPrices()
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
@@ -413,12 +433,31 @@ const Home = () => {
                 <span>{carsStrings.CAR_RANGE_MINI}</span>
                 <ul>
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(miniPricePhr, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · phr</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        miniDailyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_DAY_UNIT}`}
+                    </span>
                   </li>
+                    
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(miniPricePday, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · pday</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        miniWeeklyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_WEEK_UNIT}`}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -462,12 +501,31 @@ const Home = () => {
                 <span>{carsStrings.CAR_RANGE_MIDI}</span>
                 <ul>
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(midiPricePhr, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · phr</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        midiDailyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_DAY_UNIT}`}
+                    </span>
                   </li>
+                    
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(midiPricePday, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · pday</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        midiWeeklyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_WEEK_UNIT}`}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -510,12 +568,31 @@ const Home = () => {
                 <span>{carsStrings.CAR_RANGE_MAXI}</span>
                 <ul>
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(maxiPricePhr, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · phr</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        maxiDailyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_DAY_UNIT}`}
+                    </span>
                   </li>
+                    
                   <li>
-                    <span className="price">{bookcarsHelper.formatPrice(maxiPricePday, commonStrings.CURRENCY, language)}</span>
-                    <span className="unit"> · pday</span>
+                    <span className="price">
+                      {bookcarsHelper.formatPrice(
+                        maxiWeeklyPrice,
+                        commonStrings.CURRENCY,
+                        language,
+                      )}
+                    </span>
+                    
+                    <span className="unit">
+                      {` · ${strings.PRICE_PER_WEEK_UNIT}`}
+                    </span>
                   </li>
                 </ul>
               </div>
