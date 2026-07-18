@@ -99,9 +99,6 @@ const Contact = () => {
     <Layout
       onLoad={onLoad}
       strict={false}
-      title={strings.SEO_TITLE}
-      description={strings.SEO_DESCRIPTION}
-      url="/contact"
     >
       <main className="contact">
         <section
