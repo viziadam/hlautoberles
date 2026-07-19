@@ -3,15 +3,19 @@ import * as bookcarsTypes from ':bookcars-types'
 import * as env from '../config/env.config'
 
 export const BOOKING_EXPIRE_AT_INDEX_NAME = 'expireAt'
+export const COMPLETED_BOOKING_STATUS = (
+  'completed' as bookcarsTypes.BookingStatus
+)
 
-const bookingSchema = new Schema<env.Booking>(
+export interface BookingDocument extends env.Booking {
+  reviewRequestSentAt?: Date
+  reviewRequestClaimedAt?: Date
+  reviewRequestSkippedAt?: Date
+  reviewRequestSkipReason?: string
+}
+
+const bookingSchema = new Schema<BookingDocument>(
   {
-    // supplier: {
-    //   type: Schema.Types.ObjectId,
-    //   required: [true, "can't be blank"],
-    //   ref: 'User',
-    //   index: true,
-    // },
     car: {
       type: Schema.Types.ObjectId,
       required: [true, "can't be blank"],
@@ -23,16 +27,6 @@ const bookingSchema = new Schema<env.Booking>(
       ref: 'User',
       index: true,
     },
-    // pickupLocation: {
-    //   type: Schema.Types.ObjectId,
-    //   required: [true, "can't be blank"],
-    //   ref: 'Location',
-    // },
-    // dropOffLocation: {
-    //   type: Schema.Types.ObjectId,
-    //   required: [true, "can't be blank"],
-    //   ref: 'Location',
-    // },
     from: {
       type: Date,
       required: [true, "can't be blank"],
@@ -46,10 +40,8 @@ const bookingSchema = new Schema<env.Booking>(
       enum: [
         bookcarsTypes.BookingStatus.Void,
         bookcarsTypes.BookingStatus.Pending,
-        // bookcarsTypes.BookingStatus.Deposit,
-        // bookcarsTypes.BookingStatus.Paid,
-        // bookcarsTypes.BookingStatus.PaidInFull,
         bookcarsTypes.BookingStatus.Reserved,
+        COMPLETED_BOOKING_STATUS,
         bookcarsTypes.BookingStatus.Cancelled,
       ],
       required: [true, "can't be blank"],
@@ -58,40 +50,22 @@ const bookingSchema = new Schema<env.Booking>(
       type: Boolean,
       default: false,
     },
-    // amendments: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     theftProtection: {
       type: Boolean,
       default: false,
     },
-    // collisionDamageWaiver: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     fullInsurance: {
       type: Boolean,
       default: false,
     },
-    toolsIncluded:{
+    toolsIncluded: {
       type: Boolean,
       default: false,
     },
-    chauffeurRequested:{
+    chauffeurRequested: {
       type: Boolean,
       default: false,
     },
-    // additionalDriver: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // _additionalDriver: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'AdditionalDriver',
-    // },
-
-    
     price: {
       type: Number,
       required: [true, "can't be blank"],
@@ -121,13 +95,29 @@ const bookingSchema = new Schema<env.Booking>(
     paypalOrderId: {
       type: String,
     },
-    expireAt: {
-      //
-      // Bookings created from checkout with Stripe are temporary and
-      // are automatically deleted if the payment checkout session expires.
-      //
+    reviewRequestSentAt: {
       type: Date,
-      index: { name: BOOKING_EXPIRE_AT_INDEX_NAME, expireAfterSeconds: env.BOOKING_EXPIRE_AT, background: true },
+      index: true,
+    },
+    reviewRequestClaimedAt: {
+      type: Date,
+      index: true,
+    },
+    reviewRequestSkippedAt: {
+      type: Date,
+      index: true,
+    },
+    reviewRequestSkipReason: {
+      type: String,
+      trim: true,
+    },
+    expireAt: {
+      type: Date,
+      index: {
+        name: BOOKING_EXPIRE_AT_INDEX_NAME,
+        expireAfterSeconds: env.BOOKING_EXPIRE_AT,
+        background: true,
+      },
     },
   },
   {
@@ -137,21 +127,19 @@ const bookingSchema = new Schema<env.Booking>(
   },
 )
 
-// Common filter for every query
-// bookingSchema.index({ 'supplier._id': 1, status: 1, expireAt: 1 })
-
-// Optional filters (can combine with the above depending on frequency)
 bookingSchema.index({ 'driver._id': 1 })
 bookingSchema.index({ 'car._id': 1 })
-bookingSchema.index({ from: 1, to: 1 }) // For date range filtering
-// bookingSchema.index({ 'pickupLocation._id': 1 })
-// bookingSchema.index({ 'dropOffLocation._id': 1 })
-
-// If keyword is used often with regex, and performance is an issue:
-// bookingSchema.index({ 'supplier.fullName': 1 }) // Consider text index if full-text search is needed
+bookingSchema.index({ from: 1, to: 1 })
 bookingSchema.index({ 'driver.fullName': 1 })
 bookingSchema.index({ 'car.name': 1 })
+bookingSchema.index({
+  status: 1,
+  to: 1,
+  reviewRequestSentAt: 1,
+  reviewRequestSkippedAt: 1,
+  reviewRequestClaimedAt: 1,
+})
 
-const Booking = model<env.Booking>('Booking', bookingSchema)
+const Booking = model<BookingDocument>('Booking', bookingSchema)
 
 export default Booking
