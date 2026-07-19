@@ -49,6 +49,12 @@ li.bs-s {
   color: #FFF !important;
 }
 
+.bs-s-completed,
+.bs-s-completed:hover {
+  background: #D7F2DF !important;
+  color: #237A3B !important;
+}
+
 .bs-s-cancelled,
 .bs-s-cancelled:hover {
   background: #FBDFDE !important;
@@ -61,4 +67,9 @@ li.bs-s {
   font-weight: 200;
   padding: 3px;
   opacity: 0.93;
+}
+
+.completed-review-notice {
+  margin-top: 8px !important;
+  line-height: 1.45 !important;
 }
