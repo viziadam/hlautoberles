@@ -15,7 +15,7 @@ const ViewOnMapButton = ({ onClick }: ViewOnMapButtonProps) => (
     onClick={onClick}
     className="view-on-map"
   >
-    <img alt="View On Map" src={ViewOnMap} />
+    <img alt="" aria-hidden="true" src={ViewOnMap} />
     <span>{strings.VIEW_ON_MAP}</span>
   </button>
 )
