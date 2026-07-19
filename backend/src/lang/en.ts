@@ -49,24 +49,25 @@ export const en = {
   NEW_CAR_NOTIFICATION_PART1: 'The supplier ',
   NEW_CAR_NOTIFICATION_PART2: ' created a new car.',
 
-  BOOKING_REQUEST_SUBJECT: "New booking request",
-  BOOKING_REQUEST_ADMIN_INTRO: "A new booking request has been submitted and is waiting for your review.",
-  BOOKING_REQUEST_ADMIN_ACTION: "Please open the booking in the admin panel to approve or reject it.",
+  BOOKING_REQUEST_SUBJECT: 'New booking request',
+  BOOKING_REQUEST_ADMIN_INTRO: 'A new booking request has been submitted and is waiting for your review.',
+  BOOKING_REQUEST_ADMIN_ACTION: 'Please open the booking in the admin panel to approve or reject it.',
 
-  BOOKING_REQUEST_RECEIVED_SUBJECT: "Booking request received",
-  BOOKING_REQUEST_RECEIVED_INTRO: "We received your booking request and sent it for approval.",
-  BOOKING_REQUEST_RECEIVED_NEXT_STEPS: "Your reservation request was successful. Our staff will contact you shortly.",
+  BOOKING_REQUEST_RECEIVED_SUBJECT: 'Booking request received',
+  BOOKING_REQUEST_RECEIVED_INTRO: 'We received your booking request and sent it for approval.',
+  BOOKING_REQUEST_RECEIVED_NEXT_STEPS: 'Your reservation request was successful. Our staff will contact you shortly.',
 
-  BOOKING_ID: "Booking ID",
-  BOOKING_STATUS: "Status",
-  BOOKING_STATUS_PENDING: "Pending",
-  BOOKING_STATUS_RESERVED: "Reserved",
-  BOOKING_STATUS_CANCELLED: "Cancelled",
-  BOOKING_STATUS_VOID: "Void",
-  REQUESTED_BY: "Requested by",
+  BOOKING_ID: 'Booking ID',
+  BOOKING_STATUS: 'Status',
+  BOOKING_STATUS_PENDING: 'Pending',
+  BOOKING_STATUS_RESERVED: 'Reserved',
+  BOOKING_STATUS_COMPLETED: 'Completed',
+  BOOKING_STATUS_CANCELLED: 'Cancelled',
+  BOOKING_STATUS_VOID: 'Void',
+  REQUESTED_BY: 'Requested by',
   COMPANY: env.WEBSITE_NAME,
-  CAR: "Vehicle",
-  TO: "Drop-off date",
+  CAR: 'Vehicle',
+  TO: 'Drop-off date',
 
   BOOKING_CREATED_NOTIFICATION_PART1: 'A new booking',
   BOOKING_CREATED_NOTIFICATION_PART2: 'was created.',
@@ -74,7 +75,4 @@ export const en = {
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART1: 'The status of the booking',
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART2: 'changed from',
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART3: 'to',
-
-
-
 }
