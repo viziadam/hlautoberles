@@ -3,7 +3,7 @@ import { strings as commonStrings } from '@/lang/common'
 import * as UserService from '@/services/UserService'
 
 export const COMPLETED_BOOKING_STATUS = (
-  'completed' as bookcarsTypes.BookingStatus
+  bookcarsTypes.BookingStatus.Completed
 )
 
 const completedLabels: Record<string, string> = {

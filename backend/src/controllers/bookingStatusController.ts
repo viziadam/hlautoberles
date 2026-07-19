@@ -17,17 +17,35 @@ import * as helper from '../utils/helper'
 import * as logger from '../utils/logger'
 import * as mailHelper from '../utils/mailHelper'
 
-const ALLOWED_STATUSES = new Set<string>([
+const ALLOWED_STATUSES = new Set<bookcarsTypes.BookingStatus>([
   bookcarsTypes.BookingStatus.Void,
   bookcarsTypes.BookingStatus.Pending,
   bookcarsTypes.BookingStatus.Reserved,
-  COMPLETED_BOOKING_STATUS,
+  bookcarsTypes.BookingStatus.Completed,
   bookcarsTypes.BookingStatus.Cancelled,
 ])
 
 const statusKey = (status: bookcarsTypes.BookingStatus) => (
   `BOOKING_STATUS_${String(status).toUpperCase()}`
 )
+
+const requireObjectId = (
+  value: unknown,
+  fieldName: string,
+): mongoose.Types.ObjectId => {
+  if (value instanceof mongoose.Types.ObjectId) {
+    return value
+  }
+
+  if (
+    typeof value === 'string'
+    && mongoose.isValidObjectId(value)
+  ) {
+    return new mongoose.Types.ObjectId(value)
+  }
+
+  throw new TypeError(`Invalid ${fieldName}`)
+}
 
 const buildStatusMessage = (
   booking: BookingDocument,
@@ -85,9 +103,9 @@ const sendPushNotification = async (
       sound: 'default',
       body: message,
       data: {
-        user: userId,
-        notification: notificationId,
-        booking: bookingId,
+        user: userId.toHexString(),
+        notification: notificationId.toHexString(),
+        booking: bookingId.toHexString(),
       },
     },
   ]
@@ -115,17 +133,42 @@ const notifyDriver = async (
     return
   }
 
+  const driverId = requireObjectId(
+    driver._id,
+    'driver ID',
+  )
+
+  const bookingId = requireObjectId(
+    booking._id,
+    'booking ID',
+  )
+
   i18n.locale = driver.language
-  const message = buildStatusMessage(booking, previousStatus)
+
+  const message = buildStatusMessage(
+    booking,
+    previousStatus,
+  )
+
   const notification = await Notification.create({
-    user: driver._id,
+    user: driverId,
     message,
-    booking: booking._id,
+    booking: bookingId,
   })
 
-  await incrementNotificationCounter(driver._id)
+  const notificationId = requireObjectId(
+    notification._id,
+    'notification ID',
+  )
+
+  await incrementNotificationCounter(driverId)
 
   if (driver.enableEmailNotifications) {
+    const bookingUrl = helper.joinURL(
+      env.FRONTEND_HOST,
+      `booking?b=${bookingId.toHexString()}`,
+    )
+
     const mailOptions: SendMailOptions = {
       from: env.SMTP_FROM,
       to: driver.email,
@@ -135,31 +178,32 @@ const notifyDriver = async (
         '',
         message,
         '',
-        helper.joinURL(
-          env.FRONTEND_HOST,
-          `booking?b=${booking._id}`,
-        ),
+        bookingUrl,
         '',
         env.WEBSITE_NAME,
       ].join('\n'),
       html: `<p>
         ${i18n.t('HELLO')}${driver.fullName},<br><br>
         ${message}<br><br>
-        ${helper.joinURL(
-          env.FRONTEND_HOST,
-          `booking?b=${booking._id}`,
-        )}<br><br>
+        ${bookingUrl}<br><br>
         ${i18n.t('REGARDS')}<br>
       </p>`,
     }
 
-    await mailHelper.sendMail(mailOptions)
+    try {
+      await mailHelper.sendMail(mailOptions)
+    } catch (mailError) {
+      logger.error(
+        `Failed to send booking status email for ${bookingId}`,
+        mailError,
+      )
+    }
   }
 
   await sendPushNotification(
-    driver._id,
-    booking._id,
-    notification._id,
+    driverId,
+    bookingId,
+    notificationId,
     message,
   )
 }
@@ -172,9 +216,10 @@ export const updateStatus = async (
     const { body }: {
       body: bookcarsTypes.UpdateStatusPayload
     } = req
-    const status = body.status as bookcarsTypes.BookingStatus
 
-    if (!ALLOWED_STATUSES.has(String(status))) {
+    const status = body.status
+
+    if (!ALLOWED_STATUSES.has(status)) {
       res.status(400).send('Invalid booking status')
       return
     }
@@ -190,8 +235,15 @@ export const updateStatus = async (
     }
 
     const bookings = await Booking.find({
-      _id: { $in: ids },
+      _id: {
+        $in: ids,
+      },
     })
+
+    if (bookings.length === 0) {
+      res.status(404).send('Bookings not found')
+      return
+    }
 
     for (const booking of bookings) {
       const previousStatus = booking.status
@@ -204,10 +256,14 @@ export const updateStatus = async (
       await booking.save()
 
       try {
-        await notifyDriver(booking, previousStatus)
+        await notifyDriver(
+          booking,
+          previousStatus,
+        )
       } catch (notificationError) {
         logger.error(
-          `Booking ${booking._id} was updated but notification failed`,
+          `Booking ${booking._id} was updated `
+          + 'but notification failed',
           notificationError,
         )
       }
@@ -216,9 +272,14 @@ export const updateStatus = async (
     res.sendStatus(200)
   } catch (error) {
     logger.error(
-      `[bookingStatus.updateStatus] ${JSON.stringify(req.body)}`,
+      `[bookingStatus.updateStatus] ${
+        JSON.stringify(req.body)
+      }`,
       error,
     )
-    res.status(400).send(i18n.t('DB_ERROR') + error)
+
+    res.status(400).send(
+      i18n.t('DB_ERROR') + error,
+    )
   }
 }

@@ -4,7 +4,7 @@ import * as env from '../config/env.config'
 
 export const BOOKING_EXPIRE_AT_INDEX_NAME = 'expireAt'
 export const COMPLETED_BOOKING_STATUS = (
-  'completed' as bookcarsTypes.BookingStatus
+  bookcarsTypes.BookingStatus.Completed
 )
 
 export interface BookingDocument extends env.Booking {

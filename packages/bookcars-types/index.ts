@@ -61,6 +61,7 @@ export enum BookingStatus {
   Void = 'void',
   Pending = 'pending',
   Reserved = 'reserved',
+  Completed = 'completed',
   Cancelled = 'cancelled',
 }
 export enum Mileage {
@@ -383,7 +384,7 @@ export interface ValidateCountryPayload {
 
 export interface UpdateStatusPayload {
   ids: string[]
-  status: string
+  status: BookingStatus
 }
 
 export interface User {
