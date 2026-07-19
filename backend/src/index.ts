@@ -2,25 +2,29 @@ import 'dotenv/config'
 import process from 'node:process'
 import fs from 'node:fs/promises'
 import http from 'node:http'
-import https, { ServerOptions } from 'node:https'
+import https, { type ServerOptions } from 'node:https'
 import * as env from './config/env.config'
 import * as databaseHelper from './utils/databaseHelper'
 import app from './app'
 import * as logger from './utils/logger'
+import {
+  startReviewRequestWorker,
+  stopReviewRequestWorker,
+} from './services/reviewRequestService'
 
-/**
- * Creates and returns an HTTP or HTTPS server based on environment configuration.
- * 
- * @returns {Promise<http.Server | https.Server>} The server instance
- */
-const createServer = async (): Promise<http.Server | https.Server> => {
+const createServer = async (): Promise<
+  http.Server | https.Server
+> => {
   if (env.HTTPS) {
     https.globalAgent.maxSockets = Infinity
     const [privateKey, certificate] = await Promise.all([
       fs.readFile(env.PRIVATE_KEY, 'utf8'),
       fs.readFile(env.CERTIFICATE, 'utf8'),
     ])
-    const credentials: ServerOptions = { key: privateKey, cert: certificate }
+    const credentials: ServerOptions = {
+      key: privateKey,
+      cert: certificate,
+    }
     return https.createServer(credentials, app)
   }
 
@@ -28,26 +32,23 @@ const createServer = async (): Promise<http.Server | https.Server> => {
   return http.createServer(app)
 }
 
-/**
- * Shutdown timeout duration in milliseconds.
- * If server shutdown takes longer than this, the process will be forcefully exited.
- * 
- * @constant {number}
- */
 const shutdownTimeoutMs = 10_000
 
-/**
- * Starts the server and sets up graceful shutdown handlers.
- */
 const start = async (): Promise<void> => {
   try {
-    const connected = await databaseHelper.connect(env.DB_URI, env.DB_SSL, env.DB_DEBUG)
+    const connected = await databaseHelper.connect(
+      env.DB_URI,
+      env.DB_SSL,
+      env.DB_DEBUG,
+    )
     const initialized = await databaseHelper.initialize()
 
     if (!connected || !initialized) {
       logger.error('Failed to connect or initialize the database')
       process.exit(1)
     }
+
+    startReviewRequestWorker()
 
     const protocol = env.HTTPS ? 'HTTPS' : 'HTTP'
     const server = await createServer()
@@ -57,9 +58,11 @@ const start = async (): Promise<void> => {
     })
 
     const shutdown = async (signal: string): Promise<void> => {
-      logger.info(`Received ${signal}. Gracefully stopping server...`)
+      logger.info(
+        `Received ${signal}. Gracefully stopping server...`,
+      )
+      stopReviewRequestWorker()
 
-      // Force shutdown if close hangs after timeout
       const shutdownTimeout = setTimeout(() => {
         logger.warn('Forced shutdown due to timeout')
         process.exit(1)
@@ -73,11 +76,14 @@ const start = async (): Promise<void> => {
       })
     }
 
-    ['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach((signal) => process.once(signal, shutdown))
-  } catch (err) {
-    logger.error('Server failed to start', err)
+    ['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(
+      (signal) => process.once(signal, shutdown),
+    )
+  } catch (error) {
+    stopReviewRequestWorker()
+    logger.error('Server failed to start', error)
     process.exit(1)
   }
 }
 
-start() // Start server
+void start()
