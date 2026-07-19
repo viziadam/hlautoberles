@@ -90,53 +90,51 @@ const Car = ({
     periodStatus === 'pending' ? strings.PENDING :
     periodStatus === 'unavailable' ? strings.NOT_AVAILABLE : null
 
-
-
   useEffect(() => {
     setLanguage(UserService.getLanguage())
   }, [])
 
-useEffect(() => {
-  let active = true
+  useEffect(() => {
+    let active = true
 
-  const fetchPrice = async () => {
-    const calculatedDays = bookcarsHelper.days(from, to)
+    const fetchPrice = async () => {
+      const calculatedDays = bookcarsHelper.days(from, to)
 
-    if (calculatedDays <= 0) {
-      if (active) {
-        setDays(0)
-        setTotalPrice(0)
+      if (calculatedDays <= 0) {
+        if (active) {
+          setDays(0)
+          setTotalPrice(0)
+        }
+
+        return
       }
 
-      return
+      const basePrice = bookcarsHelper.calculateTotalPrice(
+        car,
+        from,
+        to,
+        0,
+      )
+
+      const convertedPrice =
+        await PaymentService.convertPrice(basePrice)
+
+      if (active) {
+        setDays(calculatedDays)
+        setTotalPrice(convertedPrice)
+      }
     }
 
-    const basePrice = bookcarsHelper.calculateTotalPrice(
-      car,
-      from,
-      to,
-      0,
-    )
+    fetchPrice()
 
-    const convertedPrice =
-      await PaymentService.convertPrice(basePrice)
-
-    if (active) {
-      setDays(calculatedDays)
-      setTotalPrice(convertedPrice)
+    return () => {
+      active = false
     }
-  }
-
-  fetchPrice()
-
-  return () => {
-    active = false
-  }
-}, [
-  car,
-  from,
-  to,
-])
+  }, [
+    car,
+    from,
+    to,
+  ])
 
   useEffect(() => {
     const fetchDeposit = async () => {
@@ -153,7 +151,7 @@ useEffect(() => {
 
   useEffect(() => {
     const init = async () => {
-      const priceChangeRate =  0
+      const priceChangeRate = 0
       const _cancellation = (car.cancellation > -1 && (await helper.getCancellation(car.cancellation, language, priceChangeRate))) || ''
       const _amendments = (car.amendments > -1 && (await helper.getAmendments(car.amendments, language, priceChangeRate))) || ''
       const _theftProtection = (car.theftProtection > -1 && (await helper.getTheftProtection(car.theftProtection, language, priceChangeRate))) || ''
@@ -218,9 +216,9 @@ useEffect(() => {
 
   return (
     <div
-  key={car._id}
-  className={`car-container ${!isBookable ? 'is-unbookable' : ''}`}
->
+      key={car._id}
+      className={`car-container ${!isBookable ? 'is-unbookable' : ''}`}
+    >
       {true && (
         <div className="car-header">
           <div className="location">
@@ -229,7 +227,11 @@ useEffect(() => {
           </div>
           {distance && (
             <div className="distance">
-              <img alt="Distance" src={DistanceIcon} />
+              <img
+                alt=""
+                aria-hidden="true"
+                src={DistanceIcon}
+              />
               <Badge backgroundColor="#D8EDF9" color="#000" text={`${distance} ${strings.FROM_YOU}`} />
             </div>
           )}
@@ -245,10 +247,15 @@ useEffect(() => {
         )}
 
         <div className="car">
-          <img src={bookcarsHelper.joinURL(env.CDN_CARS, car.image)} alt={car.name} className="car-img" />
+          <img
+            src={bookcarsHelper.joinURL(env.CDN_CARS, car.image)}
+            alt={`${car.name} – ${env.WEBSITE_NAME}`}
+            className="car-img"
+          />
           <div className="car-row">
             <CarGallery
-                        value={car.images ?? []}
+              value={car.images ?? []}
+              altPrefix={`${car.name} – ${env.WEBSITE_NAME}`}
             />
             {/* {!hideSupplier && (
               <div className="car-supplier" style={sizeAuto ? { bottom: 10 } : {}} title={car.supplier.fullName}>
@@ -263,7 +270,11 @@ useEffect(() => {
                 {car.rating && car.rating >= 1 && (
                   <>
                     <span className="value">{car.rating.toFixed(2)}</span>
-                    <img alt="Rating" src={RatingIcon} />
+                    <img
+                      alt=""
+                      aria-hidden="true"
+                      src={RatingIcon}
+                    />
                   </>
                 )}
                 {car.trips >= 10 && <span className="trips">{`(${car.trips} ${strings.TRIPS})`}</span>}
@@ -271,7 +282,8 @@ useEffect(() => {
               {car.co2 && (
                 <div className="co2">
                   <img
-                    alt="CO2 Effect"
+                    alt=""
+                    aria-hidden="true"
                     src={
                       car.co2 <= 90
                         ? CO2MinIcon
@@ -341,7 +353,12 @@ useEffect(() => {
               <li className="doors">
                 <Tooltip title={helper.getDoorsTooltip(car.doors)} placement="top">
                   <div className="car-info-list-item">
-                    <img src={DoorsIcon} alt="" className="car-doors" />
+                    <img
+                      src={DoorsIcon}
+                      alt=""
+                      aria-hidden="true"
+                      className="car-doors"
+                    />
                     <span className="car-info-list-text">{car.doors}</span>
                   </div>
                 </Tooltip>
@@ -457,7 +474,7 @@ useEffect(() => {
           {!hidePrice && (
             <div className="action">
               {
-                car.available && !car.comingSoon && !car.fullyBooked && isBookable &&  (
+                car.available && !car.comingSoon && !car.fullyBooked && isBookable && (
                   <Button
                     variant="contained"
                     className="btn-primary btn-book btn-margin-bottom"
