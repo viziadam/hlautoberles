@@ -38,7 +38,6 @@ export const hu = {
 
   BOOKING_CONFIRMED_SUBJECT_PART1: 'A foglalásod',
   BOOKING_CONFIRMED_SUBJECT_PART2: 'megerősítésre került.',
-
   BOOKING_CONFIRMED_PART1: 'A foglalásod',
   BOOKING_CONFIRMED_PART2:
     'megerősítésre került, a fizetés sikeresen megtörtént.',
@@ -105,9 +104,10 @@ export const hu = {
   BOOKING_ID: 'Foglalás azonosító',
   BOOKING_STATUS: 'Állapot',
   BOOKING_STATUS_PENDING: 'Függőben',
-  BOOKING_STATUS_RESERVED: "Lefoglalt",
-  BOOKING_STATUS_CANCELLED: "Törölt",
-  BOOKING_STATUS_VOID: "Érvénytelen",
+  BOOKING_STATUS_RESERVED: 'Lefoglalt',
+  BOOKING_STATUS_COMPLETED: 'Teljesítve',
+  BOOKING_STATUS_CANCELLED: 'Törölt',
+  BOOKING_STATUS_VOID: 'Érvénytelen',
   REQUESTED_BY: 'Igénylő',
   COMPANY: env.WEBSITE_NAME,
   CAR: 'Jármű',
@@ -123,5 +123,5 @@ export const hu = {
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART2:
     'megváltozott erről:',
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART3:
-    'erre:'
+    'erre:',
 }
