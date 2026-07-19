@@ -134,22 +134,22 @@ const Home = () => {
     // const _locations = await LocationService.getLocationsWithPosition()
     // setLocations(_locations)
     // HQ location lista a maphoz
-  const hqLocation: bookcarsTypes.Location = {
-    _id: 'hq',
-    name: strings.MAP_LOCATION_NAME,
-    address: '1117 Budapest, Galvani u. 1-3',
-    latitude: Number(env.MAP_LATITUDE),
-    longitude: Number(env.MAP_LONGITUDE),
-    position: {
-      type: 'Point',
-      coordinates: [
-        Number(env.MAP_LONGITUDE),
-        Number(env.MAP_LATITUDE),
-      ],
-    },
-  } as bookcarsTypes.Location
+    const hqLocation: bookcarsTypes.Location = {
+      _id: 'hq',
+      name: strings.MAP_LOCATION_NAME,
+      address: '1117 Budapest, Galvani u. 1-3',
+      latitude: Number(env.MAP_LATITUDE),
+      longitude: Number(env.MAP_LONGITUDE),
+      position: {
+        type: 'Point',
+        coordinates: [
+          Number(env.MAP_LONGITUDE),
+          Number(env.MAP_LATITUDE),
+        ],
+      },
+    } as bookcarsTypes.Location
 
-  setLocations([hqLocation])
+    setLocations([hqLocation])
 
     const observer = new IntersectionObserver(handleIntersection)
     const video = document.getElementById('cover') as HTMLVideoElement
@@ -410,7 +410,10 @@ const Home = () => {
           <div className="boxes">
             <div className="box">
               <div className="box-img">
-                <img alt="Mini" src={Mini} />
+                <img
+                  src={Mini}
+                  alt={`${carsStrings.CAR_RANGE_MINI} – ${strings.CAR_SIZE_TITLE}`}
+                />
               </div>
               <div className="box-content">
                 {/* <FormControlLabel
@@ -478,7 +481,10 @@ const Home = () => {
             </div>
             <div className="box">
               <div className="box-img">
-                <img alt="Midi" src={Midi} />
+                <img
+                  src={Midi}
+                  alt={`${carsStrings.CAR_RANGE_MIDI} – ${strings.CAR_SIZE_TITLE}`}
+                />
               </div>
               <div className="box-content">
                 {/* <FormControlLabel
@@ -546,7 +552,10 @@ const Home = () => {
             </div>
             <div className="box">
               <div className="box-img">
-                <img alt="Maxi" src={Maxi} />
+                <img
+                  src={Maxi}
+                  alt={`${carsStrings.CAR_RANGE_MAXI} – ${strings.CAR_SIZE_TITLE}`}
+                />
               </div>
               <div className="box-content">
                 {/* <FormControlLabel
@@ -695,7 +704,10 @@ const Home = () => {
             </div>
 
             <div className="customer-care-img">
-              <img src="/customer-care.png" alt="" />
+              <img
+                src="/customer-care.png"
+                alt={strings.CUSTOMER_CARE_TITLE}
+              />
             </div>
           </div>
         </div>
