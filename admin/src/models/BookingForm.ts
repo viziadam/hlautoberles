@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { strings as commonStrings } from '@/lang/common'
 import { optionSchema } from '@/models/common'
 import { getAllBookingStatuses } from '@/utils/bookingStatus'
 
