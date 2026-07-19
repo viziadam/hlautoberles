@@ -193,6 +193,8 @@ const strings = new LocalizedStrings({
     BOOKED: 'Reserved',
     RESERVED: 'Reserved',
     NOT_AVAILABLE: 'Not available',
+    CHAUFFEUR: 'Chauffeur',
+    RENTAL_TOOLS: 'Rental tools',
   },
   es: {
     NEW_CAR: 'Coche nuevo',
@@ -422,6 +424,9 @@ const strings = new LocalizedStrings({
   BOOKED: 'Foglalva',
   RESERVED: 'Lefoglalva',
   NOT_AVAILABLE: 'Nem elérhető',
+  
+  CHAUFFEUR: 'Sofőrszolgálat',
+  RENTAL_TOOLS: 'Szerszámbérlés',
 },
 })
 

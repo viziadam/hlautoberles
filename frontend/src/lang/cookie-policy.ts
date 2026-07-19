@@ -9,154 +9,138 @@ const strings = new LocalizedStrings({
   hu: {
     TITLE: 'Sütikezelési tájékoztató',
     POLICY: `
-Hatályos: 2026. július 19.
+      Hatályos: 2026. július 19.
 
-Ez a tájékoztató bemutatja, hogy a ${env.WEBSITE_NAME} weboldala milyen sütiket, böngészőoldali tárolási megoldásokat és hasonló technológiákat használ. A statisztikai célú mérések csak az Ön kifejezett hozzájárulása után indulnak el. A weboldal használata önmagában nem jelent hozzájárulást.
+      A ${env.WEBSITE_NAME} weboldal feltétlenül szükséges böngészőoldali tárolást, valamint az Ön hozzájárulása esetén statisztikai sütiket használ.
 
-1. Mi a süti és a böngészőoldali tárolás?
+      1. Feltétlenül szükséges tárolás
 
-A süti egy, a böngésző által tárolt kis adatállomány. A localStorage olyan böngészőoldali tárhely, amelyben a weboldal bizonyos beállításokat őrizhet meg. Ezek egy része a weboldal működéséhez szükséges, más részük kizárólag statisztikai célokat szolgál.
+      Név: ${consentStorageKey}
+      Szolgáltató: ${env.WEBSITE_NAME}
+      Típus: localStorage
+      Cél: a statisztikai sütik elfogadásának vagy elutasításának megjegyzése
+      Jogalap: a weboldal működéséhez szükséges technikai tárolás
+      Megőrzés: a választás módosításáig vagy a böngésző webhelyadatainak törléséig
 
-2. Feltétlenül szükséges technológiák
+      Ehhez a tároláshoz nem kérünk külön hozzájárulást, mert a felhasználó sütiválasztásának megőrzéséhez szükséges.
 
-A weboldal a működéshez, biztonságos bejelentkezéshez, munkamenet-kezeléshez és a felhasználó által választott beállítások megőrzéséhez szükséges technikai adatokat használhat. Ezek nélkül egyes funkciók – például a bejelentkezés, a foglalások kezelése vagy a biztonsági ellenőrzés – nem működnének megfelelően.
+      2. Google Analytics 4
 
-A sütiválasztást a weboldal a következő localStorage-bejegyzésben tárolja:
+      A Google Analytics a weboldal látogatottságának és használatának statisztikai elemzésére szolgál.
 
-- Név: ${consentStorageKey}
-- Típus: localStorage
-- Cél: annak megőrzése, hogy Ön engedélyezte vagy elutasította-e a statisztikai mérést
-- Tárolt adatok: verzió, szükséges tárolás állapota, statisztikai hozzájárulás állapota és a mentés időpontja
-- Megőrzés: a választás módosításáig vagy a böngésző webhelyadatainak törléséig
+      Szolgáltató: Google
+      Kategória: statisztikai
+      Jogalap: hozzájárulás
 
-Ez a bejegyzés feltétlenül szükséges, mert nélküle a weboldal nem tudná megjegyezni az Ön adatvédelmi választását.
+      Használt sütik:
 
-3. Google Analytics 4
+      - _ga: a látogatók megkülönböztetése; alapértelmezett megőrzése legfeljebb 2 év
+      - _ga_<azonosító>: a munkamenet állapotának megőrzése; alapértelmezett megőrzése legfeljebb 2 év
 
-Az Ön hozzájárulása esetén a weboldal a Google Analytics 4 szolgáltatást használja a látogatottság, az oldalmegtekintések, a keresések, a foglalási folyamat és más webhelyhasználati események összesített elemzésére.
+      A Google Analytics csak a statisztikai sütik elfogadása után használható.
 
-A Google Analytics a hozzájárulás előtt nem töltődik be. A Google Consent Mode alapértelmezett állapota analytics_storage=denied, ad_storage=denied, ad_user_data=denied és ad_personalization=denied. Hozzájárulás után kizárólag az analytics_storage válik engedélyezetté; hirdetési tárolást és hirdetési személyre szabást nem engedélyezünk.
+      3. Microsoft Clarity
 
-A szolgáltatás jellemzően a következő első féltől származó sütiket használhatja:
+      A Microsoft Clarity a weboldal használhatóságának vizsgálatára, hőtérképek és munkamenet-elemzések készítésére szolgál.
 
-- _ga: a felhasználók megkülönböztetésére; alapértelmezett lejárata legfeljebb 2 év
-- _ga_<azonosító>: a munkamenet állapotának megőrzésére; alapértelmezett lejárata legfeljebb 2 év
+      Szolgáltató: Microsoft
+      Kategória: statisztikai
+      Jogalap: hozzájárulás
 
-A tényleges élettartamot a böngésző korlátozhatja. A Google Analytics beállított esemény- és felhasználói adatmegőrzési ideje 14 hónap.
+      Használt sütik lehetnek:
 
-4. Microsoft Clarity
+      - _clck: a Clarity látogatói azonosítójának és beállításainak megőrzése
+      - _clsk: az egy munkamenethez tartozó oldalmegtekintések összekapcsolása
 
-Az Ön hozzájárulása esetén a weboldal Microsoft Clarity szolgáltatást használhat hőtérképek, kattintási minták, görgetési viselkedés és maszkolt munkamenet-felvételek készítésére. A cél a felhasználói élmény és a weboldal hibáinak javítása.
+      A Clarity csak a statisztikai sütik elfogadása után használható. A sütik tényleges lejárata a Microsoft aktuális beállításaitól és a böngésző beállításaitól függ.
 
-A Clarity a hozzájárulás előtt nem töltődik be. A szolgáltatásnak analytics_storage=granted és ad_storage=denied jelzést adunk. A Clarity beállítása kiegyensúlyozott maszkolást használ, továbbá a kapcsolatfelvételi űrlap és a bejelentkezéshez, foglaláshoz vagy felhasználói fiókhoz kapcsolódó privát oldalak alkalmazásszinten is maszkoltak.
+      4. A hozzájárulás kezelése
 
-A Clarity hozzájárulás után többek között a következő sütiket használhatja:
+      Első látogatáskor elfogadhatja vagy elutasíthatja a statisztikai sütiket. Az elutasítás nem korlátozza a weboldal alapvető funkcióit.
 
-- _clck: a Clarity felhasználóazonosítójának és beállításainak megőrzésére
-- _clsk: több oldalmegtekintés egy munkamenethez kapcsolására
+      A hozzájárulás bármikor módosítható vagy visszavonható a láblécben található Sütibeállítások hivatkozással. A böngészőben tárolt adatok a böngésző beállításaiban is törölhetők.
 
-A munkamenet-felvételek szolgáltatói megőrzési ideje jelenleg 30 nap; az összesített hőtérképes és kattintási adatok, valamint egyes megjelölt felvételek hosszabb ideig, a Microsoft mindenkori megőrzési szabályai szerint maradhatnak elérhetők.
+      A weboldal nem használ személyre szabott hirdetési sütiket.
 
-5. Nem használunk célzott hirdetési sütiket
+      5. Adattovábbítás és további információ
 
-A weboldal jelenlegi beállítása nem engedélyezi a hirdetési adattárolást, a hirdetési felhasználói adatokat vagy a személyre szabott hirdetéseket. A Google Analytics és a Microsoft Clarity kizárólag statisztikai hozzájárulás után aktiválódik.
+      A Google és a Microsoft az Európai Gazdasági Térségen kívül is kezelhet adatokat. Ilyen esetben a GDPR által megengedett adattovábbítási garanciákat alkalmazzák.
 
-6. Hozzájárulás megadása és visszavonása
+      A személyes adatok kezeléséről további információ az Adatvédelmi tájékoztatóban található.
 
-Első látogatáskor a sütibeállítási panelen elfogadhatja vagy elutasíthatja a statisztikai mérést. A szükséges technológiák nem kapcsolhatók ki, mert a weboldal alapvető működéséhez szükségesek.
+      Kapcsolat:
 
-A hozzájárulás bármikor módosítható vagy visszavonható a weboldal láblécében található „Sütibeállítások” hivatkozással. Visszavonáskor a weboldal leállítja a további statisztikai mérést és megkísérli törölni a hozzáférhető Google Analytics- és Clarity-sütiket. A böngésző beállításaiban az összes webhelyadat külön is törölhető.
-
-7. Külső szolgáltatók
-
-A Google Analytics szolgáltatója a Google, a Microsoft Clarity szolgáltatója a Microsoft. A szolgáltatók saját adatvédelmi szabályai, adatbiztonsági intézkedései és nemzetközi adattovábbítási garanciái alkalmazandók. A részletes adatkezelési tájékoztatás az Adatvédelmi tájékoztatóban található.
-
-8. A tájékoztató módosítása
-
-A tájékoztatót a használt technológiák, szolgáltatói feltételek vagy jogszabályi követelmények változása esetén frissíthetjük. A mindenkor hatályos változat ezen az oldalon érhető el.
-
-9. Kapcsolat
-
-Adatkezeléssel vagy sütibeállításokkal kapcsolatos kérdés esetén:
-
-- E-mail: ${SITE.email}
-- Telefon: ${SITE.phone}
-- Weboldal: ${SITE.url}
-    `,
+      E-mail: ${SITE.email}
+      Telefon: ${SITE.phone}
+      `,
   },
   en: {
     TITLE: 'Cookie Policy',
     POLICY: `
-Effective date: 19 July 2026
-
-This policy explains which cookies, browser storage solutions and similar technologies are used by the ${env.WEBSITE_NAME} website. Analytics services start only after your explicit consent. Merely using the website does not constitute consent.
-
-1. Cookies and browser storage
-
-A cookie is a small data file stored by the browser. localStorage is browser-side storage that can retain website preferences. Some technologies are necessary for the website to work, while others are used only for analytics.
-
-2. Strictly necessary technologies
-
-The website may use technical data required for operation, secure sign-in, session handling and the retention of user-selected settings. Without these technologies, functions such as sign-in, booking management and security checks may not work correctly.
-
-Your cookie choice is stored under:
-
-- Name: ${consentStorageKey}
-- Type: localStorage
-- Purpose: remembering whether analytics was accepted or rejected
-- Data: version, necessary-storage flag, analytics preference and update time
-- Retention: until you change the choice or delete the website data in your browser
-
-3. Google Analytics 4
-
-With your consent, Google Analytics 4 measures visits, page views, searches, the booking funnel and other website usage events in aggregated form.
-
-Google Analytics is not loaded before consent. Google Consent Mode starts with analytics_storage, ad_storage, ad_user_data and ad_personalization denied. After consent only analytics_storage is granted. Advertising storage and personalised advertising remain disabled.
-
-Typical first-party cookies may include:
-
-- _ga: distinguishes users; default expiry up to 2 years
-- _ga_<identifier>: maintains session state; default expiry up to 2 years
-
-Browsers may enforce shorter lifetimes. The configured GA4 user- and event-level retention period is 14 months.
-
-4. Microsoft Clarity
-
-With your consent, Microsoft Clarity may create heatmaps, interaction statistics and masked session recordings to improve usability and identify errors.
-
-Clarity is not loaded before consent. It receives analytics_storage=granted and ad_storage=denied. Balanced masking is enabled, and private account, sign-in, booking and contact-form content is additionally masked by the application.
-
-Clarity may use cookies including:
-
-- _clck: stores the Clarity user ID and preferences
-- _clsk: connects page views into a single session
-
-Playback data is currently retained by Microsoft for 30 days. Aggregated click and heatmap data and certain labelled recordings may be retained longer under Microsoft's current retention rules.
-
-5. No targeted advertising cookies
-
-The current configuration does not permit advertising storage, advertising user data or personalised advertising. Google Analytics and Microsoft Clarity are activated only after analytics consent.
-
-6. Managing and withdrawing consent
-
-On your first visit you may accept or reject analytics. Strictly necessary technologies cannot be disabled because they are required for core website functions.
-
-You can change or withdraw consent at any time through the “Cookie settings” link in the footer. When analytics is withdrawn, further measurement stops and the website attempts to remove accessible Google Analytics and Clarity cookies. You may also delete all website data through your browser settings.
-
-7. Third-party providers
-
-Google provides Google Analytics and Microsoft provides Clarity. Their own privacy terms, security safeguards and international-transfer mechanisms apply. Further information is available in the Privacy Policy.
-
-8. Changes
-
-We may update this policy when technologies, provider terms or legal requirements change. The current version is always published on this page.
-
-9. Contact
-
-- Email: ${SITE.email}
-- Phone: ${SITE.phone}
-- Website: ${SITE.url}
-    `,
+      Effective date: 19 July 2026
+        
+      The ${env.WEBSITE_NAME} website uses strictly necessary browser storage and, with your consent, analytics cookies.
+        
+      1. Strictly necessary storage
+        
+      Name: ${consentStorageKey}
+      Provider: ${env.WEBSITE_NAME}
+      Type: localStorage
+      Purpose: remembering whether analytics cookies were accepted or rejected
+      Legal basis: technical storage necessary for the operation of the website
+      Retention: until you change your choice or delete the website data in your browser
+        
+      Separate consent is not requested because this storage is necessary to remember your cookie preference.
+        
+      2. Google Analytics 4
+        
+      Google Analytics is used to produce statistics about website visits and usage.
+        
+      Provider: Google
+      Category: analytics
+      Legal basis: consent
+        
+      Cookies:
+        
+      - _ga: distinguishes visitors; default retention up to 2 years
+      - _ga_<identifier>: maintains session state; default retention up to 2 years
+        
+      Google Analytics is used only after analytics cookies are accepted.
+        
+      3. Microsoft Clarity
+        
+      Microsoft Clarity is used to analyse website usability and create heatmaps and session analytics.
+        
+      Provider: Microsoft
+      Category: analytics
+      Legal basis: consent
+        
+      Cookies may include:
+        
+      - _clck: retains the Clarity visitor identifier and preferences
+      - _clsk: connects page views into a single session
+        
+      Clarity is used only after analytics cookies are accepted. Actual cookie expiry may depend on Microsoft's current settings and browser settings.
+        
+      4. Managing consent
+        
+      On your first visit, you may accept or reject analytics cookies. Rejecting analytics does not restrict the essential functions of the website.
+        
+      Consent may be changed or withdrawn at any time through the Cookie settings link in the footer. Stored website data may also be deleted through your browser settings.
+        
+      The website does not use personalised advertising cookies.
+        
+      5. Transfers and further information
+        
+      Google and Microsoft may process data outside the European Economic Area. Where this occurs, safeguards permitted by the GDPR are used.
+        
+      Further information about personal data processing is available in the Privacy Policy.
+        
+      Contact:
+        
+      Email: ${SITE.email}
+      Phone: ${SITE.phone}
+      `,
   },
   fr: {
     TITLE: 'Politique relative aux cookies',

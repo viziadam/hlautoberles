@@ -453,7 +453,8 @@ const Booking = () => {
                                   disabled={!edit}
                                 />
                               }
-                              label="Rental tools"
+                              // label="Rental tools"
+                              label={csStrings.RENTAL_TOOLS}
                               className="checkbox-fcl"
                             />
               </FormControl>
@@ -467,7 +468,8 @@ const Booking = () => {
                                   disabled={!edit}
                                 />
                               }
-                              label="Chauffeur"
+                              // label="Chauffeur"
+                              label={csStrings.CHAUFFEUR}
                               className="checkbox-fcl"
                             />
               </FormControl>

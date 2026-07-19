@@ -1,4 +1,5 @@
 import LocalizedStrings from 'localized-strings'
+import * as langHelper from '@/utils/langHelper'
 import env from '@/config/env.config'
 
 export const strings = new LocalizedStrings({
@@ -57,3 +58,5 @@ export const strings = new LocalizedStrings({
     EMAIL_ARIA_LABEL: 'Send email',
   },
 })
+
+langHelper.setLanguage(strings)

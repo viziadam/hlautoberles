@@ -91,6 +91,16 @@ const env = {
     import.meta.env.VITE_PUBLIC_SITE_URL || 'https://hlautoberles.hu',
   ).replace(/\/+$/, ''),
 
+  CONTROLLER_LEGAL_NAME: String(
+    import.meta.env.VITE_BC_CONTROLLER_LEGAL_NAME || '',
+  ),
+  
+  CONTROLLER_ADDRESS: String(
+    import.meta.env.VITE_BC_CONTROLLER_ADDRESS
+    || import.meta.env.VITE_BC_COMPANY_ADDRESS
+    || '',
+  ),
+
   CONTACT_EMAIL: String(
     import.meta.env.VITE_BC_CONTACT_EMAIL || 'info@hlautoberles.hu',
   ),

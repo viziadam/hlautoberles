@@ -405,7 +405,7 @@ const Home = () => {
         )} */}
 
         <div className="car-size">
-          <h1>{strings.CAR_SIZE_TITLE}</h1>
+          <h2>{strings.CAR_SIZE_TITLE}</h2>
           <p>{strings.CAR_SIZE_TEXT}</p>
           <div className="boxes">
             <div className="box">
@@ -673,8 +673,8 @@ const Home = () => {
         <div className="customer-care">
           <div className="customer-care-wrapper">
             <div className="customer-care-text">
-              <h1>{strings.CUSTOMER_CARE_TITLE}</h1>
-              <h2>{strings.CUSTOMER_CARE_SUBTITLE}</h2>
+              <h2>{strings.CUSTOMER_CARE_TITLE}</h2>
+              <h3>{strings.CUSTOMER_CARE_SUBTITLE}</h3>
               <div className="customer-care-content">{strings.CUSTOMER_CARE_TEXT}</div>
               <div className="customer-care-boxes">
                 <div className="customer-care-box">

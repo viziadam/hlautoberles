@@ -24,6 +24,10 @@ export const SITE = {
 
   email: env.CONTACT_EMAIL,
   mapUrl: env.COMPANY_MAP_URL,
+  controller: {
+    legalName: env.CONTROLLER_LEGAL_NAME,
+    address: env.CONTROLLER_ADDRESS,
+  },
 
   address: {
     streetAddress: env.COMPANY_STREET_ADDRESS,
