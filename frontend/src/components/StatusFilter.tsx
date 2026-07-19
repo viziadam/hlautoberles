@@ -3,6 +3,7 @@ import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import { strings as commonStrings } from '@/lang/common'
 import {
+  COMPLETED_BOOKING_STATUS,
   getAllBookingStatuses,
   getBookingStatusItems,
 } from '@/utils/bookingStatus'
@@ -20,7 +21,7 @@ interface StatusFilterProps {
 const DEFAULT_STATUSES: bookcarsTypes.BookingStatus[] = [
   bookcarsTypes.BookingStatus.Pending,
   bookcarsTypes.BookingStatus.Reserved,
-  'completed' as bookcarsTypes.BookingStatus,
+  COMPLETED_BOOKING_STATUS,
 ]
 
 const StatusFilter = ({
