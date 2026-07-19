@@ -6,24 +6,29 @@ import {
   Cancel as CancelledIcon,
 } from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
-import * as helper from '@/utils/helper'
+import {
+  COMPLETED_BOOKING_STATUS,
+  getBookingStatusLabel,
+} from '@/utils/bookingStatus'
 
 import '@/assets/css/booking-status.css'
 
 interface BookingStatusProps {
   value: bookcarsTypes.BookingStatus
-  showIcon?: boolean,
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void
+  showIcon?: boolean
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 const getIcon = (value: bookcarsTypes.BookingStatus) => {
   if ([
-    // bookcarsTypes.BookingStatus.Deposit,
     bookcarsTypes.BookingStatus.Reserved,
-    // bookcarsTypes.BookingStatus.Paid,
-    // bookcarsTypes.BookingStatus.PaidInFull,
+    COMPLETED_BOOKING_STATUS,
   ].includes(value)) {
-    return <CheckIcon className={`bs-icon bs-icon-${value?.toLowerCase()}`} />
+    return (
+      <CheckIcon
+        className={`bs-icon bs-icon-${value.toLowerCase()}`}
+      />
+    )
   }
 
   if (value === bookcarsTypes.BookingStatus.Void) {
@@ -40,19 +45,17 @@ const getIcon = (value: bookcarsTypes.BookingStatus) => {
 const BookingStatus = ({
   showIcon,
   onClick,
-  value
+  value,
 }: BookingStatusProps) => (
   <div
     className="booking-status"
-    onClick={(e) => {
-      if (onClick) {
-        onClick(e)
-      }
-    }}
+    onClick={(event) => onClick?.(event)}
     role="presentation"
   >
     {showIcon && getIcon(value)}
-    <span className={`bs bs-${value?.toLowerCase()}`}>{helper.getBookingStatus(value)}</span>
+    <span className={`bs bs-${value.toLowerCase()}`}>
+      {getBookingStatusLabel(value)}
+    </span>
   </div>
 )
 
