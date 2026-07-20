@@ -8,7 +8,8 @@ export const hu = {
   ACCOUNT_ACTIVATION_SUBJECT: 'Fiók aktiválása',
   HELLO: 'Kedves ',
   ACCOUNT_ACTIVATION_LINK: 'Kérjük, aktiváld a fiókodat az alábbi linkre kattintva:',
-  REGARDS: `Üdvözlettel,<br>${env.WEBSITE_NAME} csapata`,
+  REGARDS: 'Üdvözlettel,',
+  COMPANY_TEAM: `${env.WEBSITE_NAME} csapata`,
 
   ACCOUNT_ACTIVATION_TECHNICAL_ISSUE:
     'Technikai hiba történt. Kérjük, kattints az újraküldésre az e-mail címed megerősítéséhez.',
@@ -76,8 +77,6 @@ export const hu = {
   CONTACT_SUBJECT:
     'Új üzenet a kapcsolatfelvételi űrlapról',
   SUBJECT: 'Tárgy',
-  FROM: 'Átvétel időpontja',
-  MESSAGE: 'Leadás időpontja',
 
   LOCATION_IMAGE_NOT_FOUND:
     'A helyszín képe nem található',
@@ -111,7 +110,44 @@ export const hu = {
   REQUESTED_BY: 'Igénylő',
   COMPANY: env.WEBSITE_NAME,
   CAR: 'Jármű',
+  FROM: 'Feladó',
   TO: 'Címzett',
+  MESSAGE: 'Üzenet',
+
+  PICK_UP_DATE: 'Átvétel időpontja',
+  DROP_OFF_DATE: 'Leadás időpontja',
+  VIEW_BOOKING: 'Foglalás megtekintése',
+  OPEN_IN_ADMIN: 'Foglalás megnyitása az admin felületen',
+  
+  BOOKING_PENDING_NOTIFICATION:
+    'új foglalási kérelmet küldött be:',
+  
+  REVIEW_REQUEST_SUBJECT:
+    `Milyen volt a bérlésed? – ${env.WEBSITE_NAME}`,
+  
+  REVIEW_REQUEST_INTRO:
+    'Köszönjük, hogy minket választottál. '
+    + 'Ha elégedett voltál a bérléssel, kérjük, '
+    + 'oszd meg tapasztalatodat a Google-on.',
+  
+  REVIEW_REQUEST_BOOKING_LABEL:
+    'Foglalás azonosítója',
+  
+  REVIEW_REQUEST_CAR_LABEL:
+    'Jármű',
+  
+  REVIEW_REQUEST_PERIOD_LABEL:
+    'Bérlési időszak',
+  
+  REVIEW_REQUEST_BUTTON:
+    'Google-értékelés írása',
+  
+  REVIEW_REQUEST_PRIVACY:
+    'Ez egy egyszeri, a teljesített bérléshez '
+    + 'kapcsolódó visszajelzéskérés.',
+  
+  REVIEW_REQUEST_CLOSING:
+    'Köszönjük a bizalmadat!',
 
   BOOKING_CREATED_NOTIFICATION_PART1:
     'Egy új foglalás',

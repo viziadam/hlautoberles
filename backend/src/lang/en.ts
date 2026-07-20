@@ -7,7 +7,6 @@ export const en = {
   ACCOUNT_ACTIVATION_SUBJECT: 'Account Activation',
   HELLO: 'Hello ',
   ACCOUNT_ACTIVATION_LINK: 'Please activate your account by clicking the link:',
-  REGARDS: `Kind regards,<br>${env.WEBSITE_NAME} team`,
   ACCOUNT_ACTIVATION_TECHNICAL_ISSUE: 'Technical Issue! Please click on resend to validate your email.',
   ACCOUNT_ACTIVATION_LINK_EXPIRED: 'Your validation link may have expired. Please click on resend to validate your email.',
   ACCOUNT_ACTIVATION_LINK_ERROR: 'We were unable to find a user for this verification. Please Sign up.',
@@ -43,8 +42,6 @@ export const en = {
   BOOKING_UPDATED_NOTIFICATION_PART2: 'was updated.',
   CONTACT_SUBJECT: 'New Message from Contact Form',
   SUBJECT: 'Subject',
-  FROM: 'Pick-up date',
-  MESSAGE: 'Message',
   LOCATION_IMAGE_NOT_FOUND: 'Location image not found',
   NEW_CAR_NOTIFICATION_PART1: 'The supplier ',
   NEW_CAR_NOTIFICATION_PART2: ' created a new car.',
@@ -67,7 +64,6 @@ export const en = {
   REQUESTED_BY: 'Requested by',
   COMPANY: env.WEBSITE_NAME,
   CAR: 'Vehicle',
-  TO: 'Drop-off date',
 
   BOOKING_CREATED_NOTIFICATION_PART1: 'A new booking',
   BOOKING_CREATED_NOTIFICATION_PART2: 'was created.',
@@ -75,4 +71,46 @@ export const en = {
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART1: 'The status of the booking',
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART2: 'changed from',
   BOOKING_STATUS_CHANGED_NOTIFICATION_PART3: 'to',
+
+  REGARDS: 'Kind regards,',
+  COMPANY_TEAM: `${env.WEBSITE_NAME} team`,
+  
+  FROM: 'Sender',
+  TO: 'Recipient',
+  MESSAGE: 'Message',
+  
+  PICK_UP_DATE: 'Pick-up date',
+  DROP_OFF_DATE: 'Drop-off date',
+  VIEW_BOOKING: 'View booking',
+  OPEN_IN_ADMIN: 'Open booking in admin',
+  
+  BOOKING_PENDING_NOTIFICATION:
+    'submitted a new booking request:',
+  
+  REVIEW_REQUEST_SUBJECT:
+    `How was your rental? – ${env.WEBSITE_NAME}`,
+  
+  REVIEW_REQUEST_INTRO:
+    'Thank you for choosing us. '
+    + 'If you were satisfied with your rental, '
+    + 'please share your experience on Google.',
+  
+  REVIEW_REQUEST_BOOKING_LABEL:
+    'Booking ID',
+  
+  REVIEW_REQUEST_CAR_LABEL:
+    'Vehicle',
+  
+  REVIEW_REQUEST_PERIOD_LABEL:
+    'Rental period',
+  
+  REVIEW_REQUEST_BUTTON:
+    'Write a Google review',
+  
+  REVIEW_REQUEST_PRIVACY:
+    'This is a one-time feedback request related '
+    + 'to your completed rental.',
+  
+  REVIEW_REQUEST_CLOSING:
+    'Thank you for your trust!',
 }

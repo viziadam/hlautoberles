@@ -57,6 +57,8 @@ export enum FuelPolicy {
 //   Cancelled = 'cancelled',
 // }
 
+
+
 export enum BookingStatus {
   Void = 'void',
   Pending = 'pending',
@@ -610,6 +612,7 @@ export interface SendEmailPayload {
   subject: string
   message: string
   isContactForm: boolean
+  language?: string
 }
 
 export interface Response<T> {

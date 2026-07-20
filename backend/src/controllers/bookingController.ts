@@ -3,13 +3,10 @@ import escapeStringRegexp from 'escape-string-regexp'
 import { Expo, ExpoPushMessage, ExpoPushTicket } from 'expo-server-sdk'
 import { Request, Response } from 'express'
 import nodemailer from 'nodemailer'
-import path from 'node:path'
-import asyncFs from 'node:fs/promises'
 import * as bookcarsTypes from ':bookcars-types'
 import i18n from '../lang/i18n'
 import Booking from '../models/Booking'
 import User from '../models/User'
-import Token from '../models/Token'
 import Car from '../models/Car'
 import Notification from '../models/Notification'
 import NotificationCounter from '../models/NotificationCounter'
@@ -19,6 +16,16 @@ import * as mailHelper from '../utils/mailHelper'
 import * as env from '../config/env.config'
 import * as logger from '../utils/logger'
 // import stripeAPI from '../payment/stripe'
+
+import {
+  formatDateTime,
+  getTranslator,
+} from '../lang/translator'
+
+import {
+  createBrandedEmail,
+  escapeHtml,
+} from '../utils/emailTemplate'
 
 
 /**
@@ -98,11 +105,25 @@ export const create = async (req: Request, res: Response) => {
  * @param {boolean} notificationMessage
  * @returns {void}
  */
-export const notify = async (driver: env.User, bookingId: string, user: env.User, notificationMessage: string) => {
-  i18n.locale = user.language
 
-  // notification
-  const message = `${driver.fullName} ${notificationMessage} ${bookingId}.`
+export const notify = async (
+  driver: env.User,
+  bookingId: string,
+  user: env.User,
+  notificationKey: string,
+) => {
+  const translator = getTranslator(user.language)
+
+  const notificationMessage = String(
+    translator.t(notificationKey),
+  )
+
+  const message = (
+    `${driver.fullName} `
+    + `${notificationMessage} `
+    + `${bookingId}.`
+  )
+
   const notification = new Notification({
     user: user._id,
     message,
@@ -110,41 +131,150 @@ export const notify = async (driver: env.User, bookingId: string, user: env.User
   })
 
   await notification.save()
-  let counter = await NotificationCounter.findOne({ user: user._id })
-  if (counter && typeof counter.count !== 'undefined') {
-    counter.count += 1
-    await counter.save()
-  } else {
-    counter = new NotificationCounter({ user: user._id, count: 1 })
-    await counter.save()
+
+  await NotificationCounter.findOneAndUpdate(
+    { user: user._id },
+    { $inc: { count: 1 } },
+    {
+      upsert: true,
+      setDefaultsOnInsert: true,
+    },
+  )
+
+  if (user.enableEmailNotifications === false) {
+    return
   }
 
-  // mail
-  // if (user.enableEmailNotifications) {
-    // const adminLink = helper.joinURL(env.ADMIN_HOST, `update-booking?b=${bookingId}`)
+  const adminLink = helper.joinURL(
+    env.ADMIN_HOST,
+    `update-booking?b=${bookingId}`,
+  )
 
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: env.SMTP_FROM,
+  const bodyText = [
+    String(
+      translator.t('BOOKING_REQUEST_ADMIN_INTRO'),
+    ),
+    '',
+    `${String(translator.t('BOOKING_ID'))}: ${bookingId}`,
+    `${String(translator.t('BOOKING_STATUS'))}: ${
+      String(translator.t('BOOKING_STATUS_PENDING'))
+    }`,
+    `${String(translator.t('REQUESTED_BY'))}: ${
+      driver.fullName
+    }`,
+    '',
+    String(
+      translator.t('BOOKING_REQUEST_ADMIN_ACTION'),
+    ),
+    adminLink,
+  ].join('\n')
+
+  const bodyHtml = `
+    <p>
+      ${escapeHtml(
+        String(
+          translator.t('BOOKING_REQUEST_ADMIN_INTRO'),
+        ),
+      )}
+    </p>
+
+    <p>
+      <strong>${escapeHtml(
+        String(translator.t('BOOKING_ID')),
+      )}:</strong>
+      ${escapeHtml(bookingId)}<br>
+
+      <strong>${escapeHtml(
+        String(translator.t('BOOKING_STATUS')),
+      )}:</strong>
+      ${escapeHtml(
+        String(
+          translator.t('BOOKING_STATUS_PENDING'),
+        ),
+      )}<br>
+
+      <strong>${escapeHtml(
+        String(translator.t('REQUESTED_BY')),
+      )}:</strong>
+      ${escapeHtml(driver.fullName)}
+    </p>
+
+    <p>
+      <a
+        href="${escapeHtml(adminLink)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHtml(
+          String(translator.t('OPEN_IN_ADMIN')),
+        )}
+      </a>
+    </p>
+  `
+
+  await mailHelper.sendMail(
+    createBrandedEmail({
+      language: user.language,
       to: user.email,
-      subject: `${i18n.t('BOOKING_REQUEST_SUBJECT')} ${bookingId}`,
-      html: `<p>
-        ${i18n.t('HELLO')}${user.fullName},<br><br>
+      subject: `${
+        String(
+          translator.t('BOOKING_REQUEST_SUBJECT'),
+        )
+      } ${bookingId}`,
+      recipientName: user.fullName,
+      bodyText,
+      bodyHtml,
+    }),
+  )
+}
 
-        ${i18n.t('BOOKING_REQUEST_ADMIN_INTRO')}<br><br>
+// export const notify = async (driver: env.User, bookingId: string, user: env.User, notificationMessage: string) => {
+//   i18n.locale = user.language
 
-        <strong>${i18n.t('BOOKING_ID')}:</strong> ${bookingId}<br>
-        <strong>${i18n.t('BOOKING_STATUS')}:</strong> ${i18n.t('BOOKING_STATUS_PENDING')}<br>
-        <strong>${i18n.t('REQUESTED_BY')}:</strong> ${driver.fullName}<br><br>
+//   // notification
+//   const message = `${driver.fullName} ${notificationMessage} ${bookingId}.`
+//   const notification = new Notification({
+//     user: user._id,
+//     message,
+//     booking: bookingId,
+//   })
 
-        ${i18n.t('BOOKING_REQUEST_ADMIN_ACTION')}<br><br>
+//   await notification.save()
+//   let counter = await NotificationCounter.findOne({ user: user._id })
+//   if (counter && typeof counter.count !== 'undefined') {
+//     counter.count += 1
+//     await counter.save()
+//   } else {
+//     counter = new NotificationCounter({ user: user._id, count: 1 })
+//     await counter.save()
+//   }
 
-        ${i18n.t('REGARDS')}<br>
-      </p>`,
-    }
-    // <a href="${adminLink}">${i18n.t('OPEN_IN_ADMIN')}</a><br><br>
+//   // mail
+//   // if (user.enableEmailNotifications) {
+//     // const adminLink = helper.joinURL(env.ADMIN_HOST, `update-booking?b=${bookingId}`)
 
-    await mailHelper.sendMail(mailOptions)
-  }
+//     const mailOptions: nodemailer.SendMailOptions = {
+//       from: env.SMTP_FROM,
+//       to: user.email,
+//       subject: `${i18n.t('BOOKING_REQUEST_SUBJECT')} ${bookingId}`,
+//       html: `<p>
+//         ${i18n.t('HELLO')}${user.fullName},<br><br>
+
+//         ${i18n.t('BOOKING_REQUEST_ADMIN_INTRO')}<br><br>
+
+//         <strong>${i18n.t('BOOKING_ID')}:</strong> ${bookingId}<br>
+//         <strong>${i18n.t('BOOKING_STATUS')}:</strong> ${i18n.t('BOOKING_STATUS_PENDING')}<br>
+//         <strong>${i18n.t('REQUESTED_BY')}:</strong> ${driver.fullName}<br><br>
+
+//         ${i18n.t('BOOKING_REQUEST_ADMIN_ACTION')}<br><br>
+
+//         ${i18n.t('REGARDS')}<br>
+//       </p>`,
+//     }
+//     // <a href="${adminLink}">${i18n.t('OPEN_IN_ADMIN')}</a><br><br>
+
+//     await mailHelper.sendMail(mailOptions)
+//   }
 // }
 
 /**
@@ -156,99 +286,139 @@ export const notify = async (driver: env.User, bookingId: string, user: env.User
  * @param {boolean} payLater
  * @returns {unknown}
  */
-export const confirm = async (user: env.User, booking: env.Booking) => {
-  const { language } = user
+export const confirm = async (
+  user: env.User,
+  booking: env.Booking,
+) => {
+  const translator = getTranslator(user.language)
 
-  const localeByLanguage: Record<string, string> = {
-    hu: 'hu-HU',
-    en: 'en-US',
-    fr: 'fr-FR',
-    es: 'es-ES',
-  }
-  
-  const locale = localeByLanguage[language] || 'hu-HU'
-  
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZone: env.TIMEZONE,
-  }
-  
-  const from = booking.from.toLocaleString(locale, options)
-  const to = booking.to.toLocaleString(locale, options)
   const car = await Car.findById(booking.car)
+
   if (!car) {
     logger.info(`Car ${booking.car} not found`)
     return false
   }
-  
-  // let contractFile: string | null = null
-  // if (supplier.contracts && supplier.contracts.length > 0) {
-  //   contractFile = supplier.contracts.find((c) => c.language === user.language)?.file || null
-  //   if (!contractFile) {
-  //     contractFile = supplier.contracts.find((c) => c.language === 'en')?.file || null
-  //   }
-  // }
 
-  const detailsUrl = helper.joinURL(env.FRONTEND_HOST, `booking?b=${booking._id}`)
+  const bookingId = String(booking._id)
 
-  // const mailOptions: nodemailer.SendMailOptions = {
-  //   from: env.SMTP_FROM,
-  //   to: user.email,
-  //   subject: `${i18n.t('BOOKING_CONFIRMED_SUBJECT_PART1')} ${booking._id} ${i18n.t('BOOKING_CONFIRMED_SUBJECT_PART2')}`,
-  //   html:
-  //     `<p>
-  //       ${i18n.t('HELLO')}${user.fullName},<br><br>
-  //       ${!payLater ? `${i18n.t('BOOKING_CONFIRMED_PART1')} ${booking._id} ${i18n.t('BOOKING_CONFIRMED_PART2')}`
-  //       + '<br><br>' : ''}
-  //       ${i18n.t('BOOKING_CONFIRMED_PART3')}${car.supplier.fullName}${i18n.t('BOOKING_CONFIRMED_PART4')}${i18n.t('BOOKING_CONFIRMED_PART5')}`
-  //     + `${from} ${i18n.t('BOOKING_CONFIRMED_PART6')}`
-  //     + `${car.name}${i18n.t('BOOKING_CONFIRMED_PART7')}`
-  //     + `<br><br>${i18n.t('BOOKING_CONFIRMED_PART8')}<br><br>`
-  //     + `${i18n.t('BOOKING_CONFIRMED_PART9')}${car.supplier.fullName}${i18n.t('BOOKING_CONFIRMED_PART10')}${i18n.t('BOOKING_CONFIRMED_PART11')}`
-  //     + `${to} ${i18n.t('BOOKING_CONFIRMED_PART12')}`
-  //     + `<br><br>${i18n.t('BOOKING_CONFIRMED_PART13')}<br><br>${i18n.t('BOOKING_CONFIRMED_PART14')}${env.FRONTEND_HOST}<br><br>
-  //       ${i18n.t('REGARDS')}<br>
-  //       </p>`,
-  // }
+  const from = formatDateTime(
+    booking.from,
+    user.language,
+  )
 
-  const mailOptions: nodemailer.SendMailOptions = {
-    from: env.SMTP_FROM,
-    to: user.email,
-    subject: `${i18n.t('BOOKING_REQUEST_RECEIVED_SUBJECT')} ${booking._id}`,
-    html: `<p>
-      ${i18n.t('HELLO')}${user.fullName},<br><br>
+  const to = formatDateTime(
+    booking.to,
+    user.language,
+  )
 
-      ${i18n.t('BOOKING_REQUEST_RECEIVED_INTRO')}<br><br>
+  const detailsUrl = helper.joinURL(
+    env.FRONTEND_HOST,
+    `booking?b=${bookingId}`,
+  )
 
-      <strong>${i18n.t('BOOKING_ID')}:</strong> ${booking._id}<br>
-      <strong>${i18n.t('BOOKING_STATUS')}:</strong> ${i18n.t('BOOKING_STATUS_PENDING')}<br>
-      <strong>${i18n.t('CAR')}:</strong> ${car.name}<br>
-      <strong>${i18n.t('FROM')}:</strong> ${from}<br>
-      <strong>${i18n.t('TO')}:</strong> ${to}<br><br>
+  const bodyText = [
+    String(
+      translator.t('BOOKING_REQUEST_RECEIVED_INTRO'),
+    ),
+    '',
+    `${String(translator.t('BOOKING_ID'))}: ${bookingId}`,
+    `${String(translator.t('BOOKING_STATUS'))}: ${
+      String(translator.t('BOOKING_STATUS_PENDING'))
+    }`,
+    `${String(translator.t('CAR'))}: ${car.name}`,
+    `${String(translator.t('PICK_UP_DATE'))}: ${from}`,
+    `${String(translator.t('DROP_OFF_DATE'))}: ${to}`,
+    '',
+    String(
+      translator.t(
+        'BOOKING_REQUEST_RECEIVED_NEXT_STEPS',
+      ),
+    ),
+    '',
+    detailsUrl,
+  ].join('\n')
 
-      ${i18n.t('BOOKING_REQUEST_RECEIVED_NEXT_STEPS')}<br><br>
+  const bodyHtml = `
+    <p>
+      ${escapeHtml(
+        String(
+          translator.t(
+            'BOOKING_REQUEST_RECEIVED_INTRO',
+          ),
+        ),
+      )}
+    </p>
 
-      ${i18n.t('REGARDS')}<br>
-      // ${i18n.t('COMPANY')}<br>
-    </p>`,
-  }
-  // <a href="${detailsUrl}">${i18n.t('VIEW_BOOKING')}</a><br><br>
+    <p>
+      <strong>${escapeHtml(
+        String(translator.t('BOOKING_ID')),
+      )}:</strong>
+      ${escapeHtml(bookingId)}<br>
 
+      <strong>${escapeHtml(
+        String(translator.t('BOOKING_STATUS')),
+      )}:</strong>
+      ${escapeHtml(
+        String(
+          translator.t('BOOKING_STATUS_PENDING'),
+        ),
+      )}<br>
 
-  // if (contractFile) {
-  //   const file = path.join(env.CDN_CONTRACTS, contractFile)
-  //   if (await helper.pathExists(file)) {
-  //     mailOptions.attachments = [{ path: file }]
-  //   }
-  // }
+      <strong>${escapeHtml(
+        String(translator.t('CAR')),
+      )}:</strong>
+      ${escapeHtml(car.name)}<br>
 
-  await mailHelper.sendMail(mailOptions)
+      <strong>${escapeHtml(
+        String(translator.t('PICK_UP_DATE')),
+      )}:</strong>
+      ${escapeHtml(from)}<br>
+
+      <strong>${escapeHtml(
+        String(translator.t('DROP_OFF_DATE')),
+      )}:</strong>
+      ${escapeHtml(to)}
+    </p>
+
+    <p>
+      ${escapeHtml(
+        String(
+          translator.t(
+            'BOOKING_REQUEST_RECEIVED_NEXT_STEPS',
+          ),
+        ),
+      )}
+    </p>
+
+    <p>
+      <a
+        href="${escapeHtml(detailsUrl)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHtml(
+          String(translator.t('VIEW_BOOKING')),
+        )}
+      </a>
+    </p>
+  `
+
+  await mailHelper.sendMail(
+    createBrandedEmail({
+      language: user.language,
+      to: user.email,
+      subject: `${
+        String(
+          translator.t(
+            'BOOKING_REQUEST_RECEIVED_SUBJECT',
+          ),
+        )
+      } ${bookingId}`,
+      recipientName: user.fullName,
+      bodyText,
+      bodyHtml,
+    }),
+  )
 
   return true
 }
@@ -331,9 +501,7 @@ const locale = localeByLanguage[language] || 'hu-HU'
 
     const admin = !!env.ADMIN_EMAIL && (await User.findOne({ email: env.ADMIN_EMAIL, type: bookcarsTypes.UserType.Admin }))
       if (admin) {
-        i18n.locale = admin.language
-        const message = i18n.t('BOOKING_PENDING_NOTIFICATION') 
-        await notify(user, booking.id, admin, message)
+        await notify(user, booking.id, admin, 'BOOKING_PENDING_NOTIFICATION',)
       }
 
     if (!(await confirm(user, booking))) {
@@ -555,20 +723,53 @@ const notifyDriver = async (booking: env.Booking, event: BookingNotifyEvent) => 
     return
   }
 
-  i18n.locale = driver.language
+  const translator = getTranslator(driver.language)
 
   let message: string
 
 if (event.type === 'created') {
-  message = `${i18n.t('BOOKING_CREATED_NOTIFICATION_PART1')} ${booking._id} ${i18n.t('BOOKING_CREATED_NOTIFICATION_PART2')}`
+  message = (
+    `${String(
+      translator.t(
+        'BOOKING_CREATED_NOTIFICATION_PART1',
+      ),
+    )} ${booking._id} `
+    + `${String(
+      translator.t(
+        'BOOKING_CREATED_NOTIFICATION_PART2',
+      ),
+    )}`
+  )
 } else {
-  const fromLabel = i18n.t(statusKey(event.previousStatus))
-  const toLabel = i18n.t(statusKey(booking.status))
+  const fromLabel = String(
+    translator.t(
+      statusKey(event.previousStatus),
+    ),
+  )
 
-  message =
-    `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART1')} ${booking._id} ` +
-    `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART2')} ${fromLabel} ` +
-    `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART3')} ${toLabel}.`
+  const toLabel = String(
+    translator.t(
+      statusKey(booking.status),
+    ),
+  )
+
+  message = (
+    `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART1',
+      ),
+    )} ${booking._id} `
+    + `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART2',
+      ),
+    )} ${fromLabel} `
+    + `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART3',
+      ),
+    )} ${toLabel}.`
+  )
 }
 
   // const message = `${i18n.t('BOOKING_UPDATED_NOTIFICATION_PART1')} ${booking._id} 
@@ -590,20 +791,42 @@ if (event.type === 'created') {
   }
 
   // mail
-  if (driver.enableEmailNotifications) {
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: env.SMTP_FROM,
+if (driver.enableEmailNotifications) {
+  const bookingUrl = helper.joinURL(
+    env.FRONTEND_HOST,
+    `booking?b=${booking._id}`,
+  )
+
+  await mailHelper.sendMail(
+    createBrandedEmail({
+      language: driver.language,
       to: driver.email,
       subject: message,
-      html: `<p>
-    ${i18n.t('HELLO')}${driver.fullName},<br><br>
-    ${message}<br><br>
-    ${helper.joinURL(env.FRONTEND_HOST, `booking?b=${booking._id}`)}<br><br>
-    ${i18n.t('REGARDS')}<br>
-    </p>`,
-    }
-    await mailHelper.sendMail(mailOptions)
-  }
+      recipientName: driver.fullName,
+      bodyText: [
+        message,
+        '',
+        bookingUrl,
+      ].join('\n'),
+      bodyHtml: `
+        <p>${escapeHtml(message)}</p>
+        <p>
+          <a
+            href="${escapeHtml(bookingUrl)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ${escapeHtml(
+              String(
+                translator.t('VIEW_BOOKING'),
+              ),
+            )}
+          </a>
+        </p>
+      `,
+    }),
+  )
+}
 
   // push notification
   const pushToken = await PushToken.findOne({ user: driver._id })

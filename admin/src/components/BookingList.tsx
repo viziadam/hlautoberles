@@ -20,7 +20,13 @@ import {
 } from '@mui/material'
 import { Edit as EditIcon, Delete as DeleteIcon, Check as CheckIcon } from '@mui/icons-material'
 import { format } from 'date-fns'
-import { fr as dfnsFR, enUS as dfnsENUS } from 'date-fns/locale'
+import {
+  getBookingStatusLabel,
+} from '@/utils/bookingStatus'
+
+import {
+  getDateFnsLocale,
+} from '@/utils/dateLocale'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import env from '@/config/env.config'
@@ -476,9 +482,8 @@ const BookingList = ({
     }
   }
 
-  const _fr = language === 'fr'
-  const _locale = _fr ? dfnsFR : dfnsENUS
-  const _format = _fr ? 'eee d LLL yyyy kk:mm' : 'eee, d LLL yyyy, p'
+  const dateLocale = getDateFnsLocale(language)
+  const dateFormat = 'PPPPp'
   const bookingDetailHeight = env.SUPPLIER_IMAGE_HEIGHT + 10
 
   return (
@@ -494,7 +499,7 @@ const BookingList = ({
               return (
                 <div key={booking._id} className="booking-details">
                   <div className={`bs bs-${booking.status.toLowerCase()}`}>
-                    <span>{helper.getBookingStatus(booking.status)}</span>
+                    <span>{getBookingStatusLabel(booking.status)}</span>
                   </div>
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{strings.CAR}</span>
@@ -512,8 +517,8 @@ const BookingList = ({
                     <span className="booking-detail-title">{strings.DAYS}</span>
                     <div className="booking-detail-value">
                       {`${helper.getDaysShort(bookcarsHelper.days(from, to))} (${bookcarsHelper.capitalize(
-                        format(from, _format, { locale: _locale }),
-                      )} - ${bookcarsHelper.capitalize(format(to, _format, { locale: _locale }))})`}
+                        format(from, dateFormat, {locale: dateLocale,}),
+                      )} - ${bookcarsHelper.capitalize(format(to, dateFormat, {locale: dateLocale,}))})`}
                     </div>
                   </div>
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>

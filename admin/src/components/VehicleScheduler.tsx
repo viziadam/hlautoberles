@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { enUS, es, fr } from 'date-fns/locale'
+import { getDateFnsLocale } from '@/utils/dateLocale'
 import { Scheduler } from '@/components/scheduler/index'
 import {
   type ProcessedEvent,
@@ -20,7 +20,7 @@ interface VehicleSchedulerProps {
   filter?: bookcarsTypes.Filter
   user?: bookcarsTypes.User
   language: string
-}
+} 
 
 const VehicleScheduler = ({
   statuses,
@@ -129,7 +129,48 @@ const VehicleScheduler = ({
   }, [statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getTranslations = (currentLanguage: string) => {
+    if (currentLanguage === 'hu') {
+      return {
+        navigation: {
+          month: 'Hónap',
+          week: 'Hét',
+          day: 'Nap',
+          today: 'Ma',
+          agenda: 'Napirend',
+        },
+        form: {
+          addTitle: 'Új esemény',
+          editTitle: 'Esemény szerkesztése',
+          confirm: 'Mentés',
+          delete: 'Törlés',
+          cancel: 'Mégse',
+        },
+        event: {
+          title: 'Cím',
+          subtitle: 'Alcím',
+          start: 'Kezdés',
+          end: 'Befejezés',
+          allDay: 'Egész nap',
+        },
+        validation: {
+          required: 'Kötelező',
+          invalidEmail:
+            'Érvénytelen e-mail-cím',
+          onlyNumbers:
+            'Csak számok adhatók meg',
+          min:
+            'Legalább {{min}} karakter',
+          max:
+            'Legfeljebb {{max}} karakter',
+        },
+        moreEvents: 'Több...',
+        noDataToDisplay:
+          'Nincs megjeleníthető adat',
+        loading: 'Betöltés...',
+      }
+    }
     if (currentLanguage === 'fr') {
+      
       return {
         navigation: {
           month: 'Mois',
@@ -240,7 +281,8 @@ const VehicleScheduler = ({
     <Scheduler
       ref={schedulerRef}
       view="month"
-      locale={language === 'fr' ? fr : language === 'es' ? es : enUS}
+      locale={getDateFnsLocale(language)}
+      translations={getTranslations(language)}
       disableViewer
       editable={false}
       draggable={false}
@@ -250,7 +292,6 @@ const VehicleScheduler = ({
         window.open(url, '_blank')?.focus()
       }}
       getRemoteEvents={fetchBookings}
-      translations={getTranslations(language)}
       height={window.innerHeight - (64 + 41 + 33 + 10)}
       onClickMore={(
         date: Date,

@@ -52,7 +52,6 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
 
   const onSubmit = async (data: FormFields) => {
     try {
-      console.log('boo')
       let recaptchaToken = ''
       if (reCaptchaLoaded) {
         recaptchaToken = await generateReCaptchaToken()
@@ -72,6 +71,7 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
         subject: data.subject,
         message: data.message,
         isContactForm: true,
+        language: UserService.getLanguage(),
       }
       const status = await UserService.sendEmail(payload)
 

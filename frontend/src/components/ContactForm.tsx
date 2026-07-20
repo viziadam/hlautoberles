@@ -73,6 +73,7 @@ const ContactForm = ({ user, className }: ContactFormProps) => {
         subject: data.subject,
         message: data.message,
         isContactForm: true,
+        language: UserService.getLanguage(),
       }
       const status = await UserService.sendEmail(payload)
 

@@ -23,6 +23,17 @@ import Car from '../models/Car'
 // import AdditionalDriver from '../models/AdditionalDriver'
 import * as logger from '../utils/logger'
 
+import {
+  getTranslator,
+  normalizeLanguage,
+} from '../lang/translator'
+
+import {
+  createBrandedEmail,
+  escapeHtml,
+  multilineToHtml,
+} from '../utils/emailTemplate'
+
 /**
  * Get status message as HTML.
  *
@@ -30,9 +41,59 @@ import * as logger from '../utils/logger'
  * @param {string} msg
  * @returns {string}
  */
-const getStatusMessage = (lang: string, msg: string) => (
-  `<!DOCTYPE html><html lang="'${lang}'"><head></head><body><p>${msg}</p></body></html>`
+const getStatusMessage = (
+  language: string,
+  message: string,
+) => (
+  `<!doctype html>
+<html lang="${normalizeLanguage(language)}">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <p>${escapeHtml(message)}</p>
+  </body>
+</html>`
 )
+
+const createAccountActionEmail = (
+  user: env.User,
+  subjectKey: string,
+  messageKey: string,
+  actionLink: string,
+): nodemailer.SendMailOptions => {
+  const translator = getTranslator(user.language)
+
+  const message = String(
+    translator.t(messageKey),
+  )
+
+  return createBrandedEmail({
+    language: user.language,
+    to: user.email,
+    subject: String(
+      translator.t(subjectKey),
+    ),
+    recipientName: user.fullName,
+    bodyText: [
+      message,
+      '',
+      actionLink,
+    ].join('\n'),
+    bodyHtml: `
+      <p>${escapeHtml(message)}</p>
+      <p>
+        <a
+          href="${escapeHtml(actionLink)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ${escapeHtml(actionLink)}
+        </a>
+      </p>
+    `,
+  })
+}
 
 /**
  * Sign Up.
@@ -93,22 +154,40 @@ const _signup = async (req: Request, res: Response, userType: bookcarsTypes.User
     // Send email
     i18n.locale = user.language
 
-    const activationLink = `http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}`
+    // const activationLink = `http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}`
+    const activationLink = `${
+      helper.joinURL(
+        user.type === bookcarsTypes.UserType.User
+          ? env.FRONTEND_HOST
+          : env.ADMIN_HOST,
+        'activate',
+      )
+    }/?u=${encodeURIComponent(user.id)}`
+    + `&e=${encodeURIComponent(user.email)}`
+    + `&t=${encodeURIComponent(token.token)}`
 
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: env.SMTP_FROM,
-      to: user.email,
-      subject: i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
-      html:
-        `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-          <p style="font-size: 16px; color: #555;">
-            ${i18n.t('HELLO')} ${user.fullName},<br><br>
-            ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-            <a href="${activationLink}" target="_blank">${activationLink}</a><br><br>
-            ${i18n.t('REGARDS')}<br>
-          </p>
-        </div>`,
-    }
+    // const mailOptions: nodemailer.SendMailOptions = {
+    //   from: env.SMTP_FROM,
+    //   to: user.email,
+    //   subject: i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
+    //   html:
+    //     `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+    //       <p style="font-size: 16px; color: #555;">
+    //         ${i18n.t('HELLO')} ${user.fullName},<br><br>
+    //         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
+    //         <a href="${activationLink}" target="_blank">${activationLink}</a><br><br>
+    //         ${i18n.t('REGARDS')}<br>
+    //       </p>
+    //     </div>`,
+    // }
+    const mailOptions = createAccountActionEmail(
+      user,
+      'ACCOUNT_ACTIVATION_SUBJECT',
+      'ACCOUNT_ACTIVATION_LINK',
+      activationLink,
+    )
+
+
     await mailHelper.sendMail(mailOptions)
     res.sendStatus(200)
   } catch (err) {
@@ -234,6 +313,8 @@ export const create = async (req: Request, res: Response) => {
 
     // Send email
     i18n.locale = user.language
+
+    
 
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
@@ -386,20 +467,31 @@ export const resend = async (req: Request, res: Response) => {
         reset ? 'reset-password' : 'activate',
       )}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}`
 
-      const mailOptions: nodemailer.SendMailOptions = {
-        from: env.SMTP_FROM,
-        to: user.email,
-        subject: reset ? i18n.t('PASSWORD_RESET_SUBJECT') : i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
-        html:
-          `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-            <p style="font-size: 16px; color: #555;">
-              ${i18n.t('HELLO')} ${user.fullName},<br><br>  
-              ${reset ? i18n.t('PASSWORD_RESET_LINK') : i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>  
-              <a href="${activationOrResetLink}" target="_blank">${activationOrResetLink}</a><br><br>
-              ${i18n.t('REGARDS')}<br>
-            </p>
-          </div>`,
-      }
+      // const mailOptions: nodemailer.SendMailOptions = {
+      //   from: env.SMTP_FROM,
+      //   to: user.email,
+      //   subject: reset ? i18n.t('PASSWORD_RESET_SUBJECT') : i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
+      //   html:
+      //     `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+      //       <p style="font-size: 16px; color: #555;">
+      //         ${i18n.t('HELLO')} ${user.fullName},<br><br>  
+      //         ${reset ? i18n.t('PASSWORD_RESET_LINK') : i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>  
+      //         <a href="${activationOrResetLink}" target="_blank">${activationOrResetLink}</a><br><br>
+      //         ${i18n.t('REGARDS')}<br>
+      //       </p>
+      //     </div>`,
+      // }
+      const mailOptions = createAccountActionEmail(
+        user,
+        reset
+          ? 'PASSWORD_RESET_SUBJECT'
+          : 'ACCOUNT_ACTIVATION_SUBJECT',
+        reset
+          ? 'PASSWORD_RESET_LINK'
+          : 'ACCOUNT_ACTIVATION_LINK',
+        activationOrResetLink,
+      )
+
       await mailHelper.sendMail(mailOptions)
       res.sendStatus(200)
       return
@@ -942,20 +1034,27 @@ export const resendLink = async (req: Request, res: Response) => {
 
     const activateLink = `http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}`
 
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: env.SMTP_FROM,
-      to: user.email,
-      subject: i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
-      html:
-        `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-          <p style="font-size: 16px; color: #555;">
-            ${i18n.t('HELLO')} ${user.fullName},<br><br>
-            ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-            <a href="${activateLink}" target="_blank">${activateLink}</a><br><br>
-            ${i18n.t('REGARDS')}<br>
-          </p>
-        </div>`,
-    }
+    // const mailOptions: nodemailer.SendMailOptions = {
+    //   from: env.SMTP_FROM,
+    //   to: user.email,
+    //   subject: i18n.t('ACCOUNT_ACTIVATION_SUBJECT'),
+    //   html:
+    //     `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+    //       <p style="font-size: 16px; color: #555;">
+    //         ${i18n.t('HELLO')} ${user.fullName},<br><br>
+    //         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
+    //         <a href="${activateLink}" target="_blank">${activateLink}</a><br><br>
+    //         ${i18n.t('REGARDS')}<br>
+    //       </p>
+    //     </div>`,
+    // }
+
+    const mailOptions = createAccountActionEmail(
+      user,
+      'ACCOUNT_ACTIVATION_SUBJECT',
+      'ACCOUNT_ACTIVATION_LINK',
+      activateLink,
+    )
 
     await mailHelper.sendMail(mailOptions)
     res
@@ -1589,37 +1688,99 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
  * @param {Response} res
  * @returns {unknown}
  */
-export const sendEmail = async (req: Request, res: Response) => {
+export const sendEmail = async (
+  req: Request,
+  res: Response,
+) => {
   try {
     const whitelist = [
       helper.trimEnd(env.ADMIN_HOST, '/'),
       helper.trimEnd(env.FRONTEND_HOST, '/'),
     ]
+
     const { origin } = req.headers
-    if (!origin || whitelist.indexOf(helper.trimEnd(origin, '/')) === -1) {
+
+    if (
+      !origin
+      || !whitelist.includes(
+        helper.trimEnd(origin, '/'),
+      )
+    ) {
       throw new Error('Unauthorized!')
     }
 
-    const { body }: { body: bookcarsTypes.SendEmailPayload } = req
-    const { from, to, subject, message, isContactForm } = body
+    const { body }: {
+      body: bookcarsTypes.SendEmailPayload
+    } = req
 
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: env.SMTP_FROM,
+    const {
+      from,
       to,
-      subject: isContactForm ? i18n.t('CONTACT_SUBJECT') : subject,
-      html:
-        `<p>
-              ${i18n.t('FROM')}: ${from}<br>
-              ${(isContactForm && `${i18n.t('SUBJECT')}: ${subject}<br>`) || ''}
-              ${(message && `${i18n.t('MESSAGE')}:<br>${message.replace(/(?:\r\n|\r|\n)/g, '<br>')}<br>`) || ''}
-         </p>`,
-    }
+      subject,
+      message,
+      isContactForm,
+      language,
+    } = body
+
+    const translator = getTranslator(language)
+
+    const emailSubject = isContactForm
+      ? String(translator.t('CONTACT_SUBJECT'))
+      : subject
+
+    const bodyText = isContactForm
+      ? [
+        `${String(translator.t('FROM'))}: ${from}`,
+        `${String(translator.t('SUBJECT'))}: ${subject}`,
+        '',
+        `${String(translator.t('MESSAGE'))}:`,
+        message,
+      ].join('\n')
+      : message
+
+    const bodyHtml = isContactForm
+      ? `
+        <p>
+          <strong>${escapeHtml(
+            String(translator.t('FROM')),
+          )}:</strong>
+          ${escapeHtml(from)}
+        </p>
+
+        <p>
+          <strong>${escapeHtml(
+            String(translator.t('SUBJECT')),
+          )}:</strong>
+          ${escapeHtml(subject)}
+        </p>
+
+        <p>
+          <strong>${escapeHtml(
+            String(translator.t('MESSAGE')),
+          )}:</strong><br>
+          ${multilineToHtml(message)}
+        </p>
+      `
+      : `<p>${multilineToHtml(message)}</p>`
+
+    const mailOptions = createBrandedEmail({
+      language,
+      to,
+      subject: emailSubject,
+      bodyText,
+      bodyHtml,
+    })
+
     await mailHelper.sendMail(mailOptions)
 
     res.sendStatus(200)
-  } catch (err) {
-    logger.error(`[user.sendEmail] ${JSON.stringify(req.body)}`, err)
-    res.status(400).send(err)
+  } catch (error) {
+    logger.error(
+      `[user.sendEmail] ${JSON.stringify(req.body)}`,
+      error,
+    )
+
+    res.status(400).send(error)
   }
 }
 

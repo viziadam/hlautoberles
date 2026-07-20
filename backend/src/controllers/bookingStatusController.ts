@@ -17,6 +17,13 @@ import * as helper from '../utils/helper'
 import * as logger from '../utils/logger'
 import * as mailHelper from '../utils/mailHelper'
 
+import { getTranslator } from '../lang/translator'
+
+import {
+  createBrandedEmail,
+  escapeHtml,
+} from '../utils/emailTemplate'
+
 const ALLOWED_STATUSES = new Set<bookcarsTypes.BookingStatus>([
   bookcarsTypes.BookingStatus.Void,
   bookcarsTypes.BookingStatus.Pending,
@@ -50,16 +57,40 @@ const requireObjectId = (
 const buildStatusMessage = (
   booking: BookingDocument,
   previousStatus: bookcarsTypes.BookingStatus,
+  language?: string,
 ) => {
-  const fromLabel = i18n.t(statusKey(previousStatus))
-  const toLabel = i18n.t(statusKey(booking.status))
+  const translator = getTranslator(language)
+
+  const fromLabel = String(
+    translator.t(
+      statusKey(previousStatus),
+    ),
+  )
+
+  const toLabel = String(
+    translator.t(
+      statusKey(booking.status),
+    ),
+  )
 
   return (
-    `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART1')} `
+    `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART1',
+      ),
+    )} `
     + `${booking._id} `
-    + `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART2')} `
+    + `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART2',
+      ),
+    )} `
     + `${fromLabel} `
-    + `${i18n.t('BOOKING_STATUS_CHANGED_NOTIFICATION_PART3')} `
+    + `${String(
+      translator.t(
+        'BOOKING_STATUS_CHANGED_NOTIFICATION_PART3',
+      ),
+    )} `
     + `${toLabel}.`
   )
 }
@@ -143,12 +174,9 @@ const notifyDriver = async (
     'booking ID',
   )
 
-  i18n.locale = driver.language
+  const translator = getTranslator(driver.language)
 
-  const message = buildStatusMessage(
-    booking,
-    previousStatus,
-  )
+  const message = buildStatusMessage(booking, previousStatus, driver.language,)
 
   const notification = await Notification.create({
     user: driverId,
@@ -164,41 +192,48 @@ const notifyDriver = async (
   await incrementNotificationCounter(driverId)
 
   if (driver.enableEmailNotifications) {
-    const bookingUrl = helper.joinURL(
-      env.FRONTEND_HOST,
-      `booking?b=${bookingId.toHexString()}`,
+  const bookingUrl = helper.joinURL(
+    env.FRONTEND_HOST,
+    `booking?b=${bookingId.toHexString()}`,
+  )
+
+  try {
+    await mailHelper.sendMail(
+      createBrandedEmail({
+        language: driver.language,
+        to: driver.email,
+        subject: message,
+        recipientName: driver.fullName,
+        bodyText: [
+          message,
+          '',
+          bookingUrl,
+        ].join('\n'),
+        bodyHtml: `
+          <p>${escapeHtml(message)}</p>
+          <p>
+            <a
+              href="${escapeHtml(bookingUrl)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${escapeHtml(
+                String(
+                  translator.t('VIEW_BOOKING'),
+                ),
+              )}
+            </a>
+          </p>
+        `,
+      }),
     )
-
-    const mailOptions: SendMailOptions = {
-      from: env.SMTP_FROM,
-      to: driver.email,
-      subject: message,
-      text: [
-        `${i18n.t('HELLO')}${driver.fullName},`,
-        '',
-        message,
-        '',
-        bookingUrl,
-        '',
-        env.WEBSITE_NAME,
-      ].join('\n'),
-      html: `<p>
-        ${i18n.t('HELLO')}${driver.fullName},<br><br>
-        ${message}<br><br>
-        ${bookingUrl}<br><br>
-        ${i18n.t('REGARDS')}<br>
-      </p>`,
-    }
-
-    try {
-      await mailHelper.sendMail(mailOptions)
-    } catch (mailError) {
-      logger.error(
-        `Failed to send booking status email for ${bookingId}`,
-        mailError,
-      )
-    }
+  } catch (mailError) {
+    logger.error(
+      `Failed to send booking status email for ${bookingId}`,
+      mailError,
+    )
   }
+}
 
   await sendPushNotification(
     driverId,

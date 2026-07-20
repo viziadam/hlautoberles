@@ -23,7 +23,7 @@ import {
   Visibility as ViewIcon,
 } from '@mui/icons-material'
 import { format } from 'date-fns'
-import { enUS as dfnsENUS, fr as dfnsFR } from 'date-fns/locale'
+import { getDateFnsLocale } from '@/utils/dateLocale'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 import * as BookingService from '@/services/BookingService'
@@ -424,11 +424,8 @@ const BookingList = ({
     }
   }
 
-  const isFrench = language === 'fr'
-  const locale = isFrench ? dfnsFR : dfnsENUS
-  const dateFormat = isFrench
-    ? 'eee d LLL yyyy kk:mm'
-    : 'eee, d LLL yyyy, p'
+  const dateLocale = getDateFnsLocale(language)
+  const dateFormat = 'PPPPp'
   const bookingDetailHeight = env.SUPPLIER_IMAGE_HEIGHT + 10
 
   return (
@@ -474,9 +471,9 @@ const BookingList = ({
                   </span>
                   <div className="booking-detail-value">
                     {`${helper.getDaysShort(days)} (${bookcarsHelper.capitalize(
-                      format(from, dateFormat, { locale }),
+                      format(from, dateFormat, {locale: dateLocale,}),
                     )} - ${bookcarsHelper.capitalize(
-                      format(to, dateFormat, { locale }),
+                      format(to, dateFormat, {locale: dateLocale,}),
                     )})`}
                   </div>
                 </div>

@@ -21,7 +21,7 @@ import {
   ArrowForwardIos as NextPageIcon,
 } from '@mui/icons-material'
 import { format } from 'date-fns'
-import { fr, enUS } from 'date-fns/locale'
+import { getDateFnsLocale } from '@/utils/dateLocale'
 import { useNavigate } from 'react-router-dom'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
@@ -52,9 +52,9 @@ const NotificationList = ({ user }: NotificationListProps) => {
   const [selectedRows, setSelectedRows] = useState<bookcarsTypes.Notification[]>([])
   const notificationsListRef = useRef<HTMLDivElement>(null)
 
-  const _fr = user && user.language === 'fr'
-  const _locale = _fr ? fr : enUS
-  const _format = _fr ? 'eee d LLLL, kk:mm' : 'eee, d LLLL, kk:mm'
+  const dateLocale = getDateFnsLocale(user?.language, )
+
+  const dateFormat = 'PPPPp'
 
   const fetch = useCallback(async () => {
     if (user && user._id) {
@@ -221,9 +221,13 @@ const NotificationList = ({ user }: NotificationListProps) => {
                   <div className={`notification${!row.isRead ? ' unread' : ''}`}>
                     <div className="date">
                       {row.createdAt && bookcarsHelper.capitalize(
-                        format(new Date(row.createdAt), _format, {
-                          locale: _locale,
-                        }),
+                        format(
+                          new Date(row.createdAt),
+                          dateFormat,
+                          {
+                            locale: dateLocale,
+                          },
+                        ),
                       )}
                     </div>
                     <div className="message-container">

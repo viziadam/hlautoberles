@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { fr, enUS, es } from 'date-fns/locale'
+import {
+  getDateFnsLocale,
+  getPickerLocaleText,
+} from '@/utils/dateLocale'
 import { TextFieldVariants } from '@mui/material'
 import { DateTimeValidationError, PickersActionBarAction } from '@mui/x-date-pickers'
 
@@ -46,7 +49,11 @@ const DateTimePicker = ({
   }
 
   return (
-    <LocalizationProvider adapterLocale={language === 'fr' ? fr : language === 'es' ? es : enUS} dateAdapter={AdapterDateFns}>
+    <LocalizationProvider
+      dateAdapter={AdapterDateFns}
+      adapterLocale={getDateFnsLocale(language)}
+      localeText={getPickerLocaleText(language)}
+    >
       <MuiDateTimePicker
         label={label}
         value={value}
