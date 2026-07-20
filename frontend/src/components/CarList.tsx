@@ -217,9 +217,7 @@ const CarList = ({
               {totalRecords > 0 && (
                 <div className="title">
                   <div className="bookcars">
-                    <span>{strings.TITLE_1}</span>
-                    <span className="title-bookcars">{env.WEBSITE_NAME}</span>
-                    <span>{strings.TITLE_2}</span>
+                    <span>{strings.RESULTS_TITLE}</span>
                   </div>
                   <div className="car-count">
                     {`(${totalRecords} ${totalRecords === 1 ? strings.TITLE_CAR_AVAILABLE : strings.TITLE_CARS_AVAILABLE})`}

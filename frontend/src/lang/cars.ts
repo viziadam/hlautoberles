@@ -175,8 +175,7 @@ const strings = new LocalizedStrings({
     TRIPS: 'trips',
     CO2: 'CO2 effect',
     FROM_YOU: ' from you',
-    TITLE_1: 'Auto ',
-    TITLE_2: ' for you',
+    RESULTS_TITLE: 'Choose the vehicle that suits you',
     TITLE_CAR_AVAILABLE: 'car available',
     TITLE_CARS_AVAILABLE: 'cars available',
     DETAILS: 'Details',
@@ -403,8 +402,7 @@ const strings = new LocalizedStrings({
   CO2: 'CO₂ kibocsátás',
   FROM_YOU: ' Öntől',
 
-  TITLE_1: 'Autó ',
-  TITLE_2: ' Önnek',
+  RESULTS_TITLE: 'Válassza ki az Önnek megfelelő járművet',
   TITLE_CAR_AVAILABLE: 'elérhető jármű',
   TITLE_CARS_AVAILABLE: 'elérhető jármű',
 
