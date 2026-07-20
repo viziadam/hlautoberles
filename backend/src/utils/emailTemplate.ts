@@ -1,116 +1,98 @@
-import { I18n } from 'i18n-js'
+import type { SendMailOptions } from 'nodemailer'
 import * as env from '../config/env.config'
-import { en } from './en'
-import { es } from './es'
-import { fr } from './fr'
-import { hu } from './hu'
+import {
+  getTranslator,
+  normalizeLanguage,
+} from '../lang/translator'
 
-export const SUPPORTED_LANGUAGES = [
-  'hu',
-  'en',
-  'fr',
-  'es',
-] as const
+export const escapeHtml = (
+  value: unknown,
+): string => String(value ?? '')
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#039;')
 
-export type SupportedLanguage = (
-  typeof SUPPORTED_LANGUAGES[number]
-)
+export const multilineToHtml = (
+  value: unknown,
+): string => escapeHtml(value)
+  .replaceAll(/\r?\n/g, '<br>')
 
-const translations = {
-  hu,
-  en,
-  fr,
-  es,
+interface BrandedEmailOptions {
+  language?: string
+  to: string
+  subject: string
+  recipientName?: string
+  bodyText: string
+  bodyHtml: string
 }
 
-const isSupportedLanguage = (
-  language: string,
-): language is SupportedLanguage => (
-  SUPPORTED_LANGUAGES.includes(
-    language as SupportedLanguage,
+export const createBrandedEmail = ({
+  language,
+  to,
+  subject,
+  recipientName,
+  bodyText,
+  bodyHtml,
+}: BrandedEmailOptions): SendMailOptions => {
+  const translator = getTranslator(language)
+
+  const greeting = recipientName
+    ? `${String(translator.t('HELLO'))}${recipientName},`
+    : ''
+
+  const regards = String(translator.t('REGARDS'))
+  const companyTeam = String(
+    translator.t('COMPANY_TEAM'),
   )
-)
 
-export const normalizeLanguage = (
-  language?: string,
-): SupportedLanguage => {
-  const normalized = String(language || '')
-    .trim()
-    .toLowerCase()
-    .split('-')[0]
+  const text = [
+    greeting,
+    greeting ? '' : undefined,
+    bodyText,
+    '',
+    regards,
+    companyTeam,
+  ]
+    .filter((line): line is string => (
+      typeof line === 'string'
+    ))
+    .join('\n')
 
-  if (isSupportedLanguage(normalized)) {
-    return normalized
+  const greetingHtml = recipientName
+    ? `<p>${escapeHtml(
+      String(translator.t('HELLO')),
+    )}${escapeHtml(recipientName)},</p>`
+    : ''
+
+  return {
+    from: env.SMTP_FROM,
+    to,
+    subject,
+    text,
+    html: `<!doctype html>
+<html lang="${normalizeLanguage(language)}">
+  <body>
+    <div
+      style="
+        max-width:620px;
+        margin:0 auto;
+        padding:24px;
+        font-family:Arial,sans-serif;
+        line-height:1.6;
+        color:#1f2937;
+      "
+    >
+      ${greetingHtml}
+      ${bodyHtml}
+
+      <p>
+        ${escapeHtml(regards)}<br>
+        ${escapeHtml(companyTeam)}
+      </p>
+    </div>
+  </body>
+</html>`,
   }
-
-  const defaultLanguage = String(
-    env.DEFAULT_LANGUAGE || 'hu',
-  )
-    .trim()
-    .toLowerCase()
-    .split('-')[0]
-
-  return isSupportedLanguage(defaultLanguage)
-    ? defaultLanguage
-    : 'hu'
-}
-
-const createTranslator = (
-  language: SupportedLanguage,
-): I18n => {
-  const translator = new I18n(translations)
-
-  translator.enableFallback = true
-  translator.defaultLocale = 'hu'
-  translator.locale = language
-
-  return translator
-}
-
-const translators: Record<SupportedLanguage, I18n> = {
-  hu: createTranslator('hu'),
-  en: createTranslator('en'),
-  fr: createTranslator('fr'),
-  es: createTranslator('es'),
-}
-
-export const getTranslator = (
-  language?: string,
-): I18n => translators[normalizeLanguage(language)]
-
-const intlLocales: Record<SupportedLanguage, string> = {
-  hu: 'hu-HU',
-  en: 'en-US',
-  fr: 'fr-FR',
-  es: 'es-ES',
-}
-
-export const formatDateTime = (
-  value: Date | string,
-  language?: string,
-): string => {
-  const date = new Date(value)
-
-  if (Number.isNaN(date.getTime())) {
-    return ''
-  }
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }
-
-  if (env.TIMEZONE) {
-    options.timeZone = env.TIMEZONE
-  }
-
-  return new Intl.DateTimeFormat(
-    intlLocales[normalizeLanguage(language)],
-    options,
-  ).format(date)
 }
